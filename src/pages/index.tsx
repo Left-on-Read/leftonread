@@ -6,6 +6,30 @@ import { Navbar } from '../components/Navbar'
 import Button from '../components/Button'
 import { belowBreakpoint } from '../theme'
 
+const styles = {
+  headerText: {
+    fontWeight: 500,
+    fontSize: '80px',
+    [belowBreakpoint.lg]: {
+      fontSize: '64px',
+    },
+    [belowBreakpoint.md]: {
+      fontSize: '58px',
+    },
+    [belowBreakpoint.sm]: {
+      fontSize: '50px',
+    },
+  },
+  descriptionText: {
+    marginTop: '26px',
+    fontSize: '26px',
+    [belowBreakpoint.sm]: {
+      fontSize: '20px',
+    },
+    fontWeight: 300,
+  },
+}
+
 const HEADER_TEXT = 'What can you learn from your texts?'
 const DESCRIPTION_TEXT =
   'Trillions of text messages are sent daily between billions of people. See how you can communicate more effectively and efficiently.'
@@ -44,35 +68,8 @@ export default function Landing() {
               },
             }}
           >
-            <div
-              css={{
-                fontWeight: 500,
-                fontSize: '80px',
-                [belowBreakpoint.lg]: {
-                  fontSize: '64px',
-                },
-                [belowBreakpoint.md]: {
-                  fontSize: '58px',
-                },
-                [belowBreakpoint.sm]: {
-                  fontSize: '50px',
-                },
-              }}
-            >
-              {HEADER_TEXT}
-            </div>
-            <div
-              css={{
-                marginTop: '26px',
-                fontSize: '26px',
-                [belowBreakpoint.sm]: {
-                  fontSize: '20px',
-                },
-                fontWeight: 300,
-              }}
-            >
-              {DESCRIPTION_TEXT}
-            </div>
+            <div css={styles.headerText}>{HEADER_TEXT}</div>
+            <div css={styles.descriptionText}>{DESCRIPTION_TEXT}</div>
             <Button
               label="Get Started →"
               css={{
