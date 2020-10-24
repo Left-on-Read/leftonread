@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
 
-import Theme from '../theme'
+import Theme, { belowBreakpoint } from '../theme'
 
 export default function Button({
   label,
@@ -23,10 +23,13 @@ export default function Button({
         border: 'none',
         cursor: 'pointer',
         fontFamily: 'Roboto',
+        [belowBreakpoint.sm]: {
+          padding: '12px 26px',
+          fontSize: '22px',
+        },
       }}
     >
-      {' '}
-      {label}{' '}
+      {label}
     </button>
   )
 }
