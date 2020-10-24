@@ -5,9 +5,9 @@ const Theme = {
 export default Theme
 
 const Breakpoints = {
-  sm: 600,
-  md: 850,
-  lg: 1200,
+  sm: 600, // Mobile devices
+  md: 850, // Tablets
+  lg: 1200, // Desktop
 }
 
 export const belowBreakpoint = {
