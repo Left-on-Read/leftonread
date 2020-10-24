@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import { jsx, keyframes } from '@emotion/core'
+import Theme from '../theme'
 
 const GRADIENT_KEYFRAMES = keyframes`
     0% {background-position: 10% 0%}
@@ -23,8 +24,7 @@ export function Gradient() {
         css={{
           height: '100%',
           width: '100%',
-          background:
-            'linear-gradient(260deg, #06D6A0 0%, #54C6EB 33%, #F5CB5C 66%, #E5C1BD 100%)',
+          background: `linear-gradient(260deg, ${Theme.palette.sherwoodGreen} 0%, ${Theme.palette.palePink} 33%, ${Theme.palette.canaryYellow} 66%, ${Theme.palette.skyBlue} 100%)`,
           backgroundSize: '600% 100%',
           animation: `${GRADIENT_KEYFRAMES} 24s linear infinite`,
         }}
