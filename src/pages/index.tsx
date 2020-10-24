@@ -5,6 +5,7 @@ import { DefaultPageContainer } from '../components/DefaultPageContainer'
 import { Navbar } from '../components/Navbar'
 import Button from '../components/Button'
 import { belowBreakpoint } from '../theme'
+import { Gradient } from '../components/Gradient'
 
 const styles = {
   headerText: {
@@ -37,49 +38,52 @@ const DESCRIPTION_TEXT =
 // TODO(teddy): Add a minheight
 export default function Landing() {
   return (
-    <DefaultPageContainer>
-      <div
-        css={{
-          height: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
-        <Navbar />
+    <>
+      <DefaultPageContainer>
         <div
           css={{
-            flexGrow: 1,
+            height: '100vh',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'center',
-            [belowBreakpoint.sm]: {
-              alignItems: 'center',
-            },
           }}
         >
+          <Gradient />
+          <Navbar />
           <div
             css={{
-              width: '60%',
-              [belowBreakpoint.md]: {
-                width: '80%',
-              },
+              flexGrow: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
               [belowBreakpoint.sm]: {
-                width: '100%',
+                alignItems: 'center',
               },
             }}
           >
-            <div css={styles.headerText}>{HEADER_TEXT}</div>
-            <div css={styles.descriptionText}>{DESCRIPTION_TEXT}</div>
-            <Button
-              label="Get Started →"
+            <div
               css={{
-                marginTop: '64px',
-                [belowBreakpoint.sm]: { marginTop: '32px' },
+                width: '60%',
+                [belowBreakpoint.md]: {
+                  width: '80%',
+                },
+                [belowBreakpoint.sm]: {
+                  width: '100%',
+                },
               }}
-            />
+            >
+              <div css={styles.headerText}>{HEADER_TEXT}</div>
+              <div css={styles.descriptionText}>{DESCRIPTION_TEXT}</div>
+              <Button
+                label="Get Started →"
+                css={{
+                  marginTop: '64px',
+                  [belowBreakpoint.sm]: { marginTop: '32px' },
+                }}
+              />
+            </div>
           </div>
         </div>
-      </div>
-    </DefaultPageContainer>
+      </DefaultPageContainer>
+    </>
   )
 }
