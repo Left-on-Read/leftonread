@@ -14,7 +14,7 @@ export default function Button({
     <button
       className={className}
       css={{
-        backgroundColor: Theme.primary,
+        backgroundColor: Theme.primary.main,
         padding: '16px 32px',
         fontSize: '26px',
         fontWeight: 300,
@@ -23,9 +23,15 @@ export default function Button({
         border: 'none',
         cursor: 'pointer',
         fontFamily: 'Roboto',
+        boxShadow: `0px 6px 4px ${Theme.semantics.shadow}`,
+        outline: 'none',
+        transition: 'background-color 200ms',
         [belowBreakpoint.sm]: {
           padding: '12px 26px',
           fontSize: '22px',
+        },
+        '&:hover': {
+          backgroundColor: Theme.primary.hover,
         },
       }}
     >
