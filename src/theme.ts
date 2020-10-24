@@ -1,5 +1,13 @@
+const palette = {
+  sherwoodGreen: '#06D6A0',
+  skyBlue: '#54C6EB',
+  palePink: '#E5C1BD',
+  canaryYellow: '#F5CB5C',
+}
+
 const Theme = {
   primary: '#9086D6',
+  palette,
 }
 
 export default Theme

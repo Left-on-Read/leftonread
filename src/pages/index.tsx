@@ -10,6 +10,8 @@ import { Gradient } from '../components/Gradient'
 const styles = {
   headerText: {
     fontWeight: 500,
+    textStroke: '1px black',
+    color: 'rgba(0, 0, 0, .72)',
     fontSize: '80px',
     [belowBreakpoint.lg]: {
       fontSize: '64px',
