@@ -24,7 +24,7 @@ export function Gradient() {
         css={{
           height: '100%',
           width: '100%',
-          background: `linear-gradient(260deg, ${Theme.palette.sherwoodGreen} 0%, ${Theme.palette.palePink} 33%, ${Theme.palette.canaryYellow} 66%, ${Theme.palette.skyBlue} 100%)`,
+          background: `linear-gradient(260deg, ${Theme.palette.sherwoodGreen.main} 0%, ${Theme.palette.palePink.main} 33%, ${Theme.palette.canaryYellow.main} 66%, ${Theme.palette.skyBlue.main} 100%)`,
           backgroundSize: '600% 100%',
           animation: `${GRADIENT_KEYFRAMES} 24s linear infinite`,
         }}
