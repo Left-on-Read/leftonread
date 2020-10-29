@@ -15,7 +15,7 @@ function calcMin(dataList: Array<number>) {
   return min;
 }
 
-// TODO: add ability to filter which will fetch from query
+// TODO: add ability to filter, which will fetch from query
 export default function WordCountChart(props: WordCountProps) {
   const { db } = props;
   const [words, setWords] = useState<string[]>([]);
@@ -28,6 +28,7 @@ export default function WordCountChart(props: WordCountProps) {
         const wordCountDataList = await getWordCount(db, 'word_table', {
           isFromMe: true,
         });
+        console.log(wordCountDataList.map((obj) => obj.word));
         setWords(wordCountDataList.map((obj) => obj.word));
         setCount(wordCountDataList.map((obj) => obj.count));
         const newMin = calcMin(count);

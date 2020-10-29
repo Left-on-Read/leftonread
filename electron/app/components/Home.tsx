@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import routes from '../constants/routes.json';
 import styles from './Home.css';
 
+// Example. This is not actually used.
 export default function Home() {
   return (
     <div className={styles.container} data-tid="container">

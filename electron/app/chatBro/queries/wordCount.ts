@@ -7,7 +7,6 @@ import { stopWords } from '../constants/stopWords';
 import { objReplacementUnicode } from '../constants/objReplacementUnicode';
 import { punctuation } from '../constants/punctuation';
 
-// TODO: remove puncuation too
 export async function createWordTable(db: sqlite3.Database, tableName: string) {
   const q = `
     CREATE TABLE ${tableName} AS
@@ -40,7 +39,7 @@ export async function createWordTable(db: sqlite3.Database, tableName: string) {
   return sqlite3Wrapper.runP(db, q);
 }
 
-// ***** Filter functions *****
+// ***** Filter functions ***** //
 function isFromMeFilter(opts: chatBro.WordCountOptions): string | undefined {
   if (opts.isFromMe === true) {
     return `is_from_me = 1`;
@@ -77,12 +76,13 @@ export async function getWordCount(
   }[]
 > {
   const filters = getAllFilters(opts);
+  // TODO: limit here should be something you pass in
   const query = `
     SELECT SUM(count) as count, word FROM ${tableName}
     ${filters}
     GROUP BY word
     ORDER BY count DESC
-    LIMIT 50
+    LIMIT 5
   `;
 
   return sqlite3Wrapper.allP(db, query);
