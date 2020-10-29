@@ -1,10 +1,11 @@
+import * as _ from 'lodash';
 import * as sqlite3 from 'sqlite3';
 import { settleAll } from 'blend-promise-utils';
 import { createWordTable, getWordCount } from './queries/wordCount';
 import * as sqlite3Wrapper from './util/sqliteWrapper';
+import { ChatBro } from './definitions';
 
-// TODO: this should be imported and be of type word_table
-const tableNames: string[] = ['word_table'];
+const tableNames: string[] = _.values(ChatBro.Tables);
 
 function initializeDB() {
   const sqldb = sqlite3.verbose();
@@ -18,7 +19,7 @@ function closeDB(db: sqlite3.Database) {
 
 // TODO: where all other table creation where live
 async function createAllTables(db: sqlite3.Database) {
-  return createWordTable(db, 'word_table');
+  return createWordTable(db);
 }
 
 async function dropAllExistingTables(db: sqlite3.Database) {
@@ -28,10 +29,13 @@ async function dropAllExistingTables(db: sqlite3.Database) {
   return settleAll(dropTablePromises);
 }
 
+const tables = ChatBro.Tables;
+
 export {
   initializeDB,
   closeDB,
   dropAllExistingTables,
   createAllTables,
   getWordCount,
+  tables,
 };

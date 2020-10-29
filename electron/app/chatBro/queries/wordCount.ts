@@ -6,10 +6,11 @@ import { emojis } from '../constants/emojis';
 import { stopWords } from '../constants/stopWords';
 import { objReplacementUnicode } from '../constants/objReplacementUnicode';
 import { punctuation } from '../constants/punctuation';
+import { ChatBro, WordCount } from '../definitions';
 
-export async function createWordTable(db: sqlite3.Database, tableName: string) {
+export async function createWordTable(db: sqlite3.Database) {
   const q = `
-    CREATE TABLE ${tableName} AS
+    CREATE TABLE ${ChatBro.Tables.WORD_TABLE} AS
     WITH RECURSIVE SPLIT_TEXT_TABLE (id, is_from_me, guid, text, etc) AS
     (
       SELECT
@@ -27,7 +28,7 @@ export async function createWordTable(db: sqlite3.Database, tableName: string) {
       WHERE etc <> ''
     )
       SELECT
-        id as contact_number, text as word, is_from_me, COUNT(text) as count
+        id as contact_number, text as word, is_from_me, COUNT(text) as ${WordCount.Columns.COUNT}
       FROM SPLIT_TEXT_TABLE
         WHERE TRIM(LOWER(text)) NOT IN (${stopWords})
         AND TRIM(text) NOT IN (${reactions})
@@ -40,7 +41,7 @@ export async function createWordTable(db: sqlite3.Database, tableName: string) {
 }
 
 // ***** Filter functions ***** //
-function isFromMeFilter(opts: chatBro.WordCountOptions): string | undefined {
+function isFromMeFilter(opts: WordCountTypes.Options): string | undefined {
   if (opts.isFromMe === true) {
     return `is_from_me = 1`;
   }
@@ -50,7 +51,7 @@ function isFromMeFilter(opts: chatBro.WordCountOptions): string | undefined {
   return undefined;
 }
 
-function wordFilter(opts: chatBro.WordCountOptions): string | undefined {
+function wordFilter(opts: WordCountTypes.Options): string | undefined {
   if (_.isEmpty(opts.word)) {
     return undefined;
   }
@@ -58,7 +59,7 @@ function wordFilter(opts: chatBro.WordCountOptions): string | undefined {
 }
 
 // Attaches each filter in a combined WHERE clause.
-function getAllFilters(opts: chatBro.WordCountOptions): string {
+function getAllFilters(opts: WordCountTypes.Options): string {
   const isFromMe = isFromMeFilter(opts);
   const word = wordFilter(opts);
   const filtersArray = _.compact([isFromMe, word]);
@@ -67,22 +68,19 @@ function getAllFilters(opts: chatBro.WordCountOptions): string {
 
 export async function getWordCount(
   db: sqlite3.Database,
-  tableName: string,
-  opts: chatBro.WordCountOptions = {}
-): Promise<
-  {
-    word: string;
-    count: number;
-  }[]
-> {
+  tableName: ChatBro.Tables.WORD_TABLE,
+  opts: WordCountTypes.Options = {}
+): Promise<WordCountTypes.Results> {
+  const limit = opts.limit || 5;
   const filters = getAllFilters(opts);
-  // TODO: limit here should be something you pass in
   const query = `
-    SELECT SUM(count) as count, word FROM ${tableName}
+    SELECT SUM(${WordCount.Columns.COUNT}) as count,
+    ${WordCount.Columns.WORD}
+    FROM ${tableName}
     ${filters}
-    GROUP BY word
-    ORDER BY count DESC
-    LIMIT 5
+    GROUP BY ${WordCount.Columns.WORD}
+    ORDER BY ${WordCount.Columns.COUNT} DESC
+    LIMIT ${limit}
   `;
 
   return sqlite3Wrapper.allP(db, query);

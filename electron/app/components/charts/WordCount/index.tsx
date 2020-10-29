@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 import * as sqlite3 from 'sqlite3';
-import { getWordCount } from '../../../chatBro';
+import * as chatBro from '../../../chatBro';
 
 interface WordCountProps {
   db: sqlite3.Database;
@@ -25,9 +25,13 @@ export default function WordCountChart(props: WordCountProps) {
   useEffect(() => {
     async function fetchWordData() {
       try {
-        const wordCountDataList = await getWordCount(db, 'word_table', {
-          isFromMe: true,
-        });
+        const wordCountDataList = await chatBro.getWordCount(
+          db,
+          chatBro.tables.WORD_TABLE,
+          {
+            isFromMe: true,
+          }
+        );
         console.log(wordCountDataList.map((obj) => obj.word));
         setWords(wordCountDataList.map((obj) => obj.word));
         setCount(wordCountDataList.map((obj) => obj.count));
