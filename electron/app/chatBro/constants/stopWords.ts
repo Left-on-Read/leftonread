@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 
-import delimList from '../util/constantsHelper';
+import delimList from '../util/delimList';
 
 const stopWordsList = [
   'got',
@@ -15,15 +15,24 @@ const stopWordsList = [
   'r',
   'thats',
   'ok',
+  'well',
+  'lot',
+  'also',
+  'gonna',
+  'great',
+  'want',
   'know',
   'dont',
   'yes',
   'going',
   'go',
   'think',
+  "you're",
   'good',
   '',
   ' ',
+  'lets',
+
   'u',
   'would',
   'like',
@@ -159,5 +168,7 @@ const stopWordsList = [
   'don',
   'should',
   'now',
+  'much',
+  '”', // very weird quote, not sure what this is
 ];
 export const stopWords = delimList(stopWordsList);

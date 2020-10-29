@@ -33,9 +33,6 @@ export default function Root() {
     return (
       <div>
         <WordCountChart db={db} />
-        <WordCountChart db={db} />
-        <WordCountChart db={db} />
-        <WordCountChart db={db} />
       </div>
     );
   }

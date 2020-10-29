@@ -3,7 +3,7 @@ import { settleAll } from 'blend-promise-utils';
 import { createWordTable, getWordCount } from './queries/wordCount';
 import * as sqlite3Wrapper from './util/sqliteWrapper';
 
-// word_table schema: contact_number, word, is_from_me, count
+// TODO: this should be imported and be of type word_table
 const tableNames: string[] = ['word_table'];
 
 function initializeDB() {

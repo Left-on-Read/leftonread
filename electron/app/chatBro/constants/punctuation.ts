@@ -1,7 +1,26 @@
 /* eslint-disable import/prefer-default-export */
 
-// TOOD: this should be a regex instead
-import delimList from '../util/constantsHelper';
+// TODO: this should be a regex instead
+import delimList from '../util/delimList';
 
-const punctuationList = ["?", "-", "—", ".", ",", "~", `'`, "#", "$", "%", "^", "&", "*", "(", ")", ":", ";", "!"];
+const punctuationList = [
+  '?',
+  '-',
+  '—',
+  '.',
+  ',',
+  '~',
+  `'`,
+  '#',
+  '$',
+  '%',
+  '^',
+  '&',
+  '*',
+  '(',
+  ')',
+  ':',
+  ';',
+  '!',
+];
 export const punctuation = delimList(punctuationList);
