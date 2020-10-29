@@ -1,18 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 import * as sqlite3 from 'sqlite3';
-import * as chatBro from '../../../chatBro';
+import * as chatBro from '../../chatBro';
 
 interface WordCountProps {
   db: sqlite3.Database;
-}
-
-const NEAREST_ROUND = 10;
-
-function calcMin(dataList: Array<number>) {
-  const n = Math.min(...dataList);
-  const min = Math.floor(n / NEAREST_ROUND - 1) * NEAREST_ROUND;
-  return min;
 }
 
 // TODO: add ability to filter, which will fetch from query
@@ -20,7 +12,6 @@ export default function WordCountChart(props: WordCountProps) {
   const { db } = props;
   const [words, setWords] = useState<string[]>([]);
   const [count, setCount] = useState<number[]>([]);
-  const [min, setMin] = useState(0);
 
   useEffect(() => {
     async function fetchWordData() {
@@ -32,11 +23,8 @@ export default function WordCountChart(props: WordCountProps) {
             isFromMe: true,
           }
         );
-        console.log(wordCountDataList.map((obj) => obj.word));
         setWords(wordCountDataList.map((obj) => obj.word));
         setCount(wordCountDataList.map((obj) => obj.count));
-        const newMin = calcMin(count);
-        setMin(newMin > 0 ? newMin : 0);
       } catch (err) {
         console.log('ERROR fetching word count ', err);
       }
@@ -73,15 +61,6 @@ export default function WordCountChart(props: WordCountProps) {
     title: {
       display: true,
       text: 'Top Words Sent',
-    },
-    scales: {
-      yAxes: [
-        {
-          ticks: {
-            min,
-          },
-        },
-      ],
     },
   };
 

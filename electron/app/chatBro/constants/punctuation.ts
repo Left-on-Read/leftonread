@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 // TODO: this should be a regex instead
 import delimList from '../util/delimList';
 
