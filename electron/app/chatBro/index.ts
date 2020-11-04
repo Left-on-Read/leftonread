@@ -7,17 +7,9 @@ import { ChatBro } from './definitions';
 
 const tableNames: string[] = _.values(ChatBro.Tables);
 
-function initializeDB() {
-  const sqldb = sqlite3.verbose();
-  const db = new sqldb.Database(`${process.env.HOME}/Desktop/chat.db`);
-  return db;
-}
+// TODO(Danilowicz): I think this should be a Class with an init method?
 
-function closeDB(db: sqlite3.Database) {
-  db.close();
-}
-
-// TODO: where all other table creation where live
+// TODO: where all other table creation will live
 async function createAllTables(db: sqlite3.Database) {
   return createWordTable(db);
 }
@@ -32,8 +24,6 @@ async function dropAllExistingTables(db: sqlite3.Database) {
 const tables = ChatBro.Tables;
 
 export {
-  initializeDB,
-  closeDB,
   dropAllExistingTables,
   createAllTables,
   getWordCount,

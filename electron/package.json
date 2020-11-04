@@ -279,6 +279,7 @@
     "react-hot-loader": "^4.12.19",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
+    "recursive-copy": "^2.0.11",
     "source-map-support": "^0.5.16"
   },
   "devEngines": {

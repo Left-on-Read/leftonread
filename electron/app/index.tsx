@@ -4,10 +4,10 @@ import { AppContainer as ReactHotAppContainer } from 'react-hot-loader';
 import './app.global.css';
 import * as sqlite3 from 'sqlite3';
 import {
-  initializeDB,
   dropAllExistingTables,
   createAllTables,
 } from './chatBro';
+import { CopyCaptain } from './copyCaptain';
 import WordCountChart from './components/charts/WordCount';
 
 const AppContainer = process.env.PLAIN_HMR ? Fragment : ReactHotAppContainer;
@@ -18,7 +18,8 @@ export default function Root() {
   useEffect(() => {
     async function createInitialLoad() {
       try {
-        const initialDB = initializeDB();
+        let copyCaptain = new CopyCaptain();
+        const initialDB = await copyCaptain.init();
         await dropAllExistingTables(initialDB);
         await createAllTables(initialDB);
         setDB(initialDB);
