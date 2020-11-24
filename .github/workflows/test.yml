@@ -1,7 +1,11 @@
 name: Test
 
-on: [push, pull_request]
+on: [push]
 
+defaults:
+  run:
+    working-directory: ./electron
+    
 jobs:
     release:
         runs-on: ${{ matrix.os }}
@@ -13,11 +17,6 @@ jobs:
         steps:
             - name: Check out Git repository
               uses: actions/checkout@v1
-
-            - name: switch directories
-              run: |
-                  ls
-                  cd electron/
 
             - name: Install Node.js, NPM and Yarn
               uses: actions/setup-node@v1
