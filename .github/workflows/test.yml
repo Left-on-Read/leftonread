@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos-latest, windows-latest, ubuntu-latest]
+        os: [macos-latest]
 
     steps:
       - name: Check out Git repository
@@ -18,6 +18,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 14
+
+      - name: switch directories
+        run: |
+          cd electron/
 
       - name: yarn install
         run: |
