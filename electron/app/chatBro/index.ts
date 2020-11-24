@@ -7,9 +7,7 @@ import { ChatBro } from './definitions';
 
 const tableNames: string[] = _.values(ChatBro.Tables);
 
-// TODO(Danilowicz): I think this should be a Class with an init method?
-
-// TODO: where all other table creation will live
+// where all other table creation will live
 async function createAllTables(db: sqlite3.Database) {
   return createWordTable(db);
 }
@@ -23,9 +21,4 @@ async function dropAllExistingTables(db: sqlite3.Database) {
 
 const tables = ChatBro.Tables;
 
-export {
-  dropAllExistingTables,
-  createAllTables,
-  getWordCount,
-  tables,
-};
+export { dropAllExistingTables, createAllTables, getWordCount, tables };

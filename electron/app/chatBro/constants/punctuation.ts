@@ -1,4 +1,4 @@
-// TODO: this should be a regex instead
+// TODO(Danilowicz): this should be a regex instead
 import delimList from '../util/delimList';
 
 const punctuationList = [

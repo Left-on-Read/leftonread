@@ -13,6 +13,7 @@ import { app, BrowserWindow } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
+// import closeDB from './utils/closeUtils/closeUtils';
 
 export default class AppUpdater {
   constructor() {
@@ -70,7 +71,7 @@ const createWindow = async () => {
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
 
-  // @TODO: Use 'ready-to-show' event
+  // TODO(electron-starter-pack): Use 'ready-to-show' event
   //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
   mainWindow.webContents.on('did-finish-load', () => {
     if (!mainWindow) {
@@ -101,7 +102,8 @@ const createWindow = async () => {
  */
 
 app.on('window-all-closed', () => {
-  // TODO: db close should go here.
+  // TODO(Danilowicz): figure out how to get the db accessible to close it
+  // closeDB(db);
 
   // Respect the OSX convention of having the application in memory even
   // after all windows have been closed
