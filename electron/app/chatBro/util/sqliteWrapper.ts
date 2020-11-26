@@ -3,6 +3,7 @@
  */
 import * as sqlite3 from 'sqlite3';
 
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 export async function allP(db: sqlite3.Database, query: string): Promise<any> {
   return new Promise((resolve, reject) => {
     db.all(query, (err: Error, res: any) => {
@@ -20,3 +21,4 @@ export async function runP(db: sqlite3.Database, query: string): Promise<any> {
     });
   });
 }
+/* eslint-enable  @typescript-eslint/no-explicit-any */
