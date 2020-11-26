@@ -23,7 +23,7 @@ export default function Root() {
         await createAllTables(initialDB);
         setDB(initialDB);
       } catch (err) {
-        console.log('ERROR SETTING UP DB/tables ', err);
+        console.error('ERROR SETTING UP DB/tables ', err);
       }
     }
     createInitialLoad();

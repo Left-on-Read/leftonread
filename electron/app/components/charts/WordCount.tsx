@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 import * as sqlite3 from 'sqlite3';
+import log from 'electron-log';
 import * as chatBro from '../../chatBro';
 
 interface WordCountProps {
   db: sqlite3.Database;
 }
 
-// TODO: add ability to filter, which will fetch from query
+// TODO(Danilowicz): add ability to filter, which will fetch from query
 export default function WordCountChart(props: WordCountProps) {
   const { db } = props;
   const [words, setWords] = useState<string[]>([]);
@@ -26,7 +27,7 @@ export default function WordCountChart(props: WordCountProps) {
         setWords(wordCountDataList.map((obj) => obj.word));
         setCount(wordCountDataList.map((obj) => obj.count));
       } catch (err) {
-        console.log('ERROR fetching word count ', err);
+        log.error('ERROR fetching word count ', err);
       }
     }
     fetchWordData();
@@ -38,6 +39,7 @@ export default function WordCountChart(props: WordCountProps) {
       {
         label: 'Count of Word',
         data: count,
+        // TODO(Chan): this should all live in constants
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
