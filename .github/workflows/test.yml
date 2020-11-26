@@ -24,8 +24,7 @@ jobs:
                   node-version: 14
 
             - name: yarn install
-              run: |
-                  yarn install --frozen-lockfile --network-timeout 300000
+              run: yarn install --frozen-lockfile --network-timeout 300000
 
             - name: yarn test
               env:
