@@ -1,4 +1,3 @@
-import * as sqlite3 from 'sqlite3';
 import * as fs from 'fs';
 import copy from 'recursive-copy';
 import log from 'electron-log';
@@ -8,17 +7,6 @@ import {
   originalChatDBDirectoryPath,
 } from './constants/directories';
 
-function initializeDB() {
-  const sqldb = sqlite3.verbose();
-  try {
-    const db = new sqldb.Database(`${appChatDBDirectoryPath}`);
-    return db;
-  } catch (e) {
-    log.error(`initializeDB failure: ${e}`);
-    throw Error;
-  }
-}
-
 function createAppDirectory() {
   if (!fs.existsSync(appDirectoryPath)) {
     fs.mkdirSync(appDirectoryPath);
@@ -26,7 +14,7 @@ function createAppDirectory() {
   }
 }
 
-export default async function init(): Promise<sqlite3.Database> {
+export async function initChatFiles(): Promise<void> {
   createAppDirectory();
   try {
     await copy(`${originalChatDBDirectoryPath}`, `${appChatDBDirectoryPath}`, {
@@ -35,5 +23,4 @@ export default async function init(): Promise<sqlite3.Database> {
   } catch (e) {
     log.error(`copy failure: ${e}`);
   }
-  return initializeDB();
 }
