@@ -1528,6 +1528,12 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
+"@types/chart.js@^2.9.28":
+  version "2.9.28"
+  resolved "https://registry.yarnpkg.com/@types/chart.js/-/chart.js-2.9.28.tgz#75f1a456ee2eace136073c3264da271a27dcdc8a"
+  dependencies:
+    moment "^2.10.2"
+
 "@types/cheerio@*":
   version "0.22.15"
   resolved "https://registry.yarnpkg.com/@types/cheerio/-/cheerio-0.22.15.tgz#69040ffa92c309beeeeb7e92db66ac3f80700c0b"
@@ -1624,6 +1630,10 @@
 "@types/json-schema@^7.0.3":
   version "7.0.4"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.4.tgz#38fd73ddfd9b55abb1e1b2ed578cb55bd7b7d339"
+
+"@types/lodash@^4.14.165":
+  version "4.14.165"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.165.tgz#74d55d947452e2de0742bad65270433b63a8c30f"
 
 "@types/minimatch@*":
   version "3.0.3"
