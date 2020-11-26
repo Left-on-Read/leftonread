@@ -24,7 +24,7 @@ jobs:
                   yarn install --frozen-lockfile --network-timeout 300000
 
             - name: Run Prettier and Linter
-                run: |
+              run: |
                   yarn lint
                   yarn lint-fix
                   yarn prettier
