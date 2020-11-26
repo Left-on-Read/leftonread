@@ -5,7 +5,7 @@ import WordCountChart from './components/charts/WordCount';
 export default function Routes() {
   return (
     <Switch>
-      <Route path='/' component={WordCountChart} />
+      <Route path="/" component={WordCountChart} />
     </Switch>
   );
 }
