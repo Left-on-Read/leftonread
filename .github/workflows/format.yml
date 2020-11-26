@@ -1,6 +1,6 @@
 name: Code Style
 
-on: [push]
+on: [pull_request]
 
 defaults:
     run:
@@ -13,6 +13,8 @@ jobs:
         steps:
             - name: Check out code
               uses: actions/checkout@v2
+              with:
+                  ref: ${{ github.head_ref }}
 
             - name: Install Node.js, NPM and Yarn
               uses: actions/setup-node@v1
