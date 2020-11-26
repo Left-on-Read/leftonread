@@ -1,8 +1,10 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { render } from 'react-dom';
 import { AppContainer as ReactHotAppContainer } from 'react-hot-loader';
-import './app.global.css';
 import * as sqlite3 from 'sqlite3';
+import log from 'electron-log';
+
+import './app.global.css';
 import {
   initializeDB,
   createAllTables,
@@ -22,8 +24,9 @@ export default function Root() {
         await dropAllTables(initialDB);
         await createAllTables(initialDB);
         setDB(initialDB);
+        throw new Error()
       } catch (err) {
-        console.error('ERROR SETTING UP DB/tables ', err);
+        log.error('ERROR SETTING UP DB/tables ', err);
       }
     }
     createInitialLoad();
