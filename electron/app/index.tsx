@@ -3,12 +3,11 @@ import { render } from 'react-dom';
 import { AppContainer as ReactHotAppContainer } from 'react-hot-loader';
 import './app.global.css';
 import * as sqlite3 from 'sqlite3';
-import {
-  initializeDB,
-  createAllTables,
-  dropAllTables,
-} from './chatBro';
+import log from 'electron-log';
+import { initializeDB, createAllTables, dropAllTables } from './chatBro';
 import WordCountChart from './components/charts/WordCount';
+import { initChatFiles } from './utils/initUtils/initUtils';
+import { appChatDBDirectoryPath } from './utils/initUtils/constants/directories';
 
 const AppContainer = process.env.PLAIN_HMR ? Fragment : ReactHotAppContainer;
 
@@ -18,12 +17,13 @@ export default function Root() {
   useEffect(() => {
     async function createInitialLoad() {
       try {
-        const initialDB = initializeDB();
-        await dropAllTables(initialDB);
-        await createAllTables(initialDB);
-        setDB(initialDB);
+        await initChatFiles();
+        const chatDB = initializeDB(appChatDBDirectoryPath);
+        await dropAllTables(chatDB);
+        await createAllTables(chatDB);
+        setDB(chatDB);
       } catch (err) {
-        console.error('ERROR SETTING UP DB/tables ', err);
+        log.error('ERROR SETTING UP DB/tables ', err);
       }
     }
     createInitialLoad();
