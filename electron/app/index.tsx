@@ -5,8 +5,8 @@ import './app.global.css';
 import * as sqlite3 from 'sqlite3';
 import {
   initializeDB,
-  dropAllExistingTables,
   createAllTables,
+  dropAllTables,
 } from './chatBro';
 import WordCountChart from './components/charts/WordCount';
 
@@ -19,7 +19,7 @@ export default function Root() {
     async function createInitialLoad() {
       try {
         const initialDB = initializeDB();
-        await dropAllExistingTables(initialDB);
+        await dropAllTables(initialDB);
         await createAllTables(initialDB);
         setDB(initialDB);
       } catch (err) {
