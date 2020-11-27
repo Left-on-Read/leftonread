@@ -18,7 +18,10 @@ export default function Root() {
     async function createInitialLoad() {
       try {
         await initChatFiles();
+        // await initContactsFiles();
+        // contactsDB = initializeDB(appChatDBDirectoryPath);
         const chatDB = initializeDB(appChatDBDirectoryPath);
+        // join to handle table
         await dropAllTables(chatDB);
         await createAllTables(chatDB);
         setDB(chatDB);
