@@ -4,10 +4,8 @@ import { AppContainer as ReactHotAppContainer } from 'react-hot-loader';
 import * as sqlite3 from 'sqlite3';
 import log from 'electron-log';
 import './app.global.css';
-import { initializeDB, createAllTables, dropAllTables } from './chatBro';
 import WordCountChart from './components/charts/WordCount';
-import { initChatFiles } from './utils/initUtils/initUtils';
-import { appChatDBDirectoryPath } from './utils/initUtils/constants/directories';
+import { coreInit } from './utils/initUtils';
 
 const AppContainer = process.env.PLAIN_HMR ? Fragment : ReactHotAppContainer;
 
@@ -17,14 +15,8 @@ export default function Root() {
   useEffect(() => {
     async function createInitialLoad() {
       try {
-        await initChatFiles();
-        // await initContactsFiles();
-        // contactsDB = initializeDB(appChatDBDirectoryPath);
-        const chatDB = initializeDB(appChatDBDirectoryPath);
-        // join to handle table
-        await dropAllTables(chatDB);
-        await createAllTables(chatDB);
-        setDB(chatDB);
+        const lorDB = await coreInit();
+        setDB(lorDB);
       } catch (err) {
         log.error('ERROR SETTING UP DB/tables ', err);
       }
