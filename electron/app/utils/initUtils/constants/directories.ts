@@ -7,6 +7,8 @@ export const addressBookPaths = {
   app: `${appDirectoryPath}/AddressBookFolder`,
 };
 
+export const addressBookBackUpFolderPath = `${addressBookPaths.app}/Sources`;
+
 export const chatPaths = {
   original: `${process.env.HOME}/Library/Messages/chat.db`,
   app: `${appDirectoryPath}/chat.db`,

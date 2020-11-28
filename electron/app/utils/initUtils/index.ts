@@ -2,23 +2,23 @@ import * as fs from 'fs';
 import copy from 'recursive-copy';
 import log from 'electron-log';
 import * as sqlite3 from 'sqlite3';
+import { initializeDB } from '../../chatBro/db';
 import {
   chatPaths,
   addressBookPaths,
   appDirectoryPath,
 } from './constants/directories';
+import { findPossibleAddressBookDB } from './addressBook/index';
 import { createAllTables, dropAllTables } from '../../chatBro';
 
-export function initializeDB(path: string): sqlite3.Database {
-  const sqldb = sqlite3.verbose();
-  const db = new sqldb.Database(path);
-  return db;
-}
-
 export async function createAppDirectory() {
-  if (!fs.existsSync(appDirectoryPath)) {
-    fs.mkdirSync(appDirectoryPath);
-    log.info('createAppDirectory success');
+  try {
+    if (!fs.existsSync(appDirectoryPath)) {
+      fs.mkdirSync(appDirectoryPath);
+      log.info('createAppDirectory success');
+    }
+  } catch (e) {
+    log.error(`createAppDirectory error ${e}`);
   }
 }
 
@@ -37,13 +37,22 @@ export async function copyFiles(
 }
 
 export async function coreInit(): Promise<sqlite3.Database> {
+  // TODO: logic could be added here depending on what user wants, i.e.,
+  //  if user wants to update chat.db, we could recopy, recreate, drop
+  //  if user doesn't want to update chat.db, then just initialize and move on
   await createAppDirectory();
+
   await copyFiles(chatPaths.original, chatPaths.app);
   await copyFiles(addressBookPaths.original, addressBookPaths.app);
-  // const addressBookDBPath = findAddressBookDBPath(addressBookPaths.app);
+  const possibleAddressBookDB = await findPossibleAddressBookDB();
   const lorDB = initializeDB(chatPaths.app);
   await dropAllTables(lorDB);
-  // await addContactColumn(lorDB);
+  if (possibleAddressBookDB) {
+    // await addContactColumn(lorDB);
+    log.info(`Contacts found: ${possibleAddressBookDB}`);
+  } else {
+    log.info('No contacts found.');
+  }
   await createAllTables(lorDB); // TODO: all queries to use a coalesce
   return lorDB;
 }
