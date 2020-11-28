@@ -1,3 +1,3 @@
 export enum TableNames {
-  WORD_TABLE = 'word_table'
+  WORD_TABLE = 'word_table',
 }

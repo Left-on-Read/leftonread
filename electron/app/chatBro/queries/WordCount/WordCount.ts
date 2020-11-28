@@ -1,9 +1,9 @@
-import * as _ from 'lodash'
+import * as _ from 'lodash';
 import * as sqlite3 from 'sqlite3';
 
-import * as sqlite3Wrapper from '../../util/sqliteWrapper'
-import { TableNames } from '../../tables'
-import { Columns } from './definitions'
+import * as sqlite3Wrapper from '../../util/sqliteWrapper';
+import { TableNames } from '../../tables';
+import { Columns } from './definitions';
 
 function isFromMeFilter(opts: WordCountTypes.Options): string | undefined {
   if (opts.isFromMe === true) {
