@@ -13,7 +13,6 @@ import * as sqlite3Wrapper from '../../../chatBro/util/sqliteWrapper';
 
 const COUNT_CONTACTS_QUERY = 'SELECT COUNT(*) AS count FROM ZABCDPHONENUMBER';
 
-// TODO: Will this Promise bool work the way I think it does, i.e., is Promise<false> false?
 async function checkIfRecordsExist(
   db: sqlite3.Database,
   checkQuery: string
