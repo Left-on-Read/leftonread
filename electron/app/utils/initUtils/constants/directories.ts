@@ -1,5 +1,4 @@
 export const appDirectoryPath = `${process.env.HOME}/.leftonread`;
-
 export const addressBookDBName = `AddressBook-v22.abcddb`;
 
 export const addressBookPaths = {
@@ -7,14 +6,11 @@ export const addressBookPaths = {
   app: `${appDirectoryPath}/AddressBookFolder`,
 };
 
-export const addressBookBackUpFolderPath = `${addressBookPaths.app}/Sources`;
-
 export const chatPaths = {
   original: `${process.env.HOME}/Library/Messages/chat.db`,
   app: `${appDirectoryPath}/chat.db`,
 };
 
-export const parings = {
-  addressBookPaths,
-  chatPaths,
-};
+export const dirPairings = [addressBookPaths, chatPaths];
+
+export const addressBookBackUpFolderPath = `${addressBookPaths.app}/Sources`;

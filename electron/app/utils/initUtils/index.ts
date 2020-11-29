@@ -5,8 +5,8 @@ import * as sqlite3 from 'sqlite3';
 import { initializeDB } from '../../chatBro/db';
 import {
   chatPaths,
-  addressBookPaths,
   appDirectoryPath,
+  dirPairings,
 } from './constants/directories';
 import { findPossibleAddressBookDB } from '../../addressBook/util/index';
 import { createContactTable } from '../../addressBook/tables';
@@ -42,9 +42,9 @@ export async function coreInit(): Promise<sqlite3.Database> {
   //  if user wants to update chat.db, we could recopy, recreate, drop
   //  if user doesn't want to update chat.db, then just initialize and move on
   await createAppDirectory();
-
-  await copyFiles(chatPaths.original, chatPaths.app);
-  await copyFiles(addressBookPaths.original, addressBookPaths.app);
+  await Promise.all(
+    dirPairings.map(async (obj) => copyFiles(obj.original, obj.app))
+  );
   const possibleAddressBookDB = await findPossibleAddressBookDB();
   const lorDB = initializeDB(chatPaths.app);
   await dropAllTables(lorDB);
