@@ -27,7 +27,6 @@ jobs:
 
             - name: Run Prettier and Linter
               run: |
-                  yarn lint
                   yarn lint-fix
                   yarn prettier
 
