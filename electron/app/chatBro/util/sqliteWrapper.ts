@@ -1,5 +1,3 @@
-// TODO: Refactor this into the top-level utils folder
-
 /**
  * Promise based wrapper functions for sqlite3
  */

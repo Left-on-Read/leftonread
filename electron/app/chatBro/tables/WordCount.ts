@@ -1,4 +1,4 @@
-import { Table } from './Table';
+import { Table } from './Table'
 import * as sqlite3Wrapper from '../util/sqliteWrapper';
 import { reactions } from '../constants/reactions';
 import { emojis } from '../constants/emojis';
@@ -6,7 +6,7 @@ import { stopWords } from '../constants/stopWords';
 import { objReplacementUnicode } from '../constants/objReplacementUnicode';
 import { punctuation } from '../constants/punctuation';
 import { ChatBro, WordCount } from '../definitions';
-import { TableNames } from './definitions';
+import { TableNames } from './definitions'
 
 export class WordCountTable extends Table {
   async create(): Promise<TableNames> {
@@ -39,6 +39,6 @@ export class WordCountTable extends Table {
       GROUP BY id, text, is_from_me;
   `;
     await sqlite3Wrapper.runP(this.db, q);
-    return this.name;
+    return this.name
   }
 }
