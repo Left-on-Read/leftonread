@@ -1,4 +1,4 @@
-import delimList from '../util/delimList';
+import delimList from '../../utils/delimList';
 
 const stopWordsList = [
   'got',

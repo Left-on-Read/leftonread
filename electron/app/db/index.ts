@@ -1,7 +1,7 @@
 import * as sqlite3 from 'sqlite3';
 import log from 'electron-log';
 import * as fs from 'fs';
-import * as sqlite3Wrapper from '../util/sqliteWrapper';
+import * as sqlite3Wrapper from '../utils/initUtils/sqliteWrapper';
 
 export function initializeDB(path: string): sqlite3.Database {
   const sqldb = sqlite3.verbose();

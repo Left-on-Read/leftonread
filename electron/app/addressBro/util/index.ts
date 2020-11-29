@@ -6,7 +6,7 @@ import {
   addressBookBackUpFolderPath,
   addressBookPaths,
 } from '../../utils/initUtils/constants/directories';
-import { returnDBIfPopulated } from '../../chatBro/db';
+import { returnDBIfPopulated } from '../../db';
 
 export const COUNT_CONTACTS_QUERY =
   'SELECT COUNT(*) AS count FROM ZABCDPHONENUMBER';

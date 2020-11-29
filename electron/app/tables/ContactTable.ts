@@ -1,4 +1,4 @@
-import * as sqlite3Wrapper from '../../chatBro/util/sqliteWrapper';
+import * as sqlite3Wrapper from '../utils/initUtils/sqliteWrapper';
 import { TableNames } from './definitions';
 import { Table } from './Table';
 

@@ -2,15 +2,18 @@ import * as fs from 'fs';
 import copy from 'recursive-copy';
 import log from 'electron-log';
 import * as sqlite3 from 'sqlite3';
-import { initializeDB } from '../../chatBro/db';
+import { initializeDB } from '../../db';
 import {
   chatPaths,
   appDirectoryPath,
   dirPairings,
 } from './constants/directories';
-import { findPossibleAddressBookDB } from '../../addressBook/util/index';
-import { createContactTable } from '../../addressBook/tables';
-import { createAllChatTables, dropAllTables } from '../../chatBro';
+import { findPossibleAddressBookDB } from '../../addressBro/util/index';
+import {
+  createAllChatTables,
+  dropAllChatTables,
+  createContactTable,
+} from '../../tables';
 
 export async function createAppDirectory() {
   try {
@@ -47,7 +50,7 @@ export async function coreInit(): Promise<sqlite3.Database> {
   );
   const possibleAddressBookDB = await findPossibleAddressBookDB();
   const lorDB = initializeDB(chatPaths.app);
-  await dropAllTables(lorDB);
+  await dropAllChatTables(lorDB);
   if (possibleAddressBookDB) {
     log.info(`Contacts found: ${possibleAddressBookDB}`);
     await createContactTable(possibleAddressBookDB);

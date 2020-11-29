@@ -1,5 +1,5 @@
 // TODO(Danilowicz): this should be a regex instead
-import delimList from '../util/delimList';
+import delimList from '../../utils/delimList';
 
 const punctuationList = [
   '?',

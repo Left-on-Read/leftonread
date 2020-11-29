@@ -1,17 +1,21 @@
 import { Table } from './Table';
-import * as sqlite3Wrapper from '../util/sqliteWrapper';
-import { reactions } from '../constants/reactions';
-import { emojis } from '../constants/emojis';
-import { stopWords } from '../constants/stopWords';
-import { objReplacementUnicode } from '../constants/objReplacementUnicode';
-import { punctuation } from '../constants/punctuation';
-import { ChatBro, WordCount } from '../definitions';
+import * as sqlite3Wrapper from '../utils/initUtils/sqliteWrapper';
+import { reactions } from '../chatBro/constants/reactions';
+import { emojis } from '../chatBro/constants/emojis';
+import { stopWords } from '../chatBro/constants/stopWords';
+import { objReplacementUnicode } from '../chatBro/constants/objReplacementUnicode';
+import { punctuation } from '../chatBro/constants/punctuation';
 import { TableNames } from './definitions';
+
+export const Columns = {
+  WORD: 'word',
+  COUNT: 'count',
+};
 
 export class WordCountTable extends Table {
   async create(): Promise<TableNames> {
     const q = `
-    CREATE TABLE ${ChatBro.Tables.WORD_TABLE} AS
+    CREATE TABLE ${this.name} AS
     WITH RECURSIVE SPLIT_TEXT_TABLE (id, is_from_me, guid, text, etc) AS
     (
       SELECT
@@ -29,7 +33,7 @@ export class WordCountTable extends Table {
       WHERE etc <> ''
     )
       SELECT
-        id as contact_number, text as word, is_from_me, COUNT(text) as ${WordCount.Columns.COUNT}
+        id as contact_number, text as word, is_from_me, COUNT(text) as ${Columns.COUNT}
       FROM SPLIT_TEXT_TABLE
         WHERE TRIM(LOWER(text)) NOT IN (${stopWords})
         AND TRIM(text) NOT IN (${reactions})
