@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 import * as sqlite3 from 'sqlite3';
 import log from 'electron-log';
+import { ChatTableNames } from '../../tables';
 import * as chatBro from '../../chatBro';
 
 interface WordCountProps {
@@ -19,7 +20,7 @@ export default function WordCountChart(props: WordCountProps) {
       try {
         const wordCountDataList = await chatBro.queryWordCounts(
           db,
-          chatBro.TableNames.WORD_TABLE,
+          ChatTableNames.WORD_TABLE,
           {
             isFromMe: true,
           }

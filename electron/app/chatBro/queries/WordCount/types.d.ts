@@ -5,7 +5,7 @@ declare namespace WordCountTypes {
     isFromMe?: boolean;
     limit?: number;
   }
-  
+
   interface ChartData {
     word: string;
     count: number;

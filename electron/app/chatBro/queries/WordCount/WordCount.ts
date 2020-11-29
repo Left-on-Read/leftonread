@@ -1,9 +1,9 @@
-import * as _ from 'lodash'
+import * as _ from 'lodash';
 import * as sqlite3 from 'sqlite3';
 
-import * as sqlite3Wrapper from '../../util/sqliteWrapper'
-import { TableNames } from '../../tables'
-import { Columns } from './definitions'
+import * as sqlite3Wrapper from '../../../utils/initUtils/sqliteWrapper';
+import { ChatTableNames } from '../../../tables';
+import { Columns } from '../../../tables/WordCountTable';
 
 function isFromMeFilter(opts: WordCountTypes.Options): string | undefined {
   if (opts.isFromMe === true) {
@@ -32,7 +32,7 @@ function getAllFilters(opts: WordCountTypes.Options): string {
 
 export async function queryWordCounts(
   db: sqlite3.Database,
-  tableName: TableNames.WORD_TABLE,
+  tableName: ChatTableNames.WORD_TABLE,
   opts: WordCountTypes.Options = {}
 ): Promise<WordCountTypes.Results> {
   const limit = opts.limit || 5;

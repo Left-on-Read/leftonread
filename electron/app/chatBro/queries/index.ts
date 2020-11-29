@@ -1,5 +1,3 @@
-import { queryWordCounts } from './WordCount/WordCount'
+import { queryWordCounts } from './WordCount/WordCount';
 
-export {
-  queryWordCounts
-}
+export { queryWordCounts };
