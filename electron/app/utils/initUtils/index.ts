@@ -8,8 +8,9 @@ import {
   addressBookPaths,
   appDirectoryPath,
 } from './constants/directories';
-import { findPossibleAddressBookDB } from './addressBook/index';
-import { createAllTables, dropAllTables } from '../../chatBro';
+import { findPossibleAddressBookDB } from '../../addressBook/util/index';
+import { createContactTable } from '../../addressBook/tables';
+import { createAllChatTables, dropAllTables } from '../../chatBro';
 
 export async function createAppDirectory() {
   try {
@@ -48,11 +49,12 @@ export async function coreInit(): Promise<sqlite3.Database> {
   const lorDB = initializeDB(chatPaths.app);
   await dropAllTables(lorDB);
   if (possibleAddressBookDB) {
-    // await addContactColumn(lorDB);
     log.info(`Contacts found: ${possibleAddressBookDB}`);
+    await createContactTable(possibleAddressBookDB);
+    // await addContactColumn(lorDB);
   } else {
     log.info('No contacts found.');
   }
-  await createAllTables(lorDB); // TODO: all queries to use a coalesce
+  await createAllChatTables(lorDB); // TODO: all queries to use a coalesce
   return lorDB;
 }

@@ -7,7 +7,7 @@ import { TableNames } from './definitions';
 
 const tableNames: string[] = _.values(TableNames);
 
-export async function createAllTables(
+export async function createAllChatTables(
   db: sqlite3.Database
 ): Promise<TableNames[]> {
   const tables = [new WordCountTable(db, TableNames.WORD_TABLE)];

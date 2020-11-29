@@ -5,13 +5,13 @@ import {
   addressBookDBName,
   addressBookBackUpFolderPath,
   addressBookPaths,
-} from '../constants/directories';
-import { initializeDB } from '../../../chatBro/db';
-import closeDB from '../../closeUtils';
+} from '../../utils/initUtils/constants/directories';
+import { initializeDB } from '../../chatBro/db';
+import closeDB from '../../utils/closeUtils';
+import * as sqlite3Wrapper from '../../chatBro/util/sqliteWrapper';
 
-import * as sqlite3Wrapper from '../../../chatBro/util/sqliteWrapper';
-
-const COUNT_CONTACTS_QUERY = 'SELECT COUNT(*) AS count FROM ZABCDPHONENUMBER';
+export const COUNT_CONTACTS_QUERY =
+  'SELECT COUNT(*) AS count FROM ZABCDPHONENUMBER';
 
 async function checkIfRecordsExist(
   db: sqlite3.Database,
