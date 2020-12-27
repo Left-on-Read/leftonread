@@ -29,7 +29,9 @@ export class ContactTable extends Table {
     SELECT
     -- NOTE: the COALESCE is very important here because the || (concat operator)
     -- returns NULL if one of the columns is NULL
-    TRIM(COALESCE(ZFIRSTNAME, " ") || " " || COALESCE(ZLASTNAME, " "))  as contact_name,
+    TRIM(
+      COALESCE(ZFIRSTNAME, " ") || " " || COALESCE(ZLASTNAME, " ")
+    ) as contact_name,
     ${normalizePhoneNumberStatement(`ZFULLNUMBER`)} AS contact_phone
     FROM CONTACTS_CLEAN_TABLE`;
     await sqlite3Wrapper.runP(this.db, q);
