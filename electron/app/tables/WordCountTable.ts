@@ -6,6 +6,8 @@ import { stopWords } from '../chatBro/constants/stopWords';
 import { objReplacementUnicode } from '../chatBro/constants/objReplacementUnicode';
 import { punctuation } from '../chatBro/constants/punctuation';
 import { TableNames } from './definitions';
+import { Columns as ContactNameColumns } from './ContactTable';
+
 
 export const Columns = {
   WORD: 'word',
@@ -19,7 +21,7 @@ export class WordCountTable extends Table {
     WITH RECURSIVE SPLIT_TEXT_TABLE (id, is_from_me, guid, text, etc) AS
     (
       SELECT
-        coalesce(h.contact_name, h.id) as id, m.is_from_me, m.guid, '', m.text || ' '
+        coalesce(h.${ContactNameColumns.CONTACT_NAME}, h.id) as id, m.is_from_me, m.guid, '', m.text || ' '
       FROM message m
       JOIN
       handle h

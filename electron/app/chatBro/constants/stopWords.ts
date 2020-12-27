@@ -30,7 +30,6 @@ const stopWordsList = [
   '',
   ' ',
   'lets',
-
   'u',
   'would',
   'like',
@@ -167,6 +166,10 @@ const stopWordsList = [
   'should',
   'now',
   'much',
+  "it’s",
+  "you’re",
+  "can’t",
+  "I’m",
   '”', // very weird quote, not sure what this is
 ];
 export const stopWords = delimList(stopWordsList);

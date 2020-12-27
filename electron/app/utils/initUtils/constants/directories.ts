@@ -1,5 +1,6 @@
 export const appDirectoryPath = `${process.env.HOME}/.leftonread`;
 export const addressBookDBName = `AddressBook-v22.abcddb`;
+export const addressBookDBAliasName = 'addressBookDB';
 
 export const addressBookPaths = {
   original: `${process.env.HOME}/Library/Application Support/AddressBook`,

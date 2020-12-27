@@ -7,7 +7,8 @@ import { initializeDB, closeDB } from '../../db';
 import {
   chatPaths,
   appDirectoryPath,
-  dirPairings
+  dirPairings,
+  addressBookDBAliasName
 } from './constants/directories';
 import { findPossibleAddressBookDB, addContactNameColumn, setContactNameColumn } from '../../addressBro/util/index';
 import {
@@ -42,9 +43,7 @@ export async function copyFiles(
 }
 
 export async function coreInit(): Promise<sqlite3.Database> {
-  // TODO: logic could be added here depending on what user wants, i.e.,
-  //  if user wants to update chat.db, we could recopy, recreate, drop
-  //  if user doesn't want to update chat.db, then just initialize and move on
+  // TODO: logic could be added here depending on what user wants to update their chat.db
   await createAppDirectory();
   await Promise.all(
     dirPairings.map(async (obj) => copyFiles(obj.original, obj.app))
@@ -58,7 +57,7 @@ export async function coreInit(): Promise<sqlite3.Database> {
     try {
       // Typescript thinks db.filename does not exist, but it does.
       // @ts-ignore
-      const q = `ATTACH '${possibleAddressBookDB.filename}' AS addressBookDB`
+      const q = `ATTACH '${possibleAddressBookDB.filename}' AS ${addressBookDBAliasName}`
       await sqlite3Wrapper.runP(lorDB, q);
       log.info(`ATTACH success`, q);
     } catch(err) {
@@ -82,12 +81,14 @@ export async function coreInit(): Promise<sqlite3.Database> {
     log.info('No contacts found.');
   }
   /*
-   * NOTE: Whether or not the addressBook was found, in all the tables we
-   * can now use a COALESECE(contact_name, handle.id)
-   * which will return the name or the phone
+   * NOTE: Whether or not the addressBook was found, we
+   * can use a COALESECE(contact_name, handle.id)
+   * to return the name or the phone
    */
   await createAllChatTables(lorDB);
+  // TODO: remove this. Leaving this in here for now to ensure this works for other devs.
   const result = await sqlite3Wrapper.allP(lorDB, 'SELECT coalesce(contact_name, id) FROM handle');
   console.log(result);
+  // END: remove this.
   return lorDB;
 }
