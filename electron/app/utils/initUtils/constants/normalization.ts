@@ -18,7 +18,7 @@ export function normalizePhoneNumberStatement(column: string):string {
     THEN SUBSTR(
       replace(
         ${column}, "${COUNTRY_CODE_SYMBOL}", ""
-      )
+      ),
     -${PHONE_NUMBER_LENGTH},
     ${PHONE_NUMBER_LENGTH}
   )

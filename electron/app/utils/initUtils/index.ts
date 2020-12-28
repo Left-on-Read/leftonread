@@ -10,7 +10,11 @@ import {
   dirPairings,
   addressBookDBAliasName
 } from './constants/directories';
-import { findPossibleAddressBookDB, addContactNameColumn, setContactNameColumn } from '../../addressBro/util/index';
+import {
+  findPossibleAddressBookDB,
+  addContactNameColumn,
+  setContactNameColumn
+} from '../../addressBro/util/index';
 import {
   createAllChatTables,
   dropAllChatTables,
@@ -87,7 +91,7 @@ export async function coreInit(): Promise<sqlite3.Database> {
    */
   await createAllChatTables(lorDB);
   // TODO: remove this. Leaving this in here for now to ensure this works for other devs.
-  const result = await sqlite3Wrapper.allP(lorDB, 'SELECT coalesce(contact_name, id) FROM handle');
+  const result = await sqlite3Wrapper.allP(lorDB, 'SELECT * FROM handle');
   console.log(result);
   // END: remove this.
   return lorDB;

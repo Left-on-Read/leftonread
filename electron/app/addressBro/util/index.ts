@@ -68,7 +68,7 @@ export async function setContactNameColumn(db:sqlite3.Database) {
   `UPDATE handle SET ${ContactNameColumns.CONTACT_NAME} = (
     SELECT ${addressBookDBAliasName}.${AddressBookTableNames.CONTACT_TABLE}.${ContactNameColumns.CONTACT_NAME}
       FROM ${addressBookDBAliasName}.${AddressBookTableNames.CONTACT_TABLE}
-        WHERE ${normalizePhoneNumberStatement(`handle.id`)}
+    WHERE ${normalizePhoneNumberStatement(`handle.id`)}
     = ${addressBookDBAliasName}.${AddressBookTableNames.CONTACT_TABLE}.${ContactNameColumns.CONTACT_PHONE}
     )`;
   await sqlite3Wrapper.runP(db, SET_CONTACT_NAME_COLUMN_QUERY);

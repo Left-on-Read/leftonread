@@ -24,12 +24,11 @@ export class ContactTable extends Table {
             replace(
               replace(
                 ZABCDPHONENUMBER.ZFULLNUMBER,
-              "(", "")
-            , ")",
-          ""),
-        "_", ""),
-      "-", ""),
-    " ", "")
+              "(", ""),
+            ")",""),
+          "_", ""),
+        "-", ""),
+      " ", "")
     as ZFULLNUMBER
       FROM ZABCDRECORD
     LEFT JOIN ZABCDPHONENUMBER ON ZABCDPHONENUMBER.ZOWNER = ZABCDRECORD.Z_PK
