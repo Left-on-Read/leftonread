@@ -5,7 +5,7 @@ import { TableNames } from './definitions';
 export const Columns = {
   COUNT: 'count',
   PHONE_NUMBER: 'phone_number',
-  FRIEND: 'friend'
+  FRIEND: 'friend',
 };
 
 export class TopFriendsTable extends Table {
