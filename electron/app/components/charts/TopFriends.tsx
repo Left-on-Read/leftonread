@@ -5,41 +5,39 @@ import log from 'electron-log';
 import { ChatTableNames } from '../../tables';
 import * as chatBro from '../../chatBro';
 
-interface WordCountProps {
+interface TopFriendsProps {
   db: sqlite3.Database;
 }
 
-export default function WordCountChart(props: WordCountProps) {
+export default function TopFriendsChart(props: TopFriendsProps) {
   const { db } = props;
-  const [words, setWords] = useState<string[]>([]);
+  const [friends, setFriends] = useState<string[]>([]);
   const [count, setCount] = useState<number[]>([]);
 
   useEffect(() => {
-    async function fetchWordData() {
+    async function fetchTopFriends() {
       try {
-        const wordCountDataList = await chatBro.queryWordCounts(
+        const topFriendsDataList = await chatBro.queryTopFriends(
           db,
-          ChatTableNames.WORD_TABLE,
-          {
-            isFromMe: true,
-          }
+          ChatTableNames.TOP_FRIENDS_TABLE
         );
-        setWords(wordCountDataList.map((obj) => obj.word));
-        setCount(wordCountDataList.map((obj) => obj.count));
+        console.log('here');
+        console.log(topFriendsDataList);
+        setFriends(topFriendsDataList.map((obj) => obj.friend));
+        setCount(topFriendsDataList.map((obj) => obj.count));
       } catch (err) {
-        log.error('ERROR fetching word count ', err);
+        log.error('ERROR fetching top friends ', err);
       }
     }
-    fetchWordData();
+    fetchTopFriends();
   }, []);
 
   const data = {
-    labels: words,
+    labels: friends,
     datasets: [
       {
-        label: 'Count of Word',
+        label: 'Count of texts',
         data: count,
-        // TODO(Chan): this should all live in constants
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
@@ -62,11 +60,11 @@ export default function WordCountChart(props: WordCountProps) {
   const options = {
     title: {
       display: true,
-      text: 'Top Words Sent',
+      text: 'Top Friends',
     },
   };
 
-  if (words.length > 0) {
+  if (friends.length > 0) {
     return (
       <div>
         <Bar data={data} options={options} />

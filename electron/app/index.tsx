@@ -5,6 +5,7 @@ import * as sqlite3 from 'sqlite3';
 import log from 'electron-log';
 import './app.global.css';
 import WordCountChart from './components/charts/WordCount';
+import TopFriendsChart from './components/charts/TopFriends';
 import { coreInit } from './utils/initUtils';
 
 const AppContainer = process.env.PLAIN_HMR ? Fragment : ReactHotAppContainer;
@@ -28,6 +29,7 @@ export default function Root() {
     return (
       <div>
         <WordCountChart db={db} />
+        <TopFriendsChart db={db} />
       </div>
     );
   }

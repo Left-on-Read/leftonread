@@ -8,7 +8,6 @@ import { punctuation } from '../chatBro/constants/punctuation';
 import { TableNames } from './definitions';
 import { Columns as ContactNameColumns } from './ContactTable';
 
-
 export const Columns = {
   WORD: 'word',
   COUNT: 'count',
