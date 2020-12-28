@@ -9,7 +9,7 @@ export async function queryTopFriends(
   tableName: ChatTableNames.TOP_FRIENDS_TABLE,
   opts: TopFriendsTypes.Options = {}
 ): Promise<TopFriendsTypes.Results> {
-  const limit = opts.limit || 10;
+  const limit = opts.limit || 30;
   const query = `
     SELECT
       ${Columns.COUNT},

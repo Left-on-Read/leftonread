@@ -21,8 +21,6 @@ export default function TopFriendsChart(props: TopFriendsProps) {
           db,
           ChatTableNames.TOP_FRIENDS_TABLE
         );
-        console.log('here');
-        console.log(topFriendsDataList);
         setFriends(topFriendsDataList.map((obj) => obj.friend));
         setCount(topFriendsDataList.map((obj) => obj.count));
       } catch (err) {
