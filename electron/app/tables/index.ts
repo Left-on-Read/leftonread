@@ -24,7 +24,7 @@ export async function createAllChatTables(
 ): Promise<ChatTableNames[]> {
   const tables = [
     new WordCountTable(db, ChatTableNames.WORD_TABLE),
-    new TopFriendsTable(db, ChatTableNames.TOP_FRIENDS_TABLE)
+    new TopFriendsTable(db, ChatTableNames.TOP_FRIENDS_TABLE),
   ];
 
   const createTablePromises = tables.map((table) => table.create());
@@ -42,5 +42,5 @@ export {
   WordCountTable,
   TopFriendsTable,
   ChatTableNames,
-  AddressBookTableNames
+  AddressBookTableNames,
 };

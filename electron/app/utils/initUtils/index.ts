@@ -90,10 +90,7 @@ export async function coreInit(): Promise<sqlite3.Database> {
    */
   await createAllChatTables(lorDB);
   // TODO: remove this. Leaving this in here for now to ensure this works for other devs.
-  const result = await sqlite3Wrapper.allP(
-    lorDB,
-    'SELECT * FROM handle'
-  );
+  const result = await sqlite3Wrapper.allP(lorDB, 'SELECT * FROM handle');
   console.log(result);
   // END: remove this.
   return lorDB;
