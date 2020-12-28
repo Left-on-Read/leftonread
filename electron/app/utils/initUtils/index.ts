@@ -2,18 +2,18 @@ import * as fs from 'fs';
 import copy from 'recursive-copy';
 import log from 'electron-log';
 import * as sqlite3 from 'sqlite3';
-import * as sqlite3Wrapper from '../../utils/initUtils/sqliteWrapper';
+import * as sqlite3Wrapper from './sqliteWrapper';
 import { initializeDB, closeDB } from '../../db';
 import {
   chatPaths,
   appDirectoryPath,
   dirPairings,
-  addressBookDBAliasName
+  addressBookDBAliasName,
 } from './constants/directories';
 import {
   findPossibleAddressBookDB,
   addContactNameColumn,
-  setContactNameColumn
+  setContactNameColumn,
 } from '../../addressBro/util/index';
 import {
   createAllChatTables,
@@ -61,23 +61,22 @@ export async function coreInit(): Promise<sqlite3.Database> {
     try {
       // Typescript thinks db.filename does not exist, but it does.
       // @ts-ignore
-      const q = `ATTACH '${possibleAddressBookDB.filename}' AS ${addressBookDBAliasName}`
+      const q = `ATTACH '${possibleAddressBookDB.filename}' AS ${addressBookDBAliasName}`;
       await sqlite3Wrapper.runP(lorDB, q);
       log.info(`ATTACH success`, q);
-    } catch(err) {
-      log.error('ERROR ATTACH errored', err)
+    } catch (err) {
+      log.error('ERROR ATTACH errored', err);
     }
     try {
       await addContactNameColumn(lorDB);
       log.info(`ContactName column added successully`);
-    } catch(err) {
+    } catch (err) {
       log.warn('WARN add ContactName column already exists', err);
     }
     try {
       await setContactNameColumn(lorDB);
       log.info(`ContactName Column set successully`);
-    }
-    catch(err) {
+    } catch (err) {
       log.error('ERROR setContactNameColumn error', err);
     }
     closeDB(possibleAddressBookDB); // after setContactNameColumn, we have no use for this db
@@ -91,7 +90,10 @@ export async function coreInit(): Promise<sqlite3.Database> {
    */
   await createAllChatTables(lorDB);
   // TODO: remove this. Leaving this in here for now to ensure this works for other devs.
-  const result = await sqlite3Wrapper.allP(lorDB, 'SELECT * FROM handle');
+  const result = await sqlite3Wrapper.allP(
+    lorDB,
+    'SELECT * FROM handle'
+  );
   console.log(result);
   // END: remove this.
   return lorDB;
