@@ -1,11 +1,11 @@
 import * as sqlite3Wrapper from '../utils/initUtils/sqliteWrapper';
 import { TableNames } from './definitions';
 import { Table } from './Table';
-import { normalizePhoneNumberStatement } from '../utils/initUtils/constants/normalization'
+import { normalizePhoneNumberStatement } from '../utils/initUtils/constants/normalization';
 
 export const Columns = {
   CONTACT_NAME: 'contact_name',
-  CONTACT_PHONE: 'contact_phone'
+  CONTACT_PHONE: 'contact_phone',
 };
 
 export class ContactTable extends Table {
@@ -24,12 +24,11 @@ export class ContactTable extends Table {
             replace(
               replace(
                 ZABCDPHONENUMBER.ZFULLNUMBER,
-              "(", "")
-            , ")",
-          ""),
-        "_", ""),
-      "-", ""),
-    " ", "")
+              "(", ""),
+            ")",""),
+          "_", ""),
+        "-", ""),
+      " ", "")
     as ZFULLNUMBER
       FROM ZABCDRECORD
     LEFT JOIN ZABCDPHONENUMBER ON ZABCDPHONENUMBER.ZOWNER = ZABCDRECORD.Z_PK

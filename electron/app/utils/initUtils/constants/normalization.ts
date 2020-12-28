@@ -11,17 +11,17 @@ const COUNTRY_CODE_SYMBOL = '+';
  * The addressbook.db, however, does not always include the country code.
  * Create a shared CASE WHEN statement to 'normalize' the two columns
  */
-export function normalizePhoneNumberStatement(column: string):string {
- return `
+export function normalizePhoneNumberStatement(column: string): string {
+  return `
  CASE
   WHEN LENGTH(replace(${column}, "${COUNTRY_CODE_SYMBOL}", "")) > ${PHONE_NUMBER_LENGTH}
     THEN SUBSTR(
       replace(
         ${column}, "${COUNTRY_CODE_SYMBOL}", ""
-      )
+      ),
     -${PHONE_NUMBER_LENGTH},
     ${PHONE_NUMBER_LENGTH}
   )
  ELSE ${column}
- END`
+ END`;
 }
