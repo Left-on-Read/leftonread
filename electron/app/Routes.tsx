@@ -1,11 +1,10 @@
-import React from 'react';
-import { Switch, Route } from 'react-router-dom';
-import WordCountChart from './components/charts/WordCount';
+// import React from 'react';
+// import { Switch, Route } from 'react-router-dom';
 
-export default function Routes() {
-  return (
-    <Switch>
-      <Route path="/" component={WordCountChart} />
-    </Switch>
-  );
-}
+// export default function Routes() {
+//   return (
+//     <Switch>
+//       <Route path="/" component={BarChart} />
+//     </Switch>
+//   );
+// }
