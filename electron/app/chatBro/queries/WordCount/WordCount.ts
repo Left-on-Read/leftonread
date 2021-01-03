@@ -35,7 +35,7 @@ export async function queryWordCounts(
   tableName: ChatTableNames.WORD_TABLE,
   opts: WordCountTypes.Options = {}
 ): Promise<WordCountTypes.Results> {
-  const limit = opts.limit || 30;
+  const limit = opts.limit || 5;
   const filters = getAllFilters(opts);
   const query = `
     SELECT SUM(${Columns.COUNT}) as ${Columns.COUNT},

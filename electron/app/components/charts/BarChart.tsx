@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 import * as sqlite3 from 'sqlite3';
 import log from 'electron-log';
+import interpolateColors from '../../utils/colors';
 
 interface BarChartProps {
   db: sqlite3.Database;
@@ -10,7 +11,7 @@ interface BarChartProps {
   subLabel: string;
   xAxisKey: string; // TODO: this should be a type from results
   stacked?: boolean;
-  colorScale: {},
+  colorInterpolationFunc: (t: number) => string,
 }
 
 export default function BarChat(props: BarChartProps) {
@@ -19,7 +20,7 @@ export default function BarChat(props: BarChartProps) {
     titleText,
     subLabel,
     xAxisKey,
-    colorScale
+    colorInterpolationFunc
   } = props;
   const [xAxisData, setXAxisData] = useState<string[]>([]);
   const [count, setCount] = useState<number[]>([]);
@@ -39,7 +40,7 @@ export default function BarChat(props: BarChartProps) {
 
   const COLORS = interpolateColors(
     xAxisData.length,
-    colorScale
+    colorInterpolationFunc
   );
 
   const data = {

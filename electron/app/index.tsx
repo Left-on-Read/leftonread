@@ -5,6 +5,7 @@ import * as sqlite3 from 'sqlite3';
 import log from 'electron-log';
 import './app.global.css';
 import { coreInit } from './utils/initUtils';
+import { interpolateCool } from 'd3-scale-chromatic'
 
 import BarChart from './components/charts/BarChart';
 import { ChatTableNames } from './tables';
@@ -42,7 +43,7 @@ export default function Root() {
             )
           }
           xAxisKey={'word'}
-          colorScale={}
+          colorInterpolationFunc={interpolateCool}
         />
         <BarChart
           db={db}
@@ -55,7 +56,7 @@ export default function Root() {
             )
           }
           xAxisKey={'friend'}
-          colorScale={}
+          colorInterpolationFunc={interpolateCool}
         />
       </div>
     );

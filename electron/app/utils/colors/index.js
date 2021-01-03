@@ -1,5 +1,5 @@
 /* Must use an interpolated color scale, which has a range of [0, 1] */
-function interpolateColors(
+export default function interpolateColors(
   dataLength,
   colorScale,
   colorRangeInfo = {
