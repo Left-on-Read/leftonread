@@ -1,3 +1,4 @@
+// DEPRECATED IN FAVOR OF BarChart
 import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 import * as sqlite3 from 'sqlite3';
