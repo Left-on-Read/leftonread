@@ -5,8 +5,13 @@ import {
   addressBookDBName,
   addressBookBackUpFolderPath,
   addressBookPaths,
+  addressBookDBAliasName,
 } from '../../utils/initUtils/constants/directories';
 import { returnDBIfPopulated } from '../../db';
+import * as sqlite3Wrapper from '../../utils/initUtils/sqliteWrapper';
+import { normalizePhoneNumberStatement } from '../../utils/initUtils/constants/normalization';
+import { AddressBookTableNames } from '../../tables/definitions';
+import { Columns as ContactNameColumns } from '../../tables/ContactTable';
 
 export const COUNT_CONTACTS_QUERY =
   'SELECT COUNT(*) AS count FROM ZABCDPHONENUMBER';
@@ -50,4 +55,25 @@ export async function findPossibleAddressBookDB(): Promise<
     return initialAddressBookDB;
   }
   return readAddressBookBackups();
+}
+
+export async function addContactNameColumn(db: sqlite3.Database) {
+  const ADD_CONTACT_NAME_COLUMN_QUERY = `ALTER TABLE handle ADD ${ContactNameColumns.CONTACT_NAME} VARCHAR(255)`;
+  await sqlite3Wrapper.runP(db, ADD_CONTACT_NAME_COLUMN_QUERY);
+}
+
+export async function setContactNameColumn(db: sqlite3.Database) {
+  const SET_CONTACT_NAME_COLUMN_QUERY = `UPDATE handle SET ${
+    ContactNameColumns.CONTACT_NAME
+  } = (
+    SELECT ${addressBookDBAliasName}.${AddressBookTableNames.CONTACT_TABLE}.${
+    ContactNameColumns.CONTACT_NAME
+  }
+      FROM ${addressBookDBAliasName}.${AddressBookTableNames.CONTACT_TABLE}
+        WHERE ${normalizePhoneNumberStatement(`handle.id`)}
+    = ${addressBookDBAliasName}.${AddressBookTableNames.CONTACT_TABLE}.${
+    ContactNameColumns.CONTACT_PHONE
+  }
+    )`;
+  await sqlite3Wrapper.runP(db, SET_CONTACT_NAME_COLUMN_QUERY);
 }

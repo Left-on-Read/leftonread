@@ -9,7 +9,7 @@ export function initializeDB(path: string): sqlite3.Database {
   return db;
 }
 
-export default function closeDB(db: sqlite3.Database) {
+export function closeDB(db: sqlite3.Database) {
   log.info('Closing DB');
   db.close();
 }

@@ -6,6 +6,7 @@ import { stopWords } from '../chatBro/constants/stopWords';
 import { objReplacementUnicode } from '../chatBro/constants/objReplacementUnicode';
 import { punctuation } from '../chatBro/constants/punctuation';
 import { TableNames } from './definitions';
+import { Columns as ContactNameColumns } from './ContactTable';
 
 export const Columns = {
   WORD: 'word',
@@ -19,7 +20,7 @@ export class WordCountTable extends Table {
     WITH RECURSIVE SPLIT_TEXT_TABLE (id, is_from_me, guid, text, etc) AS
     (
       SELECT
-        h.id, m.is_from_me, m.guid, '', m.text || ' '
+        coalesce(h.${ContactNameColumns.CONTACT_NAME}, h.id) as id, m.is_from_me, m.guid, '', m.text || ' '
       FROM message m
       JOIN
       handle h
@@ -33,7 +34,7 @@ export class WordCountTable extends Table {
       WHERE etc <> ''
     )
       SELECT
-        id as contact_number, text as word, is_from_me, COUNT(text) as ${Columns.COUNT}
+        id as contact, text as word, is_from_me, COUNT(text) as ${Columns.COUNT}
       FROM SPLIT_TEXT_TABLE
         WHERE TRIM(LOWER(text)) NOT IN (${stopWords})
         AND TRIM(text) NOT IN (${reactions})
