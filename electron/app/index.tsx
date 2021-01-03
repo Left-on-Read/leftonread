@@ -4,8 +4,8 @@ import { AppContainer as ReactHotAppContainer } from 'react-hot-loader';
 import * as sqlite3 from 'sqlite3';
 import log from 'electron-log';
 import './app.global.css';
+import { interpolateCool } from 'd3-scale-chromatic';
 import { coreInit } from './utils/initUtils';
-import { interpolateCool } from 'd3-scale-chromatic'
 
 import BarChart from './components/charts/BarChart';
 import { ChatTableNames } from './tables';
@@ -33,29 +33,24 @@ export default function Root() {
       <div>
         <BarChart
           db={db}
-          titleText='Top Words Sent'
-          subLabel='Count of Word'
+          titleText="Top Words Sent"
+          subLabel="Count of Word"
           chartQuery={() =>
-            chatBro.queryWordCounts(
-              db,
-              ChatTableNames.WORD_TABLE,
-              {isFromMe: true}
-            )
+            chatBro.queryWordCounts(db, ChatTableNames.WORD_TABLE, {
+              isFromMe: true,
+            })
           }
-          xAxisKey={'word'}
+          xAxisKey="word"
           colorInterpolationFunc={interpolateCool}
         />
         <BarChart
           db={db}
-          titleText='Top Friends'
-          subLabel='Count of Text'
+          titleText="Top Friends"
+          subLabel="Count of Text"
           chartQuery={() =>
-            chatBro.queryTopFriends(
-              db,
-              ChatTableNames.TOP_FRIENDS_TABLE
-            )
+            chatBro.queryTopFriends(db, ChatTableNames.TOP_FRIENDS_TABLE)
           }
-          xAxisKey={'friend'}
+          xAxisKey="friend"
           colorInterpolationFunc={interpolateCool}
         />
       </div>

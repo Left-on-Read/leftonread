@@ -8,11 +8,12 @@ export default function interpolateColors(
     useEndAsStart: false,
   }
 ) {
-  let { colorStart, colorEnd } = colorRangeInfo;
-  let colorRange = colorEnd - colorStart;
-  let intervalSize = colorRange / dataLength;
-  let i, colorPoint;
-  let colorArray = [];
+  const { colorStart, colorEnd } = colorRangeInfo;
+  const colorRange = colorEnd - colorStart;
+  const intervalSize = colorRange / dataLength;
+  let i;
+  let colorPoint;
+  const colorArray = [];
 
   for (i = 0; i < dataLength; i++) {
     colorPoint = calculatePoint(i, intervalSize, colorRangeInfo);
@@ -29,9 +30,10 @@ function calculatePoint(
     colorStart: 0,
     colorEnd: 1,
     useEndAsStart: false,
-  }) {
-  let { colorStart, colorEnd, useEndAsStart } = colorRangeInfo;
-  return (useEndAsStart
-    ? (colorEnd - (i * intervalSize))
-    : (colorStart + (i * intervalSize)));
+  }
+) {
+  const { colorStart, colorEnd, useEndAsStart } = colorRangeInfo;
+  return useEndAsStart
+    ? colorEnd - i * intervalSize
+    : colorStart + i * intervalSize;
 }

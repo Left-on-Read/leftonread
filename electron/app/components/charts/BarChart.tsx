@@ -11,7 +11,7 @@ interface BarChartProps {
   subLabel: string;
   xAxisKey: string; // TODO: this should be a type from results
   stacked?: boolean;
-  colorInterpolationFunc: (t: number) => string,
+  colorInterpolationFunc: (t: number) => string;
 }
 
 export default function BarChat(props: BarChartProps) {
@@ -20,7 +20,7 @@ export default function BarChat(props: BarChartProps) {
     titleText,
     subLabel,
     xAxisKey,
-    colorInterpolationFunc
+    colorInterpolationFunc,
   } = props;
   const [xAxisData, setXAxisData] = useState<string[]>([]);
   const [count, setCount] = useState<number[]>([]);
@@ -29,8 +29,16 @@ export default function BarChat(props: BarChartProps) {
     async function fetchXAxisData() {
       try {
         const dataList = await chartQuery();
-        setXAxisData((dataList as Array<WordCountTypes.ChartData|TopFriendsTypes.ChartData>).map((obj: { [x: string]: any; }) => obj[xAxisKey]));
-        setCount((dataList as Array<WordCountTypes.ChartData|TopFriendsTypes.ChartData>).map((obj: { [x: string]: any; }) => obj["count"]));
+        setXAxisData(
+          (dataList as Array<
+            WordCountTypes.ChartData | TopFriendsTypes.ChartData
+          >).map((obj: { [x: string]: any }) => obj[xAxisKey])
+        );
+        setCount(
+          (dataList as Array<
+            WordCountTypes.ChartData | TopFriendsTypes.ChartData
+          >).map((obj: { [x: string]: any }) => obj.count)
+        );
       } catch (err) {
         log.error(`ERROR fetching ${titleText}`, err);
       }
@@ -38,10 +46,7 @@ export default function BarChat(props: BarChartProps) {
     fetchXAxisData();
   }, []);
 
-  const COLORS = interpolateColors(
-    xAxisData.length,
-    colorInterpolationFunc
-  );
+  const COLORS = interpolateColors(xAxisData.length, colorInterpolationFunc);
 
   const data = {
     labels: xAxisData,
