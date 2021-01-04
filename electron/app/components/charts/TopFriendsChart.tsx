@@ -62,5 +62,5 @@ export default function TopFriendsChart(props: TopFriendsProps) {
       </div>
     );
   }
-  return <ChartLoader titleText={titleText} />
+  return <ChartLoader titleText={titleText} />;
 }

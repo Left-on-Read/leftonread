@@ -65,5 +65,5 @@ export default function WordCountChart(props: WordCountProps) {
       </div>
     );
   }
-  return <ChartLoader titleText={titleText} />
+  return <ChartLoader titleText={titleText} />;
 }
