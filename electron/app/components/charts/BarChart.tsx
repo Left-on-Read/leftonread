@@ -9,7 +9,12 @@ interface BarChartProps {
   chartQuery: () => Promise<WordCountTypes.Results | TopFriendsTypes.Results>;
   titleText: string;
   subLabel: string;
-  xAxisKey: string; // TODO: this should be a type from results
+  /* TODO:
+   * The *Axiskeys can only be
+   * WordCountTypes.Result | TopFriendsTypes.Results
+   */
+  xAxisKey: string;
+  yAxisKey: string;
   stacked?: boolean;
   colorInterpolationFunc: (t: number) => string;
 }
@@ -20,30 +25,33 @@ export default function BarChat(props: BarChartProps) {
     titleText,
     subLabel,
     xAxisKey,
+    yAxisKey,
     colorInterpolationFunc,
   } = props;
   const [xAxisData, setXAxisData] = useState<string[]>([]);
-  const [count, setCount] = useState<number[]>([]);
+  const [yAxisData, setYAxisData] = useState<number[]>([]);
 
   useEffect(() => {
-    async function fetchXAxisData() {
+    async function fetchData() {
       try {
         const dataList = await chartQuery();
         setXAxisData(
           (dataList as Array<
             WordCountTypes.ChartData | TopFriendsTypes.ChartData
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
           >).map((obj: { [x: string]: any }) => obj[xAxisKey])
         );
-        setCount(
+        setYAxisData(
           (dataList as Array<
             WordCountTypes.ChartData | TopFriendsTypes.ChartData
-          >).map((obj: { [x: string]: any }) => obj.count)
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          >).map((obj: { [x: string]: any }) => obj[yAxisKey])
         );
       } catch (err) {
         log.error(`ERROR fetching ${titleText}`, err);
       }
     }
-    fetchXAxisData();
+    fetchData();
   }, []);
 
   const COLORS = interpolateColors(xAxisData.length, colorInterpolationFunc);
@@ -53,7 +61,7 @@ export default function BarChat(props: BarChartProps) {
     datasets: [
       {
         label: subLabel,
-        data: count,
+        data: yAxisData,
         backgroundColor: COLORS,
         borderWidth: 1,
       },
