@@ -40,7 +40,6 @@ export default function Root() {
               chatBro.queryWordCounts(db, ChatTableNames.WORD_TABLE, {
                 isFromMe: true,
               })
-            // eslint-disable-next-line react/jsx-curly-newline
           }
           xAxisKey="word"
           yAxisKey="count"
@@ -52,7 +51,6 @@ export default function Root() {
           subLabel="Count of Text"
           chartQuery={
             () => chatBro.queryTopFriends(db, ChatTableNames.TOP_FRIENDS_TABLE)
-            // eslint-disable-next-line react/jsx-curly-newline
           }
           xAxisKey="friend"
           yAxisKey="count"
