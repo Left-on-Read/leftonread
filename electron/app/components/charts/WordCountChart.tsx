@@ -5,6 +5,7 @@ import log from 'electron-log';
 import { ChatTableNames } from '../../tables';
 import * as chatBro from '../../chatBro';
 import interpolateColors from '../../utils/colors';
+import ChartLoader from '../loading/ChartLoader';
 
 interface WordCountProps {
   db: sqlite3.Database;
@@ -69,6 +70,5 @@ export default function WordCountChart(props: WordCountProps) {
       </div>
     );
   }
-  const loadingText = `Loading ${titleText} chart...`;
-  return <div>{loadingText}</div>;
+  return <ChartLoader titleText={titleText} />
 }
