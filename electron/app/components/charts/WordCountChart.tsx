@@ -9,18 +9,13 @@ import ChartLoader from '../loading/ChartLoader';
 
 interface WordCountProps {
   db: sqlite3.Database;
-  titleText: string,
-  labelText: string,
+  titleText: string;
+  labelText: string;
   colorInterpolationFunc: (t: number) => string;
 }
 
 export default function WordCountChart(props: WordCountProps) {
-  const {
-    db,
-    colorInterpolationFunc,
-    titleText,
-    labelText
-  } = props;
+  const { db, colorInterpolationFunc, titleText, labelText } = props;
   const [words, setWords] = useState<string[]>([]);
   const [count, setCount] = useState<number[]>([]);
 
@@ -51,7 +46,7 @@ export default function WordCountChart(props: WordCountProps) {
       {
         label: labelText,
         data: count,
-        backgroundColor: COLORS
+        backgroundColor: COLORS,
       },
     ],
   };
