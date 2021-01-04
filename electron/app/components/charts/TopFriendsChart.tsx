@@ -8,18 +8,13 @@ import interpolateColors from '../../utils/colors';
 
 interface TopFriendsProps {
   db: sqlite3.Database;
-  titleText: string,
-  labelText: string,
+  titleText: string;
+  labelText: string;
   colorInterpolationFunc: (t: number) => string;
 }
 
 export default function TopFriendsChart(props: TopFriendsProps) {
-  const {
-    db,
-    colorInterpolationFunc,
-    titleText,
-    labelText
-  } = props;
+  const { db, colorInterpolationFunc, titleText, labelText } = props;
   const [friends, setFriends] = useState<string[]>([]);
   const [count, setCount] = useState<number[]>([]);
 
@@ -33,7 +28,7 @@ export default function TopFriendsChart(props: TopFriendsProps) {
         setFriends(topFriendsDataList.map((obj) => obj.friend));
         setCount(topFriendsDataList.map((obj) => obj.count));
       } catch (err) {
-        log.error("ERROR fetchTopFriends", err);
+        log.error('ERROR fetchTopFriends', err);
       }
     }
     fetchTopFriends();
@@ -47,7 +42,7 @@ export default function TopFriendsChart(props: TopFriendsProps) {
       {
         label: labelText,
         data: count,
-        backgroundColor: COLORS
+        backgroundColor: COLORS,
       },
     ],
   };
