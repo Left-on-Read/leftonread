@@ -7,9 +7,8 @@ import './app.global.css';
 import { interpolateCool } from 'd3-scale-chromatic';
 import { coreInit } from './utils/initUtils';
 
-import BarChart from './components/charts/BarChart';
-import { ChatTableNames } from './tables';
-import * as chatBro from './chatBro';
+import WordCountChart from './components/charts/WordCountChart';
+import TopFriendsChart from './components/charts/TopFriendsChart';
 
 const AppContainer = process.env.PLAIN_HMR ? Fragment : ReactHotAppContainer;
 
@@ -31,28 +30,16 @@ export default function Root() {
   if (db) {
     return (
       <div>
-        <BarChart
+        <WordCountChart
           db={db}
-          titleText="Top Words Sent"
-          subLabel="Count of Word"
-          chartQuery={() =>
-            chatBro.queryWordCounts(db, ChatTableNames.WORD_TABLE, {
-              isFromMe: true,
-            })
-          }
-          xAxisKey="word"
-          yAxisKey="count"
+          titleText="Top Words"
+          labelText="Count of Word"
           colorInterpolationFunc={interpolateCool}
         />
-        <BarChart
+        <TopFriendsChart
           db={db}
           titleText="Top Friends"
-          subLabel="Count of Text"
-          chartQuery={() =>
-            chatBro.queryTopFriends(db, ChatTableNames.TOP_FRIENDS_TABLE)
-          }
-          xAxisKey="friend"
-          yAxisKey="count"
+          labelText="Count of Text"
           colorInterpolationFunc={interpolateCool}
         />
       </div>

@@ -4,7 +4,7 @@
 // export default function Routes() {
 //   return (
 //     <Switch>
-//       <Route path="/" component={BarChart} />
+//       <Route path="/" component={} />
 //     </Switch>
 //   );
 // }
