@@ -43,7 +43,7 @@ export default function WordCountChart(props: WordCountProps) {
     labels: words,
     datasets: [
       {
-        label: "Count of Word",
+        label: 'Count of Word',
         data: count,
         backgroundColor: COLORS,
       },

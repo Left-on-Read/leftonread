@@ -21,9 +21,7 @@ export default function TopFriendsChart(props: TopFriendsProps) {
   useEffect(() => {
     async function fetchTopFriends() {
       try {
-        const topFriendsDataList = await chatBro.queryTopFriends(
-          db
-        );
+        const topFriendsDataList = await chatBro.queryTopFriends(db);
         setFriends(topFriendsDataList.map((obj) => obj.friend));
         setSent(topFriendsDataList.map((obj) => obj.sent));
         setReceived(topFriendsDataList.map((obj) => obj.received));
@@ -35,29 +33,35 @@ export default function TopFriendsChart(props: TopFriendsProps) {
   }, []);
 
   // use COLOR_RANGE param to create two distinct colors on the scale
-  const SENT_COLORS = interpolateColors(friends.length, colorInterpolationFunc,
+  const SENT_COLORS = interpolateColors(
+    friends.length,
+    colorInterpolationFunc,
     {
       colorStart: 0.5,
       colorEnd: 0.5,
       useEndAsStart: false,
-    });
-  const RECEIVED_COLORS = interpolateColors(friends.length, colorInterpolationFunc,
+    }
+  );
+  const RECEIVED_COLORS = interpolateColors(
+    friends.length,
+    colorInterpolationFunc,
     {
       colorStart: 0.7,
       colorEnd: 0.7,
       useEndAsStart: false,
-    });
+    }
+  );
 
   const data = {
     labels: friends,
     datasets: [
       {
-        label: "Received",
+        label: 'Received',
         data: received,
         backgroundColor: RECEIVED_COLORS,
       },
       {
-        label: "Sent",
+        label: 'Sent',
         data: sent,
         backgroundColor: SENT_COLORS,
       },
@@ -68,7 +72,7 @@ export default function TopFriendsChart(props: TopFriendsProps) {
     title: {
       display: true,
       text: titleText,
-    }
+    },
   };
 
   if (friends.length > 0) {

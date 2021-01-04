@@ -18,13 +18,13 @@ export async function queryTopFriends(
   db: sqlite3.Database,
   opts: TopFriendsTypes.Options = {}
 ): Promise<TopFriendsTypes.Results> {
-  const limit = (opts.limit || 15);
+  const limit = opts.limit || 15;
   const query = `
   WITH SENT_TABLE AS (
-    ${mainQuery("sent", "1")}
+    ${mainQuery('sent', '1')}
   ),
   RECEIVED_TABLE AS (
-    ${mainQuery("received", "0")}
+    ${mainQuery('received', '0')}
   )
   SELECT
     sent + received as total,
