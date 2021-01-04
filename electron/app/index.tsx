@@ -33,13 +33,11 @@ export default function Root() {
         <WordCountChart
           db={db}
           titleText="Top Words"
-          labelText="Count of Word"
           colorInterpolationFunc={interpolateCool}
         />
         <TopFriendsChart
           db={db}
           titleText="Top Friends"
-          labelText="Count of Text"
           colorInterpolationFunc={interpolateCool}
         />
       </div>
