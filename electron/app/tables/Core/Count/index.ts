@@ -6,9 +6,9 @@ import { punctuation } from '../../../chatBro/constants/punctuation';
 import { Columns as ContactNameColumns } from '../../ContactTable';
 
 interface Columns {
-  WORD: string,
-  COUNT: string,
-};
+  WORD: string;
+  COUNT: string;
+}
 
 /* TODO(Danilowicz):
  *  The majority of this query should only run once.
@@ -18,11 +18,16 @@ interface Columns {
  *  This should involve some disussion. As we will be introducing
  *  the idea of a "core" table
  */
-export default function getCoreCountTable(columns: Columns, isEmojiCount: boolean) {
+export default function getCoreCountTable(
+  columns: Columns,
+  isEmojiCount: boolean
+) {
   return `WITH RECURSIVE SPLIT_TEXT_TABLE (id, is_from_me, guid, text, etc) AS
   (
     SELECT
-      coalesce(h.${ContactNameColumns.CONTACT_NAME}, h.id) as id, m.is_from_me, m.guid, '', m.text || ' '
+      coalesce(h.${
+        ContactNameColumns.CONTACT_NAME
+      }, h.id) as id, m.is_from_me, m.guid, '', m.text || ' '
     FROM message m
     JOIN
       handle h
@@ -36,14 +41,15 @@ export default function getCoreCountTable(columns: Columns, isEmojiCount: boolea
     WHERE etc <> ''
   )
     SELECT
-      id as contact, text as ${columns.WORD}, is_from_me, COUNT(text) as ${columns.COUNT}
+      id as contact, text as ${columns.WORD}, is_from_me, COUNT(text) as ${
+    columns.COUNT
+  }
     FROM SPLIT_TEXT_TABLE
       WHERE TRIM(LOWER(text)) NOT IN (${stopWords})
       AND TRIM(text) NOT IN (${reactions})
-      AND TRIM(text) ${isEmojiCount ? "IN" : "NOT IN"} (${emojis})
+      AND TRIM(text) ${isEmojiCount ? 'IN' : 'NOT IN'} (${emojis})
       AND unicode(TRIM(LOWER(text))) != ${objReplacementUnicode}
       AND TRIM(text) NOT IN (${punctuation})
     GROUP BY id, text, is_from_me;
-`
+`;
 }
-

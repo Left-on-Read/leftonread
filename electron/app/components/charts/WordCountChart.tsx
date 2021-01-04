@@ -23,13 +23,9 @@ export default function WordCountChart(props: WordCountProps) {
   useEffect(() => {
     async function fetchWordData() {
       try {
-        const wordCountDataList = await chatBro.queryWordCounts(
-          db,
-          tableName,
-          {
-            isFromMe: true,
-          }
-        );
+        const wordCountDataList = await chatBro.queryWordCounts(db, tableName, {
+          isFromMe: true,
+        });
         setWords(wordCountDataList.map((obj) => obj.word));
         setCount(wordCountDataList.map((obj) => obj.count));
       } catch (err) {
