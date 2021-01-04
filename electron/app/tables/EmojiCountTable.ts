@@ -8,10 +8,10 @@ export const Columns = {
   COUNT: 'count',
 };
 
-export class WordCountTable extends Table {
+export class EmojiCountTable extends Table {
   async create(): Promise<TableNames> {
     const q = `
-    CREATE TABLE ${this.name} AS ${getCoreCountTable(Columns, false)}`;
+    CREATE TABLE ${this.name} AS ${getCoreCountTable(Columns, true)}`;
     await sqlite3Wrapper.runP(this.db, q);
     return this.name;
   }
