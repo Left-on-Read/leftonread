@@ -1,0 +1,39 @@
+name: Code Style
+
+on: [pull_request]
+
+defaults:
+    run:
+        working-directory: ./electron
+
+jobs:
+    prettier:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Check out code
+              uses: actions/checkout@v2
+              with:
+                  ref: ${{ github.head_ref }}
+
+            - name: Install Node.js, NPM and Yarn
+              uses: actions/setup-node@v1
+              with:
+                  node-version: 14
+
+            - name: yarn install
+              run: |
+                  yarn install --frozen-lockfile --network-timeout 300000
+
+            - name: Run Prettier and Linter
+              run: |
+                  yarn lint-fix
+                  yarn prettier
+
+            - name: Commit changes
+              uses: stefanzweifel/git-auto-commit-action@v2.3.0
+              with:
+                  commit_message: Apply Prettier and Linter changes
+                  branch: ${{ github.head_ref }}
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
