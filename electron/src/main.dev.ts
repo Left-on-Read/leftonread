@@ -123,6 +123,10 @@ app.on('window-all-closed', () => {
   }
 });
 
+// NOTE(LeftOnRead): Need for sqlite3
+// See https://github.com/electron/electron/issues/18397
+app.allowRendererProcessReuse = false;
+
 app.whenReady().then(createWindow).catch(console.log);
 
 app.on('activate', () => {

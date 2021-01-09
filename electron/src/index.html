@@ -6,8 +6,11 @@
     <script>
       (() => {
         const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = './dist/style.css';
+
+        // TODO: Unclear what this is and why it's not working
+        // link.rel = 'stylesheet';
+        // link.href = './dist/style.css';
+
         // HACK: Writing the script path should be done with webpack
         document.getElementsByTagName('head')[0].appendChild(link);
       })();
