@@ -4,9 +4,7 @@ import chalk from 'chalk';
 import fs from 'fs';
 
 const mainPath = path.join(__dirname, '../../src/main.prod.js');
-const rendererPath = path.join(
-  __dirname, '../../src/dist/renderer.prod.js'
-);
+const rendererPath = path.join(__dirname, '../../src/dist/renderer.prod.js');
 
 if (!fs.existsSync(mainPath)) {
   throw new Error(
