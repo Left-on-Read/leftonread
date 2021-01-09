@@ -1,6 +1,7 @@
 {
-  "name": "electron-react-boilerplate",
-  "productName": "Left on Read",
+  "name": "leftonread",
+  "productName": "leftonread",
+  "version": "1.0.0",
   "description": "Left on Read",
   "scripts": {
     "build": "concurrently \"yarn build:main\" \"yarn build:renderer\"",
@@ -30,8 +31,8 @@
     ]
   },
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.erb.ElectronReact",
+    "productName": "leftonread",
+    "appId": "org.erb.LeftonRead",
     "files": [
       "dist/",
       "node_modules/",
@@ -86,42 +87,41 @@
     ],
     "publish": {
       "provider": "github",
-      "owner": "electron-react-boilerplate",
-      "repo": "electron-react-boilerplate"
+      "owner": "Left-on-Read",
+      "repo": "app"
     }
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/electron-react-boilerplate/electron-react-boilerplate.git"
+    "url": "git+https://github.com/Left-on-Read/app.git"
   },
   "author": {
-    "name": "Electron React Boilerplate Maintainers",
-    "email": "electronreactboilerplate@gmail.com",
-    "url": "https://electron-react-boilerplate.js.org"
+    "name": "Left on Read Maintainers"
   },
   "contributors": [
     {
       "name": "Alex Danilowicz",
-      "email": "alexdanilowicz@gmail.com",
+      "email": "alex.danilowicz@gmail.com",
       "url": "https://github.com/alexdanilowicz"
+    },
+    {
+      "name": "Alex Chan",
+      "email": "alex.y.chan.19@gmail.com",
+      "url": "https://github.com/ayc19"
     }
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues"
+    "url": "https://github.com/Left-on-Read/app/issues"
   },
   "keywords": [
-    "electron",
-    "boilerplate",
-    "react",
-    "typescript",
-    "ts",
-    "sass",
-    "webpack",
-    "hot",
-    "reload"
+    "messaging",
+    "texting",
+    "iMessage",
+    "Left-on-Read",
+    "LeftonRead"
   ],
-  "homepage": "https://github.com/electron-react-boilerplate/electron-react-boilerplate#readme",
+  "homepage": "https://leftonread.me/",
   "jest": {
     "testURL": "http://localhost/",
     "moduleNameMapper": {
@@ -243,13 +243,18 @@
     "yarn-deduplicate": "^3.1.0"
   },
   "dependencies": {
+    "blend-promise-utils": "^1.27.0",
+    "chart.js": "^2.9.4",
     "electron-debug": "^3.1.0",
     "electron-log": "^4.2.4",
     "electron-updater": "^4.3.4",
     "history": "^5.0.0",
+    "lodash": "^4.17.20",
     "react": "^17.0.1",
+    "react-chartjs-2": "^2.11.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
+    "recursive-copy": "^2.0.11",
     "regenerator-runtime": "^0.13.5",
     "source-map-support": "^0.5.19"
   },
@@ -259,7 +264,7 @@
     "yarn": ">=1.21.3"
   },
   "collective": {
-    "url": "https://opencollective.com/electron-react-boilerplate-594"
+    "url": "https://leftonread.me/"
   },
   "browserslist": [],
   "prettier": {
