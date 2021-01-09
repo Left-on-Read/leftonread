@@ -1,8 +1,11 @@
 module.exports = {
   extends: 'erb',
   rules: {
-    // A temporary hack related to IDE not resolving correct package.json
+    // BEGIN: A temporary hack related to IDE not resolving correct package.json
     'import/no-extraneous-dependencies': 'off',
+    // END
+    'import/prefer-default-export': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off',
   },
   parserOptions: {
     ecmaVersion: 2020,
