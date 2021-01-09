@@ -2,6 +2,10 @@ name: Test
 
 on: [push]
 
+defaults:
+    run:
+        working-directory: ./electron
+
 jobs:
     release:
         runs-on: ${{ matrix.os }}
