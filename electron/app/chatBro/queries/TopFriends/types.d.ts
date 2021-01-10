@@ -5,8 +5,9 @@ declare namespace TopFriendsTypes {
 
   interface ChartData {
     friend: string;
-    count: number;
-    phone_number: string;
+    total: number;
+    sent: number;
+    received: number;
   }
   type Results = ChartData[];
 }

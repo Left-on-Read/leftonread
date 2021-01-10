@@ -11,28 +11,25 @@ interface WordCountProps {
   db: sqlite3.Database;
   titleText: string;
   labelText: string;
+  tableName: ChatTableNames.WORD_TABLE | ChatTableNames.EMOJI_TABLE;
   colorInterpolationFunc: (t: number) => string;
 }
 
 export default function WordCountChart(props: WordCountProps) {
-  const { db, colorInterpolationFunc, titleText, labelText } = props;
+  const { db, colorInterpolationFunc, titleText, labelText, tableName } = props;
   const [words, setWords] = useState<string[]>([]);
   const [count, setCount] = useState<number[]>([]);
 
   useEffect(() => {
     async function fetchWordData() {
       try {
-        const wordCountDataList = await chatBro.queryWordCounts(
-          db,
-          ChatTableNames.WORD_TABLE,
-          {
-            isFromMe: true,
-          }
-        );
+        const wordCountDataList = await chatBro.queryWordCounts(db, tableName, {
+          isFromMe: true,
+        });
         setWords(wordCountDataList.map((obj) => obj.word));
         setCount(wordCountDataList.map((obj) => obj.count));
       } catch (err) {
-        log.error('ERROR fetchWordData ', err);
+        log.error(`ERROR fetching for component for ${tableName}`, err);
       }
     }
     fetchWordData();

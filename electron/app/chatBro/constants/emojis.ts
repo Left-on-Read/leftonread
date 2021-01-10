@@ -1,5 +1,10 @@
 import delimList from '../../utils/delimList';
 
+/* NOTE:
+ *  Extracted from emoji_df.csv found on
+ *  https://data.world/eliasdabbas/full-emoji-database#
+ *  includes up until Emojio v13.0
+ */
 const emojiList = [
   '😀',
   '😃',

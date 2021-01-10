@@ -1,5 +1,6 @@
 export enum ChatTableNames {
   WORD_TABLE = 'word_table',
+  EMOJI_TABLE = 'emoji_table',
   TOP_FRIENDS_TABLE = 'top_friends_table',
 }
 
