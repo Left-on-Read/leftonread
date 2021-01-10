@@ -4,14 +4,18 @@ import * as sqlite3 from 'sqlite3';
 import log from 'electron-log';
 import { ChatTableNames } from '../../tables';
 import * as chatBro from '../../chatBro';
+import interpolateColors from '../../utils/colors';
+import ChartLoader from '../loading/ChartLoader';
 
 interface WordCountProps {
   db: sqlite3.Database;
+  titleText: string;
+  labelText: string;
+  colorInterpolationFunc: (t: number) => string;
 }
 
-// TODO(Danilowicz): add ability to filter, which will fetch from query
 export default function WordCountChart(props: WordCountProps) {
-  const { db } = props;
+  const { db, colorInterpolationFunc, titleText, labelText } = props;
   const [words, setWords] = useState<string[]>([]);
   const [count, setCount] = useState<number[]>([]);
 
@@ -28,34 +32,21 @@ export default function WordCountChart(props: WordCountProps) {
         setWords(wordCountDataList.map((obj) => obj.word));
         setCount(wordCountDataList.map((obj) => obj.count));
       } catch (err) {
-        log.error('ERROR fetching word count ', err);
+        log.error('ERROR fetchWordData ', err);
       }
     }
     fetchWordData();
   }, []);
 
+  const COLORS = interpolateColors(words.length, colorInterpolationFunc);
+
   const data = {
     labels: words,
     datasets: [
       {
-        label: 'Count of Word',
+        label: labelText,
         data: count,
-        // TODO(Chan): this should all live in constants
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-        ],
-        borderWidth: 1,
+        backgroundColor: COLORS,
       },
     ],
   };
@@ -63,7 +54,7 @@ export default function WordCountChart(props: WordCountProps) {
   const options = {
     title: {
       display: true,
-      text: 'Top Words Sent',
+      text: titleText,
     },
   };
 
@@ -74,5 +65,5 @@ export default function WordCountChart(props: WordCountProps) {
       </div>
     );
   }
-  return <div>Loading chart...</div>;
+  return <ChartLoader titleText={titleText} />;
 }

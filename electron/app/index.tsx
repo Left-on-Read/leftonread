@@ -4,8 +4,11 @@ import { AppContainer as ReactHotAppContainer } from 'react-hot-loader';
 import * as sqlite3 from 'sqlite3';
 import log from 'electron-log';
 import './app.global.css';
-import WordCountChart from './components/charts/WordCount';
+import { interpolateCool } from 'd3-scale-chromatic';
 import { coreInit } from './utils/initUtils';
+
+import WordCountChart from './components/charts/WordCountChart';
+import TopFriendsChart from './components/charts/TopFriendsChart';
 
 const AppContainer = process.env.PLAIN_HMR ? Fragment : ReactHotAppContainer;
 
@@ -27,7 +30,18 @@ export default function Root() {
   if (db) {
     return (
       <div>
-        <WordCountChart db={db} />
+        <WordCountChart
+          db={db}
+          titleText="Top Words"
+          labelText="Count of Word"
+          colorInterpolationFunc={interpolateCool}
+        />
+        <TopFriendsChart
+          db={db}
+          titleText="Top Friends"
+          labelText="Count of Text"
+          colorInterpolationFunc={interpolateCool}
+        />
       </div>
     );
   }
