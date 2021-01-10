@@ -1,4 +1,4 @@
-import delimList from '../../utils/delimList';
+import { delimList } from '../../utils';
 
 /* NOTE:
  *  Extracted from emoji_df.csv found on
