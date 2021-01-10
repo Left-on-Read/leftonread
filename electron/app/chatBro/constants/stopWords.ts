@@ -170,17 +170,6 @@ const stopWordsList = [
   'you’re',
   'can’t',
   'I’m',
-  'wanna',
-  'w',
-  'w/',
-  'ive',
-  'actually',
-  'I’m',
-  'way',
-  '“I',
-  'really',
-  'might',
-  'make',
   '”', // very weird quote, not sure what this is
 ];
 export const stopWords = delimList(stopWordsList);
