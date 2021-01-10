@@ -4,6 +4,7 @@ import log from 'electron-log';
 import * as sqlite3Wrapper from '../utils/initUtils/sqliteWrapper';
 import { ContactTable } from './ContactTable';
 import { WordCountTable } from './WordCountTable';
+import { EmojiCountTable } from './EmojiCountTable';
 import { TopFriendsTable } from './TopFriendsTable';
 import { AddressBookTableNames, ChatTableNames } from './definitions';
 
@@ -25,6 +26,7 @@ export async function createAllChatTables(
   const tables = [
     new WordCountTable(db, ChatTableNames.WORD_TABLE),
     new TopFriendsTable(db, ChatTableNames.TOP_FRIENDS_TABLE),
+    new EmojiCountTable(db, ChatTableNames.EMOJI_TABLE),
   ];
 
   const createTablePromises = tables.map((table) => table.create());
@@ -41,6 +43,7 @@ export async function dropAllChatTables(db: sqlite3.Database) {
 export {
   WordCountTable,
   TopFriendsTable,
+  EmojiCountTable,
   ChatTableNames,
   AddressBookTableNames,
 };

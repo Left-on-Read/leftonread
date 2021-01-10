@@ -9,6 +9,7 @@ import { coreInit } from './utils/initUtils';
 
 import WordCountChart from './components/charts/WordCountChart';
 import TopFriendsChart from './components/charts/TopFriendsChart';
+import { ChatTableNames } from './tables';
 
 const AppContainer = process.env.PLAIN_HMR ? Fragment : ReactHotAppContainer;
 
@@ -33,11 +34,20 @@ export default function Root() {
         <WordCountChart
           db={db}
           titleText="Top Words"
+          labelText="Count of Word"
+          tableName={ChatTableNames.WORD_TABLE}
           colorInterpolationFunc={interpolateCool}
         />
         <TopFriendsChart
           db={db}
           titleText="Top Friends"
+          colorInterpolationFunc={interpolateCool}
+        />
+        <WordCountChart
+          db={db}
+          titleText="Top Emojis"
+          labelText="Count of Emoji"
+          tableName={ChatTableNames.EMOJI_TABLE}
           colorInterpolationFunc={interpolateCool}
         />
       </div>
