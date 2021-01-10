@@ -2,50 +2,68 @@ import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 import * as sqlite3 from 'sqlite3';
 import log from 'electron-log';
-import { ChatTableNames } from '../../tables';
 import * as chatBro from '../../chatBro';
 import interpolateColors from '../../utils/colors';
 import ChartLoader from '../loading/ChartLoader';
 
-interface WordCountProps {
+interface TopFriendsProps {
   db: sqlite3.Database;
   titleText: string;
   colorInterpolationFunc: (t: number) => string;
 }
 
-export default function WordCountChart(props: WordCountProps) {
-  const { db, colorInterpolationFunc, titleText, labelText } = props;
-  const [words, setWords] = useState<string[]>([]);
-  const [count, setCount] = useState<number[]>([]);
+export default function TopFriendsChart(props: TopFriendsProps) {
+  const { db, colorInterpolationFunc, titleText } = props;
+  const [friends, setFriends] = useState<string[]>([]);
+  const [received, setReceived] = useState<number[]>([]);
+  const [sent, setSent] = useState<number[]>([]);
 
   useEffect(() => {
-    async function fetchWordData() {
+    async function fetchTopFriends() {
       try {
-        const wordCountDataList = await chatBro.queryWordCounts(
-          db,
-          ChatTableNames.WORD_TABLE,
-          {
-            isFromMe: true,
-          }
-        );
-        setWords(wordCountDataList.map((obj) => obj.word));
-        setCount(wordCountDataList.map((obj) => obj.count));
+        const topFriendsDataList = await chatBro.queryTopFriends(db);
+        setFriends(topFriendsDataList.map((obj) => obj.friend));
+        setSent(topFriendsDataList.map((obj) => obj.sent));
+        setReceived(topFriendsDataList.map((obj) => obj.received));
       } catch (err) {
-        log.error('ERROR fetchWordData ', err);
+        log.error('ERROR fetchTopFriends', err);
       }
     }
-    fetchWordData();
+    fetchTopFriends();
   }, []);
 
-  const COLORS = interpolateColors(words.length, colorInterpolationFunc);
+  // use COLOR_RANGE param to create two distinct colors on the scale
+  const SENT_COLORS = interpolateColors(
+    friends.length,
+    colorInterpolationFunc,
+    {
+      colorStart: 0.5,
+      colorEnd: 0.5,
+      useEndAsStart: false,
+    }
+  );
+  const RECEIVED_COLORS = interpolateColors(
+    friends.length,
+    colorInterpolationFunc,
+    {
+      colorStart: 0.7,
+      colorEnd: 0.7,
+      useEndAsStart: false,
+    }
+  );
 
   const data = {
-    labels: words,
+    labels: friends,
     datasets: [
       {
-        label: 'Count of Word',
-        data: count,
-        backgroundColor: COLORS,
+        label: 'Received',
+        data: received,
+        backgroundColor: RECEIVED_COLORS,
+      },
+      {
+        label: 'Sent',
+        data: sent,
+        backgroundColor: SENT_COLORS,
       },
     ],
   };
@@ -57,7 +75,7 @@ export default function WordCountChart(props: WordCountProps) {
     },
   };
 
-  if (words.length > 0) {
+  if (friends.length > 0) {
     return (
       <div>
         <Bar data={data} options={options} />
