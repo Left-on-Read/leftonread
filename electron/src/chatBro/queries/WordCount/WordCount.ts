@@ -32,10 +32,10 @@ function getAllFilters(opts: WordCountTypes.Options): string {
 
 export async function queryWordCounts(
   db: sqlite3.Database,
-  tableName: ChatTableNames.WORD_TABLE,
+  tableName: ChatTableNames.WORD_TABLE | ChatTableNames.EMOJI_TABLE,
   opts: WordCountTypes.Options = {}
 ): Promise<WordCountTypes.Results> {
-  const limit = opts.limit || 10;
+  const limit = opts.limit || 15;
   const filters = getAllFilters(opts);
   const query = `
     SELECT SUM(${Columns.COUNT}) as ${Columns.COUNT},

@@ -4,7 +4,7 @@
 
 **👩🏻‍💻Open Source Transparency**: We open sourced the entire application to keep users' security and privacy first.
 
-**🚀Fast**: Now a standalone desktop application, Left on Read works without an Internet connection.
+**🚀Fast**: Now a standalone desktop application, Left on Read works without an Internet connection!
 
 **🤪Daily Fun**: Keepin' it fun. As an application, users can now easily use Left on Read daily.
 

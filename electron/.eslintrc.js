@@ -6,6 +6,7 @@ module.exports = {
     // END
     'import/prefer-default-export': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
+    'react/jsx-curly-newline': 'off', // conflicts with prettier
   },
   parserOptions: {
     ecmaVersion: 2020,
