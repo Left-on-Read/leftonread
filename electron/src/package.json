@@ -1,0 +1,19 @@
+{
+  "name": "leftonread",
+  "productName": "leftonread",
+  "version": "1.0.0",
+  "description": "Left on Read",
+  "main": "./main.prod.js",
+  "author": {
+    "name": "Left on Read Maintainers"
+  },
+  "scripts": {
+    "electron-rebuild": "node -r ../.erb/scripts/BabelRegister.js ../.erb/scripts/ElectronRebuild.js",
+    "postinstall": "yarn electron-rebuild"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@types/sqlite3": "^3.1.6",
+    "sqlite3": "^4.2.0"
+  }
+}
