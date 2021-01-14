@@ -6,6 +6,8 @@ import { ContactTable } from './ContactTable';
 import { WordCountTable } from './WordCountTable';
 import { EmojiCountTable } from './EmojiCountTable';
 import { TopFriendsTable } from './TopFriendsTable';
+import { CoreCountTable } from './Core/Count';
+
 import { AddressBookTableNames, ChatTableNames } from './definitions';
 
 const chatTableNames: string[] = _.values(ChatTableNames);
@@ -24,6 +26,7 @@ export async function createAllChatTables(
   db: sqlite3.Database
 ): Promise<ChatTableNames[]> {
   const tables = [
+    new CoreCountTable(db, ChatTableNames.CORE_COUNT_TABLE),
     new WordCountTable(db, ChatTableNames.WORD_TABLE),
     new TopFriendsTable(db, ChatTableNames.TOP_FRIENDS_TABLE),
     new EmojiCountTable(db, ChatTableNames.EMOJI_TABLE),
