@@ -6,7 +6,7 @@ import * as chatBro from '../../chatBro';
 import interpolateColors from '../../utils/colors';
 import ChartLoader from '../loading/ChartLoader';
 
-interface WordCountProps {
+interface WordOrEmojiCountProps {
   db: sqlite3.Database;
   titleText: string;
   labelText: string;
@@ -14,7 +14,7 @@ interface WordCountProps {
   colorInterpolationFunc: (t: number) => string;
 }
 
-export default function WordCountChart(props: WordCountProps) {
+export default function WordOrEmojiCountChart(props: WordOrEmojiCountProps) {
   const { db, colorInterpolationFunc, titleText, labelText, isEmoji } = props;
   const [words, setWords] = useState<string[]>([]);
   const [count, setCount] = useState<number[]>([]);
@@ -22,12 +22,12 @@ export default function WordCountChart(props: WordCountProps) {
   useEffect(() => {
     async function fetchWordData() {
       try {
-        const wordCountDataList = await chatBro.queryEmojiOrWordCounts(db, {
+        const data = await chatBro.queryEmojiOrWordCounts(db, {
           isEmoji,
           isFromMe: true,
         });
-        setWords(wordCountDataList.map((obj) => obj.word));
-        setCount(wordCountDataList.map((obj) => obj.count));
+        setWords(data.map((obj) => obj.word));
+        setCount(data.map((obj) => obj.count));
       } catch (err) {
         log.error(`ERROR fetching for component for ${titleText}`, err);
       }
