@@ -12,6 +12,8 @@ import { Table } from '../../Table';
 export const Columns = {
   WORD: 'word',
   COUNT: 'count',
+  IS_FROM_ME: 'is_from_me',
+  CONTACT: 'contact',
 };
 
 export class CoreCountTable extends Table {
@@ -35,9 +37,9 @@ export class CoreCountTable extends Table {
       WHERE etc <> ''
     )
       SELECT
-        id as contact,
+        id as ${Columns.CONTACT},
         text as ${Columns.WORD},
-        is_from_me,
+        is_from_me as ${Columns.IS_FROM_ME},
         COUNT(text) as ${Columns.COUNT}
       FROM SPLIT_TEXT_TABLE
       WHERE TRIM(LOWER(text)) NOT IN (${stopWords})

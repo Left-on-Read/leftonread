@@ -4,6 +4,7 @@ declare namespace WordCountTypes {
     word?: string;
     isFromMe?: boolean;
     limit?: number;
+    isEmoji?: boolean;
   }
 
   interface ChartData {

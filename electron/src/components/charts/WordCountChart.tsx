@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 import * as sqlite3 from 'sqlite3';
 import log from 'electron-log';
-import { ChatTableNames } from '../../tables';
 import * as chatBro from '../../chatBro';
 import interpolateColors from '../../utils/colors';
 import ChartLoader from '../loading/ChartLoader';
@@ -11,25 +10,26 @@ interface WordCountProps {
   db: sqlite3.Database;
   titleText: string;
   labelText: string;
-  tableName: ChatTableNames.WORD_TABLE | ChatTableNames.EMOJI_TABLE;
+  isEmoji: boolean;
   colorInterpolationFunc: (t: number) => string;
 }
 
 export default function WordCountChart(props: WordCountProps) {
-  const { db, colorInterpolationFunc, titleText, labelText, tableName } = props;
+  const { db, colorInterpolationFunc, titleText, labelText, isEmoji } = props;
   const [words, setWords] = useState<string[]>([]);
   const [count, setCount] = useState<number[]>([]);
 
   useEffect(() => {
     async function fetchWordData() {
       try {
-        const wordCountDataList = await chatBro.queryWordCounts(db, tableName, {
+        const wordCountDataList = await chatBro.queryEmojiOrWordCounts(db, {
+          isEmoji,
           isFromMe: true,
         });
         setWords(wordCountDataList.map((obj) => obj.word));
         setCount(wordCountDataList.map((obj) => obj.count));
       } catch (err) {
-        log.error(`ERROR fetching for component for ${tableName}`, err);
+        log.error(`ERROR fetching for component for ${titleText}`, err);
       }
     }
     fetchWordData();

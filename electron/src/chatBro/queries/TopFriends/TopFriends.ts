@@ -1,15 +1,34 @@
 import * as sqlite3 from 'sqlite3';
 
 import * as sqlite3Wrapper from '../../../utils/initUtils/sqliteWrapper';
-import { ChatTableNames } from '../../../tables';
-import { Columns } from '../../../tables/TopFriendsTable';
 
-function mainQuery(alias: string, isFromMeToggle: string) {
+export const Columns = {
+  COUNT: 'count',
+  PHONE_NUMBER: 'phone_number',
+  FRIEND: 'friend',
+  IS_FROM_ME: 'sent',
+};
+
+const FROM_QUERY = `
+  SELECT
+    COUNT(*) as ${Columns.COUNT},
+    h.id as ${Columns.PHONE_NUMBER},
+    COALESCE(h.contact_name, h.id) as ${Columns.FRIEND},
+    is_from_me as ${Columns.IS_FROM_ME}
+  FROM message
+    JOIN handle h
+    ON h.ROWID = handle_id
+    -- NOTE: Excludes group chats
+    WHERE message.cache_roomnames IS NULL
+  GROUP BY h.id, is_from_me
+`;
+
+function getSentOrRecieved(alias: string, isFromMeToggle: string) {
   return `
   SELECT
     ${Columns.COUNT} AS ${alias},
     ${Columns.FRIEND}
-  FROM ${ChatTableNames.TOP_FRIENDS_TABLE}
+  FROM (${FROM_QUERY})
   WHERE ${Columns.IS_FROM_ME} = ${isFromMeToggle}
   GROUP BY ${Columns.FRIEND}`;
 }
@@ -21,10 +40,10 @@ export async function queryTopFriends(
   const limit = opts.limit || 15;
   const query = `
   WITH SENT_TABLE AS (
-    ${mainQuery('sent', '1')}
+    ${getSentOrRecieved('sent', '1')}
   ),
   RECEIVED_TABLE AS (
-    ${mainQuery('received', '0')}
+    ${getSentOrRecieved('received', '0')}
   )
   SELECT
     sent + received as total,

@@ -9,7 +9,6 @@ import { coreInit } from './utils/initUtils';
 
 import WordCountChart from './components/charts/WordCountChart';
 import TopFriendsChart from './components/charts/TopFriendsChart';
-import { ChatTableNames } from './tables';
 
 export default function Root() {
   const [db, setDB] = useState<sqlite3.Database | null>(null);
@@ -33,7 +32,7 @@ export default function Root() {
           db={db}
           titleText="Top Words"
           labelText="Count of Word"
-          tableName={ChatTableNames.WORD_TABLE}
+          isEmoji={false}
           colorInterpolationFunc={interpolateCool}
         />
         <TopFriendsChart
@@ -45,7 +44,7 @@ export default function Root() {
           db={db}
           titleText="Top Emojis"
           labelText="Count of Emoji"
-          tableName={ChatTableNames.EMOJI_TABLE}
+          isEmoji
           colorInterpolationFunc={interpolateCool}
         />
       </div>
