@@ -6,14 +6,11 @@ import * as sqlite3Wrapper from '../../../utils/initUtils/sqliteWrapper';
 import { ChatTableNames } from '../../../tables';
 import { Columns } from '../../../tables/Core/Count';
 
-function isFromMeFilter(opts: WordOrEmojiTypes.Options): string | undefined {
+function isFromMeFilter(opts: WordOrEmojiTypes.Options): string {
   if (opts.isFromMe === true) {
     return `${Columns.IS_FROM_ME} = 1`;
   }
-  if (opts.isFromMe === false) {
-    return `${Columns.IS_FROM_ME} = 0`;
-  }
-  return undefined;
+  return `${Columns.IS_FROM_ME} = 0`;
 }
 
 function wordFilter(opts: WordOrEmojiTypes.Options): string | undefined {
@@ -23,14 +20,11 @@ function wordFilter(opts: WordOrEmojiTypes.Options): string | undefined {
   return `${Columns.WORD} = "${opts.word}"`;
 }
 
-function isEmojiFilter(opts: WordOrEmojiTypes.Options): string | undefined {
+function isEmojiFilter(opts: WordOrEmojiTypes.Options): string {
   if (opts.isEmoji === true) {
     return `TRIM(${Columns.WORD}) IN (${emojis})`;
   }
-  if (opts.isEmoji === false) {
-    return `TRIM(${Columns.WORD}) NOT IN (${emojis})`;
-  }
-  return undefined;
+  return `TRIM(${Columns.WORD}) NOT IN (${emojis})`;
 }
 
 // Attaches each filter in a combined WHERE clause.
@@ -44,7 +38,7 @@ function getAllFilters(opts: WordOrEmojiTypes.Options): string {
 
 export async function queryEmojiOrWordCounts(
   db: sqlite3.Database,
-  opts: WordOrEmojiTypes.Options = {}
+  opts: WordOrEmojiTypes.Options = { isEmoji: false, isFromMe: true }
 ): Promise<WordOrEmojiTypes.Results> {
   const limit = opts.limit || 15;
   const filters = getAllFilters(opts);

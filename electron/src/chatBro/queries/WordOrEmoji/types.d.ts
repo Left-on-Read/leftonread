@@ -2,9 +2,9 @@ declare namespace WordOrEmojiTypes {
   interface Options {
     contact?: string;
     word?: string;
-    isFromMe?: boolean;
+    isFromMe: boolean;
     limit?: number;
-    isEmoji?: boolean;
+    isEmoji: boolean;
   }
 
   interface ChartData {
