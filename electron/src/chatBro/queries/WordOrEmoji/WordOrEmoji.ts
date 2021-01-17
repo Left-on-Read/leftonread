@@ -6,21 +6,21 @@ import * as sqlite3Wrapper from '../../../utils/initUtils/sqliteWrapper';
 import { ChatTableNames } from '../../../tables';
 import { Columns } from '../../../tables/Core/Count';
 
-function isFromMeFilter(opts: WordCountTypes.Options): string {
+function isFromMeFilter(opts: WordOrEmojiTypes.Options): string {
   if (opts.isFromMe === true) {
     return `${Columns.IS_FROM_ME} = 1`;
   }
   return `${Columns.IS_FROM_ME} = 0`;
 }
 
-function wordFilter(opts: WordCountTypes.Options): string | undefined {
+function wordFilter(opts: WordOrEmojiTypes.Options): string | undefined {
   if (_.isEmpty(opts.word)) {
     return undefined;
   }
   return `${Columns.WORD} = "${opts.word}"`;
 }
 
-function isEmojiFilter(opts: WordCountTypes.Options): string {
+function isEmojiFilter(opts: WordOrEmojiTypes.Options): string {
   if (opts.isEmoji === true) {
     return `TRIM(${Columns.WORD}) IN (${emojis})`;
   }
@@ -28,7 +28,7 @@ function isEmojiFilter(opts: WordCountTypes.Options): string {
 }
 
 // Attaches each filter in a combined WHERE clause.
-function getAllFilters(opts: WordCountTypes.Options): string {
+function getAllFilters(opts: WordOrEmojiTypes.Options): string {
   const isEmoji = isEmojiFilter(opts);
   const isFromMe = isFromMeFilter(opts);
   const word = wordFilter(opts);
@@ -38,8 +38,8 @@ function getAllFilters(opts: WordCountTypes.Options): string {
 
 export async function queryEmojiOrWordCounts(
   db: sqlite3.Database,
-  opts: WordCountTypes.Options = { isEmoji: false, isFromMe: true }
-): Promise<WordCountTypes.Results> {
+  opts: WordOrEmojiTypes.Options = { isEmoji: false, isFromMe: true }
+): Promise<WordOrEmojiTypes.Results> {
   const limit = opts.limit || 15;
   const filters = getAllFilters(opts);
   const query = `

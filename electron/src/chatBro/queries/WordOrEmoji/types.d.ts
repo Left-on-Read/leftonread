@@ -1,4 +1,4 @@
-declare namespace WordCountTypes {
+declare namespace WordOrEmojiTypes {
   interface Options {
     contact?: string;
     word?: string;

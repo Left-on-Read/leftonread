@@ -2,7 +2,7 @@ import * as sqlite3 from 'sqlite3';
 
 import * as sqlite3Wrapper from '../../../utils/initUtils/sqliteWrapper';
 
-export const Columns = {
+const Columns = {
   COUNT: 'count',
   PHONE_NUMBER: 'phone_number',
   FRIEND: 'friend',

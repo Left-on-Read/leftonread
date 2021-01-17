@@ -7,7 +7,7 @@ import './app.global.css';
 import { interpolateCool } from 'd3-scale-chromatic';
 import { coreInit } from './utils/initUtils';
 
-import WordCountChart from './components/charts/WordCountChart';
+import WordOrEmojiCountChart from './components/charts/WordOrEmojiCountChart';
 import TopFriendsChart from './components/charts/TopFriendsChart';
 
 export default function Root() {
@@ -28,7 +28,7 @@ export default function Root() {
   if (db) {
     return (
       <div>
-        <WordCountChart
+        <WordOrEmojiCountChart
           db={db}
           titleText="Top Words"
           labelText="Count of Word"
@@ -40,7 +40,7 @@ export default function Root() {
           titleText="Top Friends"
           colorInterpolationFunc={interpolateCool}
         />
-        <WordCountChart
+        <WordOrEmojiCountChart
           db={db}
           titleText="Top Emojis"
           labelText="Count of Emoji"
