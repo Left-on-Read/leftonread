@@ -7,7 +7,7 @@ import {
   addressBookPaths,
   addressBookDBAliasName,
 } from '../../utils/initUtils/constants/directories';
-import { DBRecordCount, getDBWithRecordCounts } from '../../db';
+import { DBWithRecordCount, getDBWithRecordCounts } from '../../db';
 import * as sqlite3Wrapper from '../../utils/initUtils/sqliteWrapper';
 import { normalizePhoneNumberStatement } from '../../utils/initUtils/constants/normalization';
 import { AddressBookTableNames } from '../../tables/definitions';
@@ -28,9 +28,9 @@ async function readAddressBookBackups(): Promise<sqlite3.Database | undefined> {
     );
     if (dbRecordCountResults && dbRecordCountResults[0]) {
       // get db with biggest record counts
-      const getMaxDBRC = (dbrcList: DBRecordCount[]) =>
+      const getMaxDBRC = (dbrcList: DBWithRecordCount[]) =>
         dbrcList.reduce((a, b) => (a.recordCount > b.recordCount ? a : b));
-      const maxDB = getMaxDBRC(dbRecordCountResults as DBRecordCount[]);
+      const maxDB = getMaxDBRC(dbRecordCountResults as DBWithRecordCount[]);
       return maxDB.db;
     }
     log.warn(`${addressBookBackUpFolderPath} dbs are all empty.`);

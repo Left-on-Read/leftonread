@@ -27,7 +27,7 @@ export async function getRecordCounts(
   return 0;
 }
 
-export interface DBRecordCount {
+export interface DBWithRecordCount {
   db: sqlite3.Database;
   recordCount: number;
 }
@@ -35,16 +35,14 @@ export interface DBRecordCount {
 export async function getDBWithRecordCounts(
   dbPath: string,
   checkQuery: string
-): Promise<DBRecordCount | undefined> {
+): Promise<DBWithRecordCount | undefined> {
   log.info(`Attempting to initialize ${dbPath}`);
   if (fs.existsSync(dbPath)) {
     const db = initializeDB(dbPath);
     const recordCount = await getRecordCounts(db, checkQuery);
-    if (recordCount > 0) {
-      log.info(`${dbPath} populated`);
-      return { db, recordCount };
+    if (recordCount < 1) {
+      closeDB(db); // we close here because if it's empty it's useless to us
     }
-    closeDB(db); // we close here because if it's empty it's useless to us
     return { db, recordCount };
   }
   return undefined;
