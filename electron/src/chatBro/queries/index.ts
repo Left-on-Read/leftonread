@@ -1,4 +1,4 @@
-import { queryWordCounts } from './WordCount/WordCount';
+import { queryEmojiOrWordCounts } from './WordOrEmoji/WordOrEmoji';
 import { queryTopFriends } from './TopFriends/TopFriends';
 
-export { queryWordCounts, queryTopFriends };
+export { queryEmojiOrWordCounts, queryTopFriends };

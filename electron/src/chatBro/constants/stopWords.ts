@@ -1,4 +1,4 @@
-import delimList from '../../utils/delimList';
+import { delimList, lowerCaseList } from '../../utils';
 
 const stopWordsList = [
   'got',
@@ -181,6 +181,12 @@ const stopWordsList = [
   'really',
   'might',
   'make',
+  'time',
+  'oh',
+  'around',
+  'right',
+  "i'll",
+  "i'm",
   '”', // very weird quote, not sure what this is
 ];
-export const stopWords = delimList(stopWordsList);
+export const stopWords = delimList(lowerCaseList(stopWordsList));

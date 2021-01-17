@@ -14,31 +14,36 @@ export function closeDB(db: sqlite3.Database) {
   db.close();
 }
 
-export async function checkIfRecordsExist(
+export async function getRecordCounts(
   db: sqlite3.Database,
   checkQuery: string
-): Promise<boolean> {
+): Promise<number> {
   const checkResult = await sqlite3Wrapper.allP(db, checkQuery);
   if (checkResult && Number(checkResult[0].count) > 0) {
     log.info(`${checkResult[0].count} records found`);
-    return true;
+    return checkResult[0].count;
   }
   log.info(`${db}: No records found`);
-  return false;
+  return 0;
 }
 
-export async function returnDBIfPopulated(
+export interface DBWithRecordCount {
+  db: sqlite3.Database;
+  recordCount: number;
+}
+
+export async function getDBWithRecordCounts(
   dbPath: string,
   checkQuery: string
-): Promise<sqlite3.Database | undefined> {
+): Promise<DBWithRecordCount | undefined> {
   log.info(`Attempting to initialize ${dbPath}`);
   if (fs.existsSync(dbPath)) {
     const db = initializeDB(dbPath);
-    if (await checkIfRecordsExist(db, checkQuery)) {
-      log.info(`${db} populated`);
-      return db;
+    const recordCount = await getRecordCounts(db, checkQuery);
+    if (recordCount < 1) {
+      closeDB(db); // we close here because if it's empty it's useless to us
     }
-    closeDB(db); // we close here because if it's empty it's useless to us
+    return { db, recordCount };
   }
   return undefined;
 }

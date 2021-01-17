@@ -1,9 +1,10 @@
-declare namespace WordCountTypes {
+declare namespace WordOrEmojiTypes {
   interface Options {
     contact?: string;
     word?: string;
-    isFromMe?: boolean;
+    isFromMe: boolean;
     limit?: number;
+    isEmoji: boolean;
   }
 
   interface ChartData {
