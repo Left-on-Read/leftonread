@@ -4,6 +4,7 @@ import { shadow } from './semantics'
 
 const Theme = {
   primary: palette.petalPurple,
+  secondary: palette.frogGreen,
   palette,
   semantics: {
     shadow,

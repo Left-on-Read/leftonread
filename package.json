@@ -9,10 +9,13 @@
   },
   "dependencies": {
     "@emotion/core": "^10.0.28",
+    "chart.js": "^2.9.4",
     "emotion": "^10.0.27",
+    "framer-motion": "^3.2.1",
     "next": "9.4.4",
     "next-images": "^1.6.0",
     "react": "16.13.1",
+    "react-chartjs-2": "^2.11.1",
     "react-dom": "16.13.1"
   },
   "devDependencies": {

@@ -3,12 +3,11 @@ import * as React from 'react'
 import { jsx } from '@emotion/core'
 import { belowBreakpoint } from '../theme'
 
-export function DefaultPageContainer({
+export function DefaultContentContainer({
   children,
 }: {
   children: React.ReactNode
 }) {
-  // TODO(teddy): This padding needs to be responsive
   return (
     <div
       css={{
@@ -19,6 +18,7 @@ export function DefaultPageContainer({
         [belowBreakpoint.sm]: {
           padding: '0 32px',
         },
+        height: '100%',
       }}
     >
       {children}
