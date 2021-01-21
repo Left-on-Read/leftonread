@@ -6,30 +6,11 @@ import Theme, { belowBreakpoint } from '../../theme'
 import Input from '../Input'
 import Button from '../Button'
 import { DefaultContentContainer } from '../DefaultContentContainer'
+import { Text } from '../Text'
 
 const styles = {
-  headerText: {
-    fontWeight: 500,
-    textStroke: '1px black',
-    color: 'rgba(0, 0, 0, .72)',
-    fontSize: '50px',
-    [belowBreakpoint.lg]: {
-      fontSize: '40px',
-    },
-    [belowBreakpoint.md]: {
-      fontSize: '36px',
-    },
-    [belowBreakpoint.sm]: {
-      fontSize: '30px',
-    },
-  },
   paragraphText: {
-    fontWeight: 300,
     marginTop: '32px',
-    fontSize: '26px',
-    [belowBreakpoint.sm]: {
-      fontSize: '20px',
-    },
   },
 }
 
@@ -38,13 +19,13 @@ const DEFAULT_PARAGRAPH_WEIGHT = 400
 function Content() {
   return (
     <div>
-      <div css={styles.headerText}>
+      <Text type="header">
         <HighlightedText
           text={'Get notified for early access'}
           color={Theme.secondary.main}
         />
-      </div>
-      <div css={styles.paragraphText}>
+      </Text>
+      <Text type="paragraph" css={styles.paragraphText}>
         {"We're working on reimagining Left on Read to make it more "}
         <HighlightedText
           text={'insightful'}
@@ -64,8 +45,8 @@ function Content() {
           weight={DEFAULT_PARAGRAPH_WEIGHT}
         />
         {' than the first version 🚀.'}
-      </div>
-      <div css={styles.paragraphText}>
+      </Text>
+      <Text type="paragraph" css={styles.paragraphText}>
         {"We don't want to spoil too much, but the new Left on Read will "}
         <HighlightedText
           text={'run offline'}
@@ -79,7 +60,7 @@ function Content() {
           weight={DEFAULT_PARAGRAPH_WEIGHT}
         />
         {' 👀.'}
-      </div>
+      </Text>
     </div>
   )
 }

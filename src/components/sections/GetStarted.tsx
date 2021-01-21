@@ -6,34 +6,9 @@ import Button from '../Button'
 import { belowBreakpoint } from '../../theme'
 import { Gradient } from '../Gradient'
 import { DefaultContentContainer } from '../DefaultContentContainer'
+import { Text } from '../Text'
 
-const styles = {
-  headerText: {
-    fontWeight: 800,
-    textStroke: '1px black',
-    color: 'rgba(0, 0, 0, .72)',
-    fontSize: '80px',
-    [belowBreakpoint.lg]: {
-      fontSize: '64px',
-    },
-    [belowBreakpoint.md]: {
-      fontSize: '58px',
-    },
-    [belowBreakpoint.sm]: {
-      fontSize: '50px',
-    },
-  },
-  descriptionText: {
-    marginTop: '26px',
-    fontSize: '26px',
-    [belowBreakpoint.sm]: {
-      fontSize: '20px',
-    },
-    fontWeight: 300,
-  },
-}
-
-const HEADER_TEXT = 'What can you learn from your texts?'
+const DISPLAY_TEXT = 'What can you learn from your texts?'
 const DESCRIPTION_TEXT =
   'Trillions of text messages are sent daily between billions of people. See how you can communicate more effectively and efficiently.'
 
@@ -71,8 +46,15 @@ export function GetStarted() {
               },
             }}
           >
-            <div css={styles.headerText}>{HEADER_TEXT}</div>
-            <div css={styles.descriptionText}>{DESCRIPTION_TEXT}</div>
+            <Text type="display">{DISPLAY_TEXT}</Text>
+            <Text
+              type="paragraph"
+              css={{
+                marginTop: '26px',
+              }}
+            >
+              {DESCRIPTION_TEXT}
+            </Text>
             <Button
               label="Get Started →"
               css={{
