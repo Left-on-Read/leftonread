@@ -46,7 +46,7 @@ type Palette = {
   skyBlue: Color,
   palePink: Color,
   canaryYellow: Color,
-  frogGreen: Color
+  frogGreen: Color,
 }
 
 export const palette: Palette = {
