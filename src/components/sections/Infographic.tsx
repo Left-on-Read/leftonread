@@ -6,34 +6,9 @@ import { DefaultContentContainer } from '../DefaultContentContainer'
 import { Bar } from 'react-chartjs-2'
 import { TextNotification } from '../TextNotification'
 import { motion, AnimateSharedLayout } from 'framer-motion'
+import { Text } from '../Text'
 
-const styles = {
-  titleText: {
-    fontWeight: 800,
-    textStroke: '1px black',
-    color: 'rgba(0, 0, 0, .72)',
-    fontSize: '50px',
-    [belowBreakpoint.lg]: {
-      fontSize: '40px',
-    },
-    [belowBreakpoint.md]: {
-      fontSize: '36px',
-    },
-    [belowBreakpoint.sm]: {
-      fontSize: '30px',
-    },
-  },
-  descriptionText: {
-    marginTop: '26px',
-    fontSize: '26px',
-    [belowBreakpoint.sm]: {
-      fontSize: '20px',
-    },
-    fontWeight: 300,
-  },
-}
-
-const TITLE_TEXT = 'Unique analytics.'
+const HEADER_TEXT = 'Unique analytics.'
 const DESCRIPTION_TEXT = `
   It's time to start feeling empowered about how you use technology. 
   Left on Read is the world's first text analyzer. 
@@ -42,7 +17,6 @@ const DESCRIPTION_TEXT = `
 export function Infographic() {
   const { texts, receivedWords } = useTextData()
 
-  console.log(receivedWords)
   return (
     <div
       css={{
@@ -73,8 +47,15 @@ export function Infographic() {
                 paddingBottom: '80px',
               }}
             >
-              <div css={styles.titleText}>{TITLE_TEXT}</div>
-              <div css={styles.descriptionText}>{DESCRIPTION_TEXT}</div>
+              <Text type="header">{HEADER_TEXT}</Text>
+              <Text
+                type="paragraph"
+                css={{
+                  marginTop: '26px',
+                }}
+              >
+                {DESCRIPTION_TEXT}
+              </Text>
             </div>
             <div
               css={{
@@ -106,7 +87,13 @@ type Text = {
   words?: Array<string>
 }
 
-function useTextData() {
+function useTextData(): {
+  texts: Array<Text>
+  receivedWords: {
+    labels: Array<string>
+    data: Array<number>
+  }
+} {
   const MAX_ITEMS = 5
 
   const [texts, setTexts] = React.useState<Array<Text>>([])
@@ -123,7 +110,6 @@ function useTextData() {
       const currentValue = updatedReceivedWords.get(word) ?? 0
       updatedReceivedWords.set(word, currentValue + 1)
     })
-    console.log(updatedReceivedWords)
     setReceivedWords(updatedReceivedWords)
     setTexts((texts) => [nextText, ...texts.slice(0, MAX_ITEMS - 1)])
 
@@ -140,8 +126,6 @@ function useTextData() {
     handleNextText()
   }, [counter])
 
-  console.log(receivedWords)
-
   const sortedReceivedWords = Array.from(receivedWords.keys())
     .sort((a, b) => {
       const aValue = receivedWords.get(a) ?? 0
@@ -150,11 +134,15 @@ function useTextData() {
     })
     .slice(0, 5)
 
+  const receivedWordsData = sortedReceivedWords
+    .map((word) => receivedWords.get(word))
+    .filter((value: number | undefined): value is number => value !== undefined)
+
   return {
     texts: texts,
     receivedWords: {
       labels: sortedReceivedWords,
-      data: sortedReceivedWords.map((word) => receivedWords.get(word)),
+      data: receivedWordsData,
     },
   }
 }
