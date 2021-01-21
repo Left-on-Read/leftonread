@@ -5,14 +5,17 @@ import Theme, { belowBreakpoint } from '../theme'
 
 export default function Button({
   label,
+  onClick,
   className,
 }: {
   label: string
+  onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void
   className?: string
 }) {
   return (
     <button
       className={className}
+      onClick={onClick}
       css={{
         backgroundColor: Theme.primary.main,
         padding: '16px 32px',
