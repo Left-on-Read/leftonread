@@ -47,14 +47,7 @@ export function GetStarted() {
             }}
           >
             <Text type="display">{DISPLAY_TEXT}</Text>
-            <Text
-              type="paragraph"
-              css={{
-                marginTop: '26px',
-              }}
-            >
-              {DESCRIPTION_TEXT}
-            </Text>
+            <Text type="paragraph">{DESCRIPTION_TEXT}</Text>
             <Button
               label="Get Started →"
               css={{

@@ -8,12 +8,6 @@ import Button from '../Button'
 import { DefaultContentContainer } from '../DefaultContentContainer'
 import { Text } from '../Text'
 
-const styles = {
-  paragraphText: {
-    marginTop: '32px',
-  },
-}
-
 const DEFAULT_PARAGRAPH_WEIGHT = 400
 
 function Content() {
@@ -25,7 +19,7 @@ function Content() {
           color={Theme.secondary.main}
         />
       </Text>
-      <Text type="paragraph" css={styles.paragraphText}>
+      <Text type="paragraph">
         {"We're working on reimagining Left on Read to make it more "}
         <HighlightedText
           text={'insightful'}
@@ -46,7 +40,7 @@ function Content() {
         />
         {' than the first version 🚀.'}
       </Text>
-      <Text type="paragraph" css={styles.paragraphText}>
+      <Text type="paragraph">
         {"We don't want to spoil too much, but the new Left on Read will "}
         <HighlightedText
           text={'run offline'}

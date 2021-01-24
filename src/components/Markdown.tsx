@@ -7,9 +7,13 @@ const renderers = {
   heading: ({ level, children }: { level: number; children: string }) => {
     if (level === 1) {
       return <Text type="display">{children}</Text>
+    } else if (level === 2) {
+      return <Text type="header">{children}</Text>
+    } else if (level === 3) {
+      return <Text type="bold">{children}</Text>
     }
 
-    return <Text type="header">{children}</Text>
+    return <Text type="paragraph">{children}</Text>
   },
   paragraph: ({ children }: { children: string }) => {
     return <Text type="paragraph">{children}</Text>
@@ -19,6 +23,16 @@ const renderers = {
       <li>
         <Text type="paragraph">{children}</Text>
       </li>
+    )
+  },
+  thematicBreak: () => {
+    return (
+      <div
+        css={{
+          width: '100%',
+          padding: '12px 0',
+        }}
+      />
     )
   },
 }
