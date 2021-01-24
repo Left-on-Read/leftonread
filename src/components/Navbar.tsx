@@ -2,13 +2,19 @@
 import { jsx } from '@emotion/core'
 import IconTextLogo from '../assets/ICON_TEXT_LOGO.svg'
 import { belowBreakpoint } from '../theme'
+import { useRouter } from 'next/router'
 
 import * as React from 'react'
 
 // TODO(teddy): Once we implement more sections, turn these into working links
 // TODO(teddy): Need to implement mobile navbar
 export function Navbar() {
+  const router = useRouter()
   const [isOpen, setIsOpen] = React.useState(false)
+
+  const navigateHome = () => {
+    router.push('/')
+  }
 
   return (
     <>
@@ -32,7 +38,9 @@ export function Navbar() {
             [belowBreakpoint.md]: {
               display: 'none',
             },
+            cursor: 'pointer',
           }}
+          onClick={navigateHome}
         />
         <img
           src={require('../assets/ICON.png')}
@@ -42,7 +50,9 @@ export function Navbar() {
             [belowBreakpoint.md]: {
               display: 'block',
             },
+            cursor: 'pointer',
           }}
+          onClick={navigateHome}
         />
         <div
           css={{
