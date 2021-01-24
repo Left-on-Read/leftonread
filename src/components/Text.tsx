@@ -2,7 +2,7 @@
 import { jsx } from '@emotion/core'
 import { belowBreakpoint } from '../theme'
 
-export type TextType = 'paragraph' | 'header' | 'display'
+export type TextType = 'paragraph' | 'bold' | 'header' | 'display'
 
 const styles = {
   displayText: {
@@ -19,6 +19,7 @@ const styles = {
     [belowBreakpoint.sm]: {
       fontSize: '50px',
     },
+    padding: '32px 0',
   },
   headerText: {
     fontWeight: 800,
@@ -34,6 +35,7 @@ const styles = {
     [belowBreakpoint.sm]: {
       fontSize: '30px',
     },
+    padding: '16px 0',
   },
   paragraphText: {
     fontWeight: 300,
@@ -41,6 +43,15 @@ const styles = {
     [belowBreakpoint.sm]: {
       fontSize: '20px',
     },
+    padding: '4px 0',
+  },
+  boldText: {
+    fontWeight: 'bold',
+    fontSize: '26px',
+    [belowBreakpoint.sm]: {
+      fontSize: '20px',
+    },
+    padding: '8px 0',
   },
 }
 
@@ -60,6 +71,8 @@ export function Text({
     classToApply = styles.headerText
   } else if (type === 'display') {
     classToApply = styles.displayText
+  } else if (type === 'bold') {
+    classToApply = styles.boldText
   }
 
   return (

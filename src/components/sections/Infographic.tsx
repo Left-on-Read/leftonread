@@ -48,14 +48,7 @@ export function Infographic() {
               }}
             >
               <Text type="header">{HEADER_TEXT}</Text>
-              <Text
-                type="paragraph"
-                css={{
-                  marginTop: '26px',
-                }}
-              >
-                {DESCRIPTION_TEXT}
-              </Text>
+              <Text type="paragraph">{DESCRIPTION_TEXT}</Text>
             </div>
             <div
               css={{
