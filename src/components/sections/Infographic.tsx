@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import * as React from 'react'
-import { jsx, css } from '@emotion/core'
+import { jsx } from '@emotion/core'
 import Theme, { belowBreakpoint } from '../../theme'
 import { DefaultContentContainer } from '../DefaultContentContainer'
 import { Bar } from 'react-chartjs-2'
@@ -40,22 +40,39 @@ export function Infographic() {
             css={{
               display: 'flex',
               flexDirection: 'column',
+              [belowBreakpoint.lg]: {
+                width: '100%',
+              },
             }}
           >
-            <div
-              css={{
-                paddingBottom: '80px',
-              }}
-            >
+            <div>
               <Text type="header">{HEADER_TEXT}</Text>
               <Text type="paragraph">{DESCRIPTION_TEXT}</Text>
             </div>
             <div
               css={{
                 display: 'flex',
-                flex: '1 1 0',
+                justifyContent: 'center',
+                width: '100%',
+              }}
+            >
+              <TextStack
+                data={texts}
+                css={{
+                  display: 'none',
+                  [belowBreakpoint.lg]: {
+                    marginTop: '40px',
+                    display: 'block',
+                  },
+                }}
+              />
+            </div>
+            <div
+              css={{
+                display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
+                marginTop: '40px',
               }}
             >
               <ExampleChart
@@ -64,10 +81,24 @@ export function Infographic() {
               />
             </div>
           </div>
-          <div css={{ flex: '0 0 400px' }} />
+          <div
+            css={{
+              flex: '0 0 400px',
+              [belowBreakpoint.lg]: {
+                display: 'none',
+              },
+            }}
+          />
         </div>
       </DefaultContentContainer>
-      <Texts data={texts} />
+      <TextList
+        data={texts}
+        css={{
+          [belowBreakpoint.lg]: {
+            display: 'none',
+          },
+        }}
+      />
     </div>
   )
 }
@@ -182,14 +213,22 @@ function ExampleChart({
         },
       ],
     },
+    responsive: true,
   }
 
   return <Bar data={chartData} options={options} />
 }
 
-function Texts({ data }: { data: Array<Text> }) {
+function TextList({
+  data,
+  className,
+}: {
+  data: Array<Text>
+  className?: string
+}) {
   return (
     <div
+      className={className}
       css={{
         position: 'absolute',
         top: '30px',
@@ -204,13 +243,38 @@ function Texts({ data }: { data: Array<Text> }) {
           }}
         >
           {data.map((text) => (
-            <motion.li layout key={text.key}>
+            <motion.li layout key={`list-text-${text.key}`}>
               <TextNotification name={text.name} text={text.text} />
             </motion.li>
           ))}
         </motion.ul>
       </AnimateSharedLayout>
     </div>
+  )
+}
+
+function TextStack({
+  data,
+  className,
+}: {
+  data: Array<Text>
+  className?: string
+}) {
+  const text = data[0]
+
+  if (!text) {
+    return <TextNotification name={''} text={''} />
+  }
+
+  return (
+    <motion.div
+      key={`stack-text-${text.key}`}
+      className={className}
+      css={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+    >
+      <TextNotification name={text.name} text={text.text} />
+    </motion.div>
   )
 }
 
