@@ -1,5 +1,5 @@
 declare namespace TopFriendsTypes {
-  interface Options {
+  interface Filters {
     limit?: number;
   }
 

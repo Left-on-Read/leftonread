@@ -35,9 +35,9 @@ function getSentOrRecieved(alias: string, isFromMeToggle: string) {
 
 export async function queryTopFriends(
   db: sqlite3.Database,
-  opts: TopFriendsTypes.Options = {}
+  filters: TopFriendsTypes.Filters = {}
 ): Promise<TopFriendsTypes.Results> {
-  const limit = opts.limit || 15;
+  const limit = filters.limit || 15;
   const query = `
   WITH SENT_TABLE AS (
     ${getSentOrRecieved('sent', '1')}

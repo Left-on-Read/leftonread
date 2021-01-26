@@ -6,49 +6,49 @@ import * as sqlite3Wrapper from '../../../utils/initUtils/sqliteWrapper';
 import { ChatTableNames } from '../../../tables';
 import { Columns } from '../../../tables/Core/Count';
 
-function isFromMeFilter(opts: WordOrEmojiTypes.Options): string {
-  if (opts.isFromMe === true) {
+function isFromMeFilter(filters: WordOrEmojiTypes.Filters): string {
+  if (filters.isFromMe === true) {
     return `${Columns.IS_FROM_ME} = 1`;
   }
   return `${Columns.IS_FROM_ME} = 0`;
 }
 
-function wordFilter(opts: WordOrEmojiTypes.Options): string | undefined {
-  if (_.isEmpty(opts.word)) {
+function wordFilter(filters: WordOrEmojiTypes.Filters): string | undefined {
+  if (_.isEmpty(filters.word)) {
     return undefined;
   }
-  return `${Columns.WORD} = "${opts.word}"`;
+  return `${Columns.WORD} = "${filters.word}"`;
 }
 
-function isEmojiFilter(opts: WordOrEmojiTypes.Options): string {
-  if (opts.isEmoji === true) {
+function isEmojiFilter(filters: WordOrEmojiTypes.Filters): string {
+  if (filters.isEmoji === true) {
     return `TRIM(${Columns.WORD}) IN (${emojis})`;
   }
   return `TRIM(${Columns.WORD}) NOT IN (${emojis})`;
 }
 
 // Attaches each filter in a combined WHERE clause.
-function getAllFilters(opts: WordOrEmojiTypes.Options): string {
-  const isEmoji = isEmojiFilter(opts);
-  const isFromMe = isFromMeFilter(opts);
-  const word = wordFilter(opts);
+function getAllFilters(filters: WordOrEmojiTypes.Filters): string {
+  const isEmoji = isEmojiFilter(filters);
+  const isFromMe = isFromMeFilter(filters);
+  const word = wordFilter(filters);
   const filtersArray = _.compact([isFromMe, word, isEmoji]);
   return !_.isEmpty(filtersArray) ? `WHERE ${filtersArray.join(' AND ')}` : '';
 }
 
 export async function queryEmojiOrWordCounts(
   db: sqlite3.Database,
-  opts: WordOrEmojiTypes.Options = { isEmoji: false, isFromMe: true }
+  filters: WordOrEmojiTypes.Filters = { isEmoji: false, isFromMe: true }
 ): Promise<WordOrEmojiTypes.Results> {
-  const limit = opts.limit || 15;
-  const filters = getAllFilters(opts);
+  const limit = filters.limit || 15;
+  const allFilters = getAllFilters(filters);
   const query = `
     SELECT
       SUM(${Columns.COUNT}) as ${Columns.COUNT},
       ${Columns.WORD}
     FROM
       ${ChatTableNames.CORE_COUNT_TABLE}
-    ${filters}
+    ${allFilters}
     GROUP BY ${Columns.WORD}
     ORDER BY ${Columns.COUNT} DESC
     LIMIT ${limit}

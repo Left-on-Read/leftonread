@@ -1,5 +1,5 @@
 declare namespace WordOrEmojiTypes {
-  interface Options {
+  interface Filters {
     contact?: string;
     word?: string;
     isFromMe: boolean;

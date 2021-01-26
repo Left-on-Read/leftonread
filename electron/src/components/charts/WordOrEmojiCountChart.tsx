@@ -10,7 +10,7 @@ interface WordOrEmojiCountProps {
   db: sqlite3.Database;
   titleText: string;
   labelText: string;
-  filters: WordOrEmojiTypes.Options;
+  filters: WordOrEmojiTypes.Filters;
   colorInterpolationFunc: (t: number) => string;
 }
 

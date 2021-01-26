@@ -9,7 +9,7 @@ import ChartLoader from '../loading/ChartLoader';
 interface TopFriendsProps {
   db: sqlite3.Database;
   titleText: string;
-  filters: TopFriendsTypes.Options;
+  filters: TopFriendsTypes.Filters;
   colorInterpolationFunc: (t: number) => string;
 }
 
