@@ -13,7 +13,7 @@ export default function GroupChatFilter(props: GroupChatFilterProps) {
     <>
       {Object.values(GroupChatFilters).map((filterOpt) => {
         return (
-          <label key={filterOpt} htmlFor={filterOpt} style={{ color: 'black' }}>
+          <label key={filterOpt} htmlFor={filterOpt}>
             <input
               id={filterOpt}
               key={filterOpt}
