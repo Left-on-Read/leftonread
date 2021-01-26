@@ -9,12 +9,12 @@ import * as sqlite3Wrapper from '../../../utils/initUtils/sqliteWrapper';
 import { TableNames } from '../../definitions';
 import { Table } from '../../Table';
 
-export const Columns = {
-  WORD: 'word',
-  COUNT: 'count',
-  IS_FROM_ME: 'is_from_me',
-  CONTACT: 'contact',
-};
+export enum Columns {
+  WORD = 'word',
+  COUNT = 'count',
+  IS_FROM_ME = 'is_from_me',
+  CONTACT = 'contact',
+}
 
 export class CoreCountTable extends Table {
   async create(): Promise<TableNames> {

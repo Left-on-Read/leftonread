@@ -3,10 +3,10 @@ import { TableNames } from './definitions';
 import { Table } from './Table';
 import { normalizePhoneNumberStatement } from '../utils/initUtils/constants/normalization';
 
-export const Columns = {
-  CONTACT_NAME: 'contact_name',
-  CONTACT_PHONE: 'contact_phone',
-};
+export enum Columns {
+  CONTACT_NAME = 'contact_name',
+  CONTACT_PHONE = 'contact_phone',
+}
 
 export class ContactTable extends Table {
   async create(): Promise<TableNames> {
