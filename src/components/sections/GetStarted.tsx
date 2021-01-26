@@ -12,7 +12,17 @@ const DISPLAY_TEXT = 'What can you learn from your texts?'
 const DESCRIPTION_TEXT =
   'Trillions of text messages are sent daily between billions of people. See how you can communicate more effectively and efficiently.'
 
-export function GetStarted() {
+export function GetStarted({
+  ctaRef,
+}: {
+  ctaRef: React.RefObject<HTMLDivElement>
+}) {
+  const handleGetStarted = () => {
+    if (ctaRef.current) {
+      ctaRef.current?.scrollIntoView()
+    }
+  }
+
   return (
     <DefaultContentContainer>
       <div
@@ -54,6 +64,7 @@ export function GetStarted() {
                 marginTop: '64px',
                 [belowBreakpoint.sm]: { marginTop: '32px' },
               }}
+              onClick={handleGetStarted}
             />
           </div>
         </div>

@@ -59,7 +59,11 @@ function Content() {
   )
 }
 
-export function GetNotified() {
+export function GetNotified({
+  ctaRef,
+}: {
+  ctaRef: React.RefObject<HTMLDivElement>
+}) {
   return (
     <DefaultContentContainer>
       <div
@@ -68,6 +72,7 @@ export function GetNotified() {
           flexDirection: 'column',
           padding: '120px 0',
         }}
+        ref={ctaRef}
       >
         <Content />
         <div

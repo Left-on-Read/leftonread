@@ -13,6 +13,7 @@ function App({ Component, pageProps }: AppProps) {
             min-height: 100vh;
             font-family: Roboto;
             overflow-x: hidden;
+            scroll-behavior: smooth;
           }
         `}
       />
