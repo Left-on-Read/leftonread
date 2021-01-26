@@ -1,6 +1,6 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { emojis } from '../../constants/emojis';
-import { Columns } from '../../../tables/Core/Count';
+import { Columns } from './columns';
 
 function isFromMeFilter(filters: WordOrEmojiTypes.Filters): string {
   if (filters.isFromMe === true) {
@@ -13,7 +13,8 @@ function wordFilter(filters: WordOrEmojiTypes.Filters): string | undefined {
   if (_.isEmpty(filters.word)) {
     return undefined;
   }
-  return `${Columns.WORD} = "${filters.word}"`;
+  // NOTE: using '=' because WordOrEmojiTypes query is split word by word
+  return `LOWER(${Columns.WORD}) = "${filters.word?.toLowerCase()}"`;
 }
 
 function isEmojiFilter(filters: WordOrEmojiTypes.Filters): string {
@@ -23,7 +24,6 @@ function isEmojiFilter(filters: WordOrEmojiTypes.Filters): string {
   return `TRIM(${Columns.WORD}) NOT IN (${emojis})`;
 }
 
-// Attaches each filter in a combined WHERE clause.
 export default function getAllFilters(
   filters: WordOrEmojiTypes.Filters
 ): string {

@@ -74,6 +74,15 @@ export default function TopFriendsChart(props: TopFriendsProps) {
       display: true,
       text: titleText,
     },
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: true,
+          },
+        },
+      ],
+    },
   };
 
   if (friends.length > 0) {
