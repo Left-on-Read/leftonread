@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { Columns } from './columns';
+import { GroupChatFilters } from '../../constants/filters';
 
 function wordFilter(filters: TopFriendsTypes.Filters): string | undefined {
   if (_.isEmpty(filters.word)) {
@@ -17,12 +18,9 @@ function contactFilter(filters: TopFriendsTypes.Filters): string | undefined {
 }
 
 function groupChatFilter(filters: TopFriendsTypes.Filters): string | undefined {
-  if (filters.groupChat !== undefined) {
-    return `message.cache_roomnames ${
-      filters.groupChat ? 'IS NOT' : 'IS'
-    } NULL`;
+  if (filters.groupChat === GroupChatFilters.ONLY_INDIVIDUAL) {
+    return `message.cache_roomnames IS NULL`;
   }
-  // TODO(Danilowicz): investigate what "both" means for sent messages
   return undefined; // would query for both individual and groupchats
 }
 

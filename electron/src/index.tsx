@@ -7,7 +7,8 @@ import './app.global.css';
 import { interpolateCool } from 'd3-scale-chromatic';
 import { coreInit } from './utils/initUtils';
 import LimitFilter from './components/filters/LimitFilter';
-import { DEFAULT_LIMIT } from './chatBro/constants/defaultFilters';
+import { DEFAULT_LIMIT, GroupChatFilters } from './chatBro/constants/filters';
+import GroupChatFilter from './components/filters/GroupChatFilter';
 
 import WordOrEmojiCountChart from './components/charts/WordOrEmojiCountChart';
 import TopFriendsChart from './components/charts/TopFriendsChart';
@@ -15,6 +16,7 @@ import TopFriendsChart from './components/charts/TopFriendsChart';
 export default function Root() {
   const [db, setDB] = useState<sqlite3.Database | null>(null);
   const [limit, setLimit] = useState(DEFAULT_LIMIT);
+  const [groupChat, setGroupChat] = useState(GroupChatFilters.ONLY_INDIVIDUAL);
 
   useEffect(() => {
     async function createInitialLoad() {
@@ -32,10 +34,22 @@ export default function Root() {
     setLimit(Number(event.target.value));
   };
 
+  const handleGroupChatChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setGroupChat(event.target.value as GroupChatFilters);
+  };
+
   if (db) {
     return (
       <div>
-        <LimitFilter handleChange={handleLimitChange} limit={limit} />
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <LimitFilter handleChange={handleLimitChange} limit={limit} />
+          <GroupChatFilter
+            handleChange={handleGroupChatChange}
+            groupChat={groupChat}
+          />
+        </div>
         <WordOrEmojiCountChart
           db={db}
           titleText="Top Sent Words"
@@ -53,7 +67,7 @@ export default function Root() {
         <TopFriendsChart
           db={db}
           titleText="Top Friends"
-          filters={{ limit, groupChat: false }}
+          filters={{ limit, groupChat }}
           colorInterpolationFunc={interpolateCool}
         />
         <WordOrEmojiCountChart
