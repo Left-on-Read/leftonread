@@ -18,10 +18,9 @@ function wordFilter(filters: WordOrEmojiTypes.Filters): string | undefined {
 }
 
 function isEmojiFilter(filters: WordOrEmojiTypes.Filters): string {
-  if (filters.isEmoji === true) {
-    return `TRIM(${Columns.WORD}) IN (${emojis})`;
-  }
-  return `TRIM(${Columns.WORD}) NOT IN (${emojis})`;
+  return `TRIM(${Columns.WORD}) ${
+    filters.isEmoji ? 'IN ' : 'NOT IN'
+  } (${emojis})`;
 }
 
 export default function getAllFilters(

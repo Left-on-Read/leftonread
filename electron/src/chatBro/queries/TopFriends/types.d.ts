@@ -3,6 +3,7 @@ declare namespace TopFriendsTypes {
     limit?: number;
     contact?: string;
     word?: string;
+    groupChat?: boolean;
   }
 
   interface ChartData {
