@@ -46,6 +46,22 @@ export async function copyFiles(
   }
 }
 
+export async function getContactOptions(db: sqlite3.Database): Promise<any> {
+  const q = `
+  SELECT
+    COALESCE(contact_name, h.id) as value,
+    COALESCE(contact_name, h.id) as label,
+    COUNT(*) as mycount,
+    h.id
+  FROM message
+  JOIN handle h
+    ON
+      h.ROWID = handle_id
+  GROUP BY h.id
+  ORDER BY mycount DESC`;
+  return sqlite3Wrapper.allP(db, q);
+}
+
 export async function coreInit(): Promise<sqlite3.Database> {
   // TODO: logic could be added here depending on what user wants to update their chat.db
   await createAppDirectory();
@@ -84,9 +100,10 @@ export async function coreInit(): Promise<sqlite3.Database> {
     log.info('No contacts found.');
   }
   /*
-   * NOTE: Whether or not the addressBook was found, we
-   * can use a COALESECE(contact_name, handle.id)
-   * to return the name or the phone
+   * NOTE:
+   *  Whether or not the addressBook was found, we
+   *  can use a COALESCE(contact_name, handle.id)
+   *  to return the name or the phone
    */
   await createAllChatTables(lorDB);
   return lorDB;

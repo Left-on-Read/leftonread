@@ -5,10 +5,11 @@ import * as sqlite3 from 'sqlite3';
 import log from 'electron-log';
 import './app.global.css';
 import { interpolateCool } from 'd3-scale-chromatic';
-import { coreInit } from './utils/initUtils';
+import { coreInit, getContactOptions } from './utils/initUtils';
 import LimitFilter from './components/filters/LimitFilter';
 import { DEFAULT_LIMIT, GroupChatFilters } from './chatBro/constants/filters';
 import GroupChatFilter from './components/filters/GroupChatFilter';
+import ContactFilter from './components/filters/ContactFilter';
 
 import WordOrEmojiCountChart from './components/charts/WordOrEmojiCountChart';
 import TopFriendsChart from './components/charts/TopFriendsChart';
@@ -17,18 +18,26 @@ export default function Root() {
   const [db, setDB] = useState<sqlite3.Database | null>(null);
   const [limit, setLimit] = useState(DEFAULT_LIMIT);
   const [groupChat, setGroupChat] = useState(GroupChatFilters.ONLY_INDIVIDUAL);
+  const [contact, setContact] = useState(undefined);
+  const [contactOptions, setContactOptions] = useState([]);
 
   useEffect(() => {
     async function createInitialLoad() {
       try {
         const lorDB = await coreInit();
         setDB(lorDB);
+        const allContacts = await getContactOptions(lorDB);
+        setContactOptions(allContacts);
       } catch (err) {
         log.error('ERROR SETTING UP DB/tables ', err);
       }
     }
     createInitialLoad();
   }, []);
+
+  const handleContactChange = (selected?: any) => {
+    setContact(selected.value);
+  };
 
   const handleLimitChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLimit(Number(event.target.value));
@@ -49,39 +58,56 @@ export default function Root() {
             handleChange={handleGroupChatChange}
             groupChat={groupChat}
           />
+          <ContactFilter
+            options={contactOptions}
+            contact={contact}
+            handleChange={handleContactChange}
+          />
         </div>
         <WordOrEmojiCountChart
           db={db}
           titleText="Top Received Emojis"
           labelText="Count of Emoji"
-          filters={{ isEmoji: true, limit, isFromMe: false, groupChat }}
+          filters={{
+            isEmoji: true,
+            limit,
+            isFromMe: false,
+            groupChat,
+            contact,
+          }}
           colorInterpolationFunc={interpolateCool}
         />
         <WordOrEmojiCountChart
           db={db}
           titleText="Top Received Words"
           labelText="Count of Word"
-          filters={{ isEmoji: false, limit, isFromMe: false, groupChat }}
+          filters={{
+            isEmoji: false,
+            limit,
+            isFromMe: false,
+            groupChat,
+            contact,
+          }}
           colorInterpolationFunc={interpolateCool}
         />
         <TopFriendsChart
           db={db}
           titleText="Top Friends"
-          filters={{ limit, groupChat }}
+          filters={{ limit, groupChat, contact }}
           colorInterpolationFunc={interpolateCool}
         />
         <WordOrEmojiCountChart
           db={db}
           titleText="Top Sent Words"
           labelText="Count of Word"
-          filters={{ isEmoji: false, limit, isFromMe: true }}
+          filters={{ isEmoji: false, limit, isFromMe: true, contact }}
           colorInterpolationFunc={interpolateCool}
         />
         <WordOrEmojiCountChart
           db={db}
           titleText="Top Sent Emojis"
           labelText="Count of Emoji"
-          filters={{ isEmoji: true, limit, isFromMe: true }}
+          filters={{ isEmoji: true, limit, isFromMe: true, contact }}
           colorInterpolationFunc={interpolateCool}
         />
       </div>
