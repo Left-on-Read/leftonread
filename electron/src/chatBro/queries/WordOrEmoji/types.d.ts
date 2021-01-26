@@ -5,6 +5,7 @@ declare namespace WordOrEmojiTypes {
     isFromMe: boolean;
     limit?: number;
     isEmoji: boolean;
+    groupChat?: string;
   }
 
   interface ChartData {

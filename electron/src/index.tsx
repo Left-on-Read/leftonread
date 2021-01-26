@@ -52,16 +52,16 @@ export default function Root() {
         </div>
         <WordOrEmojiCountChart
           db={db}
-          titleText="Top Sent Words"
-          labelText="Count of Word"
-          filters={{ isEmoji: false, limit, isFromMe: true }}
+          titleText="Top Received Emojis"
+          labelText="Count of Emoji"
+          filters={{ isEmoji: true, limit, isFromMe: false, groupChat }}
           colorInterpolationFunc={interpolateCool}
         />
         <WordOrEmojiCountChart
           db={db}
           titleText="Top Received Words"
           labelText="Count of Word"
-          filters={{ isEmoji: false, limit, isFromMe: false }}
+          filters={{ isEmoji: false, limit, isFromMe: false, groupChat }}
           colorInterpolationFunc={interpolateCool}
         />
         <TopFriendsChart
@@ -72,7 +72,14 @@ export default function Root() {
         />
         <WordOrEmojiCountChart
           db={db}
-          titleText="Top Emojis"
+          titleText="Top Sent Words"
+          labelText="Count of Word"
+          filters={{ isEmoji: false, limit, isFromMe: true }}
+          colorInterpolationFunc={interpolateCool}
+        />
+        <WordOrEmojiCountChart
+          db={db}
+          titleText="Top Sent Emojis"
           labelText="Count of Emoji"
           filters={{ isEmoji: true, limit, isFromMe: true }}
           colorInterpolationFunc={interpolateCool}

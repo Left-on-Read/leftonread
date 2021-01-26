@@ -1,6 +1,5 @@
 import * as sqlite3 from 'sqlite3';
 import { DEFAULT_LIMIT } from '../../constants/filters';
-
 import * as sqlite3Wrapper from '../../../utils/initUtils/sqliteWrapper';
 import { ChatTableNames } from '../../../tables';
 import { Columns, OutputColumns } from './columns';
@@ -13,14 +12,24 @@ export async function queryEmojiOrWordCounts(
   const limit = filters.limit || DEFAULT_LIMIT;
   const allFilters = getAllFilters(filters);
   const query = `
+    WITH COUNT_TEXT_TB AS (
+      SELECT
+        COUNT(${Columns.WORD}) as ${OutputColumns.COUNT},
+        ${Columns.WORD},
+        ${Columns.CONTACT},
+        ${Columns.IS_FROM_ME}
+      FROM ${ChatTableNames.CORE_COUNT_TABLE}
+        ${allFilters}
+      GROUP BY ${Columns.CONTACT}, ${Columns.WORD}, ${Columns.IS_FROM_ME}
+    )
+
     SELECT
-      SUM(${Columns.COUNT}) as ${OutputColumns.COUNT},
+      SUM(${OutputColumns.COUNT}) as ${OutputColumns.COUNT},
       ${Columns.WORD} as ${OutputColumns.WORD}
     FROM
-      ${ChatTableNames.CORE_COUNT_TABLE}
-    ${allFilters}
+      COUNT_TEXT_TB
     GROUP BY ${Columns.WORD}
-    ORDER BY ${Columns.COUNT} DESC
+    ORDER BY ${OutputColumns.COUNT} DESC
     LIMIT ${limit}
   `;
 
