@@ -3,19 +3,19 @@ import { DEFAULT_LIMIT } from '../../constants/defaultFilters';
 
 import * as sqlite3Wrapper from '../../../utils/initUtils/sqliteWrapper';
 import { ChatTableNames } from '../../../tables';
-import { Columns } from '../../../tables/Core/Count';
+import { Columns, OutputColumns } from './columns';
 import getAllFilters from './filters';
 
 export async function queryEmojiOrWordCounts(
   db: sqlite3.Database,
-  filters: WordOrEmojiTypes.Filters = { isEmoji: false, isFromMe: true }
+  filters: WordOrEmojiTypes.Filters
 ): Promise<WordOrEmojiTypes.Results> {
   const limit = filters.limit || DEFAULT_LIMIT;
   const allFilters = getAllFilters(filters);
   const query = `
     SELECT
-      SUM(${Columns.COUNT}) as ${Columns.COUNT},
-      ${Columns.WORD}
+      SUM(${Columns.COUNT}) as ${OutputColumns.COUNT},
+      ${Columns.WORD} as ${OutputColumns.WORD}
     FROM
       ${ChatTableNames.CORE_COUNT_TABLE}
     ${allFilters}

@@ -50,6 +50,15 @@ export default function WordOrEmojiCountChart(props: WordOrEmojiCountProps) {
       display: true,
       text: titleText,
     },
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: true,
+          },
+        },
+      ],
+    },
   };
 
   if (words.length > 0) {
