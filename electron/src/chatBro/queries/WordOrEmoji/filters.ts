@@ -14,6 +14,13 @@ function isFromMeFilter(filters: WordOrEmojiTypes.Filters): string {
   return `${Columns.IS_FROM_ME} = 0`;
 }
 
+function contactFilter(filters: WordOrEmojiTypes.Filters): string | undefined {
+  if (_.isEmpty(filters.contact)) {
+    return undefined;
+  }
+  return `${Columns.CONTACT} = "${filters.contact}"`;
+}
+
 function wordFilter(filters: WordOrEmojiTypes.Filters): string | undefined {
   if (_.isEmpty(filters.word)) {
     return undefined;
@@ -48,11 +55,19 @@ function fluffFilter(): string {
 export default function getAllFilters(
   filters: WordOrEmojiTypes.Filters
 ): string {
+  const contact = contactFilter(filters);
   const isEmoji = isEmojiFilter(filters);
   const isFromMe = isFromMeFilter(filters);
   const word = wordFilter(filters);
   const groupChat = groupChatFilter(filters);
   const fluff = fluffFilter();
-  const filtersArray = _.compact([isFromMe, word, isEmoji, groupChat, fluff]);
+  const filtersArray = _.compact([
+    isFromMe,
+    word,
+    isEmoji,
+    groupChat,
+    fluff,
+    contact,
+  ]);
   return !_.isEmpty(filtersArray) ? `WHERE ${filtersArray.join(' AND ')}` : '';
 }
