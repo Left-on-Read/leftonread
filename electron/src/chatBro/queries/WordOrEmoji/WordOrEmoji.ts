@@ -1,5 +1,5 @@
 import * as sqlite3 from 'sqlite3';
-import { DEFAULT_LIMIT } from '../../constants/defaultFilters';
+import { DEFAULT_LIMIT } from '../../constants/filters';
 
 import * as sqlite3Wrapper from '../../../utils/initUtils/sqliteWrapper';
 import { ChatTableNames } from '../../../tables';
