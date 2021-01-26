@@ -16,16 +16,21 @@ function contactFilter(filters: TopFriendsTypes.Filters): string | undefined {
   return `${Columns.FRIEND} = "${filters.contact}"`;
 }
 
-// TODO: Implement this end-to-end
-function groupChatFilter(): string {
-  return `message.cache_roomnames IS NULL`;
+function groupChatFilter(filters: TopFriendsTypes.Filters): string | undefined {
+  if (filters.groupChat !== undefined) {
+    return `message.cache_roomnames ${
+      filters.groupChat ? 'IS NOT' : 'IS'
+    } NULL`;
+  }
+  // TODO(Danilowicz): investigate what "both" means for sent messages
+  return undefined; // would query for both individual and groupchats
 }
 
 export default function getAllFilters(
   filters: TopFriendsTypes.Filters
 ): string {
   const contact = contactFilter(filters);
-  const groupChats = groupChatFilter();
+  const groupChats = groupChatFilter(filters);
   const word = wordFilter(filters);
   const filtersArray = _.compact([contact, groupChats, word]);
   return !_.isEmpty(filtersArray) ? `WHERE ${filtersArray.join(' AND ')}` : '';

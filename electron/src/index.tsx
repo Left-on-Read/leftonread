@@ -38,15 +38,22 @@ export default function Root() {
         <LimitFilter handleChange={handleLimitChange} limit={limit} />
         <WordOrEmojiCountChart
           db={db}
-          titleText="Top Words"
+          titleText="Top Sent Words"
           labelText="Count of Word"
           filters={{ isEmoji: false, limit, isFromMe: true }}
+          colorInterpolationFunc={interpolateCool}
+        />
+        <WordOrEmojiCountChart
+          db={db}
+          titleText="Top Received Words"
+          labelText="Count of Word"
+          filters={{ isEmoji: false, limit, isFromMe: false }}
           colorInterpolationFunc={interpolateCool}
         />
         <TopFriendsChart
           db={db}
           titleText="Top Friends"
-          filters={{ limit }}
+          filters={{ limit, groupChat: false }}
           colorInterpolationFunc={interpolateCool}
         />
         <WordOrEmojiCountChart

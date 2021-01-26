@@ -187,6 +187,14 @@ const stopWordsList = [
   'right',
   "i'll",
   "i'm",
+  'one',
+  'don’t',
+  'people',
+  'I’ll',
+  'that’s',
+  'take',
+  'even',
+  'us',
   '”', // very weird quote, not sure what this is
 ];
 export const stopWords = delimList(lowerCaseList(stopWordsList));
