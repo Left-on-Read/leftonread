@@ -7,13 +7,14 @@ import './app.global.css';
 import { interpolateCool } from 'd3-scale-chromatic';
 import { coreInit } from './utils/initUtils';
 import LimitFilter from './components/filters/LimitFilter';
+import { DEFAULT_LIMIT } from './chatBro/constants/defaultFilters';
 
 import WordOrEmojiCountChart from './components/charts/WordOrEmojiCountChart';
 import TopFriendsChart from './components/charts/TopFriendsChart';
 
 export default function Root() {
   const [db, setDB] = useState<sqlite3.Database | null>(null);
-  const [limit, setLimit] = useState(15);
+  const [limit, setLimit] = useState(DEFAULT_LIMIT);
 
   useEffect(() => {
     async function createInitialLoad() {

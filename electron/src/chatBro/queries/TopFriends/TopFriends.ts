@@ -1,4 +1,5 @@
 import * as sqlite3 from 'sqlite3';
+import { DEFAULT_LIMIT } from '../../constants/defaultFilters';
 
 import * as sqlite3Wrapper from '../../../utils/initUtils/sqliteWrapper';
 
@@ -37,7 +38,7 @@ export async function queryTopFriends(
   db: sqlite3.Database,
   filters: TopFriendsTypes.Filters = {}
 ): Promise<TopFriendsTypes.Results> {
-  const limit = filters.limit || 15;
+  const limit = filters.limit || DEFAULT_LIMIT;
   const query = `
   WITH SENT_TABLE AS (
     ${getSentOrRecieved('sent', '1')}
