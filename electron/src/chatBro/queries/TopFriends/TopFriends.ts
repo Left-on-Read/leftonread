@@ -1,5 +1,5 @@
 import * as sqlite3 from 'sqlite3';
-import { DEFAULT_LIMIT } from '../../constants/defaultFilters';
+import { DEFAULT_LIMIT } from '../../constants/filters';
 import getAllFilters from './filters';
 import { Columns, OutputColumns } from './columns';
 
@@ -56,6 +56,7 @@ export async function queryTopFriends(
       received as ${OutputColumns.RECEIVED}
     FROM
       RECEIVED_TABLE
+    -- NOTE: could do a LEFT JOIN here if you want to see group chats only
     JOIN
       SENT_TABLE
     ON
@@ -65,7 +66,7 @@ export async function queryTopFriends(
     ${Object.keys(OutputColumns).join(', ')}
   FROM
     COMBINED_TABLE
-  ORDER BY total DESC
+  ORDER BY ${OutputColumns.TOTAL} DESC
   LIMIT ${limit}
   `;
 

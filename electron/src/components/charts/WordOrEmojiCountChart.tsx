@@ -25,7 +25,6 @@ export default function WordOrEmojiCountChart(props: WordOrEmojiCountProps) {
         const data = await chatBro.queryEmojiOrWordCounts(db, filters);
         setWords(data.map((obj) => obj.word));
         setCount(data.map((obj) => obj.count));
-        console.log(words);
       } catch (err) {
         log.error(`ERROR fetching for component for ${titleText}`, err);
       }
