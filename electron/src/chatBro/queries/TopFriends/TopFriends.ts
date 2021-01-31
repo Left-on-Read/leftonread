@@ -23,7 +23,7 @@ const getCoreQuery = (allFilters: string) => {
 
 function getSentOrRecieved(
   alias: string,
-  isFromMeToggle: string,
+  isFromMe: boolean,
   allFilters: string
 ) {
   return `
@@ -31,7 +31,7 @@ function getSentOrRecieved(
     ${Columns.COUNT} AS ${alias},
     ${Columns.FRIEND}
   FROM (${getCoreQuery(allFilters)})
-  WHERE ${Columns.IS_FROM_ME} = ${isFromMeToggle}
+  WHERE ${Columns.IS_FROM_ME} = ${isFromMe ? '0' : '1'}
   GROUP BY ${Columns.FRIEND}`;
 }
 
@@ -43,10 +43,10 @@ export async function queryTopFriends(
   const allFilters = getAllFilters(filters);
   const query = `
   WITH SENT_TABLE AS (
-    ${getSentOrRecieved('sent', '1', allFilters)}
+    ${getSentOrRecieved('sent', true, allFilters)}
   ),
   RECEIVED_TABLE AS (
-    ${getSentOrRecieved('received', '0', allFilters)}
+    ${getSentOrRecieved('received', false, allFilters)}
   ),
   COMBINED_TABLE AS (
     SELECT
