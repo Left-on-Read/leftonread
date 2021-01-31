@@ -16,8 +16,10 @@ import TopFriendsChart from './components/charts/TopFriendsChart';
 
 export default function Root() {
   const [db, setDB] = useState<sqlite3.Database | null>(null);
-  const [limit, setLimit] = useState(DEFAULT_LIMIT);
-  const [groupChat, setGroupChat] = useState(GroupChatFilters.ONLY_INDIVIDUAL);
+  const [limit, setLimit] = useState<number>(DEFAULT_LIMIT);
+  const [groupChat, setGroupChat] = useState<GroupChatFilters>(
+    GroupChatFilters.ONLY_INDIVIDUAL
+  );
   const [contact, setContact] = useState(undefined);
   const [contactOptions, setContactOptions] = useState([]);
 
