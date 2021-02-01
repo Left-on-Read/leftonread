@@ -1,56 +1,35 @@
-import * as _ from 'lodash';
 import * as sqlite3 from 'sqlite3';
-import { emojis } from '../../constants/emojis';
-
+import { DEFAULT_LIMIT } from '../../constants/filters';
 import * as sqlite3Wrapper from '../../../utils/initUtils/sqliteWrapper';
 import { ChatTableNames } from '../../../tables';
-import { Columns } from '../../../tables/Core/Count';
-
-function isFromMeFilter(opts: WordOrEmojiTypes.Options): string {
-  if (opts.isFromMe === true) {
-    return `${Columns.IS_FROM_ME} = 1`;
-  }
-  return `${Columns.IS_FROM_ME} = 0`;
-}
-
-function wordFilter(opts: WordOrEmojiTypes.Options): string | undefined {
-  if (_.isEmpty(opts.word)) {
-    return undefined;
-  }
-  return `${Columns.WORD} = "${opts.word}"`;
-}
-
-function isEmojiFilter(opts: WordOrEmojiTypes.Options): string {
-  if (opts.isEmoji === true) {
-    return `TRIM(${Columns.WORD}) IN (${emojis})`;
-  }
-  return `TRIM(${Columns.WORD}) NOT IN (${emojis})`;
-}
-
-// Attaches each filter in a combined WHERE clause.
-function getAllFilters(opts: WordOrEmojiTypes.Options): string {
-  const isEmoji = isEmojiFilter(opts);
-  const isFromMe = isFromMeFilter(opts);
-  const word = wordFilter(opts);
-  const filtersArray = _.compact([isFromMe, word, isEmoji]);
-  return !_.isEmpty(filtersArray) ? `WHERE ${filtersArray.join(' AND ')}` : '';
-}
+import { Columns, OutputColumns } from './columns';
+import getAllFilters from './filters';
 
 export async function queryEmojiOrWordCounts(
   db: sqlite3.Database,
-  opts: WordOrEmojiTypes.Options = { isEmoji: false, isFromMe: true }
+  filters: WordOrEmojiTypes.Filters
 ): Promise<WordOrEmojiTypes.Results> {
-  const limit = opts.limit || 15;
-  const filters = getAllFilters(opts);
+  const limit = filters.limit || DEFAULT_LIMIT;
+  const allFilters = getAllFilters(filters);
   const query = `
+    WITH COUNT_TEXT_TB AS (
+      SELECT
+        COUNT(${Columns.WORD}) as ${OutputColumns.COUNT},
+        ${Columns.WORD},
+        ${Columns.CONTACT},
+        ${Columns.IS_FROM_ME}
+      FROM ${ChatTableNames.CORE_COUNT_TABLE}
+        ${allFilters}
+      GROUP BY ${Columns.CONTACT}, ${Columns.WORD}, ${Columns.IS_FROM_ME}
+    )
+
     SELECT
-      SUM(${Columns.COUNT}) as ${Columns.COUNT},
-      ${Columns.WORD}
+      SUM(${OutputColumns.COUNT}) as ${OutputColumns.COUNT},
+      ${Columns.WORD} as ${OutputColumns.WORD}
     FROM
-      ${ChatTableNames.CORE_COUNT_TABLE}
-    ${filters}
+      COUNT_TEXT_TB
     GROUP BY ${Columns.WORD}
-    ORDER BY ${Columns.COUNT} DESC
+    ORDER BY ${OutputColumns.COUNT} DESC
     LIMIT ${limit}
   `;
 

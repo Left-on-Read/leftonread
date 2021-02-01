@@ -10,22 +10,19 @@ interface WordOrEmojiCountProps {
   db: sqlite3.Database;
   titleText: string;
   labelText: string;
-  isEmoji: boolean;
+  filters: WordOrEmojiTypes.Filters;
   colorInterpolationFunc: (t: number) => string;
 }
 
 export default function WordOrEmojiCountChart(props: WordOrEmojiCountProps) {
-  const { db, colorInterpolationFunc, titleText, labelText, isEmoji } = props;
+  const { db, colorInterpolationFunc, titleText, labelText, filters } = props;
   const [words, setWords] = useState<string[]>([]);
   const [count, setCount] = useState<number[]>([]);
 
   useEffect(() => {
     async function fetchWordData() {
       try {
-        const data = await chatBro.queryEmojiOrWordCounts(db, {
-          isEmoji,
-          isFromMe: true,
-        });
+        const data = await chatBro.queryEmojiOrWordCounts(db, filters);
         setWords(data.map((obj) => obj.word));
         setCount(data.map((obj) => obj.count));
       } catch (err) {
@@ -33,7 +30,7 @@ export default function WordOrEmojiCountChart(props: WordOrEmojiCountProps) {
       }
     }
     fetchWordData();
-  }, []);
+  }, [db, titleText, filters]);
 
   const COLORS = interpolateColors(words.length, colorInterpolationFunc);
 
@@ -52,6 +49,15 @@ export default function WordOrEmojiCountChart(props: WordOrEmojiCountProps) {
     title: {
       display: true,
       text: titleText,
+    },
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: true,
+          },
+        },
+      ],
     },
   };
 

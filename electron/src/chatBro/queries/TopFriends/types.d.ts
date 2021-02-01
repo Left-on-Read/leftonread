@@ -1,6 +1,9 @@
 declare namespace TopFriendsTypes {
-  interface Options {
+  interface Filters {
     limit?: number;
+    contact?: string;
+    word?: string;
+    groupChat?: string;
   }
 
   interface ChartData {
@@ -9,5 +12,6 @@ declare namespace TopFriendsTypes {
     sent: number;
     received: number;
   }
+
   type Results = ChartData[];
 }

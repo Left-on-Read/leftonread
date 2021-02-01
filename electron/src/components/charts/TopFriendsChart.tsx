@@ -9,11 +9,12 @@ import ChartLoader from '../loading/ChartLoader';
 interface TopFriendsProps {
   db: sqlite3.Database;
   titleText: string;
+  filters: TopFriendsTypes.Filters;
   colorInterpolationFunc: (t: number) => string;
 }
 
 export default function TopFriendsChart(props: TopFriendsProps) {
-  const { db, colorInterpolationFunc, titleText } = props;
+  const { db, colorInterpolationFunc, titleText, filters } = props;
   const [friends, setFriends] = useState<string[]>([]);
   const [received, setReceived] = useState<number[]>([]);
   const [sent, setSent] = useState<number[]>([]);
@@ -21,7 +22,7 @@ export default function TopFriendsChart(props: TopFriendsProps) {
   useEffect(() => {
     async function fetchTopFriends() {
       try {
-        const topFriendsDataList = await chatBro.queryTopFriends(db);
+        const topFriendsDataList = await chatBro.queryTopFriends(db, filters);
         setFriends(topFriendsDataList.map((obj) => obj.friend));
         setSent(topFriendsDataList.map((obj) => obj.sent));
         setReceived(topFriendsDataList.map((obj) => obj.received));
@@ -30,7 +31,7 @@ export default function TopFriendsChart(props: TopFriendsProps) {
       }
     }
     fetchTopFriends();
-  }, []);
+  }, [db, filters]);
 
   // use COLOR_RANGE param to create two distinct colors on the scale
   const SENT_COLORS = interpolateColors(
@@ -72,6 +73,15 @@ export default function TopFriendsChart(props: TopFriendsProps) {
     title: {
       display: true,
       text: titleText,
+    },
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: true,
+          },
+        },
+      ],
     },
   };
 

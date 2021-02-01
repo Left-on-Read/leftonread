@@ -1,10 +1,11 @@
 declare namespace WordOrEmojiTypes {
-  interface Options {
+  interface Filters {
     contact?: string;
     word?: string;
     isFromMe: boolean;
     limit?: number;
     isEmoji: boolean;
+    groupChat?: string;
   }
 
   interface ChartData {
