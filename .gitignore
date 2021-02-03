@@ -20,7 +20,8 @@ build/
 logs
 *.log
 
-# local env files
+# Env files
+.env
 .env.local
 .env.development.local
 .env.test.local
