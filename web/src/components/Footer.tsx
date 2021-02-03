@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
 import { DefaultContentContainer } from './DefaultContentContainer'
-import Theme, { belowBreakpoint } from '../theme'
+import Theme from '../theme'
 
 // NOTE(teddy): This is probably going to require a refactor to a column structure once we have more footer content.
 export function Footer() {

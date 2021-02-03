@@ -10,7 +10,6 @@ import * as React from 'react'
 // TODO(teddy): Need to implement mobile navbar
 export function Navbar() {
   const router = useRouter()
-  const [isOpen, setIsOpen] = React.useState(false)
 
   const navigateHome = () => {
     router.push('/')

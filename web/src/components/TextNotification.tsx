@@ -3,8 +3,8 @@ import { jsx } from '@emotion/core'
 import { belowBreakpoint } from '../theme'
 
 type Props = {
-  name: String
-  text: String
+  name: string
+  text: string
 }
 
 export function TextNotification({ name, text }: Props) {
