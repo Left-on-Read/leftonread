@@ -42,7 +42,13 @@ export function TextNotification({ name, text }: Props) {
           fontSize: '16px',
         }}
       >
-        <div css={{ marginBottom: '4px', fontWeight: 'bold', display: 'flex' }}>
+        <div
+          css={{
+            marginBottom: '4px',
+            fontWeight: 'bold',
+            display: 'flex',
+          }}
+        >
           {name}
         </div>
         <div
