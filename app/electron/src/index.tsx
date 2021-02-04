@@ -22,7 +22,7 @@ export default function Root() {
   );
   const [contact, setContact] = useState(undefined);
   const [contactOptions, setContactOptions] = useState([]);
-
+  console.log('test');
   useEffect(() => {
     async function createInitialLoad() {
       try {
