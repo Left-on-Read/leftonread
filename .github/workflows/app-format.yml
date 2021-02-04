@@ -1,6 +1,11 @@
 name: App - Code Style
 
-on: [pull_request]
+on:
+  pull-request:
+    paths:
+      - 'app/**'
+      - '.pretterrc'
+      - '.eslintrc'
 
 defaults:
   run:
