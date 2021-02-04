@@ -1,4 +1,5 @@
 module.exports = {
+  root: true, // NOTE(teddy): When we want to try to consolidate a unified eslint config, delete this
   extends: 'erb',
   rules: {
     // BEGIN: A temporary hack related to IDE not resolving correct package.json
