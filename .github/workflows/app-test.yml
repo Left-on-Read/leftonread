@@ -1,6 +1,11 @@
 name: App - Test
 
-on: [push]
+on:
+  push:
+    paths:
+      - 'app/**'
+      - '.pretterrc'
+      - '.eslintrc'
 
 defaults:
   run:
