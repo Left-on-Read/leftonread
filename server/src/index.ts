@@ -1,11 +1,13 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
+import morgan from 'morgan'
 
 import router from './router'
 
 const app = express()
 app.use(bodyParser.json())
+app.use(morgan('dev')) // TODO(teddy): Toggle output based on env
 
 const mongoURI =
   process.env.MONGODB_URI || 'mongodb://localhost:27017/lorserver'
