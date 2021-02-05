@@ -29,7 +29,7 @@ We are proud to be using [Electron-React Boilerplate
 If you see:
 
 ```
-Reading /Users/.../electron/node_modules/devtron/manifest.json failed.
+Reading /Users/.../node_modules/devtron/manifest.json failed.
 Error: ENOENT: no such file or directory.
 ```
 
