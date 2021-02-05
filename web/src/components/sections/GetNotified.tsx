@@ -7,6 +7,7 @@ import Input from '../Input'
 import Button from '../Button'
 import { DefaultContentContainer } from '../DefaultContentContainer'
 import { Text } from '../Text'
+import { API_BASE } from '../../constants'
 
 const DEFAULT_PARAGRAPH_WEIGHT = 400
 
@@ -64,6 +65,27 @@ export function GetNotified({
 }: {
   ctaRef: React.RefObject<HTMLDivElement>
 }) {
+  const [email, setEmail] = React.useState<string>('')
+
+  const signUpEmail = async (submittedEmail: string) => {
+    const data = {
+      email: submittedEmail,
+    }
+    // TODO(teddy): Add some email validation here
+    const response = await fetch(`${API_BASE}/notify`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+  }
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    signUpEmail(email)
+  }
+
   return (
     <DefaultContentContainer>
       <div
@@ -89,34 +111,39 @@ export function GetNotified({
             },
           }}
         >
-          <Input
-            css={{
-              fontSize: '22px',
-              height: '32px',
-              width: '350px',
-              [belowBreakpoint.md]: {
-                fontSize: '18px',
-                height: '28px',
-                width: '270px',
-              },
-            }}
-            placeholder={'you@gmail.com'}
-          />
-          <Button
-            css={{
-              marginLeft: '40px',
-              fontSize: '22px',
-              [belowBreakpoint.md]: {
-                fontSize: '18px',
-                marginLeft: '20px',
-              },
-              [belowBreakpoint.sm]: {
-                marginTop: '20px',
-                marginLeft: 0,
-              },
-            }}
-            label={'Notify me'}
-          />
+          <form onSubmit={handleSubmit}>
+            <Input
+              css={{
+                fontSize: '22px',
+                height: '32px',
+                width: '350px',
+                [belowBreakpoint.md]: {
+                  fontSize: '18px',
+                  height: '28px',
+                  width: '270px',
+                },
+              }}
+              placeholder={'you@gmail.com'}
+              value={email}
+              onChange={(updatedEmail) => setEmail(updatedEmail)}
+            />
+            <Button
+              type="submit"
+              css={{
+                marginLeft: '40px',
+                fontSize: '22px',
+                [belowBreakpoint.md]: {
+                  fontSize: '18px',
+                  marginLeft: '20px',
+                },
+                [belowBreakpoint.sm]: {
+                  marginTop: '20px',
+                  marginLeft: 0,
+                },
+              }}
+              label={'Notify me'}
+            />
+          </form>
         </div>
       </div>
     </DefaultContentContainer>
