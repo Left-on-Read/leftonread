@@ -6,9 +6,13 @@ import Theme, { belowBreakpoint } from '../theme'
 export default function Input({
   placeholder,
   className,
+  value,
+  onChange,
 }: {
   placeholder?: string
   className?: string
+  value: string
+  onChange?: (arg0: string) => void
 }) {
   return (
     <input
@@ -35,6 +39,12 @@ export default function Input({
         },
       }}
       placeholder={placeholder}
+      value={value}
+      onChange={(e) => {
+        if (onChange) {
+          onChange(e.target.value)
+        }
+      }}
     />
   )
 }
