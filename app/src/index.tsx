@@ -38,7 +38,13 @@ export default function Root() {
   }, []);
 
   const handleContactChange = (selected?: any) => {
-    setContact(selected.value);
+    console.log(selected);
+    if (selected !== null)  {
+      setContact(selected.value);
+    }
+    else  {
+      setContact(undefined);
+    }
   };
 
   const handleLimitChange = (event: React.ChangeEvent<HTMLInputElement>) => {

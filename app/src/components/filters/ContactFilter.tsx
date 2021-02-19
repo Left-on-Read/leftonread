@@ -10,6 +10,10 @@ interface ContactFilterProps {
 export default function ContactFilter(props: ContactFilterProps) {
   const { contact, options, handleChange } = props;
   return (
-    <Select defaultValue={contact} onChange={handleChange} options={options} />
+    <Select 
+      isClearable={true}
+      defaultValue={contact} 
+      onChange={handleChange} 
+      options={options} />
   );
 }
