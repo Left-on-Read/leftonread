@@ -38,7 +38,6 @@ export default function Root() {
   }, []);
 
   const handleContactChange = (selected?: any) => {
-    console.log(selected);
     if (selected !== null) {
       setContact(selected.value);
     } else {
