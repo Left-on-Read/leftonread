@@ -5,7 +5,7 @@ on:
     paths:
       - 'server/**'
       - '.pretterrc'
-      - '.eslintrc'
+      - 'eslint-config/**'
 
 defaults:
   run:
