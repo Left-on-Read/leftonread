@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "dev": "ts-node-dev src/index.ts",
-    "lint": "eslint '*/**/*.{js,ts}' --fix",
+    "lint": "eslint '*/**/*.{js,ts}'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
