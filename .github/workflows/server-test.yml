@@ -1,15 +1,15 @@
-name: App - Test
+name: Server - Test
 
 on:
   push:
     paths:
-      - 'app/**'
+      - 'server/**'
       - '.pretterrc'
       - 'eslint-config/**'
 
 defaults:
   run:
-    working-directory: ./app/
+    working-directory: ./server/
 
 jobs:
   release:
@@ -20,7 +20,7 @@ jobs:
         os: [macos-latest]
 
     steps:
-      - name: Check out Git repository
+      - name: Check Out Git repository
         uses: actions/checkout@v1
 
       - name: Install Node.js, NPM and Yarn
@@ -28,14 +28,16 @@ jobs:
         with:
           node-version: 15
 
-      - name: yarn install
+      - name: Install Dependencies
         run: |
           yarn install --frozen-lockfile --network-timeout 300000
 
-      - name: yarn test
+      - name: Typecheck
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          yarn package
           yarn tsc
-          yarn test
+
+      - name: Lint
+        run: |
+          yarn lint

@@ -72,7 +72,7 @@ export function GetNotified({
       email: submittedEmail,
     }
     // TODO(teddy): Add some email validation here
-    const response = await fetch(`${API_BASE}/notify`, {
+    await fetch(`${API_BASE}/notify`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

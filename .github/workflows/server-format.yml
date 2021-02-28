@@ -1,15 +1,15 @@
-name: App - Code Style
+name: Server - Code Style
 
 on:
   pull_request:
     paths:
-      - 'app/**'
+      - 'server/**'
       - '.pretterrc'
       - 'eslint-config/**'
 
 defaults:
   run:
-    working-directory: ./app/
+    working-directory: ./server/
 
 jobs:
   prettier:
@@ -30,15 +30,14 @@ jobs:
         run: |
           yarn install --frozen-lockfile --network-timeout 300000
 
-      - name: Run Prettier and Linter
+      - name: Run Linter
         run: |
-          yarn lint-fix
-          yarn prettier
+          yarn lint --fix
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v2.3.0
         with:
-          commit_message: Apply Prettier and Linter changes
+          commit_message: Apply Linter
           branch: ${{ github.head_ref }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

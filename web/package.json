@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint '*/**/*.{js,ts,tsx}' --fix"
+    "lint": "eslint '*/**/*.{js,ts,tsx}'"
   },
   "dependencies": {
     "@emotion/core": "^10.0.28",
@@ -21,6 +21,7 @@
     "react-markdown": "^5.0.3"
   },
   "devDependencies": {
+    "@leftonread/eslint-config": "file:../eslint-config",
     "@types/node": "^14.0.6",
     "@types/react": "^16.9.35",
     "@typescript-eslint/eslint-plugin": "^4.14.2",

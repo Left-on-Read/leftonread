@@ -4,13 +4,14 @@
   "description": "",
   "scripts": {
     "dev": "ts-node-dev src/index.ts",
-    "lint": "eslint '*/**/*.{js,ts}' --fix",
+    "lint": "eslint '*/**/*.{js,ts}'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@leftonread/eslint-config": "file:../eslint-config",
     "@types/cors": "^2.8.9",
     "@types/express": "^4.17.11",
     "@types/mongoose": "^5.10.3",
