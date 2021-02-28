@@ -61,8 +61,7 @@ export function Navbar() {
               display: 'none',
             },
           }}
-        >
-        </div>
+        ></div>
       </div>
     </>
   )

@@ -4,11 +4,11 @@ import Theme from '../../theme'
 export default function BarChart({
   labels,
   data,
-  title
+  title,
 }: {
   labels: Array<string>
   data: Array<number>
-  title: string,
+  title: string
 }) {
   const chartData = {
     labels,
