@@ -22,6 +22,6 @@ export function DefaultContentContainer({
       }}
     >
       {children}
-    </div>
+</div>
   )
 }
