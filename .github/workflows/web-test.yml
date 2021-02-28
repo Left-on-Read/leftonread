@@ -1,0 +1,43 @@
+name: Web - Test
+
+on:
+  push:
+    paths:
+      - 'web/**'
+      - '.pretterrc'
+      - '.eslintrc'
+
+defaults:
+  run:
+    working-directory: ./web/
+
+jobs:
+  release:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [macos-latest]
+
+    steps:
+      - name: Check Out Git repository
+        uses: actions/checkout@v1
+
+      - name: Install Node.js, NPM and Yarn
+        uses: actions/setup-node@v1
+        with:
+          node-version: 15
+
+      - name: Install Dependencies
+        run: |
+          yarn install --frozen-lockfile --network-timeout 300000
+
+      - name: Typecheck
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          yarn tsc
+
+      - name: Lint
+        run: |
+          yarn lint
