@@ -10,7 +10,7 @@ import { Text } from '../Text'
 
 const DISPLAY_TEXT = 'What can you learn from your texts?'
 const DESCRIPTION_TEXT =
-  'Trillions of text messages are sent daily between billions of people. See how you can communicate more effectively and efficiently.'
+  'Trillions of text messages are sent every day. Learn about yourself with Left on Read, a free text message analyzer built on open source for Mac Desktop.'
 
 export function GetStarted({
   ctaRef,
@@ -59,7 +59,7 @@ export function GetStarted({
             <Text type="display">{DISPLAY_TEXT}</Text>
             <Text type="paragraph">{DESCRIPTION_TEXT}</Text>
             <Button
-              label="Get Started →"
+              label="Download →"
               css={{
                 marginTop: '64px',
                 [belowBreakpoint.sm]: { marginTop: '32px' },

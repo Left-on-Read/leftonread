@@ -6,8 +6,6 @@ import { useRouter } from 'next/router'
 
 import * as React from 'react'
 
-// TODO(teddy): Once we implement more sections, turn these into working links
-// TODO(teddy): Need to implement mobile navbar
 export function Navbar() {
   const router = useRouter()
 
@@ -64,18 +62,6 @@ export function Navbar() {
             },
           }}
         >
-          <div>About</div>
-          <div
-            css={{
-              margin: '0 64px',
-              [belowBreakpoint.lg]: {
-                margin: '0 32px',
-              },
-            }}
-          >
-            Download
-          </div>
-          <div>Contact Us</div>
         </div>
       </div>
     </>
