@@ -12,6 +12,7 @@
     ".eslintcache": true,
     "node_modules": true,
     "npm-debug.log.*": true,
-    "yarn.lock": true
+    "yarn.lock": true,
+    "files.insertFinalNewline": true
   }
 }

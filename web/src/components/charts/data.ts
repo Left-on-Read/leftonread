@@ -50,26 +50,3 @@ export const LIST_OF_TEXTS: Array<IText> = [
     words: ['movie', 'lit', 'man'],
   },
 ]
-
-export const FAVORITE_EMOJIS = [
-  {
-    emoji: '🍆',
-    count: 12
-  },
-  {
-    emoji: '❤️',
-    count: 11
-  },
-  {
-    emoji: '🙌',
-    count: 8
-  },
-  {
-    emoji: '💎',
-    count: 6
-  },
-  {
-    emoji: '🚀',
-    count: 5
-  }
-]
