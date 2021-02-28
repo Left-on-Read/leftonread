@@ -1105,6 +1105,9 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@leftonread/eslint-config@file:../eslint-config":
+  version "1.0.0"
+
 "@next/react-dev-overlay@9.4.4":
   version "9.4.4"
   resolved "https://registry.yarnpkg.com/@next/react-dev-overlay/-/react-dev-overlay-9.4.4.tgz#4ae03ac839ff022b3ce5c695bd24b179d4ef459d"
