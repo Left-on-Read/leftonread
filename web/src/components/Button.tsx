@@ -19,8 +19,7 @@ export default function Button({
     <button
       type={type}
       className={className}
-      onClick={onClick}
-      css={{
+      onClick={onClick} css={{
         backgroundColor: Theme.primary.main,
         padding: '16px 32px',
         fontSize: '26px',
