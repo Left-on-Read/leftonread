@@ -5,6 +5,7 @@ import { GetStarted } from '../components/sections/GetStarted'
 import { Infographic } from '../components/sections/Infographic'
 import { GetNotified } from '../components/sections/GetNotified'
 import { Footer } from '../components/Footer'
+
 // TODO(teddy): Add a minheight
 export default function Landing() {
   const ctaRef = React.useRef<HTMLDivElement>(null)
