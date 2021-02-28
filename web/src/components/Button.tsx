@@ -43,7 +43,6 @@ export default function Button({
       }}
       {...props}
     >
-      {label}
-    </button>
+      {label}</button>
   )
 }
