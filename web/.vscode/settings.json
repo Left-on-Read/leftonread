@@ -1,0 +1,18 @@
+{
+  "files.associations": {
+    ".babelrc": "jsonc",
+    ".eslintrc": "jsonc",
+    ".prettierrc": "jsonc",
+    ".eslintignore": "ignore"
+  },
+  "typescript.format.enable": false,
+  "search.exclude": {
+    ".git": true,
+    ".next": true,
+    ".eslintcache": true,
+    "node_modules": true,
+    "npm-debug.log.*": true,
+    "yarn.lock": true,
+    "files.insertFinalNewline": true
+  }
+}

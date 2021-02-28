@@ -3,15 +3,16 @@ import * as React from 'react'
 import { jsx } from '@emotion/core'
 import Theme, { belowBreakpoint } from '../../theme'
 import { DefaultContentContainer } from '../DefaultContentContainer'
-import { Bar } from 'react-chartjs-2'
 import { TextNotification } from '../TextNotification'
 import { motion, AnimateSharedLayout } from 'framer-motion'
 import { Text } from '../Text'
+import { LIST_OF_TEXTS } from '../charts/data'
+import type { IText } from '../charts/types'
+import BarChart from '../charts/BarChart'
 
 const HEADER_TEXT = 'Unique analytics.'
 const DESCRIPTION_TEXT = `
-  It's time to start feeling empowered about how you use technology. 
-  Left on Read is the world's first text analyzer. 
+  Feel empowered about how you use technology. 
   We render graphs about your text messages, so you can feel better about your relationship with your phone.`
 
 export function Infographic() {
@@ -75,7 +76,8 @@ export function Infographic() {
                 marginTop: '40px',
               }}
             >
-              <ExampleChart
+              <BarChart
+                title={'Top Received Words'}
                 labels={receivedWords.labels}
                 data={receivedWords.data}
               />
@@ -103,16 +105,8 @@ export function Infographic() {
   )
 }
 
-type Text = {
-  key: number
-  name: string
-  text: string
-  length: number
-  words?: Array<string>
-}
-
 function useTextData(): {
-  texts: Array<Text>
+  texts: Array<IText>
   receivedWords: {
     labels: Array<string>
     data: Array<number>
@@ -120,7 +114,7 @@ function useTextData(): {
 } {
   const MAX_ITEMS = 5
 
-  const [texts, setTexts] = React.useState<Array<Text>>([])
+  const [texts, setTexts] = React.useState<Array<IText>>([])
   const [counter, setCounter] = React.useState(0)
   const [receivedWords, setReceivedWords] = React.useState<Map<string, number>>(
     new Map()
@@ -171,59 +165,11 @@ function useTextData(): {
   }
 }
 
-function ExampleChart({
-  labels,
-  data,
-}: {
-  labels: Array<string>
-  data: Array<number>
-}) {
-  const chartData = {
-    labels,
-    datasets: [
-      {
-        label: 'Top Received Words',
-        data,
-        backgroundColor: [
-          Theme.palette.canaryYellow.faded,
-          Theme.palette.sherwoodGreen.faded,
-          Theme.palette.skyBlue.faded,
-          Theme.palette.palePink.faded,
-          Theme.palette.petalPurple.faded,
-        ],
-        borderColor: [
-          Theme.palette.canaryYellow.main,
-          Theme.palette.sherwoodGreen.main,
-          Theme.palette.skyBlue.main,
-          Theme.palette.palePink.main,
-          Theme.palette.petalPurple.main,
-        ],
-        borderWidth: 1,
-      },
-    ],
-  }
-
-  const options = {
-    scales: {
-      yAxes: [
-        {
-          ticks: {
-            beginAtZero: true,
-          },
-        },
-      ],
-    },
-    responsive: true,
-  }
-
-  return <Bar data={chartData} options={options} />
-}
-
 function TextList({
   data,
   className,
 }: {
-  data: Array<Text>
+  data: Array<IText>
   className?: string
 }) {
   return (
@@ -257,7 +203,7 @@ function TextStack({
   data,
   className,
 }: {
-  data: Array<Text>
+  data: Array<IText>
   className?: string
 }) {
   const text = data[0]
@@ -277,54 +223,3 @@ function TextStack({
     </motion.div>
   )
 }
-
-const DEFAULT_LENGTH = 5000
-
-const LIST_OF_TEXTS: Array<Text> = [
-  {
-    key: 1,
-    name: 'Alexander',
-    text:
-      'Dude! Did you see that crazy article on the New York Times? Insane!!',
-    length: DEFAULT_LENGTH,
-    words: ['dude', 'crazy', 'article', 'new', 'york', 'times', 'insane'],
-  },
-  {
-    key: 2,
-    name: 'Mariah',
-    text:
-      'Hey babe! Ready to head out soon? Our reservation is in 30 minutes...',
-    length: 1000,
-    words: ['crazy', 'insane', 'reservation', 'babe'],
-  },
-  {
-    key: 3,
-    name: 'Mariah',
-    text: 'love you! but dont be late',
-    length: DEFAULT_LENGTH,
-    words: ['love', 'babe', 'late'],
-  },
-  {
-    key: 4,
-    name: 'Amelia',
-    text:
-      'were u able to finish ur section of the project? i have some ideas on how we can maybe get it up to B quality',
-    length: DEFAULT_LENGTH,
-    words: ['finish', 'project', 'quality', 'love'],
-  },
-  {
-    key: 5,
-    name: 'Phillip',
-    text:
-      'Wanna get smashhed tn with the boys? Looking to cause some trouble 😈',
-    length: DEFAULT_LENGTH,
-    words: ['smashed', 'boys', 'trouble'],
-  },
-  {
-    key: 6,
-    name: 'Jonah',
-    text: 'Man we gotta go to the movies later, im tryna get LIT',
-    length: DEFAULT_LENGTH,
-    words: ['movie', 'lit', 'man'],
-  },
-]

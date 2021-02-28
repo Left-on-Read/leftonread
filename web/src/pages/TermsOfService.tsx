@@ -88,7 +88,7 @@ abide by these linking terms and conditions.
 ---
 
 ### Removal of links from our website
-If you find any link on our Website or any linked web site objectionable for any reason, you may contact us about this. 
+If you find any link on our website or any linked web site objectionable for any reason, you may contact us about this. 
 We will consider requests to remove links but will have no obligation to do so or to respond directly to you. Whilst we 
 endeavour to ensure that the information on this website is correct, we do not warrant its completeness or accuracy; nor do 
 we commit to ensuring that the website remains available or that the material on the website is kept up to date.
