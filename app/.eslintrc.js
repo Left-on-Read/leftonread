@@ -4,8 +4,7 @@ module.exports = {
     // BEGIN: A temporary hack related to IDE not resolving correct package.json
     'import/no-extraneous-dependencies': 'off',
     // END
-    'import/prefer-default-export': 'off',
-    '@typescript-eslint/ban-ts-comment': 'off',
+    'import/prefer-default-export': 'off', // NOTE(danilowicz): turn this back on later for sake of consistency
   },
   parserOptions: {
     ecmaVersion: 2020,

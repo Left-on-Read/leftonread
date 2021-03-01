@@ -77,6 +77,7 @@ export async function coreInit(): Promise<sqlite3.Database> {
     await createContactTable(possibleAddressBookDB);
     try {
       // Typescript thinks db.filename does not exist, but it does.
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       const q = `ATTACH '${possibleAddressBookDB.filename}' AS ${addressBookDBAliasName}`;
       await sqlite3Wrapper.runP(lorDB, q);
