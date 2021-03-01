@@ -37,6 +37,8 @@ export default function Root() {
     createInitialLoad();
   }, []);
 
+  // TODO(danilowicz): remove usage of 'any'
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleContactChange = (selected?: any) => {
     if (selected !== null) {
       setContact(selected.value);

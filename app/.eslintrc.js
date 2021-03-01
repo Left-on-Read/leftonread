@@ -1,14 +1,10 @@
 module.exports = {
-  root: true, // NOTE(teddy): When we want to try to consolidate a unified eslint config, delete this
-  extends: 'erb',
+  extends: ['@leftonread/eslint-config', 'erb'],
   rules: {
     // BEGIN: A temporary hack related to IDE not resolving correct package.json
     'import/no-extraneous-dependencies': 'off',
     // END
-    'import/prefer-default-export': 'off',
-    '@typescript-eslint/ban-ts-comment': 'off',
-    '@typescript-eslint/no-explicit-any': 'off',
-    'react/jsx-curly-newline': 'off', // conflicts with prettier
+    'import/prefer-default-export': 'off', // NOTE(danilowicz): turn this back on later for sake of consistency
   },
   parserOptions: {
     ecmaVersion: 2020,
