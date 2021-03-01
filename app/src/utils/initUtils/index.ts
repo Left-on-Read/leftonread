@@ -46,6 +46,7 @@ export async function copyFiles(
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function getContactOptions(db: sqlite3.Database): Promise<any> {
   const q = `
   SELECT
