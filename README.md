@@ -1,18 +1,27 @@
 <h2 align="center">Left on Read</h2>
 
-### Philosophy
+### Mission and Values
 
-**👩🏻‍💻Open Source Transparency**: We open sourced the entire application to keep users' security and privacy first.
+**👩🏻‍💻Open-Source Transparency**: We open-sourced the entire application to keep users' security and privacy first.
 
 **🚀Fast**: Now a standalone desktop application, Left on Read works without an Internet connection!
 
-**🤪Daily Fun**: Keepin' it fun. As an application, users can now easily use Left on Read daily.
+**🤪Daily Fun**: Keepin' it fun. Without needing to re-upload, users can now more easily use Left on Read daily.
 
 <p align="right"><em>See more on <a href="https://leftonread.me/">leftonread.me</a></em></p>
 
 ## Contributing
 
-TODO - see READMEs in project subdirectories.
+We ❤️ contributors. Please be sure to read our [CODE OF CONDUCT](./CODE_OF_CONDUCT).
+
+At a high-level, this monorepo is split up into 4 project subdirectories:
+
+1. `app/` — the Left on Read Electron application itself that is not dependent on anything in `server/` or `web/`. (Remember: the app does not even connect to the Internet.)
+2. `web/` - the marketing site.
+3. `server/` - the server for the marketing site.
+4. `eslint-config/` - a shared eslint config to maintain consistency.
+
+Please see each project's README for more information.
 
 ## Sponsors
 

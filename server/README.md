@@ -1,6 +1,6 @@
-# Left on Read Server
+# Left on Read - Server
 
-## Set up
+## Local Development
 
 ### Prerequisites
 
