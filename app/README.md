@@ -15,7 +15,7 @@ We are proud to be using [Electron-React Boilerplate
 ### Quick Start
 
 1. Install packages with `yarn`
-2. Run the application with `yarn start`
+2. Run the application with `yarn start` 
 
 ## Contributing
 
@@ -27,6 +27,15 @@ We are proud to be using [Electron-React Boilerplate
 - Keep files small
 
 ## Troubleshooting Local Development:
+
+#### Permissioned denied
+
+You need to give your terminal application (for example, iTerm) "full disk access" in order to run Left on Read locally. This is because the application needs to copy the chat.db file in `~/Library/Messages` into the Left on Read application folder `~/.leftonread`
+
+To give your Terminal full disk access, go to System Preferences > Security and Privacy > Full Disk Access (a folder on the scrollbar) > and select iTerm. 
+
+It is an open issue to prompt you automatically. See [#92](https://github.com/Left-on-Read/leftonread/issues/92). 
+
 
 #### DATABASE MALFORMED — TRIGGER ERROR
 
