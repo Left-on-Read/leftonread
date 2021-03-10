@@ -52,7 +52,7 @@ export function Footer() {
                   color: 'inherit',
                   textDecoration: 'none',
                 }}
-                href="https://github.com/Left-on-Read/leftonread/issues/new"
+                href="https://github.com/Left-on-Read/leftonread/issues/new?&labels=contact-us&template=contact_us.md"
               >
                 Contact Us
               </a>
