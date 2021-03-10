@@ -2,6 +2,7 @@
 import { jsx } from '@emotion/core'
 import { DefaultContentContainer } from './DefaultContentContainer'
 import Theme from '../theme'
+import Link from 'next/link'
 
 // NOTE(teddy): This is probably going to require a refactor to a column structure once we have more footer content.
 export function Footer() {
@@ -27,12 +28,14 @@ export function Footer() {
               width: '100%',
             }}
           >
-            <img
-              src={require('../assets/ICON.png')}
-              css={{
-                width: '64px',
-              }}
-            />
+            <Link href="/">
+              <img
+                src={require('../assets/ICON.png')}
+                css={{
+                  width: '64px',
+                }}
+              />
+            </Link>
             <div
               css={{
                 flex: '1 1 0',
@@ -41,11 +44,24 @@ export function Footer() {
                 alignItems: 'center',
                 justifyContent: 'space-around',
                 fontSize: '18px',
+                cursor: 'pointer',
               }}
             >
-              <div>Contact Us</div>
-              <div>Privacy Policy</div>
-              <div>Terms of Service</div>
+              <a
+                css={{
+                  color: 'inherit',
+                  textDecoration: 'none',
+                }}
+                href="https://github.com/Left-on-Read/leftonread/issues/new"
+              >
+                Contact Us
+              </a>
+              <Link as="/privacy" href="/PrivacyPolicy">
+                <div>Privacy Policy</div>
+              </Link>
+              <Link as="/terms" href="/TermsOfService">
+                <div>Terms of Service</div>
+              </Link>
             </div>
           </div>
           <div
