@@ -97,7 +97,6 @@ export function GetNotified({
         setMessage(body?.message || 'Uh oh, something went wrong')
       }
     } catch (e) {
-      console.log(e)
       setState('error')
       setMessage('Uh oh, something went wrong.')
     }

@@ -16,7 +16,6 @@ export default function Input({
   onChange?: (arg0: string) => void
   disabled?: boolean
 }) {
-  console.log(disabled)
   return (
     <input
       className={className}
