@@ -1,6 +1,6 @@
 import { palette } from './colors'
 
-import { shadow } from './semantics'
+import { shadow, success, error } from './semantics'
 
 const Theme = {
   primary: palette.petalPurple,
@@ -8,6 +8,8 @@ const Theme = {
   palette,
   semantics: {
     shadow,
+    success,
+    error,
   },
 }
 

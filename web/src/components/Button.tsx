@@ -8,12 +8,13 @@ export default function Button({
   label,
   onClick,
   className,
-  ...props
+  disabled,
 }: {
   type?: 'submit' | 'button' | 'reset'
   label: string
   onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void
   className?: string
+  disabled?: boolean
 }) {
   return (
     <button
@@ -41,7 +42,7 @@ export default function Button({
           backgroundColor: Theme.primary.hover,
         },
       }}
-      {...props}
+      disabled={disabled}
     >
       {label}
     </button>

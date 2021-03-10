@@ -8,11 +8,13 @@ export default function Input({
   className,
   value,
   onChange,
+  disabled,
 }: {
   placeholder?: string
   className?: string
   value: string
   onChange?: (arg0: string) => void
+  disabled?: boolean
 }) {
   return (
     <input
@@ -45,6 +47,7 @@ export default function Input({
           onChange(e.target.value)
         }
       }}
+      disabled={disabled}
     />
   )
 }
