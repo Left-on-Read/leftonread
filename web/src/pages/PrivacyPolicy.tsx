@@ -4,6 +4,7 @@ import { jsx } from '@emotion/core'
 import { DefaultContentContainer } from '../components/DefaultContentContainer'
 import { Navbar } from '../components/Navbar'
 import { Markdown } from '../components/Markdown'
+import { Footer } from '../components/Footer'
 
 const PP = `
 
@@ -58,9 +59,12 @@ please contact us.
 
 export default function TermsOfService() {
   return (
-    <DefaultContentContainer>
-      <Navbar />
-      <Markdown raw={PP} />
-    </DefaultContentContainer>
+    <>
+      <DefaultContentContainer>
+        <Navbar />
+        <Markdown raw={PP} />
+      </DefaultContentContainer>
+      <Footer />
+    </>
   )
 }
