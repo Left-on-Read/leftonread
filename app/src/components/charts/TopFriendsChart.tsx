@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Bar } from 'react-chartjs-2';
 import * as sqlite3 from 'sqlite3';
 import log from 'electron-log';
 import * as chatBro from '../../chatBro';
 import interpolateColors from '../../utils/colors';
-import ChartLoader from '../loading/ChartLoader';
+import { BarChartWrapper } from '../shared';
 
 interface TopFriendsProps {
   db: sqlite3.Database;
@@ -18,6 +17,7 @@ export default function TopFriendsChart(props: TopFriendsProps) {
   const [friends, setFriends] = useState<string[]>([]);
   const [received, setReceived] = useState<number[]>([]);
   const [sent, setSent] = useState<number[]>([]);
+  const [success, setSuccess] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchTopFriends() {
@@ -26,7 +26,9 @@ export default function TopFriendsChart(props: TopFriendsProps) {
         setFriends(topFriendsDataList.map((obj) => obj.friend));
         setSent(topFriendsDataList.map((obj) => obj.sent));
         setReceived(topFriendsDataList.map((obj) => obj.received));
+        setSuccess(true);
       } catch (err) {
+        setSuccess(false);
         log.error('ERROR fetchTopFriends', err);
       }
     }
@@ -85,12 +87,13 @@ export default function TopFriendsChart(props: TopFriendsProps) {
     },
   };
 
-  if (friends.length > 0) {
-    return (
-      <div>
-        <Bar data={data} options={options} />
-      </div>
-    );
-  }
-  return <ChartLoader titleText={titleText} />;
+  return (
+    <BarChartWrapper
+      data={data}
+      labels={friends}
+      options={options}
+      titleText={titleText}
+      success={success}
+    />
+  );
 }

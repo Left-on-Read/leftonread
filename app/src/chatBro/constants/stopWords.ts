@@ -146,6 +146,7 @@ const stopWordsList = [
   'most',
   'other',
   'some',
+  'id',
   'such',
   'no',
   'nor',
