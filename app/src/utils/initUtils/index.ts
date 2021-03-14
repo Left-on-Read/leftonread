@@ -46,23 +46,6 @@ export async function copyFiles(
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function getContactOptions(db: sqlite3.Database): Promise<any> {
-  const q = `
-  SELECT
-    COALESCE(contact_name, h.id) as value,
-    COALESCE(contact_name, h.id) as label,
-    COUNT(*) as mycount,
-    h.id
-  FROM message
-  JOIN handle h
-    ON
-      h.ROWID = handle_id
-  GROUP BY h.id
-  ORDER BY mycount DESC`;
-  return sqlite3Wrapper.allP(db, q);
-}
-
 export async function coreInit(): Promise<sqlite3.Database> {
   // TODO: logic could be added here depending on what user wants to update their chat.db
   await createAppDirectory();

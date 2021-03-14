@@ -5,7 +5,8 @@ import * as sqlite3 from 'sqlite3';
 import log from 'electron-log';
 import './app.global.css';
 import { interpolateCool } from 'd3-scale-chromatic';
-import { coreInit, getContactOptions } from './utils/initUtils';
+import { coreInit } from './utils/initUtils';
+import { getContactOptions } from './utils/initUtils/contacts';
 import LimitFilter from './components/filters/LimitFilter';
 import { DEFAULT_LIMIT, GroupChatFilters } from './chatBro/constants/filters';
 import GroupChatFilter from './components/filters/GroupChatFilter';
@@ -20,8 +21,10 @@ export default function Root() {
   const [groupChat, setGroupChat] = useState<GroupChatFilters>(
     GroupChatFilters.ONLY_INDIVIDUAL
   );
-  const [contact, setContact] = useState(undefined);
-  const [contactOptions, setContactOptions] = useState([]);
+  const [contact, setContact] = useState<string | undefined>(undefined);
+  const [contactOptions, setContactOptions] = useState<
+    ContactOptions.ContactData[]
+  >([]);
 
   useEffect(() => {
     async function createInitialLoad() {
@@ -37,14 +40,10 @@ export default function Root() {
     createInitialLoad();
   }, []);
 
-  // TODO(danilowicz): remove usage of 'any'
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleContactChange = (selected?: any) => {
-    if (selected !== null) {
-      setContact(selected.value);
-    } else {
-      setContact(undefined);
-    }
+  const handleContactChange = (
+    selected?: ContactOptions.ContactData | null | undefined
+  ) => {
+    setContact(selected?.value);
   };
 
   const handleLimitChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,7 +67,9 @@ export default function Root() {
           />
           <ContactFilter
             options={contactOptions}
-            contact={contact}
+            contact={{
+              value: contact,
+            }}
             handleChange={handleContactChange}
           />
         </div>
