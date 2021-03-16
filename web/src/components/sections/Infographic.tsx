@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import * as React from 'react'
 import { jsx, css } from '@emotion/core'
-import Theme, { belowBreakpoint } from '../../theme'
+import Theme, { belowBreakpoint, MIN_HEIGHT } from '../../theme'
 import { DefaultContentContainer } from '../DefaultContentContainer'
 import { TextNotification } from '../TextNotification'
 import { motion, AnimateSharedLayout } from 'framer-motion'
@@ -18,6 +18,7 @@ const DESCRIPTION_TEXT = `
 const styles = {
   mainContainer: css({
     height: '100vh',
+    minHeight: MIN_HEIGHT,
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: Theme.palette.frogGreen.faded,
@@ -32,6 +33,7 @@ const styles = {
   infoContainer: css({
     display: 'flex',
     flexDirection: 'column',
+    alignItems: 'center',
     [belowBreakpoint.lg]: {
       width: '100%',
     },
@@ -53,6 +55,7 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: '40px',
+    width: '70%',
   }),
   textStackBlock: css({
     flex: '0 0 400px',

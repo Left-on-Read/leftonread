@@ -3,7 +3,7 @@ import { jsx } from '@emotion/core'
 
 import { Navbar } from '../Navbar'
 import Button from '../Button'
-import { belowBreakpoint } from '../../theme'
+import { belowBreakpoint, MIN_HEIGHT } from '../../theme'
 import { Gradient } from '../Gradient'
 import { DefaultContentContainer } from '../DefaultContentContainer'
 import { Text } from '../Text'
@@ -28,6 +28,7 @@ export function GetStarted({
       <div
         css={{
           height: '100vh',
+          minHeight: MIN_HEIGHT,
           display: 'flex',
           flexDirection: 'column',
         }}
