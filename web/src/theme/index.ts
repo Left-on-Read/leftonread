@@ -26,3 +26,5 @@ export const belowBreakpoint = {
   md: `@media (max-width: ${Breakpoints.md}px)`,
   lg: `@media (max-width: ${Breakpoints.lg}px)`,
 }
+
+export const MIN_HEIGHT = '720px'
