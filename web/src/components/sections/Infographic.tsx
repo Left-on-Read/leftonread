@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import * as React from 'react'
-import { jsx } from '@emotion/core'
+import { jsx, css } from '@emotion/core'
 import Theme, { belowBreakpoint } from '../../theme'
 import { DefaultContentContainer } from '../DefaultContentContainer'
 import { TextNotification } from '../TextNotification'
@@ -15,67 +15,75 @@ const DESCRIPTION_TEXT = `
   Feel empowered about how you use technology. 
   We render graphs about your text messages, so you can feel better about your relationship with your phone.`
 
+const styles = {
+  mainContainer: css({
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: Theme.palette.frogGreen.faded,
+    position: 'relative',
+  }),
+  contentContainer: css({
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: '100%',
+  }),
+  infoContainer: css({
+    display: 'flex',
+    flexDirection: 'column',
+    [belowBreakpoint.lg]: {
+      width: '100%',
+    },
+  }),
+  textStackWrapper: css({
+    display: 'flex',
+    justifyContent: 'center',
+    width: '100%',
+  }),
+  textStack: css({
+    display: 'none',
+    [belowBreakpoint.lg]: {
+      marginTop: '40px',
+      display: 'block',
+    },
+  }),
+  chartWrapper: css({
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: '40px',
+  }),
+  textStackBlock: css({
+    flex: '0 0 400px',
+    [belowBreakpoint.lg]: {
+      display: 'none',
+    },
+  }),
+  textList: css({
+    marginRight: '12px',
+    [belowBreakpoint.lg]: {
+      display: 'none',
+    },
+  }),
+}
+
 export function Infographic() {
   const { texts, receivedWords } = useTextData()
 
   return (
-    <div
-      css={{
-        height: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        backgroundColor: Theme.palette.frogGreen.faded,
-        position: 'relative',
-      }}
-    >
+    <div css={styles.mainContainer}>
       <DefaultContentContainer>
-        <div
-          css={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            height: '100%',
-          }}
-        >
-          <div
-            css={{
-              display: 'flex',
-              flexDirection: 'column',
-              [belowBreakpoint.lg]: {
-                width: '100%',
-              },
-            }}
-          >
+        <div css={styles.contentContainer}>
+          <div css={styles.infoContainer}>
             <div>
               <Text type="header">{HEADER_TEXT}</Text>
               <Text type="paragraph">{DESCRIPTION_TEXT}</Text>
             </div>
-            <div
-              css={{
-                display: 'flex',
-                justifyContent: 'center',
-                width: '100%',
-              }}
-            >
-              <TextStack
-                data={texts}
-                css={{
-                  display: 'none',
-                  [belowBreakpoint.lg]: {
-                    marginTop: '40px',
-                    display: 'block',
-                  },
-                }}
-              />
+            <div css={styles.textStackWrapper}>
+              <TextStack data={texts} css={styles.textStack} />
             </div>
-            <div
-              css={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginTop: '40px',
-              }}
-            >
+            <div css={styles.chartWrapper}>
               <BarChart
                 title={'Top Received Words'}
                 labels={receivedWords.labels}
@@ -83,24 +91,11 @@ export function Infographic() {
               />
             </div>
           </div>
-          <div
-            css={{
-              flex: '0 0 400px',
-              [belowBreakpoint.lg]: {
-                display: 'none',
-              },
-            }}
-          />
+          {/* NOTE(teddy): This creates space for the text message list */}
+          <div css={styles.textStackBlock} />
         </div>
       </DefaultContentContainer>
-      <TextList
-        data={texts}
-        css={{
-          [belowBreakpoint.lg]: {
-            display: 'none',
-          },
-        }}
-      />
+      <TextList data={texts} css={styles.textList} />
     </div>
   )
 }
