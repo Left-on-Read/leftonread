@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import * as React from 'react'
 import { jsx, css } from '@emotion/core'
-import Theme, { belowBreakpoint, minHeight } from '../../theme'
+import Theme, { belowBreakpoint, MIN_HEIGHT } from '../../theme'
 import { DefaultContentContainer } from '../DefaultContentContainer'
 import { TextNotification } from '../TextNotification'
 import { motion, AnimateSharedLayout } from 'framer-motion'
@@ -18,7 +18,7 @@ const DESCRIPTION_TEXT = `
 const styles = {
   mainContainer: css({
     height: '100vh',
-    minHeight: minHeight,
+    minHeight: MIN_HEIGHT,
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: Theme.palette.frogGreen.faded,
