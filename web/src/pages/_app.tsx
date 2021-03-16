@@ -1,8 +1,25 @@
 import { AppProps } from 'next/app'
 import { CacheProvider, css, Global } from '@emotion/core'
 import { cache } from 'emotion'
+import { useRouter } from 'next/router'
+import * as React from 'react'
+import * as gtag from '../utils/gtag'
 
 function App({ Component, pageProps }: AppProps) {
+  const router = useRouter()
+
+  React.useEffect(() => {
+    const handleRouteChange = (url: string) => {
+      gtag.pageView(url)
+    }
+
+    router.events.on('routeChangeComplete', handleRouteChange)
+
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange)
+    }
+  }, [router.events])
+
   return (
     <CacheProvider value={cache}>
       <Global

@@ -9,6 +9,7 @@ import { DefaultContentContainer } from '../DefaultContentContainer'
 import { Text } from '../Text'
 import { API_BASE } from '../../constants'
 import { StatusLoader, StatusLoaderState } from '../StatusLoader'
+import { logEvent, logException } from '../../utils/gtag'
 
 const DEFAULT_PARAGRAPH_WEIGHT = 400
 
@@ -71,6 +72,11 @@ export function GetNotified({
   const [state, setState] = React.useState<StatusLoaderState | null>(null)
 
   const signUpEmail = async (submittedEmail: string) => {
+    logEvent({
+      action: 'submit_email',
+      category: 'Notify',
+    })
+
     const data = {
       email: submittedEmail,
     }
@@ -91,14 +97,29 @@ export function GetNotified({
       if (response.status === 200 || response.status === 201) {
         setState('success')
         setMessage('Successfully signed up!')
+        logEvent({
+          action: 'submit_email_success',
+          category: 'Notify',
+        })
       } else {
         const body = await response.json()
         setState('error')
         setMessage(body?.message || 'Uh oh, something went wrong')
+        logEvent({
+          action: 'submit_email_error',
+          category: 'Notify',
+          label: body?.message,
+          value: response.status,
+        })
       }
     } catch (e) {
       setState('error')
       setMessage('Uh oh, something went wrong.')
+      logEvent({
+        action: 'submit_email_error',
+        category: 'Notify',
+        label: e,
+      })
     }
   }
 
