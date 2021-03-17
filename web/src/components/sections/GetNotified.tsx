@@ -9,7 +9,7 @@ import { DefaultContentContainer } from '../DefaultContentContainer'
 import { Text } from '../Text'
 import { API_BASE } from '../../constants'
 import { StatusLoader, StatusLoaderState } from '../StatusLoader'
-import { logEvent, logException } from '../../utils/gtag'
+import { logEvent } from '../../utils/gtag'
 
 const DEFAULT_PARAGRAPH_WEIGHT = 400
 

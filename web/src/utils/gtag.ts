@@ -23,3 +23,16 @@ export function logEvent({
     value,
   })
 }
+
+export function logException({
+  description,
+  fatal,
+}: {
+  description?: string
+  fatal?: boolean
+}) {
+  window.gtag('event', 'exception', {
+    description,
+    fatal,
+  })
+}
