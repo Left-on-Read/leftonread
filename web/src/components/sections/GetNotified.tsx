@@ -10,6 +10,7 @@ import { Text } from '../Text'
 import { writeEmailToFirestore } from '../../utils/firestore'
 import { StatusLoader, StatusLoaderState } from '../StatusLoader'
 import { logEvent } from '../../utils/gtag'
+import { isValidEmail } from '../../utils/validation'
 
 const DEFAULT_PARAGRAPH_WEIGHT = 400
 
@@ -77,6 +78,12 @@ export function GetNotified({
       category: 'Notify',
     })
 
+    if (!isValidEmail(submittedEmail)) {
+      setState('error')
+      setMessage('Please enter a valid email.')
+      return
+    }
+
     setState('loading')
     setMessage(undefined)
 
@@ -103,7 +110,6 @@ export function GetNotified({
     e.preventDefault()
     signUpEmail(email)
   }
-
   return (
     <DefaultContentContainer>
       <div
