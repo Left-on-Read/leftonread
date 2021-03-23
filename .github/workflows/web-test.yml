@@ -6,6 +6,7 @@ on:
       - 'web/**'
       - '.pretterrc'
       - 'eslint-config/**'
+      - '.github/workflows/web-test.yml'
 
 defaults:
   run:
@@ -41,3 +42,7 @@ jobs:
       - name: Lint
         run: |
           yarn lint
+
+      - name: Unit Tests
+        run: |
+          yarn test
