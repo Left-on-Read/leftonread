@@ -4,6 +4,7 @@ import { cache } from 'emotion'
 import { useRouter } from 'next/router'
 import * as React from 'react'
 import * as gtag from '../utils/gtag'
+import { initFirestore } from '../utils/firestore'
 
 function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
@@ -19,6 +20,10 @@ function App({ Component, pageProps }: AppProps) {
       router.events.off('routeChangeComplete', handleRouteChange)
     }
   }, [router.events])
+
+  React.useEffect(() => {
+    initFirestore()
+  }, [])
 
   return (
     <CacheProvider value={cache}>

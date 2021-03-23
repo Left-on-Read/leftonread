@@ -7,7 +7,7 @@ import Input from '../Input'
 import Button from '../Button'
 import { DefaultContentContainer } from '../DefaultContentContainer'
 import { Text } from '../Text'
-import { API_BASE } from '../../constants'
+import { writeEmailToFirestore } from '../../utils/firestore'
 import { StatusLoader, StatusLoaderState } from '../StatusLoader'
 import { logEvent } from '../../utils/gtag'
 
@@ -77,41 +77,17 @@ export function GetNotified({
       category: 'Notify',
     })
 
-    const data = {
-      email: submittedEmail,
-    }
-
     setState('loading')
     setMessage(undefined)
 
     try {
-      // TODO(teddy): Add some email validation here
-      const response = await fetch(`${API_BASE}/notify`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
+      await writeEmailToFirestore(submittedEmail)
+      logEvent({
+        action: 'submit_email_success',
+        category: 'Notify',
       })
-
-      if (response.status === 200 || response.status === 201) {
-        setState('success')
-        setMessage('Successfully signed up!')
-        logEvent({
-          action: 'submit_email_success',
-          category: 'Notify',
-        })
-      } else {
-        const body = await response.json()
-        setState('error')
-        setMessage(body?.message || 'Uh oh, something went wrong')
-        logEvent({
-          action: 'submit_email_error',
-          category: 'Notify',
-          label: body?.message,
-          value: response.status,
-        })
-      }
+      setState('success')
+      setMessage('Successfully signed up!')
     } catch (e) {
       setState('error')
       setMessage('Uh oh, something went wrong.')
