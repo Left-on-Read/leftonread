@@ -33,10 +33,10 @@ async function readAddressBookBackups(): Promise<sqlite3.Database | undefined> {
       const maxDB = getMaxDBRC(dbRecordCountResults as DBWithRecordCount[]);
       return maxDB.db;
     }
-    log.warn(`${addressBookBackUpFolderPath} dbs are all empty.`);
+    log.warn(`WARN: ${addressBookBackUpFolderPath} dbs are all empty.`);
     return undefined;
   }
-  log.warn(`${addressBookBackUpFolderPath} does not exist.`);
+  log.warn(`WARN: ${addressBookBackUpFolderPath} does not exist.`);
   return undefined;
 }
 /*
@@ -57,7 +57,7 @@ export async function findPossibleAddressBookDB(): Promise<
     initialAddressBookDBRecordCount &&
     initialAddressBookDBRecordCount.recordCount > 0
   ) {
-    log.info('inital addressbookDB found');
+    log.info('INFO: inital addressbookDB found');
     return initialAddressBookDBRecordCount.db;
   }
   return readAddressBookBackups();

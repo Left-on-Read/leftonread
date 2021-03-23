@@ -45,7 +45,7 @@ export class CoreCountTable extends Table {
 
   `;
     await sqlite3Wrapper.runP(this.db, q);
-    log.info(`Created ${this.name}`);
+    log.info(`INFO: created ${this.name}`);
     return this.name;
   }
 }

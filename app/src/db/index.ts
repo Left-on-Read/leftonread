@@ -10,7 +10,7 @@ export function initializeDB(path: string): sqlite3.Database {
 }
 
 export function closeDB(db: sqlite3.Database) {
-  log.info('Closing DB');
+  log.info('INFO: closing DB');
   db.close();
 }
 
@@ -20,10 +20,10 @@ export async function getRecordCounts(
 ): Promise<number> {
   const checkResult = await sqlite3Wrapper.allP(db, checkQuery);
   if (checkResult && Number(checkResult[0].count) > 0) {
-    log.info(`${checkResult[0].count} records found`);
+    log.info(`INFO: ${checkResult[0].count} records found`);
     return checkResult[0].count;
   }
-  log.info(`${db}: No records found`);
+  log.info(`INFO: ${db} - no records found`);
   return 0;
 }
 
@@ -36,7 +36,7 @@ export async function getDBWithRecordCounts(
   dbPath: string,
   checkQuery: string
 ): Promise<DBWithRecordCount | undefined> {
-  log.info(`Attempting to initialize ${dbPath}`);
+  log.info(`INFO: attempting to initialize ${dbPath}`);
   if (fs.existsSync(dbPath)) {
     const db = initializeDB(dbPath);
     const recordCount = await getRecordCounts(db, checkQuery);
