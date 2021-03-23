@@ -110,7 +110,10 @@ export function GetNotified({
         css={{
           display: 'flex',
           flexDirection: 'column',
-          padding: '120px 0',
+          padding: '80px 0',
+          [belowBreakpoint.sm]: {
+            padding: '40px 0',
+          },
         }}
         ref={ctaRef}
       >
@@ -127,6 +130,9 @@ export function GetNotified({
               flexDirection: 'column',
               alignItems: 'initial',
             },
+            [belowBreakpoint.sm]: {
+              marginTop: '40px',
+            },
           }}
         >
           <Input
@@ -138,6 +144,11 @@ export function GetNotified({
                 fontSize: '18px',
                 height: '28px',
                 width: '270px',
+              },
+              [belowBreakpoint.sm]: {
+                fontSize: '16px',
+                height: '24px',
+                width: '230px',
               },
             }}
             placeholder={'you@example.com'}

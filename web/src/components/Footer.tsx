@@ -1,15 +1,16 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
 import { DefaultContentContainer } from './DefaultContentContainer'
-import Theme from '../theme'
 import Link from 'next/link'
+import Theme, { belowBreakpoint } from '../theme'
 
 // NOTE(teddy): This is probably going to require a refactor to a column structure once we have more footer content.
 export function Footer() {
   return (
     <footer
       css={{
-        paddingTop: '80px',
+        marginTop: '20px',
+        paddingTop: '40px',
         paddingBottom: '20px',
         backgroundColor: Theme.primary.faded,
       }}
@@ -25,14 +26,14 @@ export function Footer() {
           <div
             css={{
               display: 'flex',
-              width: '100%',
             }}
           >
             <Link href="/">
               <img
                 src={require('../assets/ICON.png')}
                 css={{
-                  width: '64px',
+                  width: '66px',
+                  height: '62.4px',
                 }}
               />
             </Link>
@@ -45,6 +46,10 @@ export function Footer() {
                 justifyContent: 'space-around',
                 fontSize: '18px',
                 cursor: 'pointer',
+                [belowBreakpoint.sm]: {
+                  flexDirection: 'column',
+                  lineHeight: '25px',
+                },
               }}
             >
               <a
@@ -54,19 +59,28 @@ export function Footer() {
                 }}
                 href="https://github.com/Left-on-Read/leftonread/issues/new?&labels=contact-us&template=contact_us.md"
               >
+                Feedback
+              </a>
+              <a
+                css={{
+                  color: 'inherit',
+                  textDecoration: 'none',
+                }}
+                href="mailto:alex.danilowicz@gmail.com"
+              >
                 Contact Us
               </a>
               <Link as="/privacy" href="/PrivacyPolicy">
                 <div>Privacy Policy</div>
               </Link>
               <Link as="/terms" href="/TermsOfService">
-                <div>Terms of Service</div>
+                <div>Terms</div>
               </Link>
             </div>
           </div>
           <div
             css={{
-              marginTop: '48px',
+              marginTop: '28px',
             }}
           >
             © Left on Read 2021

@@ -10,7 +10,7 @@ import { Text } from '../Text'
 
 const DISPLAY_TEXT = 'What can you learn from your texts?'
 const DESCRIPTION_TEXT =
-  'Trillions of text messages are sent every day. Learn about yourself with Left on Read, a free text message analyzer built on open source for Mac Desktop.'
+  'Learn about yourself and your texting habits with Left on Read, a free iMessage analyzer built for Mac Desktop.'
 
 export function GetStarted({
   ctaRef,

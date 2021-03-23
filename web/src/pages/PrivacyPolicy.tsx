@@ -16,8 +16,7 @@ const PP = `
 ---
 ---
 
-As we inherently deal with sensitive information, text messages, your privacy is our #1 concern. This 
-Privacy Policy describes how your personal information is collected, used, and shared when you visit 
+This Privacy Policy describes how your personal information is collected, used, and shared when you visit our marketing site,
 leftonread.me (the “Site”).
 
 ----
