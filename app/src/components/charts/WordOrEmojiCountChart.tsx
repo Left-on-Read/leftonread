@@ -28,7 +28,7 @@ export default function WordOrEmojiCountChart(props: WordOrEmojiCountProps) {
         setCount(data.map((obj) => obj.count));
       } catch (err) {
         setSuccess(false);
-        log.error(`ERROR fetching for component for ${titleText}`, err);
+        log.error(`ERROR: fetching for ${titleText}`, err);
       }
     }
     fetchWordData();

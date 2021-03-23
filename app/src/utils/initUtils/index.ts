@@ -25,10 +25,10 @@ export async function createAppDirectory() {
   try {
     if (!fs.existsSync(appDirectoryPath)) {
       fs.mkdirSync(appDirectoryPath);
-      log.info('createAppDirectory success');
+      log.info('INFO: createAppDirectory success');
     }
   } catch (e) {
-    log.error(`createAppDirectory error ${e}`);
+    log.error(`ERROR: ${e}`);
   }
 }
 
@@ -40,9 +40,9 @@ export async function copyFiles(
     await copy(`${originalPath}`, `${appPath}`, {
       overwrite: true,
     });
-    log.info(`copyFiles success to ${appPath}`);
+    log.info(`INFO: copyFiles success to ${appPath}`);
   } catch (e) {
-    log.error(`copyFiles failure: ${e}`);
+    log.error('ERROR: copyFiles error', e);
   }
 }
 
@@ -56,7 +56,7 @@ export async function coreInit(): Promise<sqlite3.Database> {
   const lorDB = initializeDB(chatPaths.app);
   await dropAllChatTables(lorDB);
   if (possibleAddressBookDB) {
-    log.info(`Contacts found: ${possibleAddressBookDB}`);
+    log.info(`INFO: contacts found ${possibleAddressBookDB}`);
     await createContactTable(possibleAddressBookDB);
     try {
       // Typescript thinks db.filename does not exist, but it does.
@@ -64,25 +64,25 @@ export async function coreInit(): Promise<sqlite3.Database> {
       // @ts-ignore
       const q = `ATTACH '${possibleAddressBookDB.filename}' AS ${addressBookDBAliasName}`;
       await sqlite3Wrapper.runP(lorDB, q);
-      log.info(`ATTACH success`, q);
+      log.info(`INFO: ATTACH success`, q);
     } catch (err) {
-      log.error('ERROR ATTACH errored', err);
+      log.error('ERROR: ATTACH ERROR', err);
     }
     try {
       await addContactNameColumn(lorDB);
-      log.info(`ContactName column added successully`);
+      log.info(`INFO: ContactName column added successully`);
     } catch (err) {
-      log.warn('WARN add ContactName column already exists', err);
+      log.warn('WARN: add ContactName column already exists', err);
     }
     try {
       await setContactNameColumn(lorDB);
-      log.info(`ContactName Column set successully`);
+      log.info(`INFO: ContactName Column set successully`);
     } catch (err) {
-      log.error('ERROR setContactNameColumn error', err);
+      log.error('ERROR: setContactNameColumn error', err);
     }
     closeDB(possibleAddressBookDB); // after setContactNameColumn, we have no use for this db
   } else {
-    log.info('No contacts found.');
+    log.info('INFO: No contacts found.');
   }
   /*
    * NOTE:

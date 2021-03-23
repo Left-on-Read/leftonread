@@ -29,11 +29,11 @@ export default function TopFriendsChart(props: TopFriendsProps) {
         setSuccess(true);
       } catch (err) {
         setSuccess(false);
-        log.error('ERROR fetchTopFriends', err);
+        log.error(`ERROR: fetching for ${titleText}`, err);
       }
     }
     fetchTopFriends();
-  }, [db, filters]);
+  }, [db, filters, titleText]);
 
   // use COLOR_RANGE param to create two distinct colors on the scale
   const SENT_COLORS = interpolateColors(

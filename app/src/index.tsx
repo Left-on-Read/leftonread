@@ -34,7 +34,7 @@ export default function Root() {
         const allContacts = await getContactOptions(lorDB);
         setContactOptions(allContacts);
       } catch (err) {
-        log.error('ERROR SETTING UP DB/tables ', err);
+        log.error('ERROR: fetching app data', err);
       }
     }
     createInitialLoad();
