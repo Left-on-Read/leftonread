@@ -18,8 +18,7 @@ At a high-level, this monorepo is split up into 4 project subdirectories:
 
 1. `app/` — the Left on Read Electron application itself that is not dependent on anything in `server/` or `web/`. (Remember: the app does not even connect to the Internet.)
 2. `web/` - the marketing site.
-3. `server/` - the server for the marketing site.
-4. `eslint-config/` - a shared eslint config to maintain consistency.
+3. `eslint-config/` - a shared eslint config to maintain consistency.
 
 Please see each project's README for more information.
 
