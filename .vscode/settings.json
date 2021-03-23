@@ -1,5 +1,5 @@
 {
-  "eslint.workingDirectories": ["./web", "./server", "./app"],
+  "eslint.workingDirectories": ["./web", "./app"],
   "files.associations": {
     ".babelrc": "jsonc",
     ".eslintrc": "jsonc",
