@@ -73,7 +73,7 @@ export function StatusLoader({
         }
       }
 
-      if (prevState === 'loading' && state === 'success') {
+      if (state === 'success') {
         // Stop rotate animation
         rotateControls.stop()
         // Transition in checkmark
@@ -92,7 +92,7 @@ export function StatusLoader({
         })
       }
 
-      if (prevState === 'loading' && state === 'error') {
+      if (state === 'error') {
         // Stop rotate animation
         rotateControls.stop()
         // Transition in cross
