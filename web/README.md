@@ -10,6 +10,15 @@ It is deployed via Vercel.
 
 ### Getting Started
 
+Install dependencies with yarn:
+
+
+```bash
+yarn
+```
+
+Start the project:
+
 ```bash
 yarn dev
 ```
