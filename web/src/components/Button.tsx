@@ -9,6 +9,7 @@ export default function Button({
   onClick,
   className,
   disabled,
+  ...props
 }: {
   type?: 'submit' | 'button' | 'reset'
   label: string
@@ -43,6 +44,7 @@ export default function Button({
         },
       }}
       disabled={disabled}
+      {...props}
     >
       {label}
     </button>

@@ -66,6 +66,7 @@ export function GetStarted({
                 [belowBreakpoint.sm]: { marginTop: '32px' },
               }}
               onClick={handleGetStarted}
+              data-testid="cta-button"
             />
           </div>
         </div>

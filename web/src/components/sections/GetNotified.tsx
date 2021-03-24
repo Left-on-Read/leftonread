@@ -161,6 +161,7 @@ export function GetNotified({
             value={email}
             onChange={(updatedEmail) => setEmail(updatedEmail)}
             disabled={state === 'loading' || state === 'success'}
+            data-testid="get-notified-input"
           />
           <div
             css={{
@@ -183,6 +184,7 @@ export function GetNotified({
                   },
                 }}
                 label={'Notify me'}
+                data-testid="get-notified-button"
               />
             )}
             {state !== null && <StatusLoader state={state} message={message} />}

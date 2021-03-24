@@ -185,6 +185,7 @@ export function StatusLoader({
           opacity: 0,
           color: Theme.primary.main,
         }}
+        data-testid="status-message"
       >
         <Text type="paragraph">{message}</Text>
       </motion.span>
