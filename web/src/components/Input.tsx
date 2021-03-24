@@ -9,6 +9,7 @@ export default function Input({
   value,
   onChange,
   disabled,
+  ...props
 }: {
   placeholder?: string
   className?: string
@@ -48,6 +49,7 @@ export default function Input({
         }
       }}
       disabled={disabled}
+      {...props}
     />
   )
 }
