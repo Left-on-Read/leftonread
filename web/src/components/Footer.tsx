@@ -32,8 +32,8 @@ export function Footer() {
               <img
                 src={require('../assets/ICON.png')}
                 css={{
-                  width: '66px',
-                  height: '62.4px',
+                  width: Theme.footer.images.width,
+                  height: Theme.footer.images.height,
                 }}
               />
             </Link>
@@ -77,24 +77,20 @@ export function Footer() {
                 <div>Terms</div>
               </Link>
             </div>
-            <a href="https://github.com/Left-on-Read/leftonread" >
+            <a href="https://github.com/Left-on-Read/leftonread">
               <img
                 src={require('../assets/GitHub_Icon.png')}
                 css={{
                   color: 'violet',
-                  width: '66px',
-                  height: '62.4px',
+                  width: Theme.footer.images.width,
+                  height: Theme.footer.images.height,
                   opacity: '.4',
-
                   '&:hover': {
                     opacity: '1',
-                  }
-                }
-                }
-
+                  },
+                }}
               />
             </a>
-
           </div>
           <div
             css={{

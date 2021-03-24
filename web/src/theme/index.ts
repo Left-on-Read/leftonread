@@ -11,6 +11,12 @@ const Theme = {
     success,
     error,
   },
+  footer: {
+    images: {
+      width: '66px',
+      height: '62.4px',
+    },
+  },
 }
 
 export default Theme
