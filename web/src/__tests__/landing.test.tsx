@@ -7,6 +7,10 @@ jest.mock('../utils/firestore')
 
 window.HTMLElement.prototype.scrollIntoView = jest.fn()
 
+afterEach(() => {
+  jest.clearAllMocks()
+})
+
 it('renders core interaction elements', () => {
   render(<Landing />)
   const CTAButton = screen.getByTestId('cta-button')
@@ -43,4 +47,20 @@ it('allows email submission', async () => {
 
   expect(writeEmailToFirestore).toBeCalledTimes(1)
   expect(writeEmailToFirestore).toBeCalledWith(testEmail)
+})
+
+it('does not send submit invalid email', async () => {
+  render(<Landing />)
+  const testEmail = 'test'
+  const GetNotifiedInput = screen.getByTestId('get-notified-input')
+  const GetNotifiedButton = screen.getByTestId('get-notified-button')
+
+  fireEvent.change(GetNotifiedInput, { target: { value: testEmail } })
+  fireEvent.click(GetNotifiedButton)
+
+  await waitFor(() => {
+    expect(screen.getByTestId('status-message')).toBeInTheDocument()
+  })
+
+  expect(writeEmailToFirestore).toBeCalledTimes(0)
 })
