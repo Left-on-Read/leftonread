@@ -7,6 +7,12 @@ on:
       - '.pretterrc'
       - 'eslint-config/**'
       - '.github/workflows/web-test.yml'
+  pull_request:
+    paths:
+      - 'web/**'
+      - '.pretterrc'
+      - 'eslint-config/**'
+      - '.github/workflows/web-test.yml'
 
 defaults:
   run:
