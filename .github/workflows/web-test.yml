@@ -1,12 +1,15 @@
 name: Web - Test
 
 on:
-  push:
+  pull_request:
     paths:
       - 'web/**'
       - '.pretterrc'
       - 'eslint-config/**'
       - '.github/workflows/web-test.yml'
+  push:
+    branches:
+      - master
 
 defaults:
   run:
