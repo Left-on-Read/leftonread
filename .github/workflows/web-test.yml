@@ -1,7 +1,6 @@
 name: Web - Test
 
 on:
-  push:
   pull_request:
     paths:
       - 'web/**'
