@@ -70,10 +70,10 @@ export function Footer() {
               >
                 Contact Us
               </a>
-              <Link as="/privacy" href="/PrivacyPolicy">
+              <Link href="/privacy">
                 <div>Privacy Policy</div>
               </Link>
-              <Link as="/terms" href="/TermsOfService">
+              <Link href="/terms">
                 <div>Terms</div>
               </Link>
             </div>

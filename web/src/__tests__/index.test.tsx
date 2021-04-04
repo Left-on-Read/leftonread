@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react'
 import Landing from '../pages/index'
-import PrivacyPolicy from '../pages/PrivacyPolicy'
-import TermsOfService from '../pages/TermsOfService'
+import PrivacyPolicy from '../pages/privacy'
+import TermsOfService from '../pages/terms'
 
 jest.mock('react-chartjs-2')
 
