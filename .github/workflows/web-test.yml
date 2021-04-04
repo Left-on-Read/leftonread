@@ -7,6 +7,9 @@ on:
       - '.pretterrc'
       - 'eslint-config/**'
       - '.github/workflows/web-test.yml'
+  push:
+    branches:
+      - master
 
 defaults:
   run:
