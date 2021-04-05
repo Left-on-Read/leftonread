@@ -1,6 +1,5 @@
 import { AppProps } from 'next/app'
-import { CacheProvider, css, Global } from '@emotion/core'
-import { cache } from 'emotion'
+import { css, Global } from '@emotion/react'
 import { useRouter } from 'next/router'
 import * as React from 'react'
 import * as gtag from '../utils/gtag'
@@ -26,7 +25,7 @@ function App({ Component, pageProps }: AppProps) {
   }, [])
 
   return (
-    <CacheProvider value={cache}>
+    <>
       <Global
         styles={css`
           html,
@@ -40,7 +39,7 @@ function App({ Component, pageProps }: AppProps) {
         `}
       />
       <Component {...pageProps} />
-    </CacheProvider>
+    </>
   )
 }
 

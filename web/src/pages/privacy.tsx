@@ -1,6 +1,3 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
-
 import { DefaultContentContainer } from '../components/DefaultContentContainer'
 import { Navbar } from '../components/Navbar'
 import { Markdown } from '../components/Markdown'

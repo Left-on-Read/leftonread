@@ -1,6 +1,3 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
-
 import { Navbar } from '../Navbar'
 import Button from '../Button'
 import { belowBreakpoint, MIN_HEIGHT } from '../../theme'

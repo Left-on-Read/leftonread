@@ -1,5 +1,4 @@
-/** @jsx jsx */
-import { jsx, keyframes } from '@emotion/core'
+import { keyframes } from '@emotion/react'
 import Theme from '../theme'
 
 const GRADIENT_KEYFRAMES = keyframes`

@@ -1,6 +1,3 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
-
 import Theme, { belowBreakpoint } from '../theme'
 
 export default function Button({

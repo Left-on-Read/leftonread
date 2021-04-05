@@ -1,5 +1,3 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
 import { belowBreakpoint } from '../theme'
 
 type Props = {

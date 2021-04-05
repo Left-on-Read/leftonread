@@ -1,6 +1,5 @@
-/** @jsx jsx */
 import * as React from 'react'
-import { jsx, css } from '@emotion/core'
+import { css } from '@emotion/react'
 import Theme, { belowBreakpoint, MIN_HEIGHT } from '../../theme'
 import { DefaultContentContainer } from '../DefaultContentContainer'
 import { TextNotification } from '../TextNotification'
