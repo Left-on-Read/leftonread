@@ -1,14 +1,15 @@
 import * as React from 'react'
-import HighlightedText from '../HighlightedText'
+
 import Theme, { belowBreakpoint } from '../../theme'
-import Input from '../Input'
-import Button from '../Button'
-import { DefaultContentContainer } from '../DefaultContentContainer'
-import { Text } from '../Text'
 import { writeEmailToFirestore } from '../../utils/firestore'
-import { StatusLoader, StatusLoaderState } from '../StatusLoader'
 import { logEvent } from '../../utils/gtag'
 import { isValidEmail } from '../../utils/validation'
+import Button from '../Button'
+import { DefaultContentContainer } from '../DefaultContentContainer'
+import HighlightedText from '../HighlightedText'
+import Input from '../Input'
+import { StatusLoader, StatusLoaderState } from '../StatusLoader'
+import { Text } from '../Text'
 
 const DEFAULT_PARAGRAPH_WEIGHT = 400
 

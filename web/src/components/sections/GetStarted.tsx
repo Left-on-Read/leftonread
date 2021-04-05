@@ -1,8 +1,8 @@
-import { Navbar } from '../Navbar'
-import Button from '../Button'
 import { belowBreakpoint, MIN_HEIGHT } from '../../theme'
-import { Gradient } from '../Gradient'
+import Button from '../Button'
 import { DefaultContentContainer } from '../DefaultContentContainer'
+import { Gradient } from '../Gradient'
+import { Navbar } from '../Navbar'
 import { Text } from '../Text'
 
 const DISPLAY_TEXT = 'What can you learn from your texts?'

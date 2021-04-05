@@ -1,4 +1,5 @@
 import { Bar } from 'react-chartjs-2'
+
 import Theme from '../../theme'
 
 export default function BarChart({

@@ -1,6 +1,7 @@
-import { DefaultContentContainer } from './DefaultContentContainer'
 import Link from 'next/link'
+
 import Theme, { belowBreakpoint } from '../theme'
+import { DefaultContentContainer } from './DefaultContentContainer'
 
 // NOTE(teddy): This is probably going to require a refactor to a column structure once we have more footer content.
 export function Footer() {

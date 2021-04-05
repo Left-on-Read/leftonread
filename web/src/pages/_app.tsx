@@ -1,9 +1,10 @@
-import { AppProps } from 'next/app'
 import { css, Global } from '@emotion/react'
+import { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import * as React from 'react'
-import * as gtag from '../utils/gtag'
+
 import { initFirestore } from '../utils/firestore'
+import * as gtag from '../utils/gtag'
 
 function App({ Component, pageProps }: AppProps) {
   const router = useRouter()

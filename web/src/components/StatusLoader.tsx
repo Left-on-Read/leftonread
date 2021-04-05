@@ -1,7 +1,8 @@
+import { motion, useAnimation } from 'framer-motion'
 import * as React from 'react'
-import { useAnimation, motion } from 'framer-motion'
-import Theme from '../theme'
+
 import { usePrevious } from '../hooks/usePrevious'
+import Theme from '../theme'
 import { Text } from './Text'
 
 // Set Values

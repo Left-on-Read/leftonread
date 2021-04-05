@@ -1,8 +1,8 @@
+import { useRouter } from 'next/router'
+import * as React from 'react'
+
 import IconTextLogo from '../assets/ICON_TEXT_LOGO.svg'
 import { belowBreakpoint } from '../theme'
-import { useRouter } from 'next/router'
-
-import * as React from 'react'
 
 export function Navbar() {
   const router = useRouter()

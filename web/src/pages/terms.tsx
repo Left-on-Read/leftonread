@@ -1,7 +1,7 @@
 import { DefaultContentContainer } from '../components/DefaultContentContainer'
-import { Navbar } from '../components/Navbar'
-import { Markdown } from '../components/Markdown'
 import { Footer } from '../components/Footer'
+import { Markdown } from '../components/Markdown'
+import { Navbar } from '../components/Navbar'
 
 const TOS = `
 ---
