@@ -11,7 +11,8 @@
     "start": "next start",
     "lint": "eslint '*/**/*.{js,ts,tsx}'",
     "test": "jest",
-    "typecheck": "yarn tsc"
+    "typecheck": "yarn tsc",
+    "export": "next build; next export"
   },
   "dependencies": {
     "@emotion/babel-preset-css-prop": "^11.2.0",
