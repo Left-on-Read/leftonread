@@ -93,11 +93,31 @@ export function Footer() {
           </div>
           <div
             css={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-around',
+              flexDirection: 'row',
               marginTop: '28px',
-              textAlign: 'center',
             }}
           >
-            © Left on Read 2021
+            <a
+              data-testid="footer-anchor-vercel"
+              href="https://vercel.com/?utm_source=leftonread&utm_campaign=oss"
+            >
+              <img
+                data-testid="footer-img-vercel"
+                src={
+                  'https://raw.githubusercontent.com/Left-on-Read/leftonread/main/assets/documentation/powered-by-vercel.svg'
+                }
+              />
+            </a>
+            <div
+              css={{
+                textAlign: 'center',
+              }}
+            >
+              © Left on Read 2021
+            </div>
           </div>
         </div>
       </DefaultContentContainer>
