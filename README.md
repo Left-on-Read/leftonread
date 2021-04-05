@@ -24,7 +24,11 @@ Please see each project's README for more information.
 
 ## Sponsors
 
-Support this project by becoming a sponsor. Your logo will show up here with a link to your website.
+_Support this project by becoming a sponsor. Your logo will show up here with a link to your website._
+
+Thank you to Vercel for sponsoring this project!
+
+[![Vercel](./assets/documentation/powered-by-vercel.svg)](https://vercel.com/?utm_source=leftonread&utm_campaign=oss)
 
 ## License
 
