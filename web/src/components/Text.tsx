@@ -1,5 +1,3 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
 import { belowBreakpoint } from '../theme'
 
 export type TextType = 'paragraph' | 'bold' | 'header' | 'display'

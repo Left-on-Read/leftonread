@@ -1,6 +1,3 @@
-/** @jsx jsx */
-import * as React from 'react'
-import { jsx } from '@emotion/core'
 import { belowBreakpoint } from '../theme'
 
 export function DefaultContentContainer({

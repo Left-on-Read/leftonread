@@ -1,5 +1,3 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
 import { DefaultContentContainer } from './DefaultContentContainer'
 import Link from 'next/link'
 import Theme, { belowBreakpoint } from '../theme'

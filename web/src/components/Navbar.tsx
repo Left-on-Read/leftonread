@@ -1,5 +1,3 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
 import IconTextLogo from '../assets/ICON_TEXT_LOGO.svg'
 import { belowBreakpoint } from '../theme'
 import { useRouter } from 'next/router'
