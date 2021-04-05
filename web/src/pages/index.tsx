@@ -1,8 +1,9 @@
 import * as React from 'react'
+
+import { Footer } from '../components/Footer'
+import { GetNotified } from '../components/sections/GetNotified'
 import { GetStarted } from '../components/sections/GetStarted'
 import { Infographic } from '../components/sections/Infographic'
-import { GetNotified } from '../components/sections/GetNotified'
-import { Footer } from '../components/Footer'
 
 // TODO(teddy): Add a minheight
 export default function Landing() {

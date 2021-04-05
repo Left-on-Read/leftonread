@@ -1,4 +1,5 @@
 import { keyframes } from '@emotion/react'
+
 import Theme from '../theme'
 
 const GRADIENT_KEYFRAMES = keyframes`

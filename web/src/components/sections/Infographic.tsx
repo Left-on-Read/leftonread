@@ -1,13 +1,14 @@
-import * as React from 'react'
 import { css } from '@emotion/react'
+import { AnimateSharedLayout, motion } from 'framer-motion'
+import * as React from 'react'
+
 import Theme, { belowBreakpoint, MIN_HEIGHT } from '../../theme'
-import { DefaultContentContainer } from '../DefaultContentContainer'
-import { TextNotification } from '../TextNotification'
-import { motion, AnimateSharedLayout } from 'framer-motion'
-import { Text } from '../Text'
+import BarChart from '../charts/BarChart'
 import { LIST_OF_TEXTS } from '../charts/data'
 import type { IText } from '../charts/types'
-import BarChart from '../charts/BarChart'
+import { DefaultContentContainer } from '../DefaultContentContainer'
+import { Text } from '../Text'
+import { TextNotification } from '../TextNotification'
 
 const HEADER_TEXT = 'Unique analytics.'
 const DESCRIPTION_TEXT = `
