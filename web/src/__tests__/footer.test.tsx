@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react'
 import { Footer } from '../components/Footer'
 
 describe('Vercel Logo and Link', () => {
-  it('renders the corrcet logo', () => {
+  it('renders the correct logo', () => {
     render(<Footer />)
     const VercelLogo = screen.getByTestId('footer-img-vercel')
     expect(VercelLogo).toHaveAttribute(
