@@ -1,11 +1,15 @@
+import Image from 'next/image'
+
 import { belowBreakpoint } from '../theme'
+import { Avatar } from './types'
 
 type Props = {
   name: string
   text: string
+  avatar: Avatar
 }
 
-export function TextNotification({ name, text }: Props) {
+export function TextNotification({ name, text, avatar }: Props) {
   return (
     <div
       css={{
@@ -29,9 +33,14 @@ export function TextNotification({ name, text }: Props) {
           height: '70px',
           flex: '0 0 70px',
           borderRadius: '50%',
-          backgroundColor: 'black',
+          backgroundColor: avatar.color,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
-      />
+      >
+        <Image height={'60px'} width={'60px'} src={avatar.source} />
+      </div>
       <div
         css={{
           marginLeft: '15px',

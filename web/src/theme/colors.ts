@@ -1,4 +1,4 @@
-type Color = {
+export type Color = {
   main: string
   hover: string
   faded: string
