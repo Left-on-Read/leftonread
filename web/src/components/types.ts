@@ -1,5 +1,3 @@
-import { Color } from '../theme/colors'
-
 export interface Avatar {
   source: string
   color: string

@@ -1,15 +1,14 @@
 import { css } from '@emotion/react'
 import { AnimateSharedLayout, motion } from 'framer-motion'
 import * as React from 'react'
-import Image from 'next/image'
 
 import Theme, { belowBreakpoint, MIN_HEIGHT } from '../../theme'
 import BarChart from '../charts/BarChart'
 import { LIST_OF_TEXTS } from '../charts/data'
-import type { IText } from '../types'
 import { DefaultContentContainer } from '../DefaultContentContainer'
 import { Text } from '../Text'
 import { TextNotification } from '../TextNotification'
+import type { IText } from '../types'
 
 const HEADER_TEXT = 'Unique analytics.'
 const DESCRIPTION_TEXT = `

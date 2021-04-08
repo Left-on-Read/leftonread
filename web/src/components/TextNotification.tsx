@@ -1,6 +1,7 @@
-import Theme, { belowBreakpoint } from '../theme'
-import { Avatar } from './types'
 import Image from 'next/image'
+
+import { belowBreakpoint } from '../theme'
+import { Avatar } from './types'
 
 type Props = {
   name: string
