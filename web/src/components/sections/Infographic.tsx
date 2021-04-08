@@ -1,11 +1,12 @@
 import { css } from '@emotion/react'
 import { AnimateSharedLayout, motion } from 'framer-motion'
 import * as React from 'react'
+import Image from 'next/image'
 
 import Theme, { belowBreakpoint, MIN_HEIGHT } from '../../theme'
 import BarChart from '../charts/BarChart'
 import { LIST_OF_TEXTS } from '../charts/data'
-import type { IText } from '../charts/types'
+import type { IText } from '../types'
 import { DefaultContentContainer } from '../DefaultContentContainer'
 import { Text } from '../Text'
 import { TextNotification } from '../TextNotification'
@@ -188,7 +189,11 @@ function TextList({
         >
           {data.map((text) => (
             <motion.li layout key={`list-text-${text.key}`}>
-              <TextNotification name={text.name} text={text.text} />
+              <TextNotification
+                name={text.name}
+                text={text.text}
+                avatar={text.avatar}
+              />
             </motion.li>
           ))}
         </motion.ul>
@@ -207,7 +212,16 @@ function TextStack({
   const text = data[0]
 
   if (!text) {
-    return <TextNotification name={''} text={''} />
+    return (
+      <TextNotification
+        name={''}
+        text={''}
+        avatar={{
+          source: '/alexander.png',
+          color: Theme.palette.petalPurple.main,
+        }}
+      />
+    )
   }
 
   return (
@@ -217,7 +231,11 @@ function TextStack({
       css={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
-      <TextNotification name={text.name} text={text.text} />
+      <TextNotification
+        name={text.name}
+        text={text.text}
+        avatar={text.avatar}
+      />
     </motion.div>
   )
 }
