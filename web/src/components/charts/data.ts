@@ -19,9 +19,9 @@ export const LIST_OF_TEXTS: Array<IText> = [
   {
     key: 2,
     name: 'Alexander',
-    text: 'also should i double text isabel? she hasnt responded yet',
+    text: 'also should i double text isabel? she hasnt responded yet bro',
     length: DEFAULT_LENGTH,
-    words: ['double', 'text', 'isabel', 'hasnt', 'responded'],
+    words: ['double', 'text', 'isabel', 'hasnt', 'responded', 'bro'],
     avatar: {
       source: '/alexander.png',
       color: Theme.palette.canaryYellow.main,
@@ -30,9 +30,17 @@ export const LIST_OF_TEXTS: Array<IText> = [
   {
     key: 3,
     name: 'Annie',
-    text: 'hey wanna get drunk tonight? i j finished my homework🤘😫🤘',
+    text: 'hey wanna get crazy drunk tonight? i j finished my homework🤘😫🤘',
     length: SEQUENTIAL_LENGTH,
-    words: ['hey', 'wanna', 'drunk', 'tonight', 'finished', 'homework'],
+    words: [
+      'hey',
+      'wanna',
+      'crazy',
+      'drunk',
+      'tonight',
+      'finished',
+      'homework',
+    ],
     avatar: {
       source: '/annie.png',
       color: Theme.palette.frogGreen.main,
