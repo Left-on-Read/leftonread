@@ -56,6 +56,9 @@ const styles = {
     alignItems: 'center',
     marginTop: '40px',
     width: '70%',
+    [belowBreakpoint.md]: {
+      width: '100%',
+    },
   }),
   textStackBlock: css({
     flex: '0 0 400px',
