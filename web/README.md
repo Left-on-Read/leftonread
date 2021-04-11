@@ -4,7 +4,8 @@ The home of our marketing site at [https://leftonread.me/](https://leftonread.me
 
 It is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-It is deployed via Vercel.
+It is deployed via Vercel. 
+
 
 ## Local Development
 
@@ -24,6 +25,16 @@ yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+##### Env Variables
+
+Note that we load the following env variables via Vercel:
+
+```
+NEXT_PUBLIC_FIREBASE_API_KEY=
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=
+```
 
 ### Learn More
 
