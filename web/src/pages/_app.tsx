@@ -1,8 +1,9 @@
 import { css, Global } from '@emotion/react'
 import { AppProps } from 'next/app'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import * as React from 'react'
-import Head from 'next/head'
+
 import { initFirestore } from '../utils/firestore'
 import * as gtag from '../utils/gtag'
 
