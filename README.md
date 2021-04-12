@@ -1,26 +1,28 @@
-<h2 align="center">Left on Read</h2>
+<h2 align="center">
+	<img src="https://raw.githubusercontent.com/Left-on-Read/leftonread/main/web/src/assets/ICON_TEXT_LOGO.svg" />
+</h2>
+
+A free open-source iMessage analyzer for Mac Desktop. Built with Electron, SQLite, Typescript, and ❤️.
 
 ### Mission and Values
 
 **👩🏻‍💻Open-Source Transparency**: We open-sourced the entire application to keep users' security and privacy first.
 
-**🚀Fast**: Now a standalone desktop application, Left on Read works without an Internet connection!
+**🚀Fast**: The first iteration was a [web application](https://www.reddit.com/r/dataisbeautiful/comments/biou3e/4_years_of_texts_between_me_and_my_long_distance/), but now we have rebuilt Left on Read as a desktop application that works without an Internet connection.
 
-**🤪Daily Fun**: Keepin' it fun. Without needing to re-upload, users can now more easily use Left on Read daily.
+**🤪Fun**: Without needing to manually re-upload, you can now use Left on Read more easily and learn about yourself from your texts.
 
-<p align="right"><em>See more on <a href="https://leftonread.me/">leftonread.me</a></em></p>
+<p align="right"><a href="https://leftonread.me/">leftonread.me</a></p>
 
 ## Contributing
 
-We ❤️ contributors. Please be sure to read our [CODE OF CONDUCT](./CODE_OF_CONDUCT).
+We ❤️ contributors. Please read our [CODE OF CONDUCT](./CODE_OF_CONDUCT.md).
 
 At a high-level, this monorepo is split up into 3 project subdirectories:
 
-1. `app/` — the Left on Read Electron application itself. `app` is not dependent on anything in `web/`. (Remember: the app does not connect to the Internet.)
-2. `web/` - the marketing site.
-3. `eslint-config/` - a shared eslint config to maintain consistency.
-
-Please see each project's README for more information.
+1. [app](./app/README.md) — the Left on Read Electron application itself. `app` is not dependent on anything in `web`. (Remember: the app does not need to connect to the Internet.)
+2. [web](./web/README.md) - the marketing site, which uses Firebase to store emails.
+3. [eslint-config](./eslint-config/README.md) - a shared eslint config to maintain consistency.
 
 ## License
 
