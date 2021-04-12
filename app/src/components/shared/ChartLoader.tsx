@@ -7,6 +7,5 @@ interface ChartLoaderProps {
 export default function ChartLoader(props: ChartLoaderProps) {
   const { titleText } = props;
   const loadingText = `Loading ${titleText} chart...`;
-  return <div>{loadingText}
-  </div>;
+  return <div> {loadingText} </div>;
 }
