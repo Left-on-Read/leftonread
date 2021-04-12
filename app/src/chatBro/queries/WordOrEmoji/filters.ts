@@ -15,8 +15,7 @@ function isFromMeFilter(filters: WordOrEmojiTypes.Filters): string {
 }
 
 function contactFilter(filters: WordOrEmojiTypes.Filters): string | undefined {
-  if (_.isEmpty(filters.contact)) {
-    return undefined;
+  if (_.isEmpty(filters.contact)) {return undefined;
   }
   return `${Columns.CONTACT} = "${filters.contact}"`;
 }

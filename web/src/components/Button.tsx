@@ -14,8 +14,7 @@ export default function Button({
   className?: string
   disabled?: boolean
 }) {
-  return (
-    <button
+  return (<button
       type={type}
       className={className}
       onClick={onClick}
