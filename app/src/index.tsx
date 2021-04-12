@@ -122,7 +122,7 @@ export default function Root() {
       </div>
     );
   }
-  return <div>Loading dashboard... </div>;
+  return <div>Loading dash... </div>;
 }
 
 render(

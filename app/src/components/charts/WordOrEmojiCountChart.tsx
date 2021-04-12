@@ -48,7 +48,10 @@ export default function WordOrEmojiCountChart(props: WordOrEmojiCountProps) {
   };
 
   const options = {
-    title: { display: true, text: titleText },
+    title: {
+      display: true,
+      text: titleText,
+    },
     scales: {
       yAxes: [
         {
