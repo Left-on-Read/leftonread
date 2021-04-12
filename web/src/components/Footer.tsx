@@ -25,14 +25,15 @@ export function Footer() {
           <div
             css={{
               display: 'flex',
+              alignItems: 'center',
             }}
           >
             <Link href="/">
               <img
                 src={require('../assets/ICON.png')}
                 css={{
-                  width: Theme.footer.images.width,
-                  height: Theme.footer.images.height,
+                  width: Theme.footer.images.md.width,
+                  height: Theme.footer.images.md.height,
                 }}
               />
             </Link>
@@ -81,12 +82,8 @@ export function Footer() {
                 src={require('../assets/GitHub_Icon.png')}
                 css={{
                   color: 'violet',
-                  width: Theme.footer.images.width,
-                  height: Theme.footer.images.height,
-                  opacity: '.4',
-                  '&:hover': {
-                    opacity: '1',
-                  },
+                  width: Theme.footer.images.sm.width,
+                  height: Theme.footer.images.sm.width,
                 }}
               />
             </a>
