@@ -17,7 +17,8 @@ export default function BarChartWrapper(props: BarChartWrapperProps) {
   if (success) {
     if (labels.length > 0) {
       return (
-        <div> <Bar data={data} options={options} />
+        <div>
+          <Bar data={data} options={options} />
         </div>
       );
     }
