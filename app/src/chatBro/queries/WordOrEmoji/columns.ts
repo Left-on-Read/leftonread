@@ -2,7 +2,6 @@ import { Columns } from '../../../tables/Core/Count';
 
 enum OutputColumns {
   WORD = 'word',
-  COUNT = 'count',
-}
+  COUNT = 'count',}
 
 export { Columns, OutputColumns };
