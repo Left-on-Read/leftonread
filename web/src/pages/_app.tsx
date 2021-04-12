@@ -1,5 +1,6 @@
 import { css, Global } from '@emotion/react'
 import { AppProps } from 'next/app'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import * as React from 'react'
 
@@ -39,6 +40,14 @@ function App({ Component, pageProps }: AppProps) {
           }
         `}
       />
+      <Head>
+        <title>Left on Read</title>
+        <meta
+          name="description"
+          content="What can you learn from your text messages? Left on Read is the internet's first and only free and open-source iMessage analyzing app"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
       <Component {...pageProps} />
     </>
   )
