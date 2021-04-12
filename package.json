@@ -5,9 +5,7 @@
     "leftonread-app"
   ],
   "scripts": {
-    "prettier": "prettier --ignore-path .gitignore \"**/*.+(js|jsx|ts|tsx|json|css)\"",
-    "format": "yarn prettier --write",
-    "lint": "yarn workspaces run lint"
+    "format": "yarn workspaces run format"
   },
   "dependencies": {
     "husky": "^6.0.0",
