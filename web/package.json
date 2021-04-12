@@ -12,7 +12,13 @@
     "lint": "eslint '*/**/*.{js,ts,tsx}'",
     "test": "jest",
     "typecheck": "yarn tsc",
-    "export": "next build; next export"
+    "export": "next build; next export",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "yarn lint --fix"
+    ]
   },
   "dependencies": {
     "@emotion/babel-preset-css-prop": "^11.2.0",
@@ -49,6 +55,7 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^26.6.3",
+    "lint-staged": "^10.5.4",
     "prettier": "^2.2.1",
     "typescript": "^4.0.3"
   }

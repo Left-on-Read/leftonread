@@ -18,7 +18,7 @@ A free open-source iMessage analyzer for Mac Desktop. Built with Electron, SQLit
 
 We ❤️ contributors. Please read our [CODE OF CONDUCT](./CODE_OF_CONDUCT.md).
 
-At a high-level, this monorepo is split up into 3 project subdirectories:
+At a high-level, this [lerna](https://github.com/lerna/lerna) monorepo is split up into 3 project subdirectories:
 
 1. [app](./app/README.md) — the Left on Read Electron application itself. `app` is not dependent on anything in `web`. (Remember: the app does not need to connect to the Internet.)
 2. [web](./web/README.md) - the marketing site, which uses Firebase to store emails.
