@@ -8,9 +8,9 @@ export const LIST_OF_TEXTS: Array<IText> = [
   {
     key: 1,
     name: 'Alexander',
-    text: 'did you see that crazy article on the new york times?',
+    text: 'did you see that crazy article in the times?',
     length: SEQUENTIAL_LENGTH,
-    words: ['bro', 'crazy', 'article', 'new', 'york', 'times', 'frat'],
+    words: ['bro', 'crazy', 'article', 'times', 'frat'],
     avatar: {
       source: '/alexander.png',
       color: Theme.palette.canaryYellow.main,
@@ -60,9 +60,9 @@ export const LIST_OF_TEXTS: Array<IText> = [
   {
     key: 5,
     name: 'Annie',
-    text: 'cathy is being kinda soft, she wont get drunk with me',
+    text: 'cathy is being kinda silly, she wont get drunk with me',
     length: DEFAULT_LENGTH,
-    words: ['cathy', 'soft', 'drunk'],
+    words: ['cathy', 'silly', 'drunk'],
     avatar: {
       source: '/annie.png',
       color: Theme.palette.frogGreen.main,
@@ -161,18 +161,9 @@ export const LIST_OF_TEXTS: Array<IText> = [
     key: 12,
     name: 'Isabel',
     text:
-      "did nate invite you to the bike ride? although if we're getting drunk tonight...",
+      'did nate invite you to the bike ride? i need to go to sports basement...',
     length: DEFAULT_LENGTH,
-    words: [
-      'nate',
-      'invite',
-      'bike',
-      'ride',
-      'although',
-      'getting',
-      'drunk',
-      'tonight',
-    ],
+    words: ['nate', 'invite', 'bike', 'ride', 'sports', 'basement'],
     avatar: {
       source: '/isabel.png',
       color: Theme.palette.petalPurple.hover,

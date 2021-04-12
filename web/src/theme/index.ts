@@ -12,8 +12,14 @@ const Theme = {
   },
   footer: {
     images: {
-      width: '66px',
-      height: '62.4px',
+      md: {
+        width: '60px',
+        height: '56.4px',
+      },
+      sm: {
+        width: '33px',
+        height: '30px',
+      },
     },
   },
 }
