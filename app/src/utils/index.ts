@@ -4,5 +4,4 @@ export function delimList(myList: string[]): string {
 }
 
 export function lowerCaseList(myList: string[]): string[] {
-  return myList.map((t) => t.toLowerCase());
-}
+  return myList.map((t) => t.toLowerCase());}
