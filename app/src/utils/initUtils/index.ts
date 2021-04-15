@@ -1,25 +1,26 @@
+import log from 'electron-log';
 import * as fs from 'fs';
 import copy from 'recursive-copy';
-import log from 'electron-log';
 import * as sqlite3 from 'sqlite3';
-import * as sqlite3Wrapper from './sqliteWrapper';
-import { initializeDB, closeDB } from '../../db';
+
 import {
-  chatPaths,
-  appDirectoryPath,
-  dirPairings,
-  addressBookDBAliasName,
-} from './constants/directories';
-import {
-  findPossibleAddressBookDB,
   addContactNameColumn,
+  findPossibleAddressBookDB,
   setContactNameColumn,
 } from '../../addressBro/util/index';
+import { closeDB, initializeDB } from '../../db';
 import {
   createAllChatTables,
-  dropAllChatTables,
   createContactTable,
+  dropAllChatTables,
 } from '../../tables';
+import {
+  addressBookDBAliasName,
+  appDirectoryPath,
+  chatPaths,
+  dirPairings,
+} from './constants/directories';
+import * as sqlite3Wrapper from './sqliteWrapper';
 
 export async function createAppDirectory() {
   try {

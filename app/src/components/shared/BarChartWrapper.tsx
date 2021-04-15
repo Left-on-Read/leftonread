@@ -1,5 +1,6 @@
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
+
 import ChartLoader from './ChartLoader';
 import NoResults from './NoResults';
 

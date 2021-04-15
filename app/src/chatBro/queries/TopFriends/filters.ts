@@ -1,6 +1,7 @@
 import _ from 'lodash';
-import { Columns } from './columns';
+
 import { GroupChatFilters } from '../../constants/filters';
+import { Columns } from './columns';
 
 function wordFilter(filters: TopFriendsTypes.Filters): string | undefined {
   if (_.isEmpty(filters.word)) {

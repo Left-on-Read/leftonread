@@ -1,19 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { render } from 'react-dom';
-import * as sqlite3 from 'sqlite3';
-import log from 'electron-log';
 import './app.global.css';
+
 import { interpolateCool } from 'd3-scale-chromatic';
+import log from 'electron-log';
+import React, { useEffect, useState } from 'react';
+import { render } from 'react-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import * as sqlite3 from 'sqlite3';
+
+import { DEFAULT_LIMIT, GroupChatFilters } from './chatBro/constants/filters';
+import TopFriendsChart from './components/charts/TopFriendsChart';
+import WordOrEmojiCountChart from './components/charts/WordOrEmojiCountChart';
+import ContactFilter from './components/filters/ContactFilter';
+import GroupChatFilter from './components/filters/GroupChatFilter';
+import LimitFilter from './components/filters/LimitFilter';
 import { coreInit } from './utils/initUtils';
 import { getContactOptions } from './utils/initUtils/contacts';
-import LimitFilter from './components/filters/LimitFilter';
-import { DEFAULT_LIMIT, GroupChatFilters } from './chatBro/constants/filters';
-import GroupChatFilter from './components/filters/GroupChatFilter';
-import ContactFilter from './components/filters/ContactFilter';
-
-import WordOrEmojiCountChart from './components/charts/WordOrEmojiCountChart';
-import TopFriendsChart from './components/charts/TopFriendsChart';
 
 export default function Root() {
   const [db, setDB] = useState<sqlite3.Database | null>(null);

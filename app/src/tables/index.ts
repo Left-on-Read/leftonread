@@ -1,10 +1,10 @@
+import log from 'electron-log';
 import * as _ from 'lodash';
 import * as sqlite3 from 'sqlite3';
-import log from 'electron-log';
+
 import * as sqlite3Wrapper from '../utils/initUtils/sqliteWrapper';
 import { ContactTable } from './ContactTable';
 import { CoreCountTable } from './Core/Count';
-
 import { AddressBookTableNames, ChatTableNames } from './definitions';
 
 const chatTableNames: string[] = _.values(ChatTableNames);
