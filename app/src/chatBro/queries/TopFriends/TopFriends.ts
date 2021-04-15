@@ -1,9 +1,9 @@
 import * as sqlite3 from 'sqlite3';
-import { DEFAULT_LIMIT } from '../../constants/filters';
-import getAllFilters from './filters';
-import { Columns, OutputColumns } from './columns';
 
 import * as sqlite3Wrapper from '../../../utils/initUtils/sqliteWrapper';
+import { DEFAULT_LIMIT } from '../../constants/filters';
+import { Columns, OutputColumns } from './columns';
+import getAllFilters from './filters';
 
 const getCoreQuery = (allFilters: string) => {
   return `SELECT

@@ -1,7 +1,7 @@
+import { normalizePhoneNumberStatement } from '../utils/initUtils/constants/normalization';
 import * as sqlite3Wrapper from '../utils/initUtils/sqliteWrapper';
 import { TableNames } from './definitions';
 import { Table } from './Table';
-import { normalizePhoneNumberStatement } from '../utils/initUtils/constants/normalization';
 
 export enum Columns {
   CONTACT_NAME = 'contact_name',

@@ -1,7 +1,7 @@
 import log from 'electron-log';
-import { Columns as ContactNameColumns } from '../../ContactTable';
 
 import * as sqlite3Wrapper from '../../../utils/initUtils/sqliteWrapper';
+import { Columns as ContactNameColumns } from '../../ContactTable';
 import { TableNames } from '../../definitions';
 import { Table } from '../../Table';
 

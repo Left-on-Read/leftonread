@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { GroupChatFilters } from '../../chatBro/constants/filters';
 
 interface GroupChatFilterProps {

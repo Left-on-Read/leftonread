@@ -1,4 +1,5 @@
 import * as sqlite3 from 'sqlite3';
+
 import { TableNames } from './definitions';
 
 export class Table {

@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import * as sqlite3 from 'sqlite3';
 import log from 'electron-log';
+import React, { useEffect, useState } from 'react';
+import * as sqlite3 from 'sqlite3';
+
 import * as chatBro from '../../chatBro';
 import interpolateColors from '../../utils/colors';
 import { BarChartWrapper } from '../shared';

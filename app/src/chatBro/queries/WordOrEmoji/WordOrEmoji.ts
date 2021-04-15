@@ -1,7 +1,8 @@
 import * as sqlite3 from 'sqlite3';
-import { DEFAULT_LIMIT } from '../../constants/filters';
-import * as sqlite3Wrapper from '../../../utils/initUtils/sqliteWrapper';
+
 import { ChatTableNames } from '../../../tables';
+import * as sqlite3Wrapper from '../../../utils/initUtils/sqliteWrapper';
+import { DEFAULT_LIMIT } from '../../constants/filters';
 import { Columns, OutputColumns } from './columns';
 import getAllFilters from './filters';
 

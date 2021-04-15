@@ -1,17 +1,18 @@
 import log from 'electron-log';
-import * as sqlite3 from 'sqlite3';
 import * as fs from 'fs';
-import {
-  addressBookDBName,
-  addressBookBackUpFolderPath,
-  addressBookPaths,
-  addressBookDBAliasName,
-} from '../../utils/initUtils/constants/directories';
+import * as sqlite3 from 'sqlite3';
+
 import { DBWithRecordCount, getDBWithRecordCounts } from '../../db';
-import * as sqlite3Wrapper from '../../utils/initUtils/sqliteWrapper';
-import { normalizePhoneNumberStatement } from '../../utils/initUtils/constants/normalization';
-import { AddressBookTableNames } from '../../tables/definitions';
 import { Columns as ContactNameColumns } from '../../tables/ContactTable';
+import { AddressBookTableNames } from '../../tables/definitions';
+import {
+  addressBookBackUpFolderPath,
+  addressBookDBAliasName,
+  addressBookDBName,
+  addressBookPaths,
+} from '../../utils/initUtils/constants/directories';
+import { normalizePhoneNumberStatement } from '../../utils/initUtils/constants/normalization';
+import * as sqlite3Wrapper from '../../utils/initUtils/sqliteWrapper';
 
 export const COUNT_CONTACTS_QUERY =
   'SELECT COUNT(*) AS count FROM ZABCDPHONENUMBER';

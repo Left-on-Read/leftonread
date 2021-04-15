@@ -1,11 +1,12 @@
 import _ from 'lodash';
+
 import { emojis } from '../../constants/emojis';
-import { Columns } from './columns';
 import { GroupChatFilters } from '../../constants/filters';
-import { reactions } from '../../constants/reactions';
-import { stopWords } from '../../constants/stopWords';
 import { objReplacementUnicode } from '../../constants/objReplacementUnicode';
 import { punctuation } from '../../constants/punctuation';
+import { reactions } from '../../constants/reactions';
+import { stopWords } from '../../constants/stopWords';
+import { Columns } from './columns';
 
 function isFromMeFilter(filters: WordOrEmojiTypes.Filters): string {
   if (filters.isFromMe === true) {
