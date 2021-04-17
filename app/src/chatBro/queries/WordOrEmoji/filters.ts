@@ -7,22 +7,23 @@ import { punctuation } from '../../constants/punctuation';
 import { reactions } from '../../constants/reactions';
 import { stopWords } from '../../constants/stopWords';
 import { Columns } from './columns';
+import { IWordOrEmojiFilters } from './types';
 
-function isFromMeFilter(filters: WordOrEmojiTypes.Filters): string {
+function isFromMeFilter(filters: IWordOrEmojiFilters): string {
   if (filters.isFromMe === true) {
     return `${Columns.IS_FROM_ME} = 1`;
   }
   return `${Columns.IS_FROM_ME} = 0`;
 }
 
-function contactFilter(filters: WordOrEmojiTypes.Filters): string | undefined {
+function contactFilter(filters: IWordOrEmojiFilters): string | undefined {
   if (_.isEmpty(filters.contact)) {
     return undefined;
   }
   return `${Columns.CONTACT} = "${filters.contact}"`;
 }
 
-function wordFilter(filters: WordOrEmojiTypes.Filters): string | undefined {
+function wordFilter(filters: IWordOrEmojiFilters): string | undefined {
   if (_.isEmpty(filters.word)) {
     return undefined;
   }
@@ -30,15 +31,13 @@ function wordFilter(filters: WordOrEmojiTypes.Filters): string | undefined {
   return `LOWER(${Columns.WORD}) = "${filters.word?.toLowerCase()}"`;
 }
 
-function isEmojiFilter(filters: WordOrEmojiTypes.Filters): string {
+function isEmojiFilter(filters: IWordOrEmojiFilters): string {
   return `TRIM(${Columns.WORD}) ${
     filters.isEmoji ? 'IN ' : 'NOT IN'
   } (${emojis})`;
 }
 
-function groupChatFilter(
-  filters: WordOrEmojiTypes.Filters
-): string | undefined {
+function groupChatFilter(filters: IWordOrEmojiFilters): string | undefined {
   if (filters.groupChat === GroupChatFilters.ONLY_INDIVIDUAL) {
     return `${Columns.CACHE_ROOMNAMES} IS NULL`;
   }
@@ -53,9 +52,7 @@ function fluffFilter(): string {
   AND TRIM(${Columns.WORD}) NOT IN (${punctuation})`;
 }
 
-export default function getAllFilters(
-  filters: WordOrEmojiTypes.Filters
-): string {
+export default function getAllFilters(filters: IWordOrEmojiFilters): string {
   const contact = contactFilter(filters);
   const isEmoji = isEmojiFilter(filters);
   const isFromMe = isFromMeFilter(filters);

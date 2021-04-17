@@ -5,12 +5,13 @@ import * as sqlite3 from 'sqlite3';
 import * as chatBro from '../../chatBro';
 import interpolateColors from '../../utils/colors';
 import { BarChartWrapper } from '../shared';
+import { IWordOrEmojiFilters } from '../../chatBro/queries/WordOrEmoji/types';
 
 interface WordOrEmojiCountProps {
   db: sqlite3.Database;
   titleText: string;
   labelText: string;
-  filters: WordOrEmojiTypes.Filters;
+  filters: IWordOrEmojiFilters;
   colorInterpolationFunc: (t: number) => string;
 }
 
