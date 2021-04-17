@@ -4,6 +4,7 @@ import * as sqlite3Wrapper from '../../../utils/initUtils/sqliteWrapper';
 import { DEFAULT_LIMIT } from '../../constants/filters';
 import { Columns, OutputColumns } from './columns';
 import getAllFilters from './filters';
+import { ITopFriendsFilters, TTopFriendsResults } from './types';
 
 const getCoreQuery = (allFilters: string) => {
   return `SELECT
@@ -37,8 +38,8 @@ function getSentOrRecieved(
 
 export async function queryTopFriends(
   db: sqlite3.Database,
-  filters: TopFriendsTypes.Filters
-): Promise<TopFriendsTypes.Results> {
+  filters: ITopFriendsFilters
+): Promise<TTopFriendsResults> {
   const limit = filters.limit || DEFAULT_LIMIT;
   const allFilters = getAllFilters(filters);
   const query = `

@@ -5,11 +5,12 @@ import * as sqlite3 from 'sqlite3';
 import * as chatBro from '../../chatBro';
 import interpolateColors from '../../utils/colors';
 import { BarChartWrapper } from '../shared';
+import { ITopFriendsFilters } from '../../chatBro/queries/TopFriends/types';
 
 interface TopFriendsProps {
   db: sqlite3.Database;
   titleText: string;
-  filters: TopFriendsTypes.Filters;
+  filters: ITopFriendsFilters;
   colorInterpolationFunc: (t: number) => string;
 }
 

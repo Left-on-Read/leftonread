@@ -1,12 +1,11 @@
 import React from 'react';
 import Select from 'react-select';
+import { IContactData } from '../../utils/initUtils/contacts/types';
 
 interface ContactFilterProps {
-  options: ContactOptions.ContactData[];
-  handleChange: (
-    selected?: ContactOptions.ContactData | null | undefined
-  ) => void;
-  contact: ContactOptions.ContactData | null | undefined;
+  options: IContactData[];
+  handleChange: (selected?: IContactData | null | undefined) => void;
+  contact: IContactData | null | undefined;
 }
 
 export default function ContactFilter(props: ContactFilterProps) {

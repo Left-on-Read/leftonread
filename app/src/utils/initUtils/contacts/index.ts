@@ -3,10 +3,11 @@ import * as sqlite3 from 'sqlite3';
 import { PHONE_NUMBER_LENGTH } from '../constants/normalization';
 import * as sqlite3Wrapper from '../sqliteWrapper';
 import { Columns } from './columns';
+import { IContactData } from './types';
 
 export async function getContactOptions(
   db: sqlite3.Database
-): Promise<ContactOptions.ContactData[]> {
+): Promise<IContactData[]> {
   const q = `
     SELECT
       COALESCE(contact_name, h.id) as ${Columns.VALUE},

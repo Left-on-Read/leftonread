@@ -2,8 +2,9 @@ import _ from 'lodash';
 
 import { GroupChatFilters } from '../../constants/filters';
 import { Columns } from './columns';
+import { ITopFriendsFilters } from './types';
 
-function wordFilter(filters: TopFriendsTypes.Filters): string | undefined {
+function wordFilter(filters: ITopFriendsFilters): string | undefined {
   if (_.isEmpty(filters.word)) {
     return undefined;
   }
@@ -11,23 +12,21 @@ function wordFilter(filters: TopFriendsTypes.Filters): string | undefined {
   return `LOWER(${Columns.TEXT}) LIKE "%${filters.word?.toLowerCase()}%"`;
 }
 
-function contactFilter(filters: TopFriendsTypes.Filters): string | undefined {
+function contactFilter(filters: ITopFriendsFilters): string | undefined {
   if (_.isEmpty(filters.contact)) {
     return undefined;
   }
   return `${Columns.FRIEND} = "${filters.contact}"`;
 }
 
-function groupChatFilter(filters: TopFriendsTypes.Filters): string | undefined {
+function groupChatFilter(filters: ITopFriendsFilters): string | undefined {
   if (filters.groupChat === GroupChatFilters.ONLY_INDIVIDUAL) {
     return `message.cache_roomnames IS NULL`;
   }
   return undefined; // would query for both individual and groupchats
 }
 
-export default function getAllFilters(
-  filters: TopFriendsTypes.Filters
-): string {
+export default function getAllFilters(filters: ITopFriendsFilters): string {
   const contact = contactFilter(filters);
   const groupChats = groupChatFilter(filters);
   const word = wordFilter(filters);

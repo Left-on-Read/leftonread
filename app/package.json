@@ -17,7 +17,8 @@
     "start:main": "cross-env NODE_ENV=development electron -r ./.erb/scripts/BabelRegister ./src/main.dev.ts",
     "start:renderer": "cross-env NODE_ENV=development webpack serve --config ./.erb/configs/webpack.config.renderer.dev.babel.js",
     "test": "jest",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "typecheck": "yarn tsc"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,css,scss,html,md,yml}": [
