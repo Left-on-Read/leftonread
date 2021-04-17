@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { GroupChatFilters } from '../../constants/filters';
+import { filterOutReactions, GroupChatFilters } from '../../constants/filters';
 import { Columns } from './columns';
 
 function wordFilter(filters: TopFriendsTypes.Filters): string | undefined {
@@ -31,6 +31,7 @@ export default function getAllFilters(
   const contact = contactFilter(filters);
   const groupChats = groupChatFilter(filters);
   const word = wordFilter(filters);
-  const filtersArray = _.compact([contact, groupChats, word]);
+  const coreFilter = filterOutReactions(Columns.TEXT);
+  const filtersArray = _.compact([contact, groupChats, word, coreFilter]);
   return !_.isEmpty(filtersArray) ? `WHERE ${filtersArray.join(' AND ')}` : '';
 }
