@@ -42,7 +42,6 @@ export class CoreCountTable extends Table {
         is_from_me as ${Columns.IS_FROM_ME},
         cache_roomnames as ${Columns.CACHE_ROOMNAMES}
       FROM SPLIT_TEXT_TABLE
-
   `;
     await sqlite3Wrapper.runP(this.db, q);
     log.info(`INFO: created ${this.name}`);
