@@ -32,7 +32,8 @@ function fluffFilter(): string {
   ${filterOutReactions(Columns.TEXT)} AND unicode(TRIM(${
     Columns.TEXT
   })) != ${objReplacementUnicode}
-  AND ${Columns.TEXT} IS NOT NULL`;
+  AND ${Columns.TEXT} IS NOT NULL
+  AND LENGTH(${Columns.TEXT}) >= 1`;
 }
 
 export default function getAllFilters(filters: ITopFriendsFilters): string {

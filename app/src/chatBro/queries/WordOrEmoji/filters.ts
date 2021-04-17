@@ -45,11 +45,12 @@ function groupChatFilter(filters: IWordOrEmojiFilters): string | undefined {
 }
 
 function fluffFilter(): string {
-  // NOTE: Text is LOWERed at this point.
+  // NOTE: texts are LOWERed at this point
   return `TRIM(${Columns.WORD}) NOT IN (${stopWords})
   AND TRIM(${Columns.WORD}) NOT IN (${reactions})
   AND unicode(TRIM(${Columns.WORD})) != ${objReplacementUnicode}
-  AND TRIM(${Columns.WORD}) NOT IN (${punctuation})`;
+  AND TRIM(${Columns.WORD}) NOT IN (${punctuation})
+  AND LENGTH(${Columns.WORD}) >= 1`;
 }
 
 export default function getAllFilters(filters: IWordOrEmojiFilters): string {
