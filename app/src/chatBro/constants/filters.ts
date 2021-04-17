@@ -1,7 +1,7 @@
 export const DEFAULT_LIMIT = 15;
 
 export enum GroupChatFilters {
-  BOTH = 'Both Individual and Group Chats',
+  BOTH = 'Both Individual and Group Chats (will make received higher)',
   ONLY_INDIVIDUAL = 'Only Individual Conversations',
 }
 
