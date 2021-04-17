@@ -15,7 +15,7 @@ We are proud to be using [Electron-React Boilerplate
 ### Quick Start
 
 1. Install packages with `yarn`
-2. Run the application with `yarn start` 
+2. Run the application with `yarn start`
 
 ## Contributing
 
@@ -32,10 +32,9 @@ We are proud to be using [Electron-React Boilerplate
 
 You need to give your terminal application (for example, iTerm) "full disk access" in order to run Left on Read locally. This is because the application needs to copy the chat.db file in `~/Library/Messages` into the Left on Read application folder `~/.leftonread`
 
-To give your Terminal full disk access, go to System Preferences > Security and Privacy > Full Disk Access (a folder on the scrollbar) > and select iTerm. 
+To give your Terminal full disk access, go to System Preferences > Security and Privacy > Full Disk Access (a folder on the scrollbar) > and select iTerm.
 
-It is an open issue to prompt you automatically. See [#92](https://github.com/Left-on-Read/leftonread/issues/92). 
-
+It is an open issue to prompt you automatically. See [#92](https://github.com/Left-on-Read/leftonread/issues/92).
 
 #### DATABASE MALFORMED — TRIGGER ERROR
 
@@ -43,6 +42,35 @@ If you see a console error that says the database is malformed, then you need to
 
 1. `cd ~/.leftonread`
 2. `rm -r AddressBookFolder chat.db chat.db-shm chat.db-wal`
+
+#### Cannot yarn start: JavaScript heap out of memory
+
+If you are getting:
+
+```
+➜  app git:(main) ✗ yarn start
+yarn run v1.22.10
+...
+Starting Main Process...
+ℹ ｢wds｣: Project is running at http://localhost:1212/
+...
+<--- Last few GCs --->
+
+[5892:0x1046a1000]    23090 ms: Scavenge (reduce) 1935.6 (1941.6) -> 1934.8 (1942.6) MB, 1.4 / 0.0 ms  (average mu = 0.179, current mu = 0.155) allocation failure
+...
+
+<--- JS stacktrace --->
+
+FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed - JavaScript heap out of memory
+```
+
+Then it appears you need to allocate more memory. If you have enough memory on your computer, consider running in your terminal:
+
+```
+export NODE_OPTIONS=--max_old_space_size=4096
+```
+
+where 4096 is in megabytes.
 
 #### ENOENT: no such file or directory
 
