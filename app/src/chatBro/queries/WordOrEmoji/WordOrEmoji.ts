@@ -5,11 +5,11 @@ import * as sqlite3Wrapper from '../../../utils/initUtils/sqliteWrapper';
 import { DEFAULT_LIMIT } from '../../constants/filters';
 import { Columns, OutputColumns } from './columns';
 import getAllFilters from './filters';
-
+import { IWordOrEmojiFilters, TWordOrEmojiResults } from './types';
 export async function queryEmojiOrWordCounts(
   db: sqlite3.Database,
-  filters: WordOrEmojiTypes.Filters
-): Promise<WordOrEmojiTypes.Results> {
+  filters: IWordOrEmojiFilters
+): Promise<TWordOrEmojiResults> {
   const limit = filters.limit || DEFAULT_LIMIT;
   const allFilters = getAllFilters(filters);
   const query = `
