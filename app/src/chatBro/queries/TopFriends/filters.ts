@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import { filterOutReactions, GroupChatFilters } from '../../constants/filters';
+import { objReplacementUnicode } from '../../constants/objReplacementUnicode';
 import { Columns } from './columns';
 
 function wordFilter(filters: TopFriendsTypes.Filters): string | undefined {
@@ -25,13 +26,21 @@ function groupChatFilter(filters: TopFriendsTypes.Filters): string | undefined {
   return undefined; // would query for both individual and groupchats
 }
 
+function fluffFilter(): string {
+  return `
+  ${filterOutReactions(Columns.TEXT)} AND unicode(TRIM(${
+    Columns.TEXT
+  })) != ${objReplacementUnicode}
+  AND ${Columns.TEXT} IS NOT NULL`;
+}
+
 export default function getAllFilters(
   filters: TopFriendsTypes.Filters
 ): string {
   const contact = contactFilter(filters);
   const groupChats = groupChatFilter(filters);
   const word = wordFilter(filters);
-  const coreFilter = filterOutReactions(Columns.TEXT);
-  const filtersArray = _.compact([contact, groupChats, word, coreFilter]);
+  const fluff = fluffFilter();
+  const filtersArray = _.compact([contact, groupChats, word, fluff]);
   return !_.isEmpty(filtersArray) ? `WHERE ${filtersArray.join(' AND ')}` : '';
 }

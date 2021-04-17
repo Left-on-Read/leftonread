@@ -1,6 +1,5 @@
 import log from 'electron-log';
 
-import { filterOutReactions } from '../../../chatBro/constants/filters';
 import * as sqlite3Wrapper from '../../../utils/initUtils/sqliteWrapper';
 import { Columns as ContactNameColumns } from '../../ContactTable';
 import { TableNames } from '../../definitions';
@@ -43,7 +42,6 @@ export class CoreCountTable extends Table {
         is_from_me as ${Columns.IS_FROM_ME},
         cache_roomnames as ${Columns.CACHE_ROOMNAMES}
       FROM SPLIT_TEXT_TABLE
-      WHERE ${filterOutReactions('text')}
   `;
     await sqlite3Wrapper.runP(this.db, q);
     log.info(`INFO: created ${this.name}`);
