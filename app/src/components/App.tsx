@@ -19,9 +19,10 @@ export default function App() {
       if (err) {
         log.warn('WARN: full disk access not set:', err);
         setHasFullDisk(false);
+      } else {
+        log.info('INFO: full disk access appears to be given');
+        setHasFullDisk(true);
       }
-      log.info('INFO: full disk access appears to be given');
-      setHasFullDisk(true);
     });
   }
 
@@ -49,6 +50,8 @@ export default function App() {
   if (hasFullDisk) {
     return <Dashboard />;
   }
+  // NOTE: the user must quit the app after giving full disk access
+  // so this condition should probably be deleted.
   if (hasOpenedPreferences) {
     return (
       <button type="button" onClick={handleReturnOnClick}>
