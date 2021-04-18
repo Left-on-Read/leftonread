@@ -50,6 +50,8 @@ export default function App() {
   if (hasFullDisk) {
     return <Dashboard />;
   }
+  // NOTE: the user must quit the app after giving full disk access
+  // so this condition should probably be deleted.
   if (hasOpenedPreferences) {
     return (
       <button type="button" onClick={handleReturnOnClick}>
