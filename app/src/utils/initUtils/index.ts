@@ -16,6 +16,7 @@ import {
 } from '../../tables';
 import {
   addressBookDBAliasName,
+  appDirectoryInitPath,
   appDirectoryPath,
   chatPaths,
   dirPairings,
@@ -26,6 +27,7 @@ export async function createAppDirectory() {
   try {
     if (!fs.existsSync(appDirectoryPath)) {
       fs.mkdirSync(appDirectoryPath);
+      fs.mkdirSync(appDirectoryInitPath);
       log.info('INFO: createAppDirectory success');
     }
   } catch (e) {
@@ -33,6 +35,8 @@ export async function createAppDirectory() {
   }
 }
 
+// NOTE: this is a very dangerous function
+// It overwrites files.
 export async function copyFiles(
   originalPath: string,
   appPath: string

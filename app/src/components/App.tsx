@@ -1,123 +1,64 @@
-import '../app.global.css';
-
-import { interpolateCool } from 'd3-scale-chromatic';
 import log from 'electron-log';
+import { openSystemPreferences } from 'electron-util';
+import * as fs from 'fs';
 import React, { useEffect, useState } from 'react';
 
-import * as sqlite3 from 'sqlite3';
+import { createAppDirectory } from '../utils/initUtils';
+import { chatPaths } from '../utils/initUtils/constants/directories';
+import { Dashboard } from './Dashboard';
 
-import { DEFAULT_LIMIT, GroupChatFilters } from '../chatBro/constants/filters';
-import TopFriendsChart from './charts/TopFriendsChart';
-import WordOrEmojiCountChart from './charts/WordOrEmojiCountChart';
-import ContactFilter from './filters/ContactFilter';
-import GroupChatFilter from './filters/GroupChatFilter';
-import LimitFilter from './filters/LimitFilter';
-import { coreInit } from '../utils/initUtils';
-import { getContactOptions } from '../utils/initUtils/contacts';
-import { IContactData } from '../utils/initUtils/contacts/types';
-
+// TODO: turn this into a pretty modal/welcome screen
 export default function App() {
-  const [db, setDB] = useState<sqlite3.Database | null>(null);
-  const [limit, setLimit] = useState<number>(DEFAULT_LIMIT);
-  const [groupChat, setGroupChat] = useState<GroupChatFilters>(
-    GroupChatFilters.ONLY_INDIVIDUAL
+  const [hasFullDisk, setHasFullDisk] = useState<boolean>(false);
+  const [hasOpenedPreferences, setHasOpenedPreferences] = useState<boolean>(
+    false
   );
-  const [contact, setContact] = useState<string | undefined>(undefined);
-  const [contactOptions, setContactOptions] = useState<IContactData[]>([]);
+
+  function checkAndSetFullDiskAccess() {
+    fs.copyFile(chatPaths.original, chatPaths.init, (err) => {
+      if (err) {
+        log.warn('WARN: full disk access not set:', err);
+        setHasFullDisk(false);
+      }
+      log.info('INFO: full disk access appears to be given');
+      setHasFullDisk(true);
+    });
+  }
+
+  const app =
+    process.env.NODE_ENV === 'development' ? 'iTerm2' : 'Left on Read';
+  const text = `To continue, please give ${app} Full Disk Access`;
+
+  const handleOpenPreferencesOnClick = () => {
+    openSystemPreferences('security', 'Privacy_AllFiles');
+    setHasOpenedPreferences(true);
+  };
+
+  const handleReturnOnClick = () => {
+    checkAndSetFullDiskAccess();
+  };
 
   useEffect(() => {
-    async function createInitialLoad() {
-      try {
-        const lorDB = await coreInit();
-        setDB(lorDB);
-        const allContacts = await getContactOptions(lorDB);
-        setContactOptions(allContacts);
-      } catch (err) {
-        log.error('ERROR: fetching app data', err);
-      }
+    async function onFirstLoad() {
+      await createAppDirectory();
+      checkAndSetFullDiskAccess();
     }
-    createInitialLoad();
+    onFirstLoad();
   }, []);
 
-  const handleContactChange = (selected?: IContactData | null | undefined) => {
-    setContact(selected?.value);
-  };
-
-  const handleLimitChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setLimit(Number(event.target.value));
-  };
-
-  const handleGroupChatChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setGroupChat(event.target.value as GroupChatFilters);
-  };
-
-  if (db) {
+  if (hasFullDisk) {
+    return <Dashboard />;
+  }
+  if (hasOpenedPreferences) {
     return (
-      <div>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <LimitFilter handleChange={handleLimitChange} limit={limit} />
-          <GroupChatFilter
-            handleChange={handleGroupChatChange}
-            groupChat={groupChat}
-          />
-          <ContactFilter
-            options={contactOptions}
-            contact={{
-              value: contact,
-            }}
-            handleChange={handleContactChange}
-          />
-        </div>
-        <WordOrEmojiCountChart
-          db={db}
-          titleText="Top Received Emojis"
-          labelText="Count of Emoji"
-          filters={{
-            isEmoji: true,
-            limit,
-            isFromMe: false,
-            groupChat,
-            contact,
-          }}
-          colorInterpolationFunc={interpolateCool}
-        />
-        <WordOrEmojiCountChart
-          db={db}
-          titleText="Top Received Words"
-          labelText="Count of Word"
-          filters={{
-            isEmoji: false,
-            limit,
-            isFromMe: false,
-            groupChat,
-            contact,
-          }}
-          colorInterpolationFunc={interpolateCool}
-        />
-        <TopFriendsChart
-          db={db}
-          titleText="Top Friends"
-          filters={{ limit, groupChat, contact }}
-          colorInterpolationFunc={interpolateCool}
-        />
-        <WordOrEmojiCountChart
-          db={db}
-          titleText="Top Sent Words"
-          labelText="Count of Word"
-          filters={{ isEmoji: false, limit, isFromMe: true, contact }}
-          colorInterpolationFunc={interpolateCool}
-        />
-        <WordOrEmojiCountChart
-          db={db}
-          titleText="Top Sent Emojis"
-          labelText="Count of Emoji"
-          filters={{ isEmoji: true, limit, isFromMe: true, contact }}
-          colorInterpolationFunc={interpolateCool}
-        />
-      </div>
+      <button type="button" onClick={handleReturnOnClick}>
+        I have given full disk access.
+      </button>
     );
   }
-  return <div>Loading dash... </div>;
+  return (
+    <button type="button" onClick={handleOpenPreferencesOnClick}>
+      {text}
+    </button>
+  );
 }

@@ -4063,6 +4063,14 @@ electron-updater@^4.3.4:
     lodash.isequal "^4.5.0"
     semver "^7.3.2"
 
+electron-util@^0.15.0:
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/electron-util/-/electron-util-0.15.0.tgz#6965c2b72e8c5be2f2c55d060ed35e6f1cf8f469"
+  integrity sha512-9PNH5Kfg/vwcuGu1MKUiUesisbIdcBM9v8t3kyUCoQ5VTSbLZ5L7v/I2Sh0/VQagLpPF9S7xber8SxHxghapcQ==
+  dependencies:
+    electron-is-dev "^1.1.0"
+    new-github-issue-url "^0.2.1"
+
 electron@^11.0.1:
   version "11.1.1"
   resolved "https://registry.yarnpkg.com/electron/-/electron-11.1.1.tgz#188f036f8282798398dca9513e9bb3b10213e3aa"
@@ -7246,6 +7254,11 @@ negotiator@0.6.2:
 neo-async@^2.6.2:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
+
+new-github-issue-url@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/new-github-issue-url/-/new-github-issue-url-0.2.1.tgz#e17be1f665a92de465926603e44b9f8685630c1d"
+  integrity sha512-md4cGoxuT4T4d/HDOXbrUHkTKrp/vp+m3aOA7XXVYwNsUNMK49g3SQicTSeV5GIz/5QVGAeYRAOlyp9OvlgsYA==
 
 nice-try@^1.0.4:
   version "1.0.5"
