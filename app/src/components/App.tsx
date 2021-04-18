@@ -19,9 +19,10 @@ export default function App() {
       if (err) {
         log.warn('WARN: full disk access not set:', err);
         setHasFullDisk(false);
+      } else {
+        log.info('INFO: full disk access appears to be given');
+        setHasFullDisk(true);
       }
-      log.info('INFO: full disk access appears to be given');
-      setHasFullDisk(true);
     });
   }
 
