@@ -15,6 +15,7 @@ import { app, BrowserWindow, shell } from 'electron';
 import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 import path from 'path';
+import { trackPageView } from './utils/analytics';
 
 import MenuBuilder from './menu';
 
@@ -137,3 +138,5 @@ app.on('activate', () => {
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) createWindow();
 });
+
+global.trackPageView = trackPageView;

@@ -7,6 +7,9 @@ import { createAppDirectory } from '../utils/initUtils';
 import { chatPaths } from '../utils/initUtils/constants/directories';
 import { Dashboard } from './Dashboard';
 
+const { getGlobal } = require('electron').remote;
+const trackPageView = getGlobal('trackPageView');
+
 // TODO: turn this into a pretty modal/welcome screen
 export default function App() {
   const [hasFullDisk, setHasFullDisk] = useState<boolean>(false);
@@ -45,6 +48,8 @@ export default function App() {
       checkAndSetFullDiskAccess();
     }
     onFirstLoad();
+
+    trackPageView('/');
   }, []);
 
   if (hasFullDisk) {

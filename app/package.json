@@ -183,6 +183,7 @@
     "@types/react-router-dom": "^5.1.6",
     "@types/react-select": "^4.0.2",
     "@types/react-test-renderer": "^16.9.3",
+    "@types/universal-analytics": "^0.4.4",
     "@types/webpack-env": "^1.15.2",
     "@typescript-eslint/eslint-plugin": "^4.8.1",
     "@typescript-eslint/parser": "^4.8.1",
@@ -261,7 +262,8 @@
     "react-select": "^4.0.2",
     "recursive-copy": "^2.0.11",
     "regenerator-runtime": "^0.13.5",
-    "source-map-support": "^0.5.19"
+    "source-map-support": "^0.5.19",
+    "universal-analytics": "^0.4.23"
   },
   "devEngines": {
     "node": ">=10.x",
