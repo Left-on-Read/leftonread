@@ -1,10 +1,11 @@
 import UniversalAnalytics from 'universal-analytics';
 import log from 'electron-log';
 import { isProd } from '.';
+import { getUUID } from './store';
 
 const GA_TRACKING_ID = 'UA-113056721-3';
 
-const visitor = UniversalAnalytics(GA_TRACKING_ID);
+const visitor = UniversalAnalytics(GA_TRACKING_ID, getUUID());
 
 // NOTE: See documentation here: https://www.npmjs.com/package/universal-analytics#getting-started
 
