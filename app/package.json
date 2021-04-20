@@ -29,7 +29,7 @@
     ]
   },
   "build": {
-    "productName": "leftonread",
+    "productName": "Left on Read",
     "appId": "org.erb.LeftonRead",
     "files": [
       "dist/",
