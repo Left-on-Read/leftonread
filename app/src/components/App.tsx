@@ -7,8 +7,8 @@ import { createAppDirectory } from '../utils/initUtils';
 import { chatPaths } from '../utils/initUtils/constants/directories';
 import { Dashboard } from './Dashboard';
 
-const { getGlobal } = require('electron').remote;
-const trackPageView = getGlobal('trackPageView');
+import { TAnalytics } from '../utils/analytics';
+const Analytics: TAnalytics = require('electron').remote.getGlobal('Analytics');
 
 // TODO: turn this into a pretty modal/welcome screen
 export default function App() {
@@ -49,7 +49,7 @@ export default function App() {
     }
     onFirstLoad();
 
-    trackPageView('/');
+    Analytics.trackPageView('/');
   }, []);
 
   if (hasFullDisk) {

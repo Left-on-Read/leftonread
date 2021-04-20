@@ -1,9 +1,9 @@
-export {};
+import TAnalytics from './utils/analytics';
 
 declare global {
   namespace NodeJS {
     interface Global {
-      trackPageView: (url: string) => void;
+      Analytics: TAnalytics;
     }
   }
 }

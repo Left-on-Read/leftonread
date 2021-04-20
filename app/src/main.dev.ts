@@ -15,7 +15,7 @@ import { app, BrowserWindow, shell } from 'electron';
 import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 import path from 'path';
-import { trackPageView } from './utils/analytics';
+import { Analytics } from './utils/analytics';
 
 import MenuBuilder from './menu';
 
@@ -139,4 +139,4 @@ app.on('activate', () => {
   if (mainWindow === null) createWindow();
 });
 
-global.trackPageView = trackPageView;
+global.Analytics = Analytics;
