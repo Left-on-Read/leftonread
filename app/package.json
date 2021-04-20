@@ -1,7 +1,7 @@
 {
   "name": "app",
-  "productName": "leftonread",
-  "version": "1.0.0",
+  "productName": "Left on Read",
+  "version": "0.0.1",
   "description": "Left on Read",
   "scripts": {
     "build": "concurrently \"yarn build:main\" \"yarn build:renderer\"",
