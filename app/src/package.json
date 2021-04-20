@@ -1,7 +1,7 @@
 {
   "name": "leftonread",
-  "productName": "leftonread",
-  "version": "1.0.0",
+  "productName": "Left on Read",
+  "version": "0.0.1",
   "description": "Left on Read",
   "main": "./main.prod.js",
   "author": {
