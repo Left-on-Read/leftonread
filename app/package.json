@@ -246,7 +246,6 @@
     "yarn-deduplicate": "^3.1.0"
   },
   "dependencies": {
-    "@types/electron-store": "^3.2.0",
     "blend-promise-utils": "^1.27.0",
     "chart.js": "^2.9.4",
     "d3-scale-chromatic": "^2.0.0",
