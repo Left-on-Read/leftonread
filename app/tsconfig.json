@@ -30,5 +30,6 @@
     "src/renderer.prod.js",
     "src/dist",
     ".erb/dll"
-  ]
+  ],
+  "files": ["src/custom.d.ts"]
 }
