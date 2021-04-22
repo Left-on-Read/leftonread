@@ -96,6 +96,9 @@ export default function TopFriendsChart(props: TopFriendsProps) {
       options={options}
       titleText={titleText}
       success={success}
+      eventContext={{
+        label: 'TOP_FRIENDS',
+      }}
     />
   );
 }

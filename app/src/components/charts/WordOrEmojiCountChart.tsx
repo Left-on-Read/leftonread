@@ -65,6 +65,21 @@ export default function WordOrEmojiCountChart(props: WordOrEmojiCountProps) {
     },
   };
 
+  let label = '';
+  if (filters.isFromMe) {
+    if (filters.isEmoji) {
+      label = 'EMOJI_COUNT_SENT';
+    } else {
+      label = 'WORD_COUNT_SENT';
+    }
+  } else {
+    if (filters.isEmoji) {
+      label = 'EMOJI_COUNT_RECEIVED';
+    } else {
+      label = 'WORD_COUNT_RECEIVED';
+    }
+  }
+
   return (
     <BarChartWrapper
       data={data}
@@ -72,6 +87,9 @@ export default function WordOrEmojiCountChart(props: WordOrEmojiCountProps) {
       options={options}
       titleText={titleText}
       success={success}
+      eventContext={{
+        label,
+      }}
     />
   );
 }

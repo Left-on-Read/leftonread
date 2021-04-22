@@ -16,26 +16,34 @@ function trackPageView(url: string) {
   log.info(`EVENT: ${url} page view`);
 }
 
-function trackEvent(
-  category: string,
-  action: string,
-  label: string,
-  value: number
-) {
+export type TScreenTransitionEventData = {
+  category: 'SCREEN_TRANSITION';
+  action: 'APPEAR' | 'DISAPPEAR' | 'UNSET';
+  label: string;
+  value: number;
+};
+
+export type TEventData = TScreenTransitionEventData;
+
+function trackEvent(eventData: TEventData) {
   if (isProd()) {
-    visitor.event(category, action, label, value).send();
+    visitor
+      .event(
+        eventData.category,
+        eventData.action,
+        eventData.label,
+        eventData.value
+      )
+      .send();
   }
-  log.info(`EVENT: ${category} | ${action} | ${label} | ${value} event`);
+  log.info(
+    `EVENT: ${eventData.category} | ${eventData.action} | ${eventData.label} | ${eventData.value} event`
+  );
 }
 
 export type TAnalytics = {
   trackPageView: (url: string) => void;
-  trackEvent: (
-    category: string,
-    action: string,
-    label: string,
-    value: number
-  ) => void;
+  trackEvent: (eventData: TEventData) => void;
 };
 
 export const Analytics: TAnalytics = {
