@@ -1,4 +1,5 @@
 import { app } from 'electron';
+const remote = require('electron').remote;
 
 export function delimList(myList: string[]): string {
   const l = myList.map((t) => `"${t}"`);
