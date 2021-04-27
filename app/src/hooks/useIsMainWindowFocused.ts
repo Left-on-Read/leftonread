@@ -25,7 +25,7 @@ export function useIsMainWindowFocused(): boolean {
       mainWindow?.removeListener('focus', focusHandler);
       mainWindow?.removeListener('blur', blurHandler);
     };
-  });
+  }, []);
 
   return isFocused;
 }
