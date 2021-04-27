@@ -51,12 +51,18 @@ export async function copyFiles(
   }
 }
 
+// TODO: logic could be added here depending on what user wants to update their chat.db
 export async function coreInit(): Promise<sqlite3.Database> {
-  // TODO: logic could be added here depending on what user wants to update their chat.db
   await createAppDirectory();
-  await Promise.all(
-    dirPairings.map(async (obj) => copyFiles(obj.original, obj.app))
-  );
+  if (process.env.DEBUG_ENV) {
+    await Promise.all(
+      dirPairings.map(async (obj) => copyFiles(obj.debug, obj.app))
+    );
+  } else {
+    await Promise.all(
+      dirPairings.map(async (obj) => copyFiles(obj.original, obj.app))
+    );
+  }
   const possibleAddressBookDB = await findPossibleAddressBookDB();
   const lorDB = initializeDB(chatPaths.app);
   await dropAllChatTables(lorDB);
