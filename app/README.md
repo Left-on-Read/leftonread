@@ -14,8 +14,17 @@ We are proud to be using [Electron-React Boilerplate
 
 ### Quick Start
 
-1. Install packages with `yarn`
-2. Run the application with `yarn start`
+- First, install dependencies with `yarn` 
+
+‼️ To run the app, you need to install dependencies in both the `app/src/` directory and the `app/` root directory. In other words:
+
+```
+$ yarn # install in app/ directory
+cd src/
+yarn # install in app/src/ directory too
+```
+
+- Run the application with `yarn start` in the `app` directory.
 
 ## Contributing
 
@@ -82,3 +91,7 @@ Error: ENOENT: no such file or directory.
 ```
 
 You most likely have an old electron process running. If this is warning, you can ignore it. Otherwise, kill the old process.
+
+### Error: Cannot find module
+
+If you are getting a "Cannot find module" error, you likely forgot to install the packages. Be sure to run `yarn` in the both the `app/` directory and `app/src` directory.
