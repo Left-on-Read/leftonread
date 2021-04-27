@@ -12,7 +12,7 @@ export const addressBookPaths = {
 export const chatPaths = {
   original: `${process.env.HOME}/Library/Messages/chat.db`,
   app: `${appDirectoryPath}/chat.db`,
-  debug: `${process.env.HOME}/Desktop/debug/chat.db`, // TODO: set up a debugging flag
+  debug: `${process.env.HOME}/Desktop/debug/chat.db`,
   init: `${appDirectoryInitPath}/chat.db`,
 };
 

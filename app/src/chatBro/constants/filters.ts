@@ -5,7 +5,7 @@ export enum GroupChatFilters {
   ONLY_INDIVIDUAL = 'Only Individual Conversations',
 }
 
-// TODO this should leverage constants/reactions
+// TODO(Danilowicz) this should leverage constants/reactions
 export function filterOutReactions(column: string): string {
   return `(
     LOWER(${column}) NOT LIKE "emphasized%"

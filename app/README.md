@@ -14,7 +14,7 @@ We are proud to be using [Electron-React Boilerplate
 
 ### Quick Start
 
-- First, install dependencies with `yarn` 
+- First, install dependencies with `yarn`
 
 ‼️ To run the app, you need to install dependencies in both the `app/src/` directory and the `app/` root directory. In other words:
 
@@ -43,14 +43,16 @@ You need to give your terminal application (for example, iTerm) "full disk acces
 
 To give your Terminal full disk access, go to System Preferences > Security and Privacy > Full Disk Access (a folder on the scrollbar) > and select iTerm.
 
-It is an open issue to prompt you automatically. See [#92](https://github.com/Left-on-Read/leftonread/issues/92).
-
 #### DATABASE MALFORMED — TRIGGER ERROR
 
-If you see a console error that says the database is malformed, then you need to delete the databases the application reads from (so then it can create them from scratch again)
+If you see a console error that says the database is malformed, then you need to delete the databases the application reads from (so then it can quickly create them from scratch again).
 
-1. `cd ~/.leftonread`
-2. `rm -r AddressBookFolder chat.db chat.db-shm chat.db-wal`
+1. `cd`
+2. `rm -ir ./leftonread`
+
+Say yes to the prompt and delete all the files within `./leftonread` including the directory itself. The app will simply recreate it. You could remove the `-i` flag if you like to live on the edge and trust yourself not to delete your entire system because of a mispelling.
+
+After deleting, simply refresh the electron app. (It should hotreload automatically.)
 
 #### Cannot yarn start: JavaScript heap out of memory
 
