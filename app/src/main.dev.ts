@@ -15,9 +15,9 @@ import { app, BrowserWindow, shell } from 'electron';
 import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 import path from 'path';
-import { Analytics } from './utils/analytics';
 
 import MenuBuilder from './menu';
+import { Analytics } from './utils/analytics';
 
 export default class AppUpdater {
   constructor() {

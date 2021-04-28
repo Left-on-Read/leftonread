@@ -1,5 +1,6 @@
 import * as React from 'react';
-const remote = require('electron').remote;
+
+const { remote } = require('electron');
 
 export function useIsMainWindowFocused(): boolean {
   const windows = remote.BrowserWindow.getAllWindows();
@@ -25,6 +26,7 @@ export function useIsMainWindowFocused(): boolean {
       mainWindow?.removeListener('focus', focusHandler);
       mainWindow?.removeListener('blur', blurHandler);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return isFocused;

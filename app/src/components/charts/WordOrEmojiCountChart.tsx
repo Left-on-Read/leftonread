@@ -3,9 +3,9 @@ import React, { useEffect, useState } from 'react';
 import * as sqlite3 from 'sqlite3';
 
 import * as chatBro from '../../chatBro';
+import { IWordOrEmojiFilters } from '../../chatBro/queries/WordOrEmoji/types';
 import interpolateColors from '../../utils/colors';
 import { BarChartWrapper } from '../shared';
-import { IWordOrEmojiFilters } from '../../chatBro/queries/WordOrEmoji/types';
 
 interface WordOrEmojiCountProps {
   db: sqlite3.Database;
@@ -72,12 +72,10 @@ export default function WordOrEmojiCountChart(props: WordOrEmojiCountProps) {
     } else {
       label = 'WORD_COUNT_SENT';
     }
+  } else if (filters.isEmoji) {
+    label = 'EMOJI_COUNT_RECEIVED';
   } else {
-    if (filters.isEmoji) {
-      label = 'EMOJI_COUNT_RECEIVED';
-    } else {
-      label = 'WORD_COUNT_RECEIVED';
-    }
+    label = 'WORD_COUNT_RECEIVED';
   }
 
   return (
