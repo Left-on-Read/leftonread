@@ -32,7 +32,7 @@ jobs:
         run: |
           yarn install --frozen-lockfile --network-timeout 300000
 
-      - name: yarn test
+      - name: Package, Typecheck, and Test
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -40,6 +40,6 @@ jobs:
           yarn tsc
           yarn test
 
-      - name: yarn test
+      - name: Lint
         run: |
           yarn lint
