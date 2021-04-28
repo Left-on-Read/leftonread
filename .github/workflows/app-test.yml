@@ -39,3 +39,7 @@ jobs:
           yarn package
           yarn tsc
           yarn test
+
+      - name: yarn test
+        run: |
+          yarn lint
