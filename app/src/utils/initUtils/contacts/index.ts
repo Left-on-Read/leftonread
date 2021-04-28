@@ -14,10 +14,13 @@ export async function getContactOptions(
       COALESCE(contact_name, h.id) as ${Columns.LABEL},
       COUNT(*) as ${Columns.COUNT},
       h.id as ${Columns.ID}
-    FROM message
-    JOIN handle h
-      ON
-        h.ROWID = handle_id
+    FROM chat_message_join cmj
+      JOIN chat_handle_join chj
+        ON chj.chat_id = cmj.chat_id
+      JOIN handle h
+        ON h.ROWID = chj.handle_id
+      JOIN message m
+        ON m.ROWID = cmj.message_id
     -- NOTE: don't bother showing robo-contacts,
     -- i.e., Amazon shipping updates
     WHERE LENGTH(h.id) >= ${PHONE_NUMBER_LENGTH}

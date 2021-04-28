@@ -24,11 +24,13 @@ export class CoreCountTable extends Table {
         m.is_from_me,
         m.guid, '',
         m.text || ' '
-      FROM message m
-      JOIN
-        handle h
-      ON
-        h.ROWID = handle_id
+      FROM chat_message_join cmj
+        JOIN chat_handle_join chj
+          ON  chj.chat_id = cmj.chat_id
+        JOIN handle h
+          ON h.ROWID = chj.handle_id
+        JOIN message m
+          ON m.ROWID = cmj.message_id
         WHERE m.text IS NOT NULL
       UNION ALL
       SELECT

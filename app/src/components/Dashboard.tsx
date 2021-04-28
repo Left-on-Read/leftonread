@@ -28,9 +28,10 @@ export function Dashboard() {
     async function createInitialLoad() {
       try {
         const lorDB = await coreInit();
+        // const allContacts = await getContactOptions(lorDB);
+        // console.log(allContacts);
+        // setContactOptions(allContacts);
         setDB(lorDB);
-        const allContacts = await getContactOptions(lorDB);
-        setContactOptions(allContacts);
       } catch (err) {
         log.error('ERROR: fetching app data', err);
       }
