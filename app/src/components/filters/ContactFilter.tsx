@@ -1,5 +1,6 @@
 import React from 'react';
 import Select from 'react-select';
+
 import { IContactData } from '../../utils/initUtils/contacts/types';
 
 interface ContactFilterProps {

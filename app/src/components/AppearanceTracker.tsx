@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { useInView } from 'react-intersection-observer';
+
 import { useIsMainWindowFocused } from '../hooks/useIsMainWindowFocused';
-import { TAnalytics, TEventData } from '../utils/analytics';
+import { TAnalytics } from '../utils/analytics';
+
 const Analytics: TAnalytics = require('electron').remote.getGlobal('Analytics');
 
 // NOTE(teddy): If we end up adding more windows, we can have this accept an optional window parameter
@@ -39,7 +41,7 @@ export function AppearanceTracker({
         value: Date.now() - appearedTime,
       });
     }
-  }, [inView, isMainWindowFocused]);
+  }, [inView, isMainWindowFocused, appearedTime, eventContext.label]);
 
   return <div ref={ref}>{children}</div>;
 }

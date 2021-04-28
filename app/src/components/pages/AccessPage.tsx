@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from 'react';
 import log from 'electron-log';
 import { openSystemPreferences } from 'electron-util';
 import * as fs from 'fs';
-
-import { createAppDirectory } from '../../utils/initUtils';
-import { chatPaths } from '../../utils/initUtils/constants/directories';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { TAnalytics } from '../../utils/analytics';
-const Analytics: TAnalytics = require('electron').remote.getGlobal('Analytics');
+
+import { chatPaths } from '../../utils/initUtils/constants/directories';
 
 const app = process.env.NODE_ENV === 'development' ? 'iTerm2' : 'Left on Read';
 const text = `To continue, please give ${app} Full Disk Access`;
@@ -37,7 +34,7 @@ export function AccessPage() {
     if (hasFullDisk) {
       history.push('/dashboard');
     }
-  }, [hasFullDisk]);
+  }, [hasFullDisk, history]);
 
   const handleOpenPreferencesOnClick = () => {
     openSystemPreferences('security', 'Privacy_AllFiles');
