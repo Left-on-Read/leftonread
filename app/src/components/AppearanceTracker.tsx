@@ -7,7 +7,7 @@ import { TAnalytics } from '../utils/analytics';
 const Analytics: TAnalytics = require('electron').remote.getGlobal('Analytics');
 
 // NOTE(teddy): If we end up adding more windows, we can have this accept an optional window parameter
-// that gets passed down to the focused hook
+// that gets passed down to the focused hook.
 export function AppearanceTracker({
   eventContext,
   children,
