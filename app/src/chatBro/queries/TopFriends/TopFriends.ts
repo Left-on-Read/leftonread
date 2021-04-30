@@ -12,10 +12,13 @@ const getCoreQuery = (allFilters: string) => {
     h.id as ${Columns.PHONE_NUMBER},
     COALESCE(h.contact_name, h.id) as ${Columns.FRIEND},
     is_from_me as ${Columns.IS_FROM_ME}
-  FROM message
-    JOIN handle h
-    ON
-      h.ROWID = handle_id
+    FROM chat_message_join cmj
+      JOIN chat_handle_join chj
+        ON chj.chat_id = cmj.chat_id
+      JOIN handle h
+        ON h.ROWID = chj.handle_id
+      JOIN message m
+        ON m.ROWID = cmj.message_id
     -- NOTE: filters should always be applied as earliest as possible
     ${allFilters}
   GROUP BY h.id, is_from_me

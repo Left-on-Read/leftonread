@@ -22,7 +22,7 @@ function contactFilter(filters: ITopFriendsFilters): string | undefined {
 
 function groupChatFilter(filters: ITopFriendsFilters): string | undefined {
   if (filters.groupChat === GroupChatFilters.ONLY_INDIVIDUAL) {
-    return `message.cache_roomnames IS NULL`;
+    return `cache_roomnames IS NULL`;
   }
   return undefined; // would query for both individual and groupchats
 }

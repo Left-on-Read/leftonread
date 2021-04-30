@@ -7,7 +7,6 @@ import * as sqlite3 from 'sqlite3';
 
 import { DEFAULT_LIMIT, GroupChatFilters } from '../chatBro/constants/filters';
 import { coreInit } from '../utils/initUtils';
-import { getContactOptions } from '../utils/initUtils/contacts';
 import { IContactData } from '../utils/initUtils/contacts/types';
 import TopFriendsChart from './charts/TopFriendsChart';
 import WordOrEmojiCountChart from './charts/WordOrEmojiCountChart';
@@ -22,15 +21,12 @@ export function Dashboard() {
     GroupChatFilters.ONLY_INDIVIDUAL
   );
   const [contact, setContact] = useState<string | undefined>(undefined);
-  const [contactOptions, setContactOptions] = useState<IContactData[]>([]);
 
   useEffect(() => {
     async function createInitialLoad() {
       try {
         const lorDB = await coreInit();
         setDB(lorDB);
-        const allContacts = await getContactOptions(lorDB);
-        setContactOptions(allContacts);
       } catch (err) {
         log.error('ERROR: fetching app data', err);
       }
@@ -62,7 +58,7 @@ export function Dashboard() {
             groupChat={groupChat}
           />
           <ContactFilter
-            options={contactOptions}
+            db={db}
             contact={{
               value: contact,
             }}
