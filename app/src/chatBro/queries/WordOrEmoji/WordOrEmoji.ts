@@ -6,6 +6,7 @@ import { DEFAULT_LIMIT } from '../../constants/filters';
 import { Columns, OutputColumns } from './columns';
 import getAllFilters from './filters';
 import { IWordOrEmojiFilters, TWordOrEmojiResults } from './types';
+
 export async function queryEmojiOrWordCounts(
   db: sqlite3.Database,
   filters: IWordOrEmojiFilters

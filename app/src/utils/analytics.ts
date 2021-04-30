@@ -1,5 +1,6 @@
-import UniversalAnalytics from 'universal-analytics';
 import log from 'electron-log';
+import UniversalAnalytics from 'universal-analytics';
+
 import { isProd } from '.';
 import { getUUID } from './store';
 
