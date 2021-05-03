@@ -3,9 +3,14 @@ import * as _ from 'lodash';
 import * as sqlite3 from 'sqlite3';
 
 import * as sqlite3Wrapper from '../utils/initUtils/sqliteWrapper';
+import { ChatCountTable } from './Chat/Count';
 import { ContactTable } from './ContactTable';
-import { CoreCountTable } from './Core/Count';
-import { AddressBookTableNames, ChatTableNames } from './definitions';
+import { CoreMainTable } from './Core/Main';
+import {
+  AddressBookTableNames,
+  ChatTableNames,
+  CoreTableNames,
+} from './definitions';
 
 const chatTableNames: string[] = _.values(ChatTableNames);
 
@@ -15,14 +20,26 @@ export async function createContactTable(
   const tables = [new ContactTable(db, AddressBookTableNames.CONTACT_TABLE)];
 
   const createTablePromises = tables.map((table) => table.create());
-  log.info('INFO: contact table successfully created');
+  log.info(`INFO: ${AddressBookTableNames.CONTACT_TABLE}successfully created`);
   return Promise.all(createTablePromises) as Promise<AddressBookTableNames[]>;
+}
+
+export async function createCoreMainTables(
+  db: sqlite3.Database
+): Promise<CoreTableNames[]> {
+  const tables = [new CoreMainTable(db, CoreTableNames.CORE_MAIN_TABLE)];
+
+  const createTablePromises = tables.map((table) => table.create());
+  log.info(`INFO: ${CoreTableNames.CORE_MAIN_TABLE} successfully created`);
+  return Promise.all(createTablePromises) as Promise<CoreTableNames[]>;
 }
 
 export async function createAllChatTables(
   db: sqlite3.Database
 ): Promise<ChatTableNames[]> {
-  const tables = [new CoreCountTable(db, ChatTableNames.CORE_COUNT_TABLE)];
+  // NOTE: CORE_MAIN needs to be created first
+  // because COUNT_TABLE depends on it
+  const tables = [new ChatCountTable(db, ChatTableNames.COUNT_TABLE)];
 
   const createTablePromises = tables.map((table) => table.create());
   return Promise.all(createTablePromises) as Promise<ChatTableNames[]>;
