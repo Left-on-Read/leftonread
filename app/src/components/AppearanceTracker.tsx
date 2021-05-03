@@ -41,7 +41,10 @@ export function AppearanceTracker({
         value: Date.now() - appearedTime,
       });
     }
-  }, [inView, isMainWindowFocused, appearedTime, eventContext.label]);
+    // NOTE: we exclude ApperearedTime
+    // because excluding it causes infinite renders
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inView, isMainWindowFocused, eventContext.label]);
 
   return <div ref={ref}>{children}</div>;
 }
