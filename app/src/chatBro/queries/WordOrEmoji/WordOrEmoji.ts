@@ -20,7 +20,7 @@ export async function queryEmojiOrWordCounts(
         ${Columns.WORD},
         ${Columns.CONTACT},
         ${Columns.IS_FROM_ME}
-      FROM ${ChatTableNames.CORE_COUNT_TABLE}
+      FROM ${ChatTableNames.COUNT_TABLE}
         ${allFilters}
       GROUP BY ${Columns.CONTACT}, ${Columns.WORD}, ${Columns.IS_FROM_ME}
     )

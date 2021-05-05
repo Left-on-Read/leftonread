@@ -2,7 +2,7 @@ import log from 'electron-log';
 
 import * as sqlite3Wrapper from '../../../utils/initUtils/sqliteWrapper';
 import { Columns as ContactNameColumns } from '../../ContactTable';
-import { TableNames } from '../../definitions';
+import { CoreTableNames, TableNames } from '../../definitions';
 import { Table } from '../../Table';
 
 export enum Columns {
@@ -12,7 +12,7 @@ export enum Columns {
   CONTACT = 'contact',
 }
 
-export class CoreCountTable extends Table {
+export class ChatCountTable extends Table {
   async create(): Promise<TableNames> {
     const q = `
     CREATE TABLE ${this.name} AS
@@ -20,17 +20,11 @@ export class CoreCountTable extends Table {
     (
       SELECT
         m.cache_roomnames,
-        coalesce(h.${ContactNameColumns.CONTACT_NAME}, h.id) as id,
+        coalesce(m.${ContactNameColumns.CONTACT_NAME}, m.id) as id,
         m.is_from_me,
         m.guid, '',
         m.text || ' '
-      FROM chat_message_join cmj
-        JOIN chat_handle_join chj
-          ON  chj.chat_id = cmj.chat_id
-        JOIN handle h
-          ON h.ROWID = chj.handle_id
-        JOIN message m
-          ON m.ROWID = cmj.message_id
+      FROM ${CoreTableNames.CORE_MAIN_TABLE} m
         WHERE m.text IS NOT NULL
       UNION ALL
       SELECT

@@ -12,6 +12,7 @@ import { closeDB, initializeDB } from '../../db';
 import {
   createAllChatTables,
   createContactTable,
+  createCoreMainTables,
   dropAllChatTables,
 } from '../../tables';
 import {
@@ -95,6 +96,7 @@ export async function coreInit(): Promise<sqlite3.Database> {
   } else {
     log.info('INFO: No contacts found.');
   }
+  await createCoreMainTables(lorDB);
   /*
    * NOTE:
    *  Whether or not the addressBook was found, we

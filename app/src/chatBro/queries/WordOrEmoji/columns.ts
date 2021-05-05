@@ -1,4 +1,4 @@
-import { Columns } from '../../../tables/Core/Count';
+import { Columns } from '../../../tables/Chat/Count';
 
 enum OutputColumns {
   WORD = 'word',

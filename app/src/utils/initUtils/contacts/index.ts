@@ -17,7 +17,7 @@ export async function getContactOptions(
     FROM handle h
       -- NOTE: for some reason a direct join to messages
       -- causes a CORRUPT malformed error
-      LEFT JOIN ${ChatTableNames.CORE_COUNT_TABLE}
+      LEFT JOIN ${ChatTableNames.COUNT_TABLE}
         ON contact = COALESCE(contact_name, h.id)
     -- NOTE: don't bother showing robo-contacts,
     -- i.e., Amazon shipping updates

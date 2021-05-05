@@ -1,5 +1,6 @@
 import * as sqlite3 from 'sqlite3';
 
+import { CoreTableNames } from '../../../tables/definitions';
 import * as sqlite3Wrapper from '../../../utils/initUtils/sqliteWrapper';
 import { DEFAULT_LIMIT } from '../../constants/filters';
 import { Columns, OutputColumns } from './columns';
@@ -9,19 +10,13 @@ import { ITopFriendsFilters, TTopFriendsResults } from './types';
 const getCoreQuery = (allFilters: string) => {
   return `SELECT
     COUNT(*) as ${Columns.COUNT},
-    h.id as ${Columns.PHONE_NUMBER},
-    COALESCE(h.contact_name, h.id) as ${Columns.FRIEND},
+    id as ${Columns.PHONE_NUMBER},
+    COALESCE(contact_name, id) as ${Columns.FRIEND},
     is_from_me as ${Columns.IS_FROM_ME}
-    FROM chat_message_join cmj
-      JOIN chat_handle_join chj
-        ON chj.chat_id = cmj.chat_id
-      JOIN handle h
-        ON h.ROWID = chj.handle_id
-      JOIN message m
-        ON m.ROWID = cmj.message_id
+    FROM ${CoreTableNames.CORE_MAIN_TABLE}
     -- NOTE: filters should always be applied as earliest as possible
     ${allFilters}
-  GROUP BY h.id, is_from_me
+  GROUP BY id, is_from_me
 `;
 };
 
