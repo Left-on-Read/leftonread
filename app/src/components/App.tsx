@@ -1,3 +1,4 @@
+import { ChakraProvider } from '@chakra-ui/react';
 import * as React from 'react';
 import { HashRouter, Route, Switch, useLocation } from 'react-router-dom';
 
@@ -19,13 +20,15 @@ function PageLogger() {
 
 export default function App() {
   return (
-    <HashRouter>
-      <PageLogger />
-      <Switch>
-        <Route path="/" exact component={GetStartedPage} />
-        <Route path="/access" exact component={AccessPage} />
-        <Route path="/dashboard" exact component={Dashboard} />
-      </Switch>
-    </HashRouter>
+    <ChakraProvider>
+      <HashRouter>
+        <PageLogger />
+        <Switch>
+          <Route path="/" exact component={GetStartedPage} />
+          <Route path="/access" exact component={AccessPage} />
+          <Route path="/dashboard" exact component={Dashboard} />
+        </Switch>
+      </HashRouter>
+    </ChakraProvider>
   );
 }
