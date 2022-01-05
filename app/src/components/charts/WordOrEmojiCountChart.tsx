@@ -1,11 +1,21 @@
 import log from 'electron-log';
 import React, { useEffect, useState } from 'react';
 import * as sqlite3 from 'sqlite3';
+import * as unicodeEmoji from 'unicode-emoji';
 
 import * as chatBro from '../../chatBro';
 import { IWordOrEmojiFilters } from '../../chatBro/queries/WordOrEmoji/types';
 import interpolateColors from '../../utils/colors';
 import { BarChartWrapper } from '../shared';
+
+const allEmojis = unicodeEmoji.getEmojis();
+function addDescriptionToNewerEmojis(emoji: string) {
+  const emojiData = allEmojis.find((e) => emoji === e.emoji);
+  if (parseFloat(emojiData.version) > 12.1) {
+    return emojiData.description;
+  }
+  return emoji;
+}
 
 interface WordOrEmojiCountProps {
   db: sqlite3.Database;
@@ -39,7 +49,9 @@ export default function WordOrEmojiCountChart(props: WordOrEmojiCountProps) {
   const COLORS = interpolateColors(words.length, colorInterpolationFunc);
 
   const data = {
-    labels: words,
+    labels: filters.isEmoji
+      ? words.map((emoji) => addDescriptionToNewerEmojis(emoji))
+      : words,
     datasets: [
       {
         label: labelText,

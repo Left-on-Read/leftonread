@@ -11090,6 +11090,11 @@ unicode-canonical-property-names-ecmascript@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/unicode-canonical-property-names-ecmascript/-/unicode-canonical-property-names-ecmascript-1.0.4.tgz#2619800c4c825800efdd8343af7dd9933cbe2818"
 
+unicode-emoji@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/unicode-emoji/-/unicode-emoji-2.3.0.tgz#3793c9177bf2fe838b0ef5c381bb7eeb8035a330"
+  integrity sha512-XfgzxY9hUAXlZdkR8X+QdeQ4yV9gUs6qVYDncBiJiCEJ74mhVxEEdXz2slZU9ahQGUscKO1Aqo6PGLTu4Cgb7g==
+
 unicode-match-property-ecmascript@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/unicode-match-property-ecmascript/-/unicode-match-property-ecmascript-1.0.4.tgz#8ed2a32569961bce9227d09cd3ffbb8fed5f020c"
