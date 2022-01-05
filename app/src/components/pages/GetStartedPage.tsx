@@ -1,26 +1,11 @@
+import { Button, Checkbox, Text } from '@chakra-ui/react';
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
-import styled from 'styled-components';
 
 import {
   setAcceptedTermsPrivacy,
   useAcceptedTermsPrivacy,
 } from '../../utils/store';
-
-const GetStartedButton = styled.button`
-  background-color: #9086d6;
-  padding: 16px 32px;
-  font-size: 26px;
-  font-weight: 300;
-  border-radius: 10px;
-  color: white;
-  border: none;
-  cursor: pointer;
-  font-family: Roboto;
-  box-shadow: 0px 6px 4px rgba(0, 0, 0, 0.25);
-  outline: none;
-  transition: background-color 200ms;
-`;
 
 export function GetStartedPage() {
   const history = useHistory();
@@ -37,28 +22,37 @@ export function GetStartedPage() {
   }, [history, hasAccepted]);
 
   return (
-    <div>
-      <label htmlFor="accept-privacy-terms">
-        <input
-          type="checkbox"
-          id="accept-privacy-terms"
-          name="accept-privacy-terms"
-          checked={isPrivacyChecked}
-          onChange={(e) => {
-            setIsPrivacyChecked(e.target.checked);
-          }}
-        />
-        I have read and accept Left on Read&apos;s Privacy Policy
-      </label>
-
-      <GetStartedButton
-        onClick={() => {
-          setAcceptedTermsPrivacy(true);
+    <div style={{ height: '100%', width: '100%' }}>
+      <div
+        style={{
+          height: '100%',
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
-        disabled={!isPrivacyChecked}
       >
-        Continue
-      </GetStartedButton>
+        <div style={{ display: 'flex' }}>
+          <Checkbox
+            isChecked={isPrivacyChecked}
+            onChange={(e) => {
+              setIsPrivacyChecked(e.target.checked);
+            }}
+          />
+          <Text fontSize="lg">
+            I have read and accept Left on Read&apos;s Privacy Policy
+          </Text>
+        </div>
+        <Button
+          onClick={() => {
+            setAcceptedTermsPrivacy(true);
+          }}
+          disabled={!isPrivacyChecked}
+        >
+          Continue
+        </Button>
+      </div>
     </div>
   );
 }
