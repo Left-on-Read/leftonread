@@ -11,6 +11,8 @@ import { BarChartWrapper } from '../shared';
 const allEmojis = unicodeEmoji.getEmojis();
 function addDescriptionToNewerEmojis(emoji: string) {
   const emojiData = allEmojis.find((e) => emoji === e.emoji);
+  // TODO: We should have a mapping between emoji versions and Mac OS versions.
+  // For example, I assume on the latest version of Mac OS, emojis in v13 are present.
   if (parseFloat(emojiData.version) > 12.1) {
     return emojiData.description;
   }
