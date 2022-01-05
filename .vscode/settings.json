@@ -7,6 +7,10 @@
     ".eslintignore": "ignore"
   },
 
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.validate": ["javascript"],
   "javascript.validate.enable": false,
   "javascript.format.enable": false,
   "typescript.format.enable": false,
