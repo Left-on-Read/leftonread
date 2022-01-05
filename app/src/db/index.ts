@@ -24,19 +24,19 @@ export async function getRecordCounts(
     log.info(`INFO: ${checkResult[0].count} records found`);
     return checkResult[0].count;
   }
-  log.info(`INFO: ${db} - no records found`);
+  log.info(`INFO: no records found`);
   return 0;
 }
 
 export interface DBWithRecordCount {
-  db: sqlite3.Database;
+  db: sqlite3.Database | null;
   recordCount: number;
 }
 
 export async function getDBWithRecordCounts(
   dbPath: string,
   checkQuery: string
-): Promise<DBWithRecordCount | undefined> {
+) {
   log.info(`INFO: attempting to initialize ${dbPath}`);
   if (fs.existsSync(dbPath)) {
     const db = initializeDB(dbPath);
@@ -46,5 +46,5 @@ export async function getDBWithRecordCounts(
     }
     return { db, recordCount };
   }
-  return undefined;
+  return { db: null, recordCount: 0 };
 }
