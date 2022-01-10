@@ -11,6 +11,7 @@ import WordOrEmojiCountChart from './charts/WordOrEmojiCountChart';
 import ContactFilter from './filters/ContactFilter';
 import GroupChatFilter from './filters/GroupChatFilter';
 import LimitFilter from './filters/LimitFilter';
+import { LoadingPage } from './pages/LoadingPage';
 
 export function Dashboard() {
   const { isLoading, error, data } = useCoreDb();
@@ -37,7 +38,7 @@ export function Dashboard() {
   };
 
   if (isLoading) {
-    return <div> Loading dash... </div>;
+    return <LoadingPage />;
   }
 
   if (coreDb) {
@@ -107,5 +108,9 @@ export function Dashboard() {
     );
   }
 
-  return <div>Something went wrong... Error: {(error as Error).message}</div>;
+  return (
+    <div>
+      Something went wrong... Error: {error instanceof Error && error.message}
+    </div>
+  );
 }
