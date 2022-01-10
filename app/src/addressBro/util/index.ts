@@ -27,11 +27,12 @@ async function readAddressBookBackups(): Promise<sqlite3.Database | undefined> {
         return getDBWithRecordCounts(path, COUNT_CONTACTS_QUERY);
       })
     );
-    if (dbRecordCountResults && dbRecordCountResults[0]) {
+    if (dbRecordCountResults.length > 0) {
       // get db with biggest record counts
       const getMaxDBRC = (dbrcList: DBWithRecordCount[]) =>
         dbrcList.reduce((a, b) => (a.recordCount > b.recordCount ? a : b));
-      const maxDB = getMaxDBRC(dbRecordCountResults as DBWithRecordCount[]);
+
+      const maxDB = getMaxDBRC(dbRecordCountResults);
       return maxDB.db;
     }
     log.warn(`WARN: ${addressBookBackUpFolderPath} dbs are all empty.`);

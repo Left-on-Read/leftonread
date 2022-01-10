@@ -1,3 +1,4 @@
+import log from 'electron-log';
 import Store from 'electron-store';
 import * as React from 'react';
 import { v4 as uuidv4 } from 'uuid';
@@ -14,6 +15,7 @@ const schema = {
 } as const;
 
 const store = new Store({ schema, watch: true });
+log.info(`Store path: ${store.path}`);
 
 export function getUUID(): string {
   return store.get('uuid') as string;
