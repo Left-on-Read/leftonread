@@ -116,6 +116,7 @@
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-router-dom": "^6.3.0",
+    "recursive-copy": "^2.0.14",
     "sqlite3": "^5.0.10"
   },
   "devDependencies": {

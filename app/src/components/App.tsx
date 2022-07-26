@@ -5,12 +5,11 @@ export function TestComponent() {
   return <div />;
 }
 
-export default function App() {
+export function App() {
   return (
     <ChakraProvider>
       <Routes>
         <Route path="/" />
-        <Route path="/access" element={<TestComponent />} />
         <Route path="/dashboard" element={<TestComponent />} />
       </Routes>
     </ChakraProvider>
