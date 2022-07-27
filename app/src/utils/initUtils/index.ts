@@ -97,7 +97,6 @@ export async function coreInit(): Promise<sqlite3.Database> {
   } else {
     log.info('INFO: No contacts found.');
   }
-  // TODO(Danilowicz): Can this be promise.alled ?
   await createCoreMainTables(lorDB);
 
   // NOTE(Danilowicz): Whether or not the addressBook was found
