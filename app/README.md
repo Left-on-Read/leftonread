@@ -19,9 +19,8 @@ We are proud to be using [Electron-React Boilerplate
 ‼️ To run the app, you need to install dependencies in both the `app/src/` directory and the `app/` root directory. In other words:
 
 ```
-$ yarn # install in app/ directory
-cd src/
-yarn # install in app/src/ directory too
+# from project root
+cd app; yarn; cd src/; yarn;
 ```
 
 - Run the application with `yarn start` in the `app` directory.
@@ -37,7 +36,9 @@ yarn # install in app/src/ directory too
 
 ## Troubleshooting Local Development:
 
-#### Permissioned denied
+In general, make sure you `yarn` installed with node `15.9.0` and `yarn start` on `15.9.0`. It seems the M1 chip requires this node version.
+
+#### Permission denied
 
 You need to give your terminal application (for example, iTerm) "full disk access" in order to run Left on Read locally. This is because the application needs to copy the chat.db file in `~/Library/Messages` into the Left on Read application folder `~/.leftonread`
 
@@ -47,12 +48,13 @@ To give your Terminal full disk access, go to System Preferences > Security and 
 
 If you see a console error that says the database is malformed, then you need to delete the databases the application reads from (so then it can quickly create them from scratch again).
 
-1. `cd`
-2. `rm -ir ./leftonread`
+```
+cd; rm -ir ./leftonread
+```
 
-Say yes to the prompt and delete all the files within `./leftonread` including the directory itself. The app will simply recreate it. You could remove the `-i` flag if you like to live on the edge and trust yourself not to delete your entire system because of a mispelling.
+Say yes to the prompt and delete all the files within `./leftonread` including the directory itself. The app will simply recreate it. You could remove the `-i` flag if you like to live on the edge and trust yourself not to delete your entire system because of a misspelling.
 
-After deleting, simply refresh the electron app. (It should hotreload automatically.)
+After deleting, simply refresh the electron app. (It should hot reload automatically.)
 
 #### Cannot yarn start: JavaScript heap out of memory
 
