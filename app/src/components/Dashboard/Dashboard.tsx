@@ -6,6 +6,9 @@ import { interpolateCool } from 'd3-scale-chromatic';
 import { useState } from 'react';
 import log from 'electron-log';
 import { TopFriendsChart } from 'components/Graphs/TopFriendsChart';
+import { LimitFilter } from '../Filters/LimitFilter';
+import { GroupChatFilter } from '../Filters/GroupChatFilter';
+import { ContactFilter, IContactData } from '../Filters/ContactFilter';
 
 export function Dashboard() {
   const { isLoading, error, data: coreDb } = useCoreDb();
@@ -16,9 +19,9 @@ export function Dashboard() {
   );
   const [contact, setContact] = useState<string | undefined>(undefined);
 
-  //   const handleContactChange = (selected?: IContactData | null | undefined) => {
-  //     setContact(selected?.value);
-  //   };
+  const handleContactChange = (selected?: IContactData | null | undefined) => {
+    setContact(selected?.value);
+  };
 
   const handleLimitChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLimit(Number(event.target.value));
@@ -41,6 +44,20 @@ export function Dashboard() {
 
   return (
     <div>
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <LimitFilter handleChange={handleLimitChange} limit={limit} />
+        <GroupChatFilter
+          handleChange={handleGroupChatChange}
+          groupChat={groupChat}
+        />
+        <ContactFilter
+          db={coreDb}
+          contact={{
+            value: contact,
+          }}
+          handleChange={handleContactChange}
+        />
+      </div>
       <WordOrEmojiCountChart
         db={coreDb}
         titleText="Top Received Emojis"
