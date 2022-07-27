@@ -1,11 +1,12 @@
+import { ipcMain } from 'electron';
+import * as sqlite3 from 'sqlite3';
+
+import { chatPaths } from '../analysis/directories';
+import { initializeCoreDb } from '../analysis/initializeCoreDb';
 import {
   ITopFriendsFilters,
   queryTopFriends,
 } from '../analysis/queries/TopFriendsQuery';
-import { ipcMain } from 'electron';
-import { initializeCoreDb } from '../analysis/initializeCoreDb';
-import * as sqlite3 from 'sqlite3';
-import { chatPaths } from '../analysis/directories';
 
 function getDb() {
   const sqldb = sqlite3.verbose();
@@ -23,7 +24,7 @@ export function attachIpcListeners() {
     'query-top-friends',
     async (event, filters: ITopFriendsFilters) => {
       const db = getDb();
-      return await queryTopFriends(db, filters);
+      return queryTopFriends(db, filters);
     }
   );
 }

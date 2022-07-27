@@ -3,14 +3,8 @@ import * as fs from 'fs';
 import recursiveCopy from 'recursive-copy';
 import * as sqlite3 from 'sqlite3';
 
-import {
-  addContactNameColumn,
-  ContactTable,
-  findPossibleAddressBookDB,
-  setContactNameColumn,
-} from './tables/ContactTable';
 import { closeDB, initializeDB } from '../utils/db';
-
+import * as sqlite3Wrapper from '../utils/sqliteWrapper';
 import {
   addressBookDBAliasName,
   appDirectoryInitPath,
@@ -18,14 +12,19 @@ import {
   chatPaths,
   dirPairings,
 } from './directories';
-import * as sqlite3Wrapper from '../utils/sqliteWrapper';
+import { ChatCountTable } from './tables/ChatTable';
+import {
+  addContactNameColumn,
+  ContactTable,
+  findPossibleAddressBookDB,
+  setContactNameColumn,
+} from './tables/ContactTable';
 import { CoreMainTable } from './tables/CoreTable';
 import {
   AddressBookTableNames,
   ChatTableNames,
   CoreTableNames,
 } from './tables/types';
-import { ChatCountTable } from './tables/ChatTable';
 
 async function createAppDirectory() {
   try {

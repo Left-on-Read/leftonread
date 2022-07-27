@@ -107,12 +107,15 @@
     ],
     "transform": {
       "\\.(ts|tsx|js|jsx)$": "ts-jest"
-    }
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/(?!(somePkg)|d3-scale-chromatic|d3-interpolate|d3-color)"
+    ]
   },
   "dependencies": {
     "@chakra-ui/react": "^2.2.4",
     "@emotion/react": "^11.9.3",
-    "@emotion/styled": "^11.9.3",
+  "@emotion/styled": "^11.9.3",
     "chart.js": "^3.8.2",
     "d3-scale-chromatic": "^3.0.0",
     "electron-debug": "^3.2.0",

@@ -1,12 +1,13 @@
-import {
-  ITopFriendsFilters,
-  TTopFriendsResults,
-} from 'analysis/queries/TopFriendsQuery';
+import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
-import { ipcRenderer } from 'electron';
-import { interpolateColors } from 'utils/interpolateColors';
+
+import {
+  ITopFriendsFilters,
+  TTopFriendsResults,
+} from '../../analysis/queries/TopFriendsQuery';
+import { interpolateColors } from '../../utils/interpolateColors';
 
 export function TopFriendsChart({
   titleText,

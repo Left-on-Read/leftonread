@@ -1,16 +1,17 @@
+import log from 'electron-log';
+import * as fs from 'fs';
+import * as sqlite3 from 'sqlite3';
+
+import { DBWithRecordCount, getDBWithRecordCounts } from '../../utils/db';
 import { normalizePhoneNumberStatement } from '../../utils/normalization';
 import * as sqlite3Wrapper from '../../utils/sqliteWrapper';
-import { Table, AddressBookTableNames } from './types';
-import * as sqlite3 from 'sqlite3';
-import log from 'electron-log';
 import {
   addressBookBackUpFolderPath,
   addressBookDBAliasName,
   addressBookDBName,
   addressBookPaths,
 } from '../directories';
-import * as fs from 'fs';
-import { DBWithRecordCount, getDBWithRecordCounts } from '../../utils/db';
+import { AddressBookTableNames, Table } from './types';
 
 export enum Columns {
   CONTACT_NAME = 'contact_name',
@@ -51,7 +52,7 @@ export class ContactTable extends Table {
     ) as ${Columns.CONTACT_NAME},
     ${normalizePhoneNumberStatement(`ZFULLNUMBER`)} AS ${Columns.CONTACT_PHONE}
     FROM CONTACTS_CLEAN_TABLE`;
-    return await sqlite3Wrapper.runP(this.db, q);
+    return sqlite3Wrapper.runP(this.db, q);
   }
 }
 

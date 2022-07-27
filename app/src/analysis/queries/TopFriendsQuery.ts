@@ -1,10 +1,10 @@
 import * as sqlite3 from 'sqlite3';
 
-import { CoreTableNames } from '../tables/types';
-import * as sqlite3Wrapper from '../../utils/sqliteWrapper';
-import { DEFAULT_FILTER_LIMIT } from '../../constants/index';
 import { filterOutReactions, GroupChatFilters } from '../../constants/filters';
+import { DEFAULT_FILTER_LIMIT } from '../../constants/index';
 import { objReplacementUnicode } from '../../constants/objReplacementUnicode';
+import * as sqlite3Wrapper from '../../utils/sqliteWrapper';
+import { CoreTableNames } from '../tables/types';
 
 export interface ITopFriendsFilters {
   limit?: number;

@@ -1,15 +1,14 @@
-import { useCoreDb } from 'analysis/useCoreDb';
-import WordOrEmojiCountChart from 'components/Graphs/WordOrEmojiCountChart';
-import { DEFAULT_FILTER_LIMIT } from 'constants/index';
-import { GroupChatFilters } from 'constants/filters';
 import { interpolateCool } from 'd3-scale-chromatic';
-import { useEffect, useState } from 'react';
-import log from 'electron-log';
-import { TopFriendsChart } from 'components/Graphs/TopFriendsChart';
-import { LimitFilter } from '../Filters/LimitFilter';
-import { GroupChatFilter } from '../Filters/GroupChatFilter';
-import { ContactFilter, IContactData } from '../Filters/ContactFilter';
+// import { LimitFilter } from '../Filters/LimitFilter';
+// import { GroupChatFilter } from '../Filters/GroupChatFilter';
+// import { ContactFilter, IContactData } from '../Filters/ContactFilter';
 import { ipcRenderer } from 'electron';
+import { useEffect, useState } from 'react';
+
+import { GroupChatFilters } from '../../constants/filters';
+import { DEFAULT_FILTER_LIMIT } from '../../constants/index';
+import { TopFriendsChart } from '../Graphs/TopFriendsChart';
+
 // export function Dashboard() {
 //   const { isLoading, data: coreDb } = useCoreDb();
 

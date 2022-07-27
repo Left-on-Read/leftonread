@@ -1,9 +1,10 @@
 import { ChakraProvider } from '@chakra-ui/react';
-import { Route, Routes, BrowserRouter } from 'react-router-dom';
-import { Dashboard } from './Dashboard/Dashboard';
 import { Chart, registerables } from 'chart.js';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-Chart.register(...registerables);
+import { Dashboard } from './Dashboard/Dashboard';
+
+Chart.register(...(registerables ?? []));
 
 export function TestComponent() {
   return <div />;
