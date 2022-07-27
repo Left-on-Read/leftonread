@@ -9,7 +9,7 @@ import {
   findPossibleAddressBookDB,
   setContactNameColumn,
 } from './tables/ContactTable';
-import { closeDB, initializeDB } from 'utils/db';
+import { closeDB, initializeDB } from '../utils/db';
 
 import {
   addressBookDBAliasName,

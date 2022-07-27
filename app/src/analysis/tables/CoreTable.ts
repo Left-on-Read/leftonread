@@ -6,7 +6,7 @@ import { TableNames, Table } from './types';
 export class CoreMainTable extends Table {
   async create(): Promise<TableNames> {
     const q = `
-    CREATE TABLE ${this.name} AS
+    CREATE TABLE IF NOT EXISTS ${this.name} AS
     -- TODO: instead of * we should just grab the columns we need
     SELECT
       *

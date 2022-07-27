@@ -128,6 +128,7 @@
     "react-router-dom": "^6.3.0",
     "react-select": "^5.4.0",
     "recursive-copy": "^2.0.14",
+    "sqlite3": "^5.0.10",
     "unicode-emoji": "^2.3.0"
   },
   "devDependencies": {
@@ -203,7 +204,7 @@
     "webpack-merge": "^5.8.0"
   },
   "build": {
-    "productName": "ElectronReact",
+    "productName": "Left on Read",
     "appId": "org.erb.ElectronReact",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",

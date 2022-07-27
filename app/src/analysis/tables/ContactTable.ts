@@ -8,9 +8,9 @@ import {
   addressBookDBAliasName,
   addressBookDBName,
   addressBookPaths,
-} from 'analysis/directories';
+} from '../directories';
 import * as fs from 'fs';
-import { DBWithRecordCount, getDBWithRecordCounts } from 'utils/db';
+import { DBWithRecordCount, getDBWithRecordCounts } from '../../utils/db';
 
 export enum Columns {
   CONTACT_NAME = 'contact_name',

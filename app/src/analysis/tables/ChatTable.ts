@@ -65,8 +65,6 @@ export class ChatCountTable extends Table {
     //     FROM SPLIT_TEXT_TABLE
     // `;
     await sqlite3Wrapper.runP(this.db, q);
-    log.info('Clearly an error happened here');
-    log.info(`INFO: created ${this.name}`);
     return this.name;
   }
 }
