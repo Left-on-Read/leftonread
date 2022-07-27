@@ -16,6 +16,6 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'simple-import-sort/imports': 'error',
     'import/prefer-default-export': 'off',
-    'import/no-default-export': 'warning',
+    'import/no-default-export': 'warn',
   },
 }
