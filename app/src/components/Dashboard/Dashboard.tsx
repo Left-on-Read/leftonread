@@ -11,7 +11,7 @@ import { GroupChatFilter } from '../Filters/GroupChatFilter';
 import { ContactFilter, IContactData } from '../Filters/ContactFilter';
 
 export function Dashboard() {
-  const { isLoading, error, data: coreDb } = useCoreDb();
+  const { isLoading, data: coreDb } = useCoreDb();
 
   const [limit, setLimit] = useState<number>(DEFAULT_FILTER_LIMIT);
   const [groupChat, setGroupChat] = useState<GroupChatFilters>(
