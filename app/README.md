@@ -49,7 +49,7 @@ To give your Terminal full disk access, go to System Preferences > Security and 
 If you see a console error that says the database is malformed, then you need to delete the databases the application reads from (so then it can quickly create them from scratch again).
 
 ```
-cd; rm -ir ./leftonread
+cd; rm -ir .leftonread
 ```
 
 Say yes to the prompt and delete all the files within `./leftonread` including the directory itself. The app will simply recreate it. You could remove the `-i` flag if you like to live on the edge and trust yourself not to delete your entire system because of a misspelling.

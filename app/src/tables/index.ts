@@ -20,7 +20,7 @@ export async function createContactTable(
   const tables = [new ContactTable(db, AddressBookTableNames.CONTACT_TABLE)];
 
   const createTablePromises = tables.map((table) => table.create());
-  log.info(`INFO: ${AddressBookTableNames.CONTACT_TABLE}successfully created`);
+  log.info(`INFO: ${AddressBookTableNames.CONTACT_TABLE} successfully created`);
   return Promise.all(createTablePromises) as Promise<AddressBookTableNames[]>;
 }
 

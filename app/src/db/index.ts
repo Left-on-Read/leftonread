@@ -36,7 +36,7 @@ export interface DBWithRecordCount {
 export async function getDBWithRecordCounts(
   dbPath: string,
   checkQuery: string
-) {
+): Promise<DBWithRecordCount> {
   log.info(`INFO: attempting to initialize ${dbPath}`);
   if (fs.existsSync(dbPath)) {
     const db = initializeDB(dbPath);

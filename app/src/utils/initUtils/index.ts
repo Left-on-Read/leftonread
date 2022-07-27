@@ -82,13 +82,13 @@ export async function coreInit(): Promise<sqlite3.Database> {
     }
     try {
       await addContactNameColumn(lorDB);
-      log.info(`INFO: ContactName column added successully`);
+      log.info(`INFO: ContactName column added successfully`);
     } catch (err) {
       log.warn('WARN: add ContactName column already exists', err);
     }
     try {
       await setContactNameColumn(lorDB);
-      log.info(`INFO: ContactName Column set successully`);
+      log.info(`INFO: ContactName Column set successfully`);
     } catch (err) {
       log.error('ERROR: setContactNameColumn error', err);
     }

@@ -17,39 +17,17 @@ import * as sqlite3Wrapper from '../../utils/initUtils/sqliteWrapper';
 export const COUNT_CONTACTS_QUERY =
   'SELECT COUNT(*) AS count FROM ZABCDPHONENUMBER';
 
-async function readAddressBookBackups(): Promise<sqlite3.Database | undefined> {
-  if (fs.existsSync(addressBookBackUpFolderPath)) {
-    log.info(`${addressBookBackUpFolderPath} exists`);
-    const filenames = fs.readdirSync(addressBookBackUpFolderPath);
-    const dbRecordCountResults = await Promise.all(
-      filenames.map(async (file) => {
-        const path = `${addressBookBackUpFolderPath}/${file}/${addressBookDBName}`;
-        return getDBWithRecordCounts(path, COUNT_CONTACTS_QUERY);
-      })
-    );
-    if (dbRecordCountResults.length > 0) {
-      // get db with biggest record counts
-      const getMaxDBRC = (dbrcList: DBWithRecordCount[]) =>
-        dbrcList.reduce((a, b) => (a.recordCount > b.recordCount ? a : b));
-
-      const maxDB = getMaxDBRC(dbRecordCountResults);
-      return maxDB.db;
-    }
-    log.warn(`WARN: ${addressBookBackUpFolderPath} dbs are all empty.`);
-    return undefined;
-  }
-  log.warn(`WARN: ${addressBookBackUpFolderPath} does not exist.`);
-  return undefined;
-}
 /*
  * Look at all possible addressbook.db files.
- * Return top-level db if populated.
- * Else find the largest in /Sources/.
+ * Use the largest.
  * If nothing is populated, return undefined.
  */
 export async function findPossibleAddressBookDB(): Promise<
   sqlite3.Database | undefined
 > {
+  let dbRecordCountResults: DBWithRecordCount[] = [];
+
+  // If there was a top level address db exists, read that
   const initialDBPath = `${addressBookPaths.app}/${addressBookDBName}`;
   const initialAddressBookDBRecordCount = await getDBWithRecordCounts(
     initialDBPath,
@@ -59,10 +37,32 @@ export async function findPossibleAddressBookDB(): Promise<
     initialAddressBookDBRecordCount &&
     initialAddressBookDBRecordCount.recordCount > 0
   ) {
-    log.info('INFO: inital addressbookDB found');
-    return initialAddressBookDBRecordCount.db;
+    dbRecordCountResults.push(initialAddressBookDBRecordCount);
   }
-  return readAddressBookBackups();
+
+  // If backup files exists, read those as well
+  if (fs.existsSync(addressBookBackUpFolderPath)) {
+    log.info(`${addressBookBackUpFolderPath} exists`);
+    const filenames = fs.readdirSync(addressBookBackUpFolderPath);
+
+    const promises = filenames.map(async (file) => {
+      const path = `${addressBookBackUpFolderPath}/${file}/${addressBookDBName}`;
+      return getDBWithRecordCounts(path, COUNT_CONTACTS_QUERY);
+    });
+    const resolvedDbRecordCounts = await Promise.all(promises);
+    dbRecordCountResults = dbRecordCountResults.concat(resolvedDbRecordCounts);
+  }
+
+  // If either top level or backup dbs exist
+  if (dbRecordCountResults.length > 0) {
+    // find one with biggest record counts
+    const maxDB = dbRecordCountResults.reduce((a, b) =>
+      a.recordCount > b.recordCount ? a : b
+    );
+    return maxDB.db ?? undefined;
+  }
+  log.warn(`WARN: ${addressBookBackUpFolderPath} does not exist.`);
+  return undefined;
 }
 
 export async function addContactNameColumn(db: sqlite3.Database) {
