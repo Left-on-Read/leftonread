@@ -1,8 +1,8 @@
 import * as sqlite3 from 'sqlite3';
 
 import { CoreTableNames } from '../tables/types';
-import * as sqlite3Wrapper from 'utils/sqliteWrapper';
-import { DEFAULT_FILTER_LIMIT } from 'constants/index';
+import * as sqlite3Wrapper from '../../utils/sqliteWrapper';
+import { DEFAULT_FILTER_LIMIT } from '../../constants/index';
 import { filterOutReactions, GroupChatFilters } from '../../constants/filters';
 import { objReplacementUnicode } from '../../constants/objReplacementUnicode';
 
@@ -20,7 +20,7 @@ interface ITopFriendsChartData {
   received: number;
 }
 
-type TTopFriendsResults = ITopFriendsChartData[];
+export type TTopFriendsResults = ITopFriendsChartData[];
 
 // NOTE(teddy): What table does this correspond to?
 enum TopFriendsColumns {

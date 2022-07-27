@@ -109,9 +109,33 @@ import { ipcRenderer } from 'electron';
 // }
 
 export function Dashboard() {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [limit, setLimit] = useState<number>(DEFAULT_FILTER_LIMIT);
+  const [groupChat, setGroupChat] = useState<GroupChatFilters>(
+    GroupChatFilters.ONLY_INDIVIDUAL
+  );
+
+  const [contact, setContact] = useState<string | undefined>(undefined);
   useEffect(() => {
-    ipcRenderer.invoke('initialize-tables');
+    const init = async () => {
+      await ipcRenderer.invoke('initialize-tables');
+      setIsLoading(false);
+    };
+
+    init();
   }, []);
 
-  return <div />;
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div>
+      <TopFriendsChart
+        titleText="Top Friends"
+        filters={{ limit, groupChat, contact }}
+        colorInterpolationFunc={interpolateCool}
+      />
+    </div>
+  );
 }
