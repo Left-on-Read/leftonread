@@ -1,5 +1,9 @@
 import { ChakraProvider } from '@chakra-ui/react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, BrowserRouter } from 'react-router-dom';
+import { Dashboard } from './Dashboard/Dashboard';
+import { Chart, registerables } from 'chart.js';
+
+Chart.register(...registerables);
 
 export function TestComponent() {
   return <div />;
@@ -8,10 +12,12 @@ export function TestComponent() {
 export function App() {
   return (
     <ChakraProvider>
-      <Routes>
-        <Route path="/" />
-        <Route path="/dashboard" element={<TestComponent />} />
-      </Routes>
+      <BrowserRouter basename="index.html">
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/dashboard" element={<TestComponent />} />
+        </Routes>
+      </BrowserRouter>
     </ChakraProvider>
   );
 }

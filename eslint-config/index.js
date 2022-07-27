@@ -7,7 +7,6 @@ module.exports = {
   },
   extends: [
     'plugin:@typescript-eslint/recommended',
-    'prettier/@typescript-eslint',
     'plugin:prettier/recommended',
   ],
   rules: {
@@ -16,5 +15,7 @@ module.exports = {
     '@typescript-eslint/no-unused-expressions': 'error',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'simple-import-sort/imports': 'error',
+    'import/prefer-default-export': 'off',
+    'import/no-default-export': 'warning',
   },
 }

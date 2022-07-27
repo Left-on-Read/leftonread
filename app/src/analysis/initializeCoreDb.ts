@@ -39,15 +39,20 @@ async function createAppDirectory() {
   }
 }
 
-export async function dropAllChatTables(db: sqlite3.Database) {
-  const dropTablePromises = Object.values(ChatTableNames).map(
-    async (tableName) =>
-      sqlite3Wrapper.runP(db, `DROP TABLE IF EXISTS ${tableName}`)
+async function dropAllTables(db: sqlite3.Database) {
+  const dropTablePromises = [
+    ...Object.values(ChatTableNames),
+    ...Object.values(CoreMainTable),
+  ].map(async (tableName) =>
+    sqlite3Wrapper.runP(db, `DROP TABLE IF EXISTS ${tableName}`)
   );
+
   return Promise.all(dropTablePromises);
 }
 // TODO: logic could be added here depending on what user wants to update their chat.db
-export async function coreInit(): Promise<sqlite3.Database> {
+export async function initializeCoreDb(): Promise<sqlite3.Database> {
+  log.info('Attempting to create core tables...');
+
   await createAppDirectory();
   if (process.env.DEBUG_ENV) {
     await Promise.all(
@@ -68,23 +73,33 @@ export async function coreInit(): Promise<sqlite3.Database> {
   }
   const possibleAddressBookDB = await findPossibleAddressBookDB();
   const lorDB = initializeDB(chatPaths.app);
-  await dropAllChatTables(lorDB);
+  await dropAllTables(lorDB);
+
+  log.info('Dropped all tables.');
 
   // Create contact table
   if (possibleAddressBookDB) {
-    await new ContactTable(lorDB, AddressBookTableNames.CONTACT_TABLE).create();
+    try {
+      await new ContactTable(
+        lorDB,
+        AddressBookTableNames.CONTACT_TABLE
+      ).create();
 
-    // @ts-ignore
-    const q = `ATTACH '${possibleAddressBookDB.filename}' AS ${addressBookDBAliasName}`;
-    await sqlite3Wrapper.runP(lorDB, q);
-    await addContactNameColumn(lorDB);
-    await setContactNameColumn(lorDB);
-    closeDB(possibleAddressBookDB); // after setContactNameColumn, we have no use for this db
+      // @ts-ignore
+      const q = `ATTACH '${possibleAddressBookDB.filename}' AS ${addressBookDBAliasName}`;
+      await sqlite3Wrapper.runP(lorDB, q);
+      await addContactNameColumn(lorDB);
+      await setContactNameColumn(lorDB);
+      closeDB(possibleAddressBookDB); // after setContactNameColumn, we have no use for this db
+    } catch (e) {
+      log.error(e);
+    }
   }
 
   // Create Tables
   await new CoreMainTable(lorDB, CoreTableNames.CORE_MAIN_TABLE).create();
   await new ChatCountTable(lorDB, ChatTableNames.COUNT_TABLE).create();
+  log.info('Created LOR DB');
 
   return lorDB;
 }

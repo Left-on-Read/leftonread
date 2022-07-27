@@ -1,6 +1,5 @@
-/* eslint import/prefer-default-export: off, import/no-mutable-exports: off */
-import { URL } from 'url';
 import path from 'path';
+import { URL } from 'url';
 
 export let resolveHtmlPath: (htmlFileName: string) => string;
 
