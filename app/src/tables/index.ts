@@ -52,4 +52,28 @@ export async function dropAllChatTables(db: sqlite3.Database) {
   return Promise.all(dropTablePromises);
 }
 
+/**
+ * Drops all the triggers created by the Left on Read initialization process.
+ * This is required in development, and potentially prod, because otherwise we'll run into
+ * DATABASE MALFORMED — TRIGGER ERROR
+ */
+export async function dropTriggers(db: sqlite3.Database) {
+  const getAllTriggersQuery = `SELECT "DROP TRIGGER " || name || ";"  FROM sqlite_master WHERE type = "trigger"`;
+  const triggers: Record<string, string> = await sqlite3Wrapper.allP(
+    db,
+    getAllTriggersQuery
+  );
+
+  const p: Promise<any>[] = [];
+  // eslint-disable-next-line no-restricted-syntax
+  for (const trigger of Object.values(triggers)) {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const trig of Object.values(trigger)) {
+      log.info(trig);
+      p.push(sqlite3Wrapper.runP(db, trig));
+    }
+  }
+  await Promise.all(p);
+}
+
 export { ChatTableNames, AddressBookTableNames };

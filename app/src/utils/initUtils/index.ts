@@ -14,6 +14,7 @@ import {
   createContactTable,
   createCoreMainTables,
   dropAllChatTables,
+  dropTriggers,
 } from '../../tables';
 import {
   addressBookDBAliasName,
@@ -96,13 +97,14 @@ export async function coreInit(): Promise<sqlite3.Database> {
   } else {
     log.info('INFO: No contacts found.');
   }
+  // TODO(Danilowicz): Can this be promise.alled ?
   await createCoreMainTables(lorDB);
-  /*
-   * NOTE:
-   *  Whether or not the addressBook was found, we
-   *  can use a COALESCE(contact_name, handle.id)
-   *  to return the name or the phone
-   */
+
+  // NOTE(Danilowicz): Whether or not the addressBook was found
+  // we should use a COALESCE(contact_name, handle.id), to return the name or the phone
+
   await createAllChatTables(lorDB);
+
+  await dropTriggers(lorDB);
   return lorDB;
 }
