@@ -1,6 +1,7 @@
 import path from 'path';
 import { URL } from 'url';
 
+// eslint-disable-next-line import/no-mutable-exports
 export let resolveHtmlPath: (htmlFileName: string) => string;
 
 if (process.env.NODE_ENV === 'development') {

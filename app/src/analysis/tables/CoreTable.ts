@@ -1,7 +1,7 @@
 import log from 'electron-log';
 
 import * as sqlite3Wrapper from '../../utils/sqliteWrapper';
-import { TableNames, Table } from './types';
+import { Table, TableNames } from './types';
 
 export class CoreMainTable extends Table {
   async create(): Promise<TableNames> {

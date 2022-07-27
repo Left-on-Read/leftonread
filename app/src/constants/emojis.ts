@@ -1,5 +1,4 @@
 import * as unicodeEmoji from 'unicode-emoji';
-
 import { delimList } from 'utils/delimList';
 
 const emojiData = unicodeEmoji.getEmojis();

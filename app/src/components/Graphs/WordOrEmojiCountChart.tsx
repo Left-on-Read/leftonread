@@ -4,11 +4,10 @@ import {
 } from 'analysis/queries/WordOrEmojiQuery';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
+import { Bar } from 'react-chartjs-2';
 import * as sqlite3 from 'sqlite3';
 import * as unicodeEmoji from 'unicode-emoji';
-
 import { interpolateColors } from 'utils/interpolateColors';
-import { Bar } from 'react-chartjs-2';
 
 const allEmojis = unicodeEmoji.getEmojis();
 function addDescriptionToNewerEmojis(emoji: string) {
