@@ -128,7 +128,6 @@
     "react-router-dom": "^6.3.0",
     "react-select": "^5.4.0",
     "recursive-copy": "^2.0.14",
-    "sqlite3": "^5.0.10",
     "unicode-emoji": "^2.3.0"
   },
   "devDependencies": {
