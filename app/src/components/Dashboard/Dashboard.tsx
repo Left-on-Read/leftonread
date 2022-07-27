@@ -54,10 +54,37 @@ export function Dashboard() {
         }}
         colorInterpolationFunc={interpolateCool}
       />
+      <WordOrEmojiCountChart
+        db={coreDb}
+        titleText="Top Received Words"
+        labelText="Count of Word"
+        filters={{
+          isEmoji: false,
+          limit,
+          isFromMe: false,
+          groupChat,
+          contact,
+        }}
+        colorInterpolationFunc={interpolateCool}
+      />
       <TopFriendsChart
         db={coreDb}
         titleText="Top Friends"
         filters={{ limit, groupChat, contact }}
+        colorInterpolationFunc={interpolateCool}
+      />
+      <WordOrEmojiCountChart
+        db={coreDb}
+        titleText="Top Sent Words"
+        labelText="Count of Word"
+        filters={{ isEmoji: false, limit, isFromMe: true, contact }}
+        colorInterpolationFunc={interpolateCool}
+      />
+      <WordOrEmojiCountChart
+        db={coreDb}
+        titleText="Top Sent Emojis"
+        labelText="Count of Emoji"
+        filters={{ isEmoji: true, limit, isFromMe: true, contact }}
         colorInterpolationFunc={interpolateCool}
       />
     </div>
