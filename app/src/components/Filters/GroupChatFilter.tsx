@@ -1,5 +1,6 @@
-import { GroupChatFilters } from 'constants/filters';
 import React from 'react';
+
+import { GroupChatFilters } from '../../constants/filters';
 
 interface GroupChatFilterProps {
   groupChat: string;
