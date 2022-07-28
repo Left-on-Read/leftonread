@@ -1,35 +1,25 @@
-import {
-  IWordOrEmojiFilters,
-  queryEmojiOrWordCounts,
-} from 'analysis/queries/WordOrEmojiQuery';
+import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
-import * as sqlite3 from 'sqlite3';
-import * as unicodeEmoji from 'unicode-emoji';
-import { interpolateColors } from 'utils/interpolateColors';
 
-const allEmojis = unicodeEmoji.getEmojis();
-function addDescriptionToNewerEmojis(emoji: string) {
-  const emojiData = allEmojis.find((e) => emoji === e.emoji);
-  // TODO: We should have a mapping between emoji versions and Mac OS versions.
-  // For example, I assume on the latest version of Mac OS, emojis in v13 are present.
-  if (emojiData && parseFloat(emojiData.version) > 12.1) {
-    return emojiData.description;
-  }
-  return emoji;
-}
+import {
+  IWordOrEmojiFilters,
+  TWordOrEmojiResults,
+} from '../../analysis/queries/WordOrEmojiQuery';
+import { interpolateColors } from '../../utils/interpolateColors';
 
-interface WordOrEmojiCountProps {
-  db: sqlite3.Database;
+export function WordOrEmojiCountChart({
+  titleText,
+  labelText,
+  filters,
+  colorInterpolationFunc,
+}: {
   titleText: string;
   labelText: string;
   filters: IWordOrEmojiFilters;
   colorInterpolationFunc: (t: number) => string;
-}
-
-export default function WordOrEmojiCountChart(props: WordOrEmojiCountProps) {
-  const { db, colorInterpolationFunc, titleText, labelText, filters } = props;
+}) {
   const [words, setWords] = useState<string[]>([]);
   const [count, setCount] = useState<number[]>([]);
   const [success, setSuccess] = useState<boolean>(false);
@@ -37,7 +27,10 @@ export default function WordOrEmojiCountChart(props: WordOrEmojiCountProps) {
   useEffect(() => {
     async function fetchWordData() {
       try {
-        const data = await queryEmojiOrWordCounts(db, filters);
+        const data: TWordOrEmojiResults = await ipcRenderer.invoke(
+          'query-word-emoji',
+          filters
+        );
         setSuccess(true);
         setWords(data.map((obj) => obj.word));
         setCount(data.map((obj) => obj.count));
@@ -47,14 +40,12 @@ export default function WordOrEmojiCountChart(props: WordOrEmojiCountProps) {
       }
     }
     fetchWordData();
-  }, [db, titleText, filters]);
+  }, [titleText, filters]);
 
   const COLORS = interpolateColors(words.length, colorInterpolationFunc);
 
   const data = {
-    labels: filters.isEmoji
-      ? words.map((emoji) => addDescriptionToNewerEmojis(emoji))
-      : words,
+    labels: words,
     datasets: [
       {
         label: labelText,

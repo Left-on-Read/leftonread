@@ -1,7 +1,7 @@
-import * as unicodeEmoji from 'unicode-emoji';
-import { delimList } from 'utils/delimList';
+import emojis from 'emojis-list';
 
-const emojiData = unicodeEmoji.getEmojis();
-const emojiList = emojiData.map((emojiDataObj) => emojiDataObj.emoji);
+import { delimList } from '../utils/delimList';
 
-export const emojis = delimList(emojiList);
+export const getEmojiData = async () => {
+  return delimList(emojis as unknown as string[]);
+};

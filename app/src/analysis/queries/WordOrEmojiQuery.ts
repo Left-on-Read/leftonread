@@ -1,14 +1,15 @@
-import { ChatTableColumns } from 'analysis/tables/ChatTable';
-import { emojis } from 'constants/emojis';
-import { GroupChatFilters } from 'constants/filters';
-import { DEFAULT_FILTER_LIMIT } from 'constants/index';
-import { objReplacementUnicode } from 'constants/objReplacementUnicode';
-import { punctuation } from 'constants/punctuation';
-import { reactions } from 'constants/reactions';
-import { stopWords } from 'constants/stopWords';
+import log from 'electron-log';
 import * as sqlite3 from 'sqlite3';
-import * as sqlite3Wrapper from 'utils/sqliteWrapper';
 
+import { getEmojiData } from '../../constants/emojis';
+import { GroupChatFilters } from '../../constants/filters';
+import { DEFAULT_FILTER_LIMIT } from '../../constants/index';
+import { objReplacementUnicode } from '../../constants/objReplacementUnicode';
+import { punctuation } from '../../constants/punctuation';
+import { reactions } from '../../constants/reactions';
+import { stopWords } from '../../constants/stopWords';
+import * as sqlite3Wrapper from '../../utils/sqliteWrapper';
+import { ChatTableColumns } from '../tables/ChatTable';
 import { ChatTableNames } from '../tables/types';
 
 enum OutputColumns {
@@ -54,7 +55,9 @@ function wordFilter(filters: IWordOrEmojiFilters): string | undefined {
   return `LOWER(${ChatTableColumns.WORD}) = "${filters.word?.toLowerCase()}"`;
 }
 
-function isEmojiFilter(filters: IWordOrEmojiFilters): string {
+async function isEmojiFilter(filters: IWordOrEmojiFilters): Promise<string> {
+  const emojis = await getEmojiData();
+
   return `TRIM(${ChatTableColumns.WORD}) ${
     filters.isEmoji ? 'IN ' : 'NOT IN'
   } (${emojis})`;
@@ -76,9 +79,9 @@ function fluffFilter(): string {
     AND LENGTH(${ChatTableColumns.WORD}) >= 1`;
 }
 
-function getAllFilters(filters: IWordOrEmojiFilters): string {
+async function getAllFilters(filters: IWordOrEmojiFilters): Promise<string> {
   const contact = contactFilter(filters);
-  const isEmoji = isEmojiFilter(filters);
+  const isEmoji = await isEmojiFilter(filters);
   const isFromMe = isFromMeFilter(filters);
   const word = wordFilter(filters);
   const groupChat = groupChatFilter(filters);
@@ -101,7 +104,7 @@ export async function queryEmojiOrWordCounts(
   filters: IWordOrEmojiFilters
 ): Promise<TWordOrEmojiResults> {
   const limit = filters.limit || DEFAULT_FILTER_LIMIT;
-  const allFilters = getAllFilters(filters);
+  const allFilters = await getAllFilters(filters);
   const query = `
     WITH COUNT_TEXT_TB AS (
       SELECT
