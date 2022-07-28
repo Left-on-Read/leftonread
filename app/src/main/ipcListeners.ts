@@ -3,6 +3,7 @@ import * as sqlite3 from 'sqlite3';
 
 import { chatPaths } from '../analysis/directories';
 import { initializeCoreDb } from '../analysis/initializeCoreDb';
+import { getContactOptions } from '../analysis/queries/getContactOptions';
 import {
   ITopFriendsFilters,
   queryTopFriends,
@@ -39,4 +40,9 @@ export function attachIpcListeners() {
       return queryEmojiOrWordCounts(db, filters);
     }
   );
+
+  ipcMain.handle('query-get-contact-options', async () => {
+    const db = getDb();
+    return getContactOptions(db);
+  });
 }
