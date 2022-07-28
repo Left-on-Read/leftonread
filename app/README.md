@@ -69,7 +69,7 @@ If you are getting:
 ```bash
 git clone --depth 1 --branch main https://github.com/electron-react-boilerplate/electron-react-boilerplate.git your-project-name
 cd your-project-name
-npm install
+yarn install
 ```
 
 **Having issues installing? See our [debugging guide](https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues/400)**
@@ -79,7 +79,7 @@ npm install
 Start the app in the `dev` environment:
 
 ```bash
-npm start
+yarn start
 ```
 
 ## Packaging for Production
@@ -87,7 +87,7 @@ npm start
 To package apps for the local platform:
 
 ```bash
-npm run package
+yarn run package
 ```
 
 ## Docs
