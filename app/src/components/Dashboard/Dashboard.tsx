@@ -1,3 +1,4 @@
+import { WordOrEmojiCountChart } from 'components/Graphs/WordOrEmojiCountChart';
 import { interpolateCool } from 'd3-scale-chromatic';
 // import { LimitFilter } from '../Filters/LimitFilter';
 // import { GroupChatFilter } from '../Filters/GroupChatFilter';
@@ -130,9 +131,59 @@ export function Dashboard() {
 
   return (
     <div>
+      {/* <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <LimitFilter handleChange={handleLimitChange} limit={limit} />
+        <GroupChatFilter
+          handleChange={handleGroupChatChange}
+          groupChat={groupChat}
+        />
+        <ContactFilter
+          db={coreDb}
+          contact={{
+            value: contact,
+          }}
+          handleChange={handleContactChange}
+        />
+      </div> */}
+      <WordOrEmojiCountChart
+        titleText="Top Received Emojis"
+        labelText="Count of Emoji"
+        filters={{
+          isEmoji: true,
+          limit,
+          isFromMe: false,
+          groupChat,
+          contact,
+        }}
+        colorInterpolationFunc={interpolateCool}
+      />
+      <WordOrEmojiCountChart
+        titleText="Top Received Words"
+        labelText="Count of Word"
+        filters={{
+          isEmoji: false,
+          limit,
+          isFromMe: false,
+          groupChat,
+          contact,
+        }}
+        colorInterpolationFunc={interpolateCool}
+      />
       <TopFriendsChart
         titleText="Top Friends"
         filters={{ limit, groupChat, contact }}
+        colorInterpolationFunc={interpolateCool}
+      />
+      <WordOrEmojiCountChart
+        titleText="Top Sent Words"
+        labelText="Count of Word"
+        filters={{ isEmoji: false, limit, isFromMe: true, contact }}
+        colorInterpolationFunc={interpolateCool}
+      />
+      <WordOrEmojiCountChart
+        titleText="Top Sent Emojis"
+        labelText="Count of Emoji"
+        filters={{ isEmoji: true, limit, isFromMe: true, contact }}
         colorInterpolationFunc={interpolateCool}
       />
     </div>

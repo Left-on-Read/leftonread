@@ -7,6 +7,10 @@ import {
   ITopFriendsFilters,
   queryTopFriends,
 } from '../analysis/queries/TopFriendsQuery';
+import {
+  IWordOrEmojiFilters,
+  queryEmojiOrWordCounts,
+} from '../analysis/queries/WordOrEmojiQuery';
 
 function getDb() {
   const sqldb = sqlite3.verbose();
@@ -25,6 +29,14 @@ export function attachIpcListeners() {
     async (event, filters: ITopFriendsFilters) => {
       const db = getDb();
       return queryTopFriends(db, filters);
+    }
+  );
+
+  ipcMain.handle(
+    'query-word-emoji',
+    async (event, filters: IWordOrEmojiFilters) => {
+      const db = getDb();
+      return queryEmojiOrWordCounts(db, filters);
     }
   );
 }

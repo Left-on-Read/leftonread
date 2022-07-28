@@ -1,5 +1,5 @@
-import { delimList } from 'utils/delimList';
-import { lowerCaseList } from 'utils/lowerCaseList';
+import { delimList } from '../utils/delimList';
+import { lowerCaseList } from '../utils/lowerCaseList';
 
 const stopWordsList = [
   'got',
