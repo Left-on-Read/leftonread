@@ -113,9 +113,11 @@
     ]
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.0.4",
     "@chakra-ui/react": "^2.2.4",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
+    "@fontsource/montserrat": "^4.5.11",
     "chart.js": "^3.8.2",
     "d3-scale-chromatic": "^3.0.0",
     "electron-debug": "^3.2.0",

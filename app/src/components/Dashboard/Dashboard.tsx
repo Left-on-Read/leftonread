@@ -1,3 +1,4 @@
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { interpolateCool } from 'd3-scale-chromatic';
 import { ipcRenderer } from 'electron';
 import { useEffect, useState } from 'react';
@@ -9,6 +10,7 @@ import { GroupChatFilter } from '../Filters/GroupChatFilter';
 import { LimitFilter } from '../Filters/LimitFilter';
 import { TopFriendsChart } from '../Graphs/TopFriendsChart';
 import { WordOrEmojiCountChart } from '../Graphs/WordOrEmojiCountChart';
+import { Navbar } from './Navbar';
 
 export function Dashboard() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -47,7 +49,8 @@ export function Dashboard() {
 
   return (
     <div>
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <Navbar />
+      {/* <div style={{ display: 'flex', flexDirection: 'column' }}>
         <LimitFilter handleChange={handleLimitChange} limit={limit} />
         <GroupChatFilter
           handleChange={handleGroupChatChange}
@@ -59,48 +62,69 @@ export function Dashboard() {
           }}
           handleChange={handleContactChange}
         />
+      </div> */}
+      <div style={{ padding: 48, paddingTop: 90 }}>
+        <Tabs variant="soft-rounded" colorScheme="purple" size="lg">
+          <TabList>
+            <Tab style={{ marginRight: 32 }}>Trends</Tab>
+            <Tab style={{ marginRight: 32 }}>Words & Emojis</Tab>
+            <Tab style={{ marginRight: 32 }}>Sentiments</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <div>
+                <WordOrEmojiCountChart
+                  titleText="Top Received Emojis"
+                  labelText="Count of Emoji"
+                  filters={{
+                    isEmoji: true,
+                    limit,
+                    isFromMe: false,
+                    groupChat,
+                    contact,
+                  }}
+                  colorInterpolationFunc={interpolateCool}
+                />
+                <WordOrEmojiCountChart
+                  titleText="Top Received Words"
+                  labelText="Count of Word"
+                  filters={{
+                    isEmoji: false,
+                    limit,
+                    isFromMe: false,
+                    groupChat,
+                    contact,
+                  }}
+                  colorInterpolationFunc={interpolateCool}
+                />
+              </div>
+            </TabPanel>
+            <TabPanel>
+              <div>
+                <TopFriendsChart
+                  titleText="Top Friends"
+                  filters={{ limit, groupChat, contact }}
+                  colorInterpolationFunc={interpolateCool}
+                />
+                <WordOrEmojiCountChart
+                  titleText="Top Sent Words"
+                  labelText="Count of Word"
+                  filters={{ isEmoji: false, limit, isFromMe: true, contact }}
+                  colorInterpolationFunc={interpolateCool}
+                />
+              </div>
+            </TabPanel>
+            <TabPanel>
+              <WordOrEmojiCountChart
+                titleText="Top Sent Emojis"
+                labelText="Count of Emoji"
+                filters={{ isEmoji: true, limit, isFromMe: true, contact }}
+                colorInterpolationFunc={interpolateCool}
+              />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
       </div>
-      <WordOrEmojiCountChart
-        titleText="Top Received Emojis"
-        labelText="Count of Emoji"
-        filters={{
-          isEmoji: true,
-          limit,
-          isFromMe: false,
-          groupChat,
-          contact,
-        }}
-        colorInterpolationFunc={interpolateCool}
-      />
-      <WordOrEmojiCountChart
-        titleText="Top Received Words"
-        labelText="Count of Word"
-        filters={{
-          isEmoji: false,
-          limit,
-          isFromMe: false,
-          groupChat,
-          contact,
-        }}
-        colorInterpolationFunc={interpolateCool}
-      />
-      <TopFriendsChart
-        titleText="Top Friends"
-        filters={{ limit, groupChat, contact }}
-        colorInterpolationFunc={interpolateCool}
-      />
-      <WordOrEmojiCountChart
-        titleText="Top Sent Words"
-        labelText="Count of Word"
-        filters={{ isEmoji: false, limit, isFromMe: true, contact }}
-        colorInterpolationFunc={interpolateCool}
-      />
-      <WordOrEmojiCountChart
-        titleText="Top Sent Emojis"
-        labelText="Count of Emoji"
-        filters={{ isEmoji: true, limit, isFromMe: true, contact }}
-        colorInterpolationFunc={interpolateCool}
-      />
     </div>
   );
 }
