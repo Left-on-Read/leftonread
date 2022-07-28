@@ -1,14 +1,14 @@
-import { ContactFilter, IContactData } from 'components/Filters/ContactFilter';
-import { GroupChatFilter } from 'components/Filters/GroupChatFilter';
-import { LimitFilter } from 'components/Filters/LimitFilter';
-import { WordOrEmojiCountChart } from 'components/Graphs/WordOrEmojiCountChart';
 import { interpolateCool } from 'd3-scale-chromatic';
 import { ipcRenderer } from 'electron';
 import { useEffect, useState } from 'react';
 
 import { GroupChatFilters } from '../../constants/filters';
 import { DEFAULT_FILTER_LIMIT } from '../../constants/index';
+import { ContactFilter, IContactData } from '../Filters/ContactFilter';
+import { GroupChatFilter } from '../Filters/GroupChatFilter';
+import { LimitFilter } from '../Filters/LimitFilter';
 import { TopFriendsChart } from '../Graphs/TopFriendsChart';
+import { WordOrEmojiCountChart } from '../Graphs/WordOrEmojiCountChart';
 
 export function Dashboard() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
