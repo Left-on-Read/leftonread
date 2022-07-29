@@ -8,14 +8,17 @@ import {
   TWordOrEmojiResults,
 } from '../../analysis/queries/WordOrEmojiQuery';
 import { interpolateColors } from '../../utils/interpolateColors';
+import { GraphContainer } from './GraphContainer';
 
 export function WordOrEmojiCountChart({
-  titleText,
+  title,
+  description,
   labelText,
   filters,
   colorInterpolationFunc,
 }: {
-  titleText: string;
+  title: string;
+  description: string;
   labelText: string;
   filters: IWordOrEmojiFilters;
   colorInterpolationFunc: (t: number) => string;
@@ -36,11 +39,11 @@ export function WordOrEmojiCountChart({
         setCount(data.map((obj) => obj.count));
       } catch (err) {
         setSuccess(false);
-        log.error(`ERROR: fetching for ${titleText}`, err);
+        log.error(`ERROR: fetching for ${title}`, err);
       }
     }
     fetchWordData();
-  }, [titleText, filters]);
+  }, [title, filters]);
 
   const COLORS = interpolateColors(words.length, colorInterpolationFunc);
 
@@ -98,5 +101,9 @@ export function WordOrEmojiCountChart({
     return <div> Loading Chart...</div>;
   }
 
-  return <Bar data={data} options={options} />;
+  return (
+    <GraphContainer title={title} description={description}>
+      <Bar data={data} options={options} />
+    </GraphContainer>
+  );
 }

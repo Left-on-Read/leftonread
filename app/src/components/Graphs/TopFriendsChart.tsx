@@ -8,13 +8,16 @@ import {
   TTopFriendsResults,
 } from '../../analysis/queries/TopFriendsQuery';
 import { interpolateColors } from '../../utils/interpolateColors';
+import { GraphContainer } from './GraphContainer';
 
 export function TopFriendsChart({
-  titleText,
+  title,
+  description,
   filters,
   colorInterpolationFunc,
 }: {
-  titleText: string;
+  title: string;
+  description: string;
   filters: ITopFriendsFilters;
   colorInterpolationFunc: (t: number) => string;
 }) {
@@ -36,11 +39,11 @@ export function TopFriendsChart({
         setSuccess(true);
       } catch (err) {
         setSuccess(false);
-        log.error(`ERROR: fetching for ${titleText}`, err);
+        log.error(`ERROR: fetching for ${title}`, err);
       }
     }
     fetchTopFriends();
-  }, [filters, titleText]);
+  }, [filters, title]);
 
   // use COLOR_RANGE param to create two distinct colors on the scale
   const SENT_COLORS = interpolateColors(
@@ -82,5 +85,9 @@ export function TopFriendsChart({
     return <div>Loading chart..</div>;
   }
 
-  return <Bar data={data} />;
+  return (
+    <GraphContainer title={title} description={description}>
+      <Bar data={data} />
+    </GraphContainer>
+  );
 }

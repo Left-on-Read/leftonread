@@ -1,38 +1,25 @@
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
-import { interpolateCool } from 'd3-scale-chromatic';
 import { ipcRenderer } from 'electron';
 import { useEffect, useState } from 'react';
 
-import { GroupChatFilters } from '../../constants/filters';
-import { DEFAULT_FILTER_LIMIT } from '../../constants/index';
-import { ContactFilter, IContactData } from '../Filters/ContactFilter';
-import { GroupChatFilter } from '../Filters/GroupChatFilter';
-import { LimitFilter } from '../Filters/LimitFilter';
-import { TopFriendsChart } from '../Graphs/TopFriendsChart';
-import { WordOrEmojiCountChart } from '../Graphs/WordOrEmojiCountChart';
+import { ChartTabs } from './ChartTabs';
 import { Navbar } from './Navbar';
 
 export function Dashboard() {
+  // const handleContactChange = (selected?: IContactData | null | undefined) => {
+  //   setContact(selected?.value);
+  // };
+
+  // const handleLimitChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setLimit(Number(event.target.value));
+  // };
+
+  // const handleGroupChatChange = (
+  //   event: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   setGroupChat(event.target.value as GroupChatFilters);
+  // };
+
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [limit, setLimit] = useState<number>(DEFAULT_FILTER_LIMIT);
-  const [groupChat, setGroupChat] = useState<GroupChatFilters>(
-    GroupChatFilters.ONLY_INDIVIDUAL
-  );
-  const [contact, setContact] = useState<string | undefined>(undefined);
-
-  const handleContactChange = (selected?: IContactData | null | undefined) => {
-    setContact(selected?.value);
-  };
-
-  const handleLimitChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setLimit(Number(event.target.value));
-  };
-
-  const handleGroupChatChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setGroupChat(event.target.value as GroupChatFilters);
-  };
 
   useEffect(() => {
     const init = async () => {
@@ -64,66 +51,7 @@ export function Dashboard() {
         />
       </div> */}
       <div style={{ padding: 48, paddingTop: 90 }}>
-        <Tabs variant="soft-rounded" colorScheme="purple" size="lg">
-          <TabList>
-            <Tab style={{ marginRight: 32 }}>Trends</Tab>
-            <Tab style={{ marginRight: 32 }}>Words & Emojis</Tab>
-            <Tab style={{ marginRight: 32 }}>Sentiments</Tab>
-          </TabList>
-          <TabPanels>
-            <TabPanel>
-              <div>
-                <WordOrEmojiCountChart
-                  titleText="Top Received Emojis"
-                  labelText="Count of Emoji"
-                  filters={{
-                    isEmoji: true,
-                    limit,
-                    isFromMe: false,
-                    groupChat,
-                    contact,
-                  }}
-                  colorInterpolationFunc={interpolateCool}
-                />
-                <WordOrEmojiCountChart
-                  titleText="Top Received Words"
-                  labelText="Count of Word"
-                  filters={{
-                    isEmoji: false,
-                    limit,
-                    isFromMe: false,
-                    groupChat,
-                    contact,
-                  }}
-                  colorInterpolationFunc={interpolateCool}
-                />
-              </div>
-            </TabPanel>
-            <TabPanel>
-              <div>
-                <TopFriendsChart
-                  titleText="Top Friends"
-                  filters={{ limit, groupChat, contact }}
-                  colorInterpolationFunc={interpolateCool}
-                />
-                <WordOrEmojiCountChart
-                  titleText="Top Sent Words"
-                  labelText="Count of Word"
-                  filters={{ isEmoji: false, limit, isFromMe: true, contact }}
-                  colorInterpolationFunc={interpolateCool}
-                />
-              </div>
-            </TabPanel>
-            <TabPanel>
-              <WordOrEmojiCountChart
-                titleText="Top Sent Emojis"
-                labelText="Count of Emoji"
-                filters={{ isEmoji: true, limit, isFromMe: true, contact }}
-                colorInterpolationFunc={interpolateCool}
-              />
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
+        <ChartTabs />
       </div>
     </div>
   );
