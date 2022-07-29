@@ -1,5 +1,4 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
-import { interpolateCool } from 'd3-scale-chromatic';
 import { useState } from 'react';
 
 import { DEFAULT_FILTER_LIMIT } from '../../constants';
@@ -44,7 +43,6 @@ export function ChartTabs() {
                 groupChat,
                 contact,
               }}
-              colorInterpolationFunc={interpolateCool}
             />
             <WordOrEmojiCountChart
               title="Top Received Words"
@@ -57,7 +55,6 @@ export function ChartTabs() {
                 groupChat,
                 contact,
               }}
-              colorInterpolationFunc={interpolateCool}
             />
           </div>
         </TabPanel>
@@ -67,14 +64,12 @@ export function ChartTabs() {
               title="Top Friends"
               description="The friends you text the most"
               filters={{ limit, groupChat, contact }}
-              colorInterpolationFunc={interpolateCool}
             />
             <WordOrEmojiCountChart
               title="Top Sent Words"
               description="The most common words you sent"
               labelText="Count of Word"
               filters={{ isEmoji: false, limit, isFromMe: true, contact }}
-              colorInterpolationFunc={interpolateCool}
             />
           </div>
         </TabPanel>
@@ -84,7 +79,6 @@ export function ChartTabs() {
             description="The most commonly sent emojis"
             labelText="Count of Emoji"
             filters={{ isEmoji: true, limit, isFromMe: true, contact }}
-            colorInterpolationFunc={interpolateCool}
           />
         </TabPanel>
       </TabPanels>

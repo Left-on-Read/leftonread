@@ -1,3 +1,4 @@
+import { theme as defaultTheme } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
@@ -7,19 +8,16 @@ import {
   ITopFriendsFilters,
   TTopFriendsResults,
 } from '../../analysis/queries/TopFriendsQuery';
-import { interpolateColors } from '../../utils/interpolateColors';
 import { GraphContainer } from './GraphContainer';
 
 export function TopFriendsChart({
   title,
   description,
   filters,
-  colorInterpolationFunc,
 }: {
   title: string;
   description: string;
   filters: ITopFriendsFilters;
-  colorInterpolationFunc: (t: number) => string;
 }) {
   const [friends, setFriends] = useState<string[]>([]);
   const [received, setReceived] = useState<number[]>([]);
@@ -45,38 +43,18 @@ export function TopFriendsChart({
     fetchTopFriends();
   }, [filters, title]);
 
-  // use COLOR_RANGE param to create two distinct colors on the scale
-  const SENT_COLORS = interpolateColors(
-    friends.length,
-    colorInterpolationFunc,
-    {
-      colorStart: 0.5,
-      colorEnd: 0.5,
-      useEndAsStart: false,
-    }
-  );
-  const RECEIVED_COLORS = interpolateColors(
-    friends.length,
-    colorInterpolationFunc,
-    {
-      colorStart: 0.7,
-      colorEnd: 0.7,
-      useEndAsStart: false,
-    }
-  );
-
   const data = {
     labels: friends,
     datasets: [
       {
         label: 'Received',
         data: received,
-        backgroundColor: RECEIVED_COLORS,
+        backgroundColor: defaultTheme.colors.pink['200'],
       },
       {
         label: 'Sent',
         data: sent,
-        backgroundColor: SENT_COLORS,
+        backgroundColor: defaultTheme.colors.cyan['200'],
       },
     ],
   };

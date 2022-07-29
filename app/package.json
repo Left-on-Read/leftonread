@@ -110,7 +110,7 @@
       "\\.(ts|tsx|js|jsx)$": "ts-jest"
     },
     "transformIgnorePatterns": [
-      "/node_modules/(?!(somePkg)|d3-scale-chromatic|d3-interpolate|d3-color)"
+      "/node_modules/(?!(somePkg)|your-package-here)"
     ]
   },
   "dependencies": {
@@ -120,7 +120,6 @@
     "@emotion/styled": "^11.9.3",
     "@fontsource/montserrat": "^4.5.11",
     "chart.js": "^3.8.2",
-    "d3-scale-chromatic": "^3.0.0",
     "electron-debug": "^3.2.0",
     "electron-log": "^4.4.7",
     "electron-updater": "^5.0.3",
@@ -142,7 +141,6 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
     "@types/chart.js": "^2.9.37",
-    "@types/d3-scale-chromatic": "^3.0.0",
     "@types/jest": "^27.5.1",
     "@types/node": "17.0.33",
     "@types/react": "^18.0.9",
