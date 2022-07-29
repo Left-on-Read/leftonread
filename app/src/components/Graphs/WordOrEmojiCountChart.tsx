@@ -1,3 +1,4 @@
+import { theme } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
@@ -7,7 +8,6 @@ import {
   IWordOrEmojiFilters,
   TWordOrEmojiResults,
 } from '../../analysis/queries/WordOrEmojiQuery';
-import { interpolateColors } from '../../utils/interpolateColors';
 import { GraphContainer } from './GraphContainer';
 
 export function WordOrEmojiCountChart({
@@ -15,13 +15,11 @@ export function WordOrEmojiCountChart({
   description,
   labelText,
   filters,
-  colorInterpolationFunc,
 }: {
   title: string;
   description: string;
   labelText: string;
   filters: IWordOrEmojiFilters;
-  colorInterpolationFunc: (t: number) => string;
 }) {
   const [words, setWords] = useState<string[]>([]);
   const [count, setCount] = useState<number[]>([]);
@@ -45,34 +43,18 @@ export function WordOrEmojiCountChart({
     fetchWordData();
   }, [title, filters]);
 
-  const COLORS = interpolateColors(words.length, colorInterpolationFunc);
-
   const data = {
     labels: words,
     datasets: [
       {
         label: labelText,
         data: count,
-        backgroundColor: COLORS,
+        backgroundColor: theme.colors.green['200'],
       },
     ],
   };
 
-  const options = {
-    // title: {
-    //   display: true,
-    //   text: titleText,
-    // },
-    // scales: {
-    //   yAxes: [
-    //     {
-    //       ticks: {
-    //         beginAtZero: true,
-    //       },
-    //     },
-    //   ],
-    // },
-  };
+  const options = {};
 
   let label = '';
   if (filters.isFromMe) {
