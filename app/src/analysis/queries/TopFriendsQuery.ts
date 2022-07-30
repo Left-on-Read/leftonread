@@ -84,20 +84,10 @@ function getAllFilters(filters: ITopFriendsFilters): string {
 }
 
 const getCoreQuery = (allFilters: string) => {
-  //   return `SELECT
-  //     COUNT(*) as ${TopFriendsColumns.COUNT},
-  //     id as ${TopFriendsColumns.PHONE_NUMBER},
-  //     COALESCE(contact_name, id) as ${TopFriendsColumns.FRIEND},
-  //     is_from_me as ${TopFriendsColumns.IS_FROM_ME}
-  //     FROM ${CoreTableNames.CORE_MAIN_TABLE}
-  //     -- NOTE: filters should always be applied as earliest as possible
-  //     ${allFilters}
-  //   GROUP BY id, is_from_me
-  // `;
-
   return `SELECT
 COUNT(*) as ${TopFriendsColumns.COUNT},
 id as ${TopFriendsColumns.PHONE_NUMBER},
+COALESCE(contact_name, id) as ${TopFriendsColumns.FRIEND},
 id as ${TopFriendsColumns.FRIEND},
 is_from_me as ${TopFriendsColumns.IS_FROM_ME}
 FROM ${CoreTableNames.CORE_MAIN_TABLE}

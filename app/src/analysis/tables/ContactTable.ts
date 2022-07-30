@@ -56,16 +56,6 @@ export class ContactTable extends Table {
   }
 }
 
-// export async function createContactTable(
-//   db: sqlite3.Database
-// ): Promise<AddressBookTableNames[]> {
-//   const tables = [new ContactTable(db, AddressBookTableNames.CONTACT_TABLE)];
-
-//   const createTablePromises = tables.map((table) => table.create());
-//   log.info(`INFO: ${AddressBookTableNames.CONTACT_TABLE} successfully created`);
-//   return Promise.all(createTablePromises) as Promise<AddressBookTableNames[]>;
-// }
-
 export const COUNT_CONTACTS_QUERY =
   'SELECT COUNT(*) AS count FROM ZABCDPHONENUMBER';
 
@@ -111,6 +101,7 @@ export async function findPossibleAddressBookDB(): Promise<
     const maxDB = dbRecordCountResults.reduce((a, b) =>
       a.recordCount > b.recordCount ? a : b
     );
+    log.info(`Returning Address Book DB with ${maxDB.recordCount} records`);
     return maxDB.db ?? undefined;
   }
   log.warn(`WARN: ${addressBookBackUpFolderPath} does not exist.`);
