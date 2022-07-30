@@ -84,7 +84,7 @@ export async function findPossibleAddressBookDB(): Promise<
 
   // If backup files exists, read those as well
   if (fs.existsSync(addressBookBackUpFolderPath)) {
-    log.info(`${addressBookBackUpFolderPath} exists`);
+    log.info(`INFO: ${addressBookBackUpFolderPath} exists`);
     const filenames = fs.readdirSync(addressBookBackUpFolderPath);
 
     const promises = filenames.map(async (file) => {
@@ -101,7 +101,9 @@ export async function findPossibleAddressBookDB(): Promise<
     const maxDB = dbRecordCountResults.reduce((a, b) =>
       a.recordCount > b.recordCount ? a : b
     );
-    log.info(`Returning Address Book DB with ${maxDB.recordCount} records`);
+    log.info(
+      `INFO: Returning Address Book DB with ${maxDB.recordCount} records`
+    );
     return maxDB.db ?? undefined;
   }
   log.warn(`WARN: ${addressBookBackUpFolderPath} does not exist.`);

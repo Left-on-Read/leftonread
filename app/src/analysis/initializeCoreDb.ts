@@ -47,13 +47,13 @@ async function dropAllTables(db: sqlite3.Database) {
     sqlite3Wrapper.runP(db, `DROP TABLE IF EXISTS ${tableName}`)
   );
 
-  log.info('Dropped all tables.');
+  log.info('INFO: Dropped all pre-existing LOR-created tables.');
   return Promise.all(dropTablePromises);
 }
 
 export async function initializeCoreDb(): Promise<sqlite3.Database> {
   log.info(
-    `Copying a chat.db and address book files from the user's library into a .leftonread folder`
+    `INFO: Copying a chat.db and address book files from the user's library into a .leftonread folder`
   );
 
   await createAppDirectory();
@@ -107,7 +107,7 @@ export async function initializeCoreDb(): Promise<sqlite3.Database> {
   // Create Tables
   await new CoreMainTable(lorDB, CoreTableNames.CORE_MAIN_TABLE).create();
   await new ChatCountTable(lorDB, ChatTableNames.COUNT_TABLE).create();
-  log.info('Created LOR DB');
+  log.info('INFO: Created LOR DB');
 
   return lorDB;
 }
