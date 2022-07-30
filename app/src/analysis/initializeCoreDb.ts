@@ -51,14 +51,10 @@ async function dropAllTables(db: sqlite3.Database) {
   return Promise.all(dropTablePromises);
 }
 
-// TODO: logic could be added here if the user is opening LOR for the Nth time
-// and wants to update LOR's copy of their chat.db
-
-/**
- * Copy chat.db and address book files from the user's library into a .leftonread folder
- */
 export async function initializeCoreDb(): Promise<sqlite3.Database> {
-  log.info('Initializing the core LOR DB...');
+  log.info(
+    `Copying a chat.db and address book files from the user's library into a .leftonread folder`
+  );
 
   await createAppDirectory();
   if (process.env.DEBUG_ENV) {
@@ -84,7 +80,12 @@ export async function initializeCoreDb(): Promise<sqlite3.Database> {
   // Drop everything LOR specific if it exists
   await dropAllTables(lorDB);
 
-  // If we found an address book table, let's create it and attach it to the main lorDB.
+  // Add the contact name column regardless
+  // It will just be empty if we don't find an address book db table
+  // As a result, we can use COALESCE(contact_name, id)
+  await addContactNameColumn(lorDB);
+
+  // If we found an address book table, let's create a contact_table and attach it to the main lorDB.
   if (possibleAddressBookDB) {
     try {
       // Create contact table takes the possibleAddressBookDB not the LOR DB
@@ -96,7 +97,6 @@ export async function initializeCoreDb(): Promise<sqlite3.Database> {
       // @ts-ignore
       const q = `ATTACH '${possibleAddressBookDB.filename}' AS ${addressBookDBAliasName}`;
       await sqlite3Wrapper.runP(lorDB, q);
-      await addContactNameColumn(lorDB);
       await setContactNameColumn(lorDB);
       closeDB(possibleAddressBookDB); // after setContactNameColumn, we have no use for the address book db
     } catch (e) {

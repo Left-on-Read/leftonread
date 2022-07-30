@@ -23,6 +23,8 @@ interface ITopFriendsChartData {
 export type TTopFriendsResults = ITopFriendsChartData[];
 
 // NOTE(teddy): What table does this correspond to?
+// NOTE(alex): It doesn't respond to a table, but rather the output of a query on the "core table".
+
 enum TopFriendsColumns {
   COUNT = 'count',
   PHONE_NUMBER = 'phone_number',
