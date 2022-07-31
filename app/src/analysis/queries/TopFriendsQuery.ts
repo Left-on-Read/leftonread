@@ -23,6 +23,8 @@ interface ITopFriendsChartData {
 export type TTopFriendsResults = ITopFriendsChartData[];
 
 // NOTE(teddy): What table does this correspond to?
+// NOTE(alex): It doesn't respond to a table, but rather the output of a query on the "core table".
+
 enum TopFriendsColumns {
   COUNT = 'count',
   PHONE_NUMBER = 'phone_number',
@@ -84,21 +86,10 @@ function getAllFilters(filters: ITopFriendsFilters): string {
 }
 
 const getCoreQuery = (allFilters: string) => {
-  //   return `SELECT
-  //     COUNT(*) as ${TopFriendsColumns.COUNT},
-  //     id as ${TopFriendsColumns.PHONE_NUMBER},
-  //     COALESCE(contact_name, id) as ${TopFriendsColumns.FRIEND},
-  //     is_from_me as ${TopFriendsColumns.IS_FROM_ME}
-  //     FROM ${CoreTableNames.CORE_MAIN_TABLE}
-  //     -- NOTE: filters should always be applied as earliest as possible
-  //     ${allFilters}
-  //   GROUP BY id, is_from_me
-  // `;
-
   return `SELECT
 COUNT(*) as ${TopFriendsColumns.COUNT},
 id as ${TopFriendsColumns.PHONE_NUMBER},
-id as ${TopFriendsColumns.FRIEND},
+COALESCE(contact_name, id) as ${TopFriendsColumns.FRIEND},
 is_from_me as ${TopFriendsColumns.IS_FROM_ME}
 FROM ${CoreTableNames.CORE_MAIN_TABLE}
 -- NOTE: filters should always be applied as earliest as possible

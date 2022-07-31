@@ -14,56 +14,31 @@ export enum ChatTableColumns {
 export class ChatCountTable extends Table {
   async create(): Promise<TableNames> {
     const q = `
-    CREATE TABLE ${this.name} AS
-    WITH RECURSIVE SPLIT_TEXT_TABLE (cache_roomnames, id, is_from_me, guid, text, etc) AS
-    (
-      SELECT
-        m.cache_roomnames,
-        m.id as id,
-        m.is_from_me,
-        m.guid, '',
-        m.text || ' '
-      FROM ${CoreTableNames.CORE_MAIN_TABLE} m
-        WHERE m.text IS NOT NULL
-      UNION ALL
-      SELECT
-        cache_roomnames, id, is_from_me, guid, SUBSTR(etc, 0, INSTR(etc, ' ')), SUBSTR(etc, INSTR(etc, ' ')+1)
-      FROM SPLIT_TEXT_TABLE
-      WHERE etc <> ''
-    )
-      SELECT
-        id as ${ChatTableColumns.CONTACT},
-        LOWER(text) as ${ChatTableColumns.WORD},
-        is_from_me as ${ChatTableColumns.IS_FROM_ME},
-        cache_roomnames as ${ChatTableColumns.CACHE_ROOMNAMES}
-      FROM SPLIT_TEXT_TABLE
-  `;
+      CREATE TABLE ${this.name} AS
+      WITH RECURSIVE SPLIT_TEXT_TABLE (cache_roomnames, id, is_from_me, guid, text, etc) AS
+      (
+        SELECT
+          m.cache_roomnames,
+          coalesce(m.${ContactNameColumns.CONTACT_NAME}, m.id) as id,
+          m.is_from_me,
+          m.guid, '',
+          m.text || ' '
+        FROM ${CoreTableNames.CORE_MAIN_TABLE} m
+          WHERE m.text IS NOT NULL
+        UNION ALL
+        SELECT
+          cache_roomnames, id, is_from_me, guid, SUBSTR(etc, 0, INSTR(etc, ' ')), SUBSTR(etc, INSTR(etc, ' ')+1)
+        FROM SPLIT_TEXT_TABLE
+        WHERE etc <> ''
+      )
+        SELECT
+          id as ${ChatTableColumns.CONTACT},
+          LOWER(text) as ${ChatTableColumns.WORD},
+          is_from_me as ${ChatTableColumns.IS_FROM_ME},
+          cache_roomnames as ${ChatTableColumns.CACHE_ROOMNAMES}
+        FROM SPLIT_TEXT_TABLE
+    `;
 
-    //   const q = `
-    //   CREATE TABLE ${this.name} AS
-    //   WITH RECURSIVE SPLIT_TEXT_TABLE (cache_roomnames, id, is_from_me, guid, text, etc) AS
-    //   (
-    //     SELECT
-    //       m.cache_roomnames,
-    //       coalesce(m.${ContactNameColumns.CONTACT_NAME}, m.id) as id,
-    //       m.is_from_me,
-    //       m.guid, '',
-    //       m.text || ' '
-    //     FROM ${CoreTableNames.CORE_MAIN_TABLE} m
-    //       WHERE m.text IS NOT NULL
-    //     UNION ALL
-    //     SELECT
-    //       cache_roomnames, id, is_from_me, guid, SUBSTR(etc, 0, INSTR(etc, ' ')), SUBSTR(etc, INSTR(etc, ' ')+1)
-    //     FROM SPLIT_TEXT_TABLE
-    //     WHERE etc <> ''
-    //   )
-    //     SELECT
-    //       id as ${ChatTableColumns.CONTACT},
-    //       LOWER(text) as ${ChatTableColumns.WORD},
-    //       is_from_me as ${ChatTableColumns.IS_FROM_ME},
-    //       cache_roomnames as ${ChatTableColumns.CACHE_ROOMNAMES}
-    //     FROM SPLIT_TEXT_TABLE
-    // `;
     await sqlite3Wrapper.runP(this.db, q);
     return this.name;
   }
