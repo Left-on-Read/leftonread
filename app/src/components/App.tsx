@@ -7,6 +7,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { theme } from '../theme';
 import { Dashboard } from './Dashboard/Dashboard';
+import { GetStarted } from './GetStarted/GetStarted';
+import { Initialize } from './GetStarted/Initialize';
 
 Chart.register(...(registerables ?? []));
 
@@ -19,8 +21,9 @@ export function App() {
     <ChakraProvider theme={theme}>
       <BrowserRouter basename="index.html">
         <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/dashboard" element={<TestComponent />} />
+          <Route path="/" element={<GetStarted />} />
+          <Route path="/initialize" element={<Initialize />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </BrowserRouter>
     </ChakraProvider>

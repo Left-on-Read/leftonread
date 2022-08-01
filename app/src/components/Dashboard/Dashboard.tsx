@@ -19,21 +19,6 @@ export function Dashboard() {
   //   setGroupChat(event.target.value as GroupChatFilters);
   // };
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    const init = async () => {
-      await ipcRenderer.invoke('initialize-tables');
-      setIsLoading(false);
-    };
-
-    init();
-  }, []);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div>
       <Navbar />
