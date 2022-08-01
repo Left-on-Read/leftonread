@@ -42,15 +42,19 @@ async function dropAllTables(db: sqlite3.Database) {
   const dropTablePromises = [
     ...Object.values(ChatTableNames),
     ...Object.values(CoreMainTable),
+    ...Object.values(AddressBookTableNames),
   ].map(async (tableName) =>
     sqlite3Wrapper.runP(db, `DROP TABLE IF EXISTS ${tableName}`)
   );
 
+  log.info('INFO: Dropped all pre-existing LOR-created tables.');
   return Promise.all(dropTablePromises);
 }
-// TODO: logic could be added here depending on what user wants to update their chat.db
+
 export async function initializeCoreDb(): Promise<sqlite3.Database> {
-  log.info('Attempting to create core tables...');
+  log.info(
+    `INFO: Copying a chat.db and address book files from the user's library into a .leftonread folder`
+  );
 
   await createAppDirectory();
   if (process.env.DEBUG_ENV) {
@@ -72,24 +76,29 @@ export async function initializeCoreDb(): Promise<sqlite3.Database> {
   }
   const possibleAddressBookDB = await findPossibleAddressBookDB();
   const lorDB = initializeDB(chatPaths.app);
+
+  // Drop everything LOR specific if it exists
   await dropAllTables(lorDB);
 
-  log.info('Dropped all tables.');
+  // Add the contact name column regardless
+  // It will just be empty if we don't find an address book db table
+  // As a result, we can use COALESCE(contact_name, id)
+  await addContactNameColumn(lorDB);
 
-  // Create contact table
+  // If we found an address book table, let's create a contact_table and attach it to the main lorDB.
   if (possibleAddressBookDB) {
     try {
+      // Create contact table takes the possibleAddressBookDB not the LOR DB
       await new ContactTable(
-        lorDB,
+        possibleAddressBookDB,
         AddressBookTableNames.CONTACT_TABLE
       ).create();
 
       // @ts-ignore
       const q = `ATTACH '${possibleAddressBookDB.filename}' AS ${addressBookDBAliasName}`;
       await sqlite3Wrapper.runP(lorDB, q);
-      await addContactNameColumn(lorDB);
       await setContactNameColumn(lorDB);
-      closeDB(possibleAddressBookDB); // after setContactNameColumn, we have no use for this db
+      closeDB(possibleAddressBookDB); // after setContactNameColumn, we have no use for the address book db
     } catch (e) {
       log.error(e);
     }
@@ -98,7 +107,7 @@ export async function initializeCoreDb(): Promise<sqlite3.Database> {
   // Create Tables
   await new CoreMainTable(lorDB, CoreTableNames.CORE_MAIN_TABLE).create();
   await new ChatCountTable(lorDB, ChatTableNames.COUNT_TABLE).create();
-  log.info('Created LOR DB');
+  log.info('INFO: Created LOR DB');
 
   return lorDB;
 }

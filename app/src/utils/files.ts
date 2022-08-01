@@ -1,7 +1,11 @@
 import copy from 'recursive-copy';
 
-// NOTE: this is a very dangerous function
-// It overwrites files.
+/**
+ * TREAD WITH CAUTION: this is a very dangerous function.
+ * Overwrites files.
+ * @param originalPath
+ * @param appPath
+ */
 export async function copyFiles(
   originalPath: string,
   appPath: string
