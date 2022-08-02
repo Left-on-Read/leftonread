@@ -38,9 +38,9 @@ cd app; yarn; cd src/; yarn;
 
 In general, make sure you `yarn` installed with node `15.9.0` and `yarn start` on `15.9.0`. It seems the M1 chip requires this node version.
 
-#### Permission denied
+#### Permission denied or cannot find .db file
 
-You need to give your terminal application (for example, iTerm) "full disk access" in order to run Left on Read locally. This is because the application needs to copy the chat.db file in `~/Library/Messages` into the Left on Read application folder `~/.leftonread`
+You need to give your terminal application "full disk access."  Note:  If you are running 'yarn start' in an IDE, like VScode, you will need to give that IDE full disk access in order to run Left on Read locally. This is because the application needs to copy the chat.db file in `~/Library/Messages` into the Left on Read application folder `~/.leftonread`
 
 To give your Terminal full disk access, go to System Preferences > Security and Privacy > Full Disk Access (a folder on the scrollbar) > and select iTerm.
 
