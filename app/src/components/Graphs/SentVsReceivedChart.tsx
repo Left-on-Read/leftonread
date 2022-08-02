@@ -11,9 +11,11 @@ import { GraphContainer } from './GraphContainer';
 
 export function SentVsReceivedChart({
   title,
+  description,
   filters,
 }: {
   title: string;
+  description: string;
   filters: TotalSentVsReceivedFilters;
 }) {
   const [received, setReceived] = useState<number>();
@@ -55,10 +57,7 @@ export function SentVsReceivedChart({
   }
 
   return (
-    <GraphContainer
-      title={title}
-      description={`since ${new Date().toDateString()}`}
-    >
+    <GraphContainer title={title} description={description}>
       <StatGroup>
         <Stat>
           <StatLabel>Sent</StatLabel>

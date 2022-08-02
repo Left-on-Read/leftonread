@@ -3,6 +3,11 @@ import log from 'electron-log';
 import * as sqlite3Wrapper from '../../utils/sqliteWrapper';
 import { Table, TableNames } from './types';
 
+// subset of columns, just to have in an enum
+export enum CoreMainTableColumns {
+  DATE = 'human_readable_date',
+}
+
 export class CoreMainTable extends Table {
   async create(): Promise<TableNames> {
     const q = `
@@ -19,7 +24,7 @@ export class CoreMainTable extends Table {
            substr(datetime((msg.date/1000000000) + strftime('%s','2001-01-01 01:01:01'), 'unixepoch', 'localtime'), 0, 20)
        ELSE 
            substr(datetime(msg.date + strftime('%s','2001-01-01 01:01:01'), 'unixepoch', 'localtime'), 0, 20)
-       END AS leftonread_date 
+       END AS human_readable_date 
    FROM message msg)
     -- TODO(Danilowicz): instead of * we should just grab the columns we need
     SELECT

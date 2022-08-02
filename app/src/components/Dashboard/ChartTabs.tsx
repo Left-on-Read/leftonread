@@ -1,6 +1,9 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { EarliestAndLatestDateResults } from 'analysis/queries/EarliestAndLatestDatesQuery';
 import { SentVsReceivedChart } from 'components/Graphs/SentVsReceivedChart';
-import { useState } from 'react';
+import { ipcRenderer } from 'electron';
+import log from 'electron-log';
+import { useEffect, useState } from 'react';
 
 import { DEFAULT_FILTER_LIMIT } from '../../constants';
 import { GroupChatFilters } from '../../constants/filters';
@@ -13,6 +16,31 @@ export function ChartTabs() {
     GroupChatFilters.ONLY_INDIVIDUAL
   );
   const [contact, setContact] = useState<string | undefined>(undefined);
+
+  const [earliestAndLatestDate, setEarliestAndLatestDates] = useState<{
+    earliestDate: Date;
+    latestDate: Date;
+  }>();
+
+  useEffect(() => {
+    async function fetchEarliestAndLatestDates() {
+      try {
+        const datesDataList: EarliestAndLatestDateResults =
+          await ipcRenderer.invoke('query-earliest-and-latest-dates');
+        if (datesDataList && datesDataList.length === 1) {
+          const earlyDate = datesDataList[0].earliest_date;
+          const lateDate = datesDataList[0].latest_date;
+          setEarliestAndLatestDates({
+            earliestDate: new Date(earlyDate),
+            latestDate: new Date(lateDate),
+          });
+        }
+      } catch (err) {
+        log.error(`ERROR: fetching for fetchEarliestAndLatestDates`, err);
+      }
+    }
+    fetchEarliestAndLatestDates();
+  }, []);
 
   return (
     <Tabs variant="soft-rounded" colorScheme="purple" size="md">
@@ -35,6 +63,11 @@ export function ChartTabs() {
           <div>
             <SentVsReceivedChart
               title="Total Sent vs Received"
+              description={
+                earliestAndLatestDate
+                  ? `since ${earliestAndLatestDate.earliestDate.toLocaleDateString()}`
+                  : ''
+              }
               filters={{
                 groupChat,
                 contact,

@@ -12,7 +12,7 @@ enum Columns {
   ID = 'id',
 }
 
-export async function getContactOptions(
+export async function queryContactOptions(
   db: sqlite3.Database
 ): Promise<IContactData[]> {
   const q = `
