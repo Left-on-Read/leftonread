@@ -7,7 +7,21 @@ export class CoreMainTable extends Table {
   async create(): Promise<TableNames> {
     const q = `
     CREATE TABLE IF NOT EXISTS ${this.name} AS
-    -- TODO: instead of * we should just grab the columns we need
+
+    WITH DATE_TIME_TABLE AS
+    -- TODO(Danilowicz): I don't fully understanding how leftonread_date is calculated here
+    -- but it works. If someone could explain it, that would be greatly appreciated!
+    (SELECT 
+    guid as datetimetable_guid,
+    CASE 
+       WHEN msg.date > 10000000000
+       THEN 
+           substr(datetime((msg.date/1000000000) + strftime('%s','2001-01-01 01:01:01'), 'unixepoch', 'localtime'), 0, 20)
+       ELSE 
+           substr(datetime(msg.date + strftime('%s','2001-01-01 01:01:01'), 'unixepoch', 'localtime'), 0, 20)
+       END AS leftonread_date 
+   FROM message msg)
+    -- TODO(Danilowicz): instead of * we should just grab the columns we need
     SELECT
       *
     FROM chat_message_join cmj
@@ -17,7 +31,10 @@ export class CoreMainTable extends Table {
       ON h.ROWID = chj.handle_id
     JOIN message m
       ON m.ROWID = cmj.message_id
-  `;
+    JOIN DATE_TIME_TABLE
+      ON guid = datetimetable_guid 
+    `;
+
     await sqlite3Wrapper.runP(this.db, q);
     log.info(`INFO: created ${this.name}`);
     return this.name;
