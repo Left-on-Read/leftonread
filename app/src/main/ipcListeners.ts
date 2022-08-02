@@ -9,6 +9,10 @@ import {
   queryTopFriends,
 } from '../analysis/queries/TopFriendsQuery';
 import {
+  queryTotalSentVsReceived,
+  TotalSentVsReceivedFilters,
+} from '../analysis/queries/TotalSentVsReceivedQuery';
+import {
   IWordOrEmojiFilters,
   queryEmojiOrWordCounts,
 } from '../analysis/queries/WordOrEmojiQuery';
@@ -45,4 +49,12 @@ export function attachIpcListeners() {
     const db = getDb();
     return getContactOptions(db);
   });
+
+  ipcMain.handle(
+    'query-total-sent-vs-received',
+    async (event, filters: TotalSentVsReceivedFilters) => {
+      const db = getDb();
+      return queryTotalSentVsReceived(db, filters);
+    }
+  );
 }

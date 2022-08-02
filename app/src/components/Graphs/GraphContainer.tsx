@@ -7,7 +7,7 @@ export function GraphContainer({
   children,
 }: {
   title: string;
-  description: string;
+  description?: string;
   children: React.ReactNode;
 }) {
   return (

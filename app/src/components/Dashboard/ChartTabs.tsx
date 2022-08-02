@@ -1,4 +1,5 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { SentVsReceivedChart } from 'components/Graphs/SentVsReceivedChart';
 import { useState } from 'react';
 
 import { DEFAULT_FILTER_LIMIT } from '../../constants';
@@ -32,6 +33,13 @@ export function ChartTabs() {
       <TabPanels style={{ paddingTop: 60 }}>
         <TabPanel>
           <div>
+            <SentVsReceivedChart
+              title="Total Sent vs Received"
+              filters={{
+                groupChat,
+                contact,
+              }}
+            />
             <WordOrEmojiCountChart
               title="Top Received Emojis"
               description="The most received Emojis"
