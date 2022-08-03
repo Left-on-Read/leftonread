@@ -22,9 +22,6 @@ interface ITopFriendsChartData {
 
 export type TTopFriendsResults = ITopFriendsChartData[];
 
-// NOTE(teddy): What table does this correspond to?
-// NOTE(alex): It doesn't respond to a table, but rather the output of a query on the "core table".
-
 enum TopFriendsColumns {
   COUNT = 'count',
   PHONE_NUMBER = 'phone_number',
@@ -33,18 +30,19 @@ enum TopFriendsColumns {
   TEXT = 'text',
 }
 
-enum OutputColumns {
+enum TopFriendsOutputColumns {
   FRIEND = 'friend',
   TOTAL = 'total',
   SENT = 'sent',
   RECEIVED = 'received',
 }
 
+// TODO(Danilowicz): We should make these filters shared and more generic, as TotalSentVsReceived also use them
 function wordFilter(filters: ITopFriendsFilters): string | undefined {
   if (!filters.word || filters.word.length === 0) {
     return undefined;
   }
-  // NOTE: using LIKE because TopFriends query is not split word by word
+  // NOTE: using LIKE because CORE_MAIN_TABLE table is not split word by word
   return `LOWER(${
     TopFriendsColumns.TEXT
   }) LIKE "%${filters.word?.toLowerCase()}%"`;
@@ -127,10 +125,12 @@ export async function queryTopFriends(
   ),
   COMBINED_TABLE AS (
     SELECT
-      sent + received as ${OutputColumns.TOTAL},
-      RECEIVED_TABLE.${TopFriendsColumns.FRIEND} as ${OutputColumns.FRIEND},
-      sent as ${OutputColumns.SENT},
-      received as ${OutputColumns.RECEIVED}
+      sent + received as ${TopFriendsOutputColumns.TOTAL},
+      RECEIVED_TABLE.${TopFriendsColumns.FRIEND} as ${
+    TopFriendsOutputColumns.FRIEND
+  },
+      sent as ${TopFriendsOutputColumns.SENT},
+      received as ${TopFriendsOutputColumns.RECEIVED}
     FROM
       RECEIVED_TABLE
     -- NOTE: could do a LEFT JOIN here if you want to see group chats only
@@ -142,10 +142,10 @@ export async function queryTopFriends(
   }
   )
   SELECT
-    ${Object.keys(OutputColumns).join(', ')}
+    ${Object.keys(TopFriendsOutputColumns).join(', ')}
   FROM
     COMBINED_TABLE
-  ORDER BY ${OutputColumns.TOTAL} DESC
+  ORDER BY ${TopFriendsOutputColumns.TOTAL} DESC
   LIMIT ${limit}
   `;
 

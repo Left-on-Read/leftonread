@@ -4,11 +4,16 @@ import * as sqlite3 from 'sqlite3';
 
 import { chatPaths } from '../analysis/directories';
 import { initializeCoreDb } from '../analysis/initializeCoreDb';
-import { getContactOptions } from '../analysis/queries/getContactOptions';
+import { queryContactOptions } from '../analysis/queries/ContactOptionsQuery';
+import { queryEarliestAndLatestDates } from '../analysis/queries/EarliestAndLatestDatesQuery';
 import {
   ITopFriendsFilters,
   queryTopFriends,
 } from '../analysis/queries/TopFriendsQuery';
+import {
+  queryTotalSentVsReceived,
+  TotalSentVsReceivedFilters,
+} from '../analysis/queries/TotalSentVsReceivedQuery';
 import {
   IWordOrEmojiFilters,
   queryEmojiOrWordCounts,
@@ -44,7 +49,20 @@ export function attachIpcListeners() {
 
   ipcMain.handle('query-get-contact-options', async () => {
     const db = getDb();
-    return getContactOptions(db);
+    return queryContactOptions(db);
+  });
+
+  ipcMain.handle(
+    'query-total-sent-vs-received',
+    async (event, filters: TotalSentVsReceivedFilters) => {
+      const db = getDb();
+      return queryTotalSentVsReceived(db, filters);
+    }
+  );
+
+  ipcMain.handle('query-earliest-and-latest-dates', async (event) => {
+    const db = getDb();
+    return queryEarliestAndLatestDates(db);
   });
 
   ipcMain.handle('check-permissions', async () => {
