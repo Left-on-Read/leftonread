@@ -60,6 +60,12 @@ export function SentVsReceivedChart({
     <GraphContainer title={title} description={description}>
       <StatGroup>
         <Stat>
+          <StatLabel>Total</StatLabel>
+          <StatNumber>
+            {((received ?? 0) + (sent ?? 0)).toLocaleString()}
+          </StatNumber>
+        </Stat>
+        <Stat>
           <StatLabel>Sent</StatLabel>
           <StatNumber>{sent?.toLocaleString()}</StatNumber>
         </Stat>

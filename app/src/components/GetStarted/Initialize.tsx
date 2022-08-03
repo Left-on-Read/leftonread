@@ -147,7 +147,7 @@ export function Initialize() {
               return new Promise((resolve) => {
                 setTimeout(() => {
                   resolve();
-                }, 3000);
+                }, 1500);
               });
             }}
             triggered={step === 0}

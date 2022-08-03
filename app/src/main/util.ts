@@ -16,3 +16,8 @@ if (process.env.NODE_ENV === 'development') {
     return `file://${path.resolve(__dirname, '../renderer/', htmlFileName)}`;
   };
 }
+
+export function daysAgo(date1: Date, date2: Date) {
+  const differenceInTime = date2.getTime() - date1.getTime();
+  return Math.round(differenceInTime / (1000 * 3600 * 24));
+}
