@@ -128,7 +128,6 @@
     "fs": "0.0.1-security",
     "path-browserify": "^1.0.1",
     "react": "^18.1.0",
-    "react-animate-height": "^3.0.4",
     "react-chartjs-2": "^4.3.1",
     "react-dom": "^18.1.0",
     "react-icons": "^4.4.0",
