@@ -17,10 +17,11 @@ export class CoreMainTable extends Table {
     (SELECT 
     guid as datetimetable_guid,
     CASE 
-       WHEN msg.date > 1000000000
+       WHEN msg.date > 10000000000
        THEN 
-          -- Compute the date and time given a unix timestamp (msg.date) divide it by 10000000000 if needed
-          -- because it's nanoseconds and compensate for your local timezone.
+          -- msg.date is the time elapsed in nanoseconds since 1/1/2001.
+          -- We then convert it to our localtime
+          -- Not sure why this is 1 hour ahead though, even in UTC time
           -- See: https://apple.stackexchange.com/questions/114168/dates-format-in-messages-chat-db
            datetime((msg.date/1000000000) + strftime('%s','2001-01-01 01:01:01'), 'unixepoch', 'localtime')
        ELSE 
