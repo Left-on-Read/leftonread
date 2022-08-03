@@ -11,6 +11,8 @@ module.exports = {
     'react/require-default-props': 'off',
     'react/state-in-constructor': 'off',
     'react/destructuring-assignment': 'off',
+    'no-new': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
   },
   parserOptions: {
     ecmaVersion: 2020,

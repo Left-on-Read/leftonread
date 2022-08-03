@@ -12,7 +12,7 @@ export const theme = extendTheme({
   components: {
     Button: {
       baseStyle: {
-        fontWeight: 700,
+        fontWeight: 500,
         fontSize: 14,
       },
       variants: {

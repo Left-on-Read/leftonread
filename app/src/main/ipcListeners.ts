@@ -1,4 +1,5 @@
 import { ipcMain } from 'electron';
+import * as fs from 'fs';
 import * as sqlite3 from 'sqlite3';
 
 import { chatPaths } from '../analysis/directories';
@@ -44,5 +45,19 @@ export function attachIpcListeners() {
   ipcMain.handle('query-get-contact-options', async () => {
     const db = getDb();
     return getContactOptions(db);
+  });
+
+  ipcMain.handle('check-permissions', async () => {
+    return new Promise<boolean>((resolve) => {
+      setTimeout(() => {
+        fs.copyFile(chatPaths.original, chatPaths.init, (err) => {
+          if (err) {
+            resolve(false);
+          }
+          resolve(true);
+        });
+        // NOTE(teddy): Artifically take 1s to give impression of loading
+      }, 1000);
+    });
   });
 }

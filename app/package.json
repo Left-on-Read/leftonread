@@ -128,8 +128,10 @@
     "fs": "0.0.1-security",
     "path-browserify": "^1.0.1",
     "react": "^18.1.0",
+    "react-animate-height": "^3.0.4",
     "react-chartjs-2": "^4.3.1",
     "react-dom": "^18.1.0",
+    "react-icons": "^4.4.0",
     "react-router-dom": "^6.3.0",
     "react-select": "^5.4.0",
     "recursive-copy": "^2.0.14"
@@ -145,6 +147,7 @@
     "@types/node": "17.0.33",
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.4",
+    "@types/react-icons": "^3.0.0",
     "@types/react-test-renderer": "^18.0.0",
     "@types/sqlite3": "^3.1.8",
     "@types/terser-webpack-plugin": "^5.0.4",

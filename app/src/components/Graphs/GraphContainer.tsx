@@ -13,7 +13,7 @@ export function GraphContainer({
   return (
     <div>
       <div>
-        <Text fontSize="md" fontWeight={900}>
+        <Text fontSize="md" fontWeight={700}>
           {title}
         </Text>
       </div>
