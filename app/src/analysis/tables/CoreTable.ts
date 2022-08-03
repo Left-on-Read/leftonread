@@ -14,18 +14,17 @@ export class CoreMainTable extends Table {
     CREATE TABLE IF NOT EXISTS ${this.name} AS
 
     WITH DATE_TIME_TABLE AS
-    -- TODO(Danilowicz): I don't fully understanding how leftonread_date is calculated here
-    -- but it works. If someone could explain it, that would be greatly appreciated!
     (SELECT 
     guid as datetimetable_guid,
     CASE 
-       WHEN msg.date > 10000000000
+       WHEN msg.date > 1000000000
        THEN 
-          -- Compute the date and time given a unix timestamp (msg.date) + , and compensate for your local timezone.
+          -- Compute the date and time given a unix timestamp (msg.date) divide it by 10000000000 if needed
+          -- because it's nanoseconds and compensate for your local timezone.
           -- See: https://apple.stackexchange.com/questions/114168/dates-format-in-messages-chat-db
-           substr(datetime((msg.date/1000000000) + strftime('%s','2001-01-01 01:01:01'), 'unixepoch', 'localtime'), 0, 20)
+           datetime((msg.date/1000000000) + strftime('%s','2001-01-01 01:01:01'), 'unixepoch', 'localtime')
        ELSE 
-           substr(datetime(msg.date + strftime('%s','2001-01-01 01:01:01'), 'unixepoch', 'localtime'), 0, 20)
+           datetime(msg.date + strftime('%s','2001-01-01 01:01:01'), 'unixepoch', 'localtime')
        END AS human_readable_date 
    FROM message msg)
     -- TODO(Danilowicz): instead of * we should just grab the columns we need
