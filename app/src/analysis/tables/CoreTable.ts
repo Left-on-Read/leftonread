@@ -21,6 +21,8 @@ export class CoreMainTable extends Table {
     CASE 
        WHEN msg.date > 10000000000
        THEN 
+          -- Compute the date and time given a unix timestamp (msg.date) + , and compensate for your local timezone.
+          -- See: https://apple.stackexchange.com/questions/114168/dates-format-in-messages-chat-db
            substr(datetime((msg.date/1000000000) + strftime('%s','2001-01-01 01:01:01'), 'unixepoch', 'localtime'), 0, 20)
        ELSE 
            substr(datetime(msg.date + strftime('%s','2001-01-01 01:01:01'), 'unixepoch', 'localtime'), 0, 20)
