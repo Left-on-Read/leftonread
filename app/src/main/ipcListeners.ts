@@ -1,5 +1,6 @@
 import { ipcMain } from 'electron';
 import * as fs from 'fs';
+import nodemailer from 'nodemailer';
 import * as sqlite3 from 'sqlite3';
 
 import { chatPaths } from '../analysis/directories';
@@ -78,4 +79,29 @@ export function attachIpcListeners() {
       }, 1000);
     });
   });
+
+  ipcMain.handle(
+    'email-message',
+    async (event, returnEmail: string, reason: string, message: string) => {
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'help.leftonread@gmail.com',
+          pass: 'your_password',
+        },
+      });
+
+      const mailOptions = {
+        from: 'help.leftonread@gmail.com',
+        to: 'help.leftonread@gmail.com',
+        subject: `[${reason}] Return to ${returnEmail}`,
+        html: message,
+      };
+
+      transporter.sendMail(mailOptions, function (err, info) {
+        if (err) console.log(err);
+        else console.log(info);
+      });
+    }
+  );
 }
