@@ -1,9 +1,31 @@
 import { SearchIcon, SettingsIcon } from '@chakra-ui/icons';
-import { Button, IconButton } from '@chakra-ui/react';
+import {
+  Button,
+  Icon,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuGroup,
+  MenuItem,
+  MenuItemOption,
+  MenuList,
+  MenuOptionGroup,
+  Text,
+  useDisclosure,
+} from '@chakra-ui/react';
+import { FiLifeBuoy } from 'react-icons/fi';
 
 import LogoWithText from '../../../assets/LogoWithText.svg';
+import { EmailModal } from '../Support/EmailModal';
 
 export function Navbar() {
+  const {
+    isOpen: isEmailModalOpen,
+    onOpen: onEmailModalOpen,
+    onClose: onEmailModalClose,
+  } = useDisclosure();
+
   return (
     <div
       style={{
@@ -12,6 +34,7 @@ export function Navbar() {
         position: 'fixed',
         width: '100%',
         backgroundColor: 'white',
+        zIndex: 2,
       }}
     >
       <div
@@ -32,9 +55,24 @@ export function Navbar() {
           >
             Adjust Filters (0)
           </Button>
-          <IconButton aria-label="Settings" icon={<SettingsIcon />} size="sm" />
+          <Menu>
+            <MenuButton as={IconButton} icon={<SettingsIcon />} size="sm" />
+            <MenuList>
+              <MenuItem onClick={() => onEmailModalOpen()}>
+                <Icon as={FiLifeBuoy} style={{ marginRight: 12 }} />
+                <Text size="sm" fontWeight={300}>
+                  Contact Support
+                </Text>
+              </MenuItem>
+            </MenuList>
+          </Menu>
         </div>
       </div>
+      <EmailModal
+        isOpen={isEmailModalOpen}
+        onOpen={onEmailModalOpen}
+        onClose={onEmailModalClose}
+      />
     </div>
   );
 }
