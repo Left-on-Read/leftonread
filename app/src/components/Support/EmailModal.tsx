@@ -1,4 +1,4 @@
-import { QuestionIcon, QuestionOutlineIcon } from '@chakra-ui/icons';
+import { QuestionOutlineIcon } from '@chakra-ui/icons';
 import {
   Button,
   Checkbox,
@@ -27,11 +27,9 @@ import { FiSend } from 'react-icons/fi';
 
 export function EmailModal({
   isOpen,
-  onOpen,
   onClose,
 }: {
   isOpen: boolean;
-  onOpen: () => void;
   onClose: () => void;
 }) {
   const [email, setEmail] = useState<string>('');

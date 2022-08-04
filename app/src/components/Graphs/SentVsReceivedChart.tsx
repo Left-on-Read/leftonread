@@ -1,12 +1,12 @@
 import { Stat, StatGroup, StatLabel, StatNumber } from '@chakra-ui/react';
-import {
-  TotalSentVsReceivedFilters,
-  TotalSentVsReceivedResults,
-} from 'analysis/queries/TotalSentVsReceivedQuery';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
 
+import {
+  TotalSentVsReceivedFilters,
+  TotalSentVsReceivedResults,
+} from '../../analysis/queries/TotalSentVsReceivedQuery';
 import { GraphContainer } from './GraphContainer';
 
 export function SentVsReceivedChart({

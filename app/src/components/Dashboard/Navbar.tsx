@@ -5,12 +5,8 @@ import {
   IconButton,
   Menu,
   MenuButton,
-  MenuDivider,
-  MenuGroup,
   MenuItem,
-  MenuItemOption,
   MenuList,
-  MenuOptionGroup,
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
@@ -68,11 +64,7 @@ export function Navbar() {
           </Menu>
         </div>
       </div>
-      <EmailModal
-        isOpen={isEmailModalOpen}
-        onOpen={onEmailModalOpen}
-        onClose={onEmailModalClose}
-      />
+      <EmailModal isOpen={isEmailModalOpen} onClose={onEmailModalClose} />
     </div>
   );
 }
