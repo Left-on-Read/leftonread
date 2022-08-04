@@ -1,13 +1,13 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
-import { EarliestAndLatestDateResults } from 'analysis/queries/EarliestAndLatestDatesQuery';
-import { SentVsReceivedChart } from 'components/Graphs/SentVsReceivedChart';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
-import { daysAgo } from 'main/util';
 import { useEffect, useState } from 'react';
 
+import { EarliestAndLatestDateResults } from '../../analysis/queries/EarliestAndLatestDatesQuery';
 import { DEFAULT_FILTER_LIMIT } from '../../constants';
 import { GroupChatFilters } from '../../constants/filters';
+import { daysAgo } from '../../main/util';
+import { SentVsReceivedChart } from '../Graphs/SentVsReceivedChart';
 import { TopFriendsChart } from '../Graphs/TopFriendsChart';
 import { WordOrEmojiCountChart } from '../Graphs/WordOrEmojiCountChart';
 
