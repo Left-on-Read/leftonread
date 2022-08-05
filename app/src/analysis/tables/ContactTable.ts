@@ -112,7 +112,13 @@ export async function findPossibleAddressBookDB(): Promise<
 
 export async function addContactNameColumn(db: sqlite3.Database) {
   const ADD_CONTACT_NAME_COLUMN_QUERY = `ALTER TABLE handle ADD ${Columns.CONTACT_NAME} VARCHAR(255)`;
-  await sqlite3Wrapper.runP(db, ADD_CONTACT_NAME_COLUMN_QUERY);
+  try {
+    await sqlite3Wrapper.runP(db, ADD_CONTACT_NAME_COLUMN_QUERY);
+  } catch (e: any) {
+    // TODO(Danilowicz): this should not be any, and also should never happen
+    // if we drop the tables first, but for some reason it does.
+    log.error(`Could not add contact_name column: ${e}`);
+  }
 }
 
 export async function setContactNameColumn(db: sqlite3.Database) {
