@@ -53,6 +53,7 @@ export function Initializer({
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
+              zIndex: 3,
             }}
           >
             <motion.div
@@ -89,6 +90,7 @@ export function Initializer({
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
+              zIndex: 3,
             }}
           >
             <motion.div

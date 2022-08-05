@@ -22,6 +22,7 @@ import {
   Textarea,
   Tooltip,
 } from '@chakra-ui/react';
+import { ipcRenderer } from 'electron';
 import { useState } from 'react';
 import { FiSend } from 'react-icons/fi';
 
@@ -37,14 +38,13 @@ export function EmailModal({
   const [content, setContent] = useState<string>('');
   const [hasTriedSubmitting, setHasTriedSubmitting] = useState<boolean>(false);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     setHasTriedSubmitting(true);
     if (!email || !reason || !content) {
       return;
     }
 
-    // Do some more logic here
-    console.log('woohoo');
+    await ipcRenderer.invoke('get-logs', email, reason, content);
   };
 
   return (
