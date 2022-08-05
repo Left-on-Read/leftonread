@@ -16,6 +16,7 @@ export function Onboarding({ onInitialize }: { onInitialize: () => void }) {
           backgroundColor: '#EDF2F7',
           padding: '36px 36px',
           width: '100%',
+          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
         }}
         transition={{ duration: 0.5 }}
       >
