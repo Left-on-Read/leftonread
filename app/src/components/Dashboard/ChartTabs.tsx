@@ -46,9 +46,9 @@ export function ChartTabs() {
 
   return (
     <div>
-      <span>
+      {/* <span>
         Last text message: {earliestAndLatestDate?.latestDate.toLocaleString()}
-      </span>
+      </span> */}
       <Tabs variant="soft-rounded" colorScheme="purple" size="md">
         <TabList
           style={{
@@ -58,6 +58,7 @@ export function ChartTabs() {
             width: '100%',
             background:
               'linear-gradient(0deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 25%, rgba(255,255,255,1) 100%)',
+            zIndex: 3,
           }}
         >
           <Tab style={{ marginRight: 32 }}>Trends</Tab>

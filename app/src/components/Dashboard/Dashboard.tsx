@@ -22,19 +22,7 @@ export function Dashboard() {
   return (
     <div>
       <Navbar />
-      {/* <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <LimitFilter handleChange={handleLimitChange} limit={limit} />
-        <GroupChatFilter
-          handleChange={handleGroupChatChange}
-          groupChat={groupChat}
-        />
-        <ContactFilter
-          contact={{
-            value: contact,
-          }}
-          handleChange={handleContactChange}
-        />
-      </div> */}
+
       <div style={{ padding: 48, paddingTop: 90 }}>
         <ChartTabs />
       </div>
