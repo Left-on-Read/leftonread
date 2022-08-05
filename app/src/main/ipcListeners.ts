@@ -1,6 +1,8 @@
+import axios from 'axios';
 import { ipcMain } from 'electron';
+import log from 'electron-log';
+import FormData from 'form-data';
 import * as fs from 'fs';
-import nodemailer from 'nodemailer';
 import * as sqlite3 from 'sqlite3';
 
 import { chatPaths } from '../analysis/directories';
@@ -19,6 +21,7 @@ import {
   IWordOrEmojiFilters,
   queryEmojiOrWordCounts,
 } from '../analysis/queries/WordOrEmojiQuery';
+import { API_BASE_URL } from '../constants/api';
 
 function getDb() {
   const sqldb = sqlite3.verbose();
@@ -81,26 +84,18 @@ export function attachIpcListeners() {
   });
 
   ipcMain.handle(
-    'email-message',
-    async (event, returnEmail: string, reason: string, message: string) => {
-      const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: 'help.leftonread@gmail.com',
-          pass: 'your_password',
-        },
-      });
+    'get-logs',
+    async (event, email: string, reason: string, content: string) => {
+      const formData = new FormData();
 
-      const mailOptions = {
-        from: 'help.leftonread@gmail.com',
-        to: 'help.leftonread@gmail.com',
-        subject: `[${reason}] Return to ${returnEmail}`,
-        html: message,
-      };
+      const logFile = await fs.readFileSync(log.transports.file.getFile().path);
+      formData.append('logFile', logFile, { filename: 'log.txt' });
+      formData.append('email', email);
+      formData.append('reason', reason);
+      formData.append('content', content);
 
-      transporter.sendMail(mailOptions, function (err, info) {
-        if (err) console.log(err);
-        else console.log(info);
+      await axios.post(`${API_BASE_URL}/help`, formData, {
+        headers: formData.getHeaders(),
       });
     }
   );

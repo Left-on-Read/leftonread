@@ -65,3 +65,5 @@ npm-debug.log.*
 
 # node error logs
 report*.json
+
+server/uploads*
