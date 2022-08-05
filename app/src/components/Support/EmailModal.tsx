@@ -29,12 +29,14 @@ import { FiSend } from 'react-icons/fi';
 export function EmailModal({
   isOpen,
   onClose,
+  defaultReason,
 }: {
   isOpen: boolean;
   onClose: () => void;
+  defaultReason?: string;
 }) {
   const [email, setEmail] = useState<string>('');
-  const [reason, setReason] = useState<string | undefined>(undefined);
+  const [reason, setReason] = useState<string | undefined>(defaultReason);
   const [content, setContent] = useState<string>('');
   const [hasTriedSubmitting, setHasTriedSubmitting] = useState<boolean>(false);
 
