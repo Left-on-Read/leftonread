@@ -36,12 +36,11 @@ export function Initializer({
       await ipcRenderer.invoke('initialize-tables');
       navigate('/dashboard');
       onUpdateIsInitializing(false);
-    } catch (e) {
-      setError(null);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        setError(e.message);
+      }
     }
-    setTimeout(() => {
-      setError('MALFORM ERROR FORMATTING');
-    }, 5000);
   }, [navigate, onUpdateIsInitializing]);
 
   useEffect(() => {
@@ -144,14 +143,24 @@ export function Initializer({
                     // colorOverride={defaultTheme.colors.red['300']}
                   />
                   {error ? (
-                    <div style={{ marginTop: 20, color: 'white' }}>
+                    <div
+                      style={{
+                        marginTop: 20,
+                        color: 'white',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}
+                    >
                       <Text fontSize="2xl">Uh oh! Something went wrong...</Text>
                       <Text
                         style={{ marginTop: 16 }}
                         fontSize="lg"
                         color="gray.800"
+                        maxWidth="70vw"
                       >
-                        Error code: {error}
+                        {error}
                       </Text>
                       <div
                         style={{
@@ -168,6 +177,7 @@ export function Initializer({
                           onClick={() => {
                             initializeTables();
                           }}
+                          style={{ marginRight: 32 }}
                         >
                           Try Again
                         </Button>
