@@ -70,7 +70,7 @@ export function Initializer({
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                zIndex: 3,
+                zIndex: 99,
                 overflow: 'hidden',
               }}
             >
@@ -108,7 +108,7 @@ export function Initializer({
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                zIndex: 3,
+                zIndex: 99,
                 overflow: 'hidden',
               }}
             >
