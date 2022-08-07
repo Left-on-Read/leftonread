@@ -4,9 +4,9 @@
   "main": "src/index.js",
   "license": "MIT",
   "scripts": {
-    "build": "npx tsc",
+    "build": "yarn tsc",
     "start": "node dist/index.js",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
+    "dev": "concurrently \"yarn tsc --watch\" \"nodemon -q dist/index.js\"",
     "lint": "eslint '*/**/*.{js,ts}'"
   },
   "dependencies": {
