@@ -2,6 +2,6 @@
   "name": "left-on-read",
   "version": "0.0.1",
   "scripts": {
-    "postinstall": "npm run build --prefix server"
+    "postinstall": "yarn --cwd server build"
   }
 }
