@@ -2,6 +2,6 @@
   "name": "left-on-read",
   "version": "0.0.1",
   "scripts": {
-    "postinstall": "yarn --cwd server; yarn --cwd server build"
+    "postinstall": "yarn --cwd server --production=false; yarn --cwd server build"
   }
 }
