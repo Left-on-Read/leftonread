@@ -1,0 +1,7 @@
+{
+  "name": "left-on-read",
+  "version": "0.0.1",
+  "scripts": {
+    "postinstall": "npm install --prefix server"
+  }
+}
