@@ -9,7 +9,13 @@ export function Redirecter() {
   const navigate = useNavigate();
   useEffect(() => {
     const checkExistence = async () => {
-      const doesExist = await ipcRenderer.invoke('check-initialized');
+      let doesExist = false;
+
+      try {
+        doesExist = await ipcRenderer.invoke('check-initialized');
+      } catch (e) {
+        log.error(e);
+      }
       if (doesExist) {
         navigate('/dashboard');
       } else {
