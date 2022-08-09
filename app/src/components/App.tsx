@@ -17,6 +17,7 @@ import { theme } from '../theme';
 import { Dashboard } from './Dashboard/Dashboard';
 import { ErrorBoundary } from './ErrorBoundary';
 import { Home } from './Home/Home';
+import { Redirecter } from './Home/Redirecter';
 import { Initializer } from './Initializer';
 
 Chart.register(...(registerables ?? []));
@@ -29,8 +30,9 @@ export function App() {
       <ChakraProvider theme={theme}>
         <HashRouter>
           <Routes>
+            <Route path="/" element={<Redirecter />} />
             <Route
-              path="/"
+              path="/start"
               element={<Home onInitialize={() => setIsInitializing(true)} />}
             />
             <Route path="/dashboard" element={<Dashboard />} />
