@@ -22,6 +22,7 @@ import {
   queryEmojiOrWordCounts,
 } from '../analysis/queries/WordOrEmojiQuery';
 import { API_BASE_URL } from '../constants/api';
+import { APP_VERSION } from '../constants/versions';
 
 function getDb() {
   const sqldb = sqlite3.verbose();
@@ -92,7 +93,7 @@ export function attachIpcListeners() {
       formData.append('logFile', logFile, { filename: 'log.txt' });
       formData.append('email', email);
       formData.append('reason', reason);
-      formData.append('content', content);
+      formData.append('content', `${content}\n\nVersion: ${APP_VERSION}`);
 
       await axios.post(`${API_BASE_URL}/help`, formData, {
         headers: formData.getHeaders(),
