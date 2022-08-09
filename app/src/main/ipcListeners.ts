@@ -5,7 +5,7 @@ import FormData from 'form-data';
 import * as fs from 'fs';
 import * as sqlite3 from 'sqlite3';
 
-import { chatPaths } from '../analysis/directories';
+import { appDirectoryPath, chatPaths } from '../analysis/directories';
 import { initializeCoreDb } from '../analysis/initializeCoreDb';
 import { queryContactOptions } from '../analysis/queries/ContactOptionsQuery';
 import { queryEarliestAndLatestDates } from '../analysis/queries/EarliestAndLatestDatesQuery';
@@ -99,4 +99,8 @@ export function attachIpcListeners() {
       });
     }
   );
+
+  ipcMain.handle('check-initialized', async () => {
+    return !!fs.existsSync(appDirectoryPath);
+  });
 }
