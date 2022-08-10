@@ -2,7 +2,7 @@ import { Footer } from '../Footer';
 import { ChartTabs } from './ChartTabs';
 import { Navbar } from './Navbar';
 
-export function Dashboard() {
+export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
   // const handleContactChange = (selected?: IContactData | null | undefined) => {
   //   setContact(selected?.value);
   // };
@@ -19,7 +19,7 @@ export function Dashboard() {
 
   return (
     <div>
-      <Navbar />
+      <Navbar onRefresh={onRefresh} />
 
       <div style={{ padding: 48, paddingTop: 90 }}>
         <ChartTabs />
