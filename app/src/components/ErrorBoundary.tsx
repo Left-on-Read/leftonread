@@ -1,3 +1,4 @@
+import log from 'electron-log';
 import React, { Component, ErrorInfo } from 'react';
 
 interface Props {
@@ -19,8 +20,8 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    // eslint-disable-next-line
-    console.error('Uncaught error:', error, errorInfo);
+    log.error(error);
+    log.error(errorInfo);
   }
 
   public render() {
