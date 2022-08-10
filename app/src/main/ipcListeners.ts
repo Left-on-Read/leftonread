@@ -79,9 +79,12 @@ export function attachIpcListeners() {
       setTimeout(() => {
         fs.copyFile(chatPaths.original, chatPaths.init, (err) => {
           if (err) {
+            log.info('Failed permissions check');
             resolve(false);
+          } else {
+            log.info('Passed permissions check');
+            resolve(true);
           }
-          resolve(true);
         });
         // NOTE(teddy): Artificially take 1s to give impression of loading
       }, 1000);
