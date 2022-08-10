@@ -3,10 +3,8 @@ import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
 
-import {
-  TotalSentVsReceivedFilters,
-  TotalSentVsReceivedResults,
-} from '../../analysis/queries/TotalSentVsReceivedQuery';
+import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFilters';
+import { TotalSentVsReceivedResults } from '../../analysis/queries/TotalSentVsReceivedQuery';
 import { GraphContainer } from './GraphContainer';
 
 export function SentVsReceivedChart({
@@ -16,7 +14,7 @@ export function SentVsReceivedChart({
 }: {
   title: string;
   description: string;
-  filters: TotalSentVsReceivedFilters;
+  filters: SharedQueryFilters;
 }) {
   const [received, setReceived] = useState<number>();
   const [sent, setSent] = useState<number>();

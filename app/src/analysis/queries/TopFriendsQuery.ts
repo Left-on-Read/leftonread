@@ -1,17 +1,12 @@
 import * as sqlite3 from 'sqlite3';
 
-import { filterOutReactions, GroupChatFilters } from '../../constants/filters';
 import { DEFAULT_FILTER_LIMIT } from '../../constants/index';
-import { objReplacementUnicode } from '../../constants/objReplacementUnicode';
 import * as sqlite3Wrapper from '../../utils/sqliteWrapper';
 import { CoreTableNames } from '../tables/types';
-
-export interface ITopFriendsFilters {
-  limit?: number;
-  contact?: string;
-  word?: string;
-  groupChat?: string;
-}
+import {
+  getAllFilters,
+  SharedQueryFilters,
+} from './filters/sharedQueryFilters';
 
 interface ITopFriendsChartData {
   friend: string;
@@ -35,52 +30,6 @@ enum TopFriendsOutputColumns {
   TOTAL = 'total',
   SENT = 'sent',
   RECEIVED = 'received',
-}
-
-// TODO(Danilowicz): We should make these filters shared and more generic, as TotalSentVsReceived also use them
-function wordFilter(filters: ITopFriendsFilters): string | undefined {
-  if (!filters.word || filters.word.length === 0) {
-    return undefined;
-  }
-  // NOTE: using LIKE because CORE_MAIN_TABLE table is not split word by word
-  return `LOWER(${
-    TopFriendsColumns.TEXT
-  }) LIKE "%${filters.word?.toLowerCase()}%"`;
-}
-
-function contactFilter(filters: ITopFriendsFilters): string | undefined {
-  if (!filters.contact || filters.contact.length === 0) {
-    return undefined;
-  }
-  return `${TopFriendsColumns.FRIEND} = "${filters.contact}"`;
-}
-
-function groupChatFilter(filters: ITopFriendsFilters): string | undefined {
-  if (filters.groupChat === GroupChatFilters.ONLY_INDIVIDUAL) {
-    return `cache_roomnames IS NULL`;
-  }
-  return undefined; // would query for both individual and groupchats
-}
-
-function fluffFilter(): string {
-  return `
-  ${filterOutReactions(TopFriendsColumns.TEXT)} AND unicode(TRIM(${
-    TopFriendsColumns.TEXT
-  })) != ${objReplacementUnicode}
-  AND ${TopFriendsColumns.TEXT} IS NOT NULL
-  AND LENGTH(${TopFriendsColumns.TEXT}) >= 1`;
-}
-
-function getAllFilters(filters: ITopFriendsFilters): string {
-  const contact = contactFilter(filters);
-  const groupChats = groupChatFilter(filters);
-  const word = wordFilter(filters);
-  const fluff = fluffFilter();
-
-  const filtersArray = [contact, groupChats, word, fluff].filter(
-    (filter) => !!filter
-  );
-  return filtersArray.length > 0 ? `WHERE ${filtersArray.join(' AND ')}` : '';
 }
 
 const getCoreQuery = (allFilters: string) => {
@@ -112,7 +61,7 @@ function getSentOrReceived(
 
 export async function queryTopFriends(
   db: sqlite3.Database,
-  filters: ITopFriendsFilters
+  filters: SharedQueryFilters
 ): Promise<TTopFriendsResults> {
   const limit = filters.limit || DEFAULT_FILTER_LIMIT;
   const allFilters = getAllFilters(filters);

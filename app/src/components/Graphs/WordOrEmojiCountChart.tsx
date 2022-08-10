@@ -54,38 +54,13 @@ export function WordOrEmojiCountChart({
     ],
   };
 
-  const options = {};
-
-  let label = '';
-  if (filters.isFromMe) {
-    if (filters.isEmoji) {
-      label = 'EMOJI_COUNT_SENT';
-    } else {
-      label = 'WORD_COUNT_SENT';
-    }
-  } else if (filters.isEmoji) {
-    label = 'EMOJI_COUNT_RECEIVED';
-  } else {
-    label = 'WORD_COUNT_RECEIVED';
-  }
-
-  // return (
-  //   <BarChartWrapper
-  //     data={data}
-  //     labels={words}
-  //     options={options}
-  //     titleText={titleText}
-  //     success={success}
-  //   />
-  // );
-
   if (!success) {
     return <div> Loading Chart...</div>;
   }
 
   return (
     <GraphContainer title={title} description={description}>
-      <Bar data={data} options={options} />
+      <Bar data={data} />
     </GraphContainer>
   );
 }

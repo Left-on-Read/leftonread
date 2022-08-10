@@ -4,10 +4,8 @@ import log from 'electron-log';
 import { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 
-import {
-  ITopFriendsFilters,
-  TTopFriendsResults,
-} from '../../analysis/queries/TopFriendsQuery';
+import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFilters';
+import { TTopFriendsResults } from '../../analysis/queries/TopFriendsQuery';
 import { GraphContainer } from './GraphContainer';
 
 export function TopFriendsChart({
@@ -17,7 +15,7 @@ export function TopFriendsChart({
 }: {
   title: string;
   description: string;
-  filters: ITopFriendsFilters;
+  filters: SharedQueryFilters;
 }) {
   const [friends, setFriends] = useState<string[]>([]);
   const [received, setReceived] = useState<number[]>([]);

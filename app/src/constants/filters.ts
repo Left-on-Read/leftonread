@@ -6,12 +6,12 @@ export enum GroupChatFilters {
 }
 
 // TODO(Danilowicz) this should leverage constants/reactions
-export function filterOutReactions(column: string): string {
+export function filterOutReactions(): string {
   return `(
-    LOWER(${column}) NOT LIKE "emphasized%"
-    AND LOWER(${column}) NOT LIKE "loved%"
-    AND LOWER(${column}) NOT LIKE "liked%"
-    AND LOWER(${column}) NOT LIKE "disliked%"
-    AND LOWER(${column}) NOT LIKE "laughed%"
+    LOWER(text) NOT LIKE "emphasized%"
+    AND LOWER(text) NOT LIKE "loved%"
+    AND LOWER(text) NOT LIKE "liked%"
+    AND LOWER(text) NOT LIKE "disliked%"
+    AND LOWER(text) NOT LIKE "laughed%"
   )`;
 }

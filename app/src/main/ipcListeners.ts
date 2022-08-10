@@ -9,14 +9,10 @@ import { appDirectoryPath, chatPaths } from '../analysis/directories';
 import { initializeCoreDb } from '../analysis/initializeCoreDb';
 import { queryContactOptions } from '../analysis/queries/ContactOptionsQuery';
 import { queryEarliestAndLatestDates } from '../analysis/queries/EarliestAndLatestDatesQuery';
-import {
-  ITopFriendsFilters,
-  queryTopFriends,
-} from '../analysis/queries/TopFriendsQuery';
-import {
-  queryTotalSentVsReceived,
-  TotalSentVsReceivedFilters,
-} from '../analysis/queries/TotalSentVsReceivedQuery';
+import { SharedQueryFilters } from '../analysis/queries/filters/sharedQueryFilters';
+import { queryTextsOverTime } from '../analysis/queries/TextsOverTimeQuery';
+import { queryTopFriends } from '../analysis/queries/TopFriendsQuery';
+import { queryTotalSentVsReceived } from '../analysis/queries/TotalSentVsReceivedQuery';
 import {
   IWordOrEmojiFilters,
   queryEmojiOrWordCounts,
@@ -38,7 +34,7 @@ export function attachIpcListeners() {
 
   ipcMain.handle(
     'query-top-friends',
-    async (event, filters: ITopFriendsFilters) => {
+    async (event, filters: SharedQueryFilters) => {
       const db = getDb();
       return queryTopFriends(db, filters);
     }
@@ -59,7 +55,7 @@ export function attachIpcListeners() {
 
   ipcMain.handle(
     'query-total-sent-vs-received',
-    async (event, filters: TotalSentVsReceivedFilters) => {
+    async (event, filters: SharedQueryFilters) => {
       const db = getDb();
       return queryTotalSentVsReceived(db, filters);
     }
@@ -70,6 +66,14 @@ export function attachIpcListeners() {
     return queryEarliestAndLatestDates(db);
   });
 
+  ipcMain.handle(
+    'query-text-over-time',
+    async (event, filters: SharedQueryFilters) => {
+      const db = getDb();
+      return queryTextsOverTime(db, filters);
+    }
+  );
+
   ipcMain.handle('check-permissions', async () => {
     return new Promise<boolean>((resolve) => {
       setTimeout(() => {
@@ -79,7 +83,7 @@ export function attachIpcListeners() {
           }
           resolve(true);
         });
-        // NOTE(teddy): Artifically take 1s to give impression of loading
+        // NOTE(teddy): Artificially take 1s to give impression of loading
       }, 1000);
     });
   });
