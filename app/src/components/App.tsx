@@ -35,7 +35,10 @@ export function App() {
               path="/start"
               element={<Home onInitialize={() => setIsInitializing(true)} />}
             />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route
+              path="/dashboard"
+              element={<Dashboard onRefresh={() => setIsInitializing(true)} />}
+            />
           </Routes>
           <Initializer
             isInitializing={isInitializing}

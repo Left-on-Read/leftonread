@@ -17,7 +17,7 @@ import LogoWithText from '../../../assets/LogoWithText.svg';
 import { APP_VERSION } from '../../constants/versions';
 import { EmailModal } from '../Support/EmailModal';
 
-export function Navbar() {
+export function Navbar({ onRefresh }: { onRefresh: () => void }) {
   const {
     isOpen: isEmailModalOpen,
     onOpen: onEmailModalOpen,
@@ -58,7 +58,7 @@ export function Navbar() {
             <MenuList>
               <MenuItem
                 onClick={() => {
-                  onEmailModalOpen();
+                  onRefresh();
                 }}
               >
                 <Icon as={FiRefreshCw} style={{ marginRight: 12 }} />
