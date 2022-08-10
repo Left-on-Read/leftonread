@@ -1,6 +1,6 @@
 import { Box, Text } from '@chakra-ui/react';
 
-import Logo from '../../../assets/icons/1024x1024.png';
+import Logo from '../../../assets/icon.svg';
 import { Footer } from '../Footer';
 import { Onboarding } from './Onboarding';
 
