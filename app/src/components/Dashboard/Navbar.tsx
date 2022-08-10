@@ -5,14 +5,16 @@ import {
   IconButton,
   Menu,
   MenuButton,
+  MenuDivider,
   MenuItem,
   MenuList,
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
-import { FiLifeBuoy } from 'react-icons/fi';
+import { FiGitPullRequest, FiLifeBuoy, FiRefreshCw } from 'react-icons/fi';
 
 import LogoWithText from '../../../assets/LogoWithText.svg';
+import { APP_VERSION } from '../../constants/versions';
 import { EmailModal } from '../Support/EmailModal';
 
 export function Navbar() {
@@ -54,12 +56,50 @@ export function Navbar() {
           <Menu>
             <MenuButton as={IconButton} icon={<SettingsIcon />} size="sm" />
             <MenuList>
-              <MenuItem onClick={() => onEmailModalOpen()}>
+              <MenuItem
+                onClick={() => {
+                  onEmailModalOpen();
+                }}
+              >
+                <Icon as={FiRefreshCw} style={{ marginRight: 12 }} />
+                <Text size="sm" fontWeight={300}>
+                  Refresh Data
+                </Text>
+              </MenuItem>
+              <MenuDivider />
+              <MenuItem
+                onClick={() => {
+                  onEmailModalOpen();
+                }}
+              >
                 <Icon as={FiLifeBuoy} style={{ marginRight: 12 }} />
                 <Text size="sm" fontWeight={300}>
                   Contact Support
                 </Text>
               </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  onEmailModalOpen();
+                }}
+              >
+                <Icon as={FiGitPullRequest} style={{ marginRight: 12 }} />
+                <Text size="sm" fontWeight={300}>
+                  Feedback
+                </Text>
+              </MenuItem>
+              <div
+                style={{
+                  padding: '0px 16px',
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  marginTop: 10,
+                }}
+              >
+                <Text color="gray.400" fontSize={12}>
+                  Left on Read {APP_VERSION}
+                </Text>
+              </div>
             </MenuList>
           </Menu>
         </div>

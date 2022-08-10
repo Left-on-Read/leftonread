@@ -1,6 +1,4 @@
-import { ipcRenderer } from 'electron';
-import { useEffect, useState } from 'react';
-
+import { Footer } from '../Footer';
 import { ChartTabs } from './ChartTabs';
 import { Navbar } from './Navbar';
 
@@ -26,6 +24,7 @@ export function Dashboard() {
       <div style={{ padding: 48, paddingTop: 90 }}>
         <ChartTabs />
       </div>
+      <Footer />
     </div>
   );
 }
