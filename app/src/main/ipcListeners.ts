@@ -77,12 +77,16 @@ export function attachIpcListeners() {
   ipcMain.handle('check-permissions', async () => {
     return new Promise<boolean>((resolve) => {
       setTimeout(() => {
-        fs.copyFile(chatPaths.original, chatPaths.init, (err) => {
-          if (err) {
-            resolve(false);
-          }
+        try {
+          fs.accessSync(chatPaths.original, fs.constants.R_OK);
+          fs.accessSync(`${process.env.HOME}`, fs.constants.W_OK);
+          log.info('Passed permissions check');
           resolve(true);
-        });
+        } catch (e: unknown) {
+          log.info(`Failed permissions check: ${e}`);
+          resolve(false);
+        }
+
         // NOTE(teddy): Artificially take 1s to give impression of loading
       }, 1000);
     });
