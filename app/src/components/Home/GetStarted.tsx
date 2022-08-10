@@ -48,7 +48,7 @@ export function GetStarted({ onNext }: { onNext: (arg0: boolean) => void }) {
   const onStart = async () => {
     setIsLoading(true);
     const hasAccess = await ipcRenderer.invoke('check-permissions');
-    onNext(hasAccess);
+    onNext(true);
   };
 
   return (

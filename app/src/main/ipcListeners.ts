@@ -79,7 +79,7 @@ export function attachIpcListeners() {
       setTimeout(() => {
         try {
           fs.accessSync(chatPaths.original, fs.constants.R_OK);
-          fs.accessSync(chatPaths.init, fs.constants.W_OK);
+          fs.accessSync(`${process.env.HOME}`, fs.constants.W_OK);
           log.info('Passed permissions check');
           resolve(true);
         } catch (e: unknown) {
