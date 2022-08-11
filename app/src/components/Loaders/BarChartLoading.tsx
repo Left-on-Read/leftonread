@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
-const scale = 12;
+const scale = 15;
 
 export function BarChartLoading({
   pause,
@@ -11,7 +11,7 @@ export function BarChartLoading({
   colorOverride?: string;
 }) {
   const defaultBarStyles = {
-    width: 25,
+    width: (25 * scale) / 12,
     backgroundColor: colorOverride ?? 'white',
     margin: '0 2px',
     borderRadius: '4px 4px 0 0',

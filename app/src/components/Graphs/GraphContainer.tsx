@@ -11,9 +11,9 @@ export function GraphContainer({
   children: React.ReactNode;
 }) {
   return (
-    <div>
+    <div style={{ marginBottom: 24 }}>
       <div>
-        <Text fontSize="md" fontWeight={700}>
+        <Text fontSize="lg" fontWeight={600}>
           {title}
         </Text>
       </div>

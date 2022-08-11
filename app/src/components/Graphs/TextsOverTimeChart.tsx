@@ -69,17 +69,17 @@ export function TextsOverTimeChart({
     labels,
     datasets: [
       {
-        backgroundColor: theme.colors.green['200'],
+        backgroundColor: theme.colors.gray['200'],
         label: 'Received Texts',
-        borderColor: theme.colors.green['400'],
-        borderWidth: 1.2,
+        borderColor: theme.colors.gray['400'],
+        borderWidth: 0.8,
         data: receivedData,
       },
       {
-        backgroundColor: theme.colors.purple['200'],
+        backgroundColor: theme.colors.blue['200'],
         label: 'Sent Texts',
-        borderColor: theme.colors.purple['400'],
-        borderWidth: 1.2,
+        borderColor: theme.colors.blue['400'],
+        borderWidth: 0.8,
         data: sentData,
       },
     ],

@@ -64,9 +64,10 @@ export function Navbar({ onRefresh }: { onRefresh: () => void }) {
                 size="sm"
                 style={{ marginRight: 16 }}
                 leftIcon={<Icon as={FiSliders} />}
-                colorScheme="purple"
+                // bg="purple.400"
+                // color="white"
               >
-                Adjust Filters
+                Adjust Filters (1)
               </Button>
             </PopoverTrigger>
             <PopoverContent style={{ width: '400px', marginRight: 16 }}>

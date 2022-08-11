@@ -60,6 +60,18 @@ export function GetStarted({ onNext }: { onNext: (arg0: boolean) => void }) {
       }}
     >
       <BulletPoint
+        icon={FiLock}
+        title="Your Device Only"
+        description="Just like your files and documents, this data remains on your device and is not shared nor uploaded."
+        color="blue.400"
+      />
+      <BulletPoint
+        icon={FiGlobe}
+        title="Open Source"
+        description="Security is our #1 priority, which is why this software is publicly available for anyone to audit."
+        color="blue.400"
+      />
+      <BulletPoint
         icon={FiBarChart2}
         title="Learn about your habits"
         description={`We render graphs about your text messages, 
@@ -67,20 +79,8 @@ so you can feel better about your relationship
 with your phone.`}
         color="blue.400"
       />
-      <BulletPoint
-        icon={FiLock}
-        title="Runs Offline"
-        description="Privacy and security is our number one priority. That’s why we designed the platform to completely run offline."
-        color="blue.400"
-      />
-      <BulletPoint
-        icon={FiGlobe}
-        title="Open Source"
-        description="We believe in transparency and community, which is why all of our code is public."
-        color="blue.400"
-      />
       <Button
-        style={{ marginTop: 32 }}
+        style={{ marginTop: 0 }}
         rightIcon={<ArrowForwardIcon />}
         colorScheme="purple"
         onClick={() => {

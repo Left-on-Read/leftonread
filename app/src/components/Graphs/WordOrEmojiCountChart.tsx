@@ -56,7 +56,8 @@ export function WordOrEmojiCountChart({
       {
         label: labelText,
         data: count,
-        backgroundColor: theme.colors.green['200'],
+        backgroundColor: theme.colors.blue['200'],
+        borderRadius: 8,
       },
     ],
   };

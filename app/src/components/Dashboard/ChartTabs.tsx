@@ -62,15 +62,15 @@ export function ChartTabs() {
             zIndex: 3,
           }}
         >
-          <Tab style={{ marginRight: 32 }}>Trends</Tab>
+          <Tab style={{ marginRight: 32 }}>Activity</Tab>
           <Tab style={{ marginRight: 32 }}>Words & Emojis</Tab>
-          <Tab style={{ marginRight: 32 }}>Sentiments</Tab>
+          <Tab style={{ marginRight: 32 }}>More coming soon...</Tab>
         </TabList>
         <TabPanels style={{ paddingTop: 60 }}>
           <TabPanel>
             <div>
               <SentVsReceivedChart
-                title="Total Sent vs Received"
+                title="🍆  Total Sent vs Received"
                 description={
                   earliestAndLatestDate
                     ? `since ${earliestAndLatestDate.earliestDate.toLocaleDateString()} (${daysAgo(
@@ -84,32 +84,13 @@ export function ChartTabs() {
                   contact,
                 }}
               />
-              <WordOrEmojiCountChart
-                title="Top Received Emojis"
-                description="The most received Emojis"
-                labelText="Count of Emoji"
-                filters={{
-                  isEmoji: true,
-                  limit,
-                  isFromMe: false,
-                  groupChat,
-                  contact,
-                }}
-              />
-              <WordOrEmojiCountChart
-                title="Top Received Words"
-                description="The most received words"
-                labelText="Count of Word"
-                filters={{
-                  isEmoji: false,
-                  limit,
-                  isFromMe: false,
-                  groupChat,
-                  contact,
-                }}
+              <TopFriendsChart
+                title="🧑‍🤝‍🧑  Top Messaged Friends"
+                description=""
+                filters={{ limit, groupChat, contact }}
               />
               <TextsOverTimeChart
-                title="Number of Texts Per Day"
+                title="🗓️  Number of Messages Per Day"
                 description=""
                 filters={{
                   limit,
@@ -121,27 +102,45 @@ export function ChartTabs() {
           </TabPanel>
           <TabPanel>
             <div>
-              <TopFriendsChart
-                title="Top Friends"
-                description="The friends you text the most"
-                filters={{ limit, groupChat, contact }}
+              <WordOrEmojiCountChart
+                title="😃 Top Received Emojis"
+                description=""
+                labelText="Count of Received Emojis"
+                filters={{
+                  isEmoji: true,
+                  limit,
+                  isFromMe: false,
+                  groupChat,
+                  contact,
+                }}
               />
               <WordOrEmojiCountChart
-                title="Top Sent Words"
-                description="The most common words you sent"
-                labelText="Count of Word"
+                title="😋  Top Sent Emojis"
+                description=""
+                labelText="Count of Sent Emojis"
+                filters={{ isEmoji: true, limit, isFromMe: true, contact }}
+              />
+              <WordOrEmojiCountChart
+                title="📨  Top Received Words"
+                description=""
+                labelText="Count of Received Words"
+                filters={{
+                  isEmoji: false,
+                  limit,
+                  isFromMe: false,
+                  groupChat,
+                  contact,
+                }}
+              />
+              <WordOrEmojiCountChart
+                title="📝  Top Sent Words"
+                description=""
+                labelText="Count of Sent Words"
                 filters={{ isEmoji: false, limit, isFromMe: true, contact }}
               />
             </div>
           </TabPanel>
-          <TabPanel>
-            <WordOrEmojiCountChart
-              title="Top Sent Emojis"
-              description="The most commonly sent emojis"
-              labelText="Count of Emoji"
-              filters={{ isEmoji: true, limit, isFromMe: true, contact }}
-            />
-          </TabPanel>
+          <TabPanel />
         </TabPanels>
       </Tabs>
     </div>
