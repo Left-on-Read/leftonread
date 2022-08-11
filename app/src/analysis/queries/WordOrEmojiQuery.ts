@@ -1,3 +1,4 @@
+import  log  from 'electron-log';
 import * as sqlite3 from 'sqlite3';
 
 import { getEmojiData } from '../../constants/emojis';
@@ -10,6 +11,7 @@ import { stopWords } from '../../constants/stopWords';
 import * as sqlite3Wrapper from '../../utils/sqliteWrapper';
 import { ChatTableColumns } from '../tables/ChatTable';
 import { ChatTableNames } from '../tables/types';
+import { groupChatFilter } from './filters/sharedQueryFilters';
 
 enum OutputColumns {
   WORD = 'word',
@@ -54,22 +56,16 @@ function wordFilter(filters: IWordOrEmojiFilters): string | undefined {
   return `LOWER(${ChatTableColumns.WORD}) = "${filters.word?.toLowerCase()}"`;
 }
 
-async function isEmojiFilter(filters: IWordOrEmojiFilters): Promise<string> {
-  const emojis = await getEmojiData();
+function isEmojiFilter(filters: IWordOrEmojiFilters): string {
+  const emojis =  getEmojiData();
 
   return `TRIM(${ChatTableColumns.WORD}) ${
     filters.isEmoji ? 'IN ' : 'NOT IN'
   } (${emojis})`;
 }
 
-function groupChatFilter(filters: IWordOrEmojiFilters): string | undefined {
-  if (filters.groupChat === GroupChatFilters.ONLY_INDIVIDUAL) {
-    return `${ChatTableColumns.CACHE_ROOMNAMES} IS NULL`;
-  }
-  return undefined; // would query for both individual and groupchats
-}
 
-function fluffFilter(): string {
+function wordFluffFilter(): string {
   // NOTE: texts are LOWERed at this point
   return `TRIM(${ChatTableColumns.WORD}) NOT IN (${stopWords})
     AND TRIM(${ChatTableColumns.WORD}) NOT IN (${reactions})
@@ -78,13 +74,14 @@ function fluffFilter(): string {
     AND LENGTH(${ChatTableColumns.WORD}) >= 1`;
 }
 
-async function getAllFilters(filters: IWordOrEmojiFilters): Promise<string> {
+// NOTE(Danilowicz): All of these filters are specific to WORDs, as opposed to whole "texts"
+function getAllWordLevelFilters(filters: IWordOrEmojiFilters): string {
   const contact = contactFilter(filters);
-  const isEmoji = await isEmojiFilter(filters);
+  const isEmoji = isEmojiFilter(filters);
   const isFromMe = isFromMeFilter(filters);
   const word = wordFilter(filters);
   const groupChat = groupChatFilter(filters);
-  const fluff = fluffFilter();
+  const fluff = wordFluffFilter();
 
   const filtersArray = [
     isFromMe,
@@ -103,8 +100,8 @@ export async function queryEmojiOrWordCounts(
   filters: IWordOrEmojiFilters
 ): Promise<TWordOrEmojiResults> {
   const limit = filters.limit || DEFAULT_FILTER_LIMIT;
-  const allFilters = await getAllFilters(filters);
-  const query = `
+  const wordLevelFilters = getAllWordLevelFilters(filters);
+  const q = `
     WITH COUNT_TEXT_TB AS (
       SELECT
         COUNT(${ChatTableColumns.WORD}) as ${OutputColumns.COUNT},
@@ -112,7 +109,7 @@ export async function queryEmojiOrWordCounts(
         ${ChatTableColumns.CONTACT},
         ${ChatTableColumns.IS_FROM_ME}
       FROM ${ChatTableNames.COUNT_TABLE}
-        ${allFilters}
+        ${wordLevelFilters}
       GROUP BY ${ChatTableColumns.CONTACT}, ${ChatTableColumns.WORD}, ${ChatTableColumns.IS_FROM_ME}
     )
 
@@ -125,6 +122,6 @@ export async function queryEmojiOrWordCounts(
     ORDER BY ${OutputColumns.COUNT} DESC
     LIMIT ${limit}
   `;
-
-  return sqlite3Wrapper.allP(db, query);
+  log.info(q)
+  return sqlite3Wrapper.allP(db, q);
 }
