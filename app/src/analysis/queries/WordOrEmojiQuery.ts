@@ -1,8 +1,6 @@
-import  log  from 'electron-log';
 import * as sqlite3 from 'sqlite3';
 
 import { getEmojiData } from '../../constants/emojis';
-import { GroupChatFilters } from '../../constants/filters';
 import { DEFAULT_FILTER_LIMIT } from '../../constants/index';
 import { objReplacementUnicode } from '../../constants/objReplacementUnicode';
 import { punctuation } from '../../constants/punctuation';
@@ -57,13 +55,12 @@ function wordFilter(filters: IWordOrEmojiFilters): string | undefined {
 }
 
 function isEmojiFilter(filters: IWordOrEmojiFilters): string {
-  const emojis =  getEmojiData();
+  const emojis = getEmojiData();
 
   return `TRIM(${ChatTableColumns.WORD}) ${
     filters.isEmoji ? 'IN ' : 'NOT IN'
   } (${emojis})`;
 }
-
 
 function wordFluffFilter(): string {
   // NOTE: texts are LOWERed at this point
