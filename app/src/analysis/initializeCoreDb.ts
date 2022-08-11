@@ -12,6 +12,7 @@ import {
   chatPaths,
   dirPairings,
 } from './directories';
+import { CalendarTable } from './tables/CalendarTable';
 import { ChatCountTable } from './tables/ChatTable';
 import {
   addContactNameColumn,
@@ -22,6 +23,7 @@ import {
 import { CoreMainTable } from './tables/CoreTable';
 import {
   AddressBookTableNames,
+  CalendarTableNames,
   ChatTableNames,
   CoreTableNames,
 } from './tables/types';
@@ -43,6 +45,7 @@ async function dropAllTables(db: sqlite3.Database) {
     ...Object.values(ChatTableNames),
     ...Object.values(CoreMainTable),
     ...Object.values(AddressBookTableNames),
+    ...Object.values(CalendarTableNames),
   ].map(async (tableName) =>
     sqlite3Wrapper.runP(db, `DROP TABLE IF EXISTS ${tableName}`)
   );
@@ -104,9 +107,18 @@ export async function initializeCoreDb(): Promise<sqlite3.Database> {
     }
   }
 
-  // Create Tables
-  await new CoreMainTable(lorDB, CoreTableNames.CORE_MAIN_TABLE).create();
+  const calTable = new CalendarTable(
+    lorDB,
+    CalendarTableNames.CALENDAR_TABLE
+  ).create();
+  const coreMainTable = new CoreMainTable(
+    lorDB,
+    CoreTableNames.CORE_MAIN_TABLE
+  ).create();
+  await Promise.all([calTable, coreMainTable]);
+
   await new ChatCountTable(lorDB, ChatTableNames.COUNT_TABLE).create();
+
   log.info('INFO: Created LOR DB');
 
   return lorDB;

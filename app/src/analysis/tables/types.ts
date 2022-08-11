@@ -12,10 +12,15 @@ export enum AddressBookTableNames {
   CONTACT_TABLE = 'contact_table',
 }
 
+export enum CalendarTableNames {
+  CALENDAR_TABLE = 'calendar_table',
+}
+
 export type TableNames =
   | ChatTableNames
   | AddressBookTableNames
-  | CoreTableNames;
+  | CoreTableNames
+  | CalendarTableNames;
 
 export class Table {
   name: TableNames;

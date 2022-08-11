@@ -8,6 +8,7 @@ import { DEFAULT_FILTER_LIMIT } from '../../constants';
 import { GroupChatFilters } from '../../constants/filters';
 import { daysAgo } from '../../main/util';
 import { SentVsReceivedChart } from '../Graphs/SentVsReceivedChart';
+import { TextsOverTimeChart } from '../Graphs/TextsOverTimeChart';
 import { TopFriendsChart } from '../Graphs/TopFriendsChart';
 import { WordOrEmojiCountChart } from '../Graphs/WordOrEmojiCountChart';
 
@@ -103,6 +104,15 @@ export function ChartTabs() {
                   isEmoji: false,
                   limit,
                   isFromMe: false,
+                  groupChat,
+                  contact,
+                }}
+              />
+              <TextsOverTimeChart
+                title="Number of Texts Per Day"
+                description=""
+                filters={{
+                  limit,
                   groupChat,
                   contact,
                 }}
