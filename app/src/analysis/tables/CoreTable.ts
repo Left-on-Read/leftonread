@@ -1,7 +1,7 @@
-import { filterOutReactions } from '../../constants/filters';
-import { objReplacementUnicode } from '../../constants/objReplacementUnicode';
 import log from 'electron-log';
 
+import { filterOutReactions } from '../../constants/filters';
+import { objReplacementUnicode } from '../../constants/objReplacementUnicode';
 import * as sqlite3Wrapper from '../../utils/sqliteWrapper';
 import { Table, TableNames } from './types';
 

@@ -26,13 +26,14 @@ function contactFilter(filters: SharedQueryFilters): string | undefined {
   return `friend = "${filters.contact}"`;
 }
 
-export function groupChatFilter(filters: SharedQueryFilters): string | undefined {
+export function groupChatFilter(
+  filters: SharedQueryFilters
+): string | undefined {
   if (filters.groupChat === GroupChatFilters.ONLY_INDIVIDUAL) {
     return `cache_roomnames IS NULL`;
   }
   return undefined; // would query for both individual and groupchats
 }
-
 
 export function getAllFilters(
   filters: SharedQueryFilters,
