@@ -1,6 +1,7 @@
 import { Box, Text } from '@chakra-ui/react';
 
 import Logo from '../../../assets/icon.svg';
+import { Float } from '../Float';
 import { Footer } from '../Footer';
 import { Onboarding } from './Onboarding';
 
@@ -29,11 +30,13 @@ export function Home({ onInitialize }: { onInitialize: () => void }) {
           }}
         >
           <div>
-            <img
-              src={Logo}
-              alt="logo"
-              style={{ width: 80, height: 80, marginBottom: 24 }}
-            />
+            <Float>
+              <img
+                src={Logo}
+                alt="logo"
+                style={{ width: 80, height: 80, marginBottom: 24 }}
+              />
+            </Float>
             <Text
               bgGradient={['linear(to-r, blue.400, green.400)']}
               bgClip="text"
