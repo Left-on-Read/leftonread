@@ -122,6 +122,6 @@ export async function queryEmojiOrWordCounts(
     ORDER BY ${OutputColumns.COUNT} DESC
     LIMIT ${limit}
   `;
-  log.info(q)
+  // log.info(q)
   return sqlite3Wrapper.allP(db, q);
 }

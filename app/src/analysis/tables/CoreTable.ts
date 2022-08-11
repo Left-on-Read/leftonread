@@ -54,6 +54,8 @@ export class CoreMainTable extends Table {
     JOIN DATE_TIME_TABLE
       ON guid = datetimetable_guid 
     WHERE ${fluffFilter()}
+    -- it seems that texts sent and received in group chats are sent N times
+    -- where N is the number of contacts in the chat. So we GROUP BY guid
     GROUP BY guid
     `;
 
