@@ -1,6 +1,8 @@
 import log from 'electron-log';
 import React, { Component, ErrorInfo } from 'react';
 
+import { ErrorPage } from './Support/ErrorPage';
+
 interface Props {
   children?: React.ReactNode;
 }
@@ -26,7 +28,7 @@ export class ErrorBoundary extends Component<Props, State> {
 
   public render() {
     if (this.state.hasError) {
-      return <h1>Sorry.. there was an error</h1>;
+      return <ErrorPage />;
     }
 
     return this.props.children;
