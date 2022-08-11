@@ -23,8 +23,8 @@ export class ChatCountTable extends Table {
           m.is_from_me,
           m.guid, '',
           m.text || ' '
+        -- NOTE(Danilowicz): when creating the core main table we already filter for fluff
         FROM ${CoreTableNames.CORE_MAIN_TABLE} m
-          WHERE m.text IS NOT NULL
         UNION ALL
         SELECT
           cache_roomnames, id, is_from_me, guid, SUBSTR(etc, 0, INSTR(etc, ' ')), SUBSTR(etc, INSTR(etc, ' ')+1)

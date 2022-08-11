@@ -1,3 +1,5 @@
+import { filterOutReactions } from '../../constants/filters';
+import { objReplacementUnicode } from '../../constants/objReplacementUnicode';
 import log from 'electron-log';
 
 import * as sqlite3Wrapper from '../../utils/sqliteWrapper';
@@ -6,6 +8,17 @@ import { Table, TableNames } from './types';
 // subset of columns, just to have in an enum
 export enum CoreMainTableColumns {
   DATE = 'human_readable_date',
+}
+
+/**
+ * Removes reactions, empty texts, and weird character objReplacement character
+ * @returns string
+ */
+export function fluffFilter(): string {
+  return `
+    ${filterOutReactions()} AND unicode(TRIM(text)) != ${objReplacementUnicode}
+    AND text IS NOT NULL
+    AND LENGTH(text) >= 1`;
 }
 
 export class CoreMainTable extends Table {
@@ -40,6 +53,10 @@ export class CoreMainTable extends Table {
       ON m.ROWID = cmj.message_id
     JOIN DATE_TIME_TABLE
       ON guid = datetimetable_guid 
+    WHERE ${fluffFilter()}
+    -- it seems that texts sent and received in group chats are sent N times
+    -- where N is the number of contacts in the chat. So we GROUP BY guid
+    GROUP BY guid
     `;
 
     await sqlite3Wrapper.runP(this.db, q);
