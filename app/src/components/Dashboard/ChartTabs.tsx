@@ -77,7 +77,7 @@ export function ChartTabs() {
                         earliestAndLatestDate.earliestDate,
                         new Date()
                       )} days ago)`
-                    : ''
+                    : 'since...'
                 }
                 filters={{
                   groupChat,

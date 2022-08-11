@@ -1,4 +1,4 @@
-import { theme as defaultTheme } from '@chakra-ui/react';
+import { Spinner, Text, theme as defaultTheme } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
@@ -20,10 +20,14 @@ export function TopFriendsChart({
   const [friends, setFriends] = useState<string[]>([]);
   const [received, setReceived] = useState<number[]>([]);
   const [sent, setSent] = useState<number[]>([]);
-  const [success, setSuccess] = useState<boolean>(false);
+
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<null | string>(null);
 
   useEffect(() => {
     async function fetchTopFriends() {
+      setError(null);
+      setIsLoading(true);
       try {
         const topFriendsDataList: TTopFriendsResults = await ipcRenderer.invoke(
           'query-top-friends',
@@ -32,10 +36,13 @@ export function TopFriendsChart({
         setFriends(topFriendsDataList.map((obj) => obj.friend));
         setSent(topFriendsDataList.map((obj) => obj.sent));
         setReceived(topFriendsDataList.map((obj) => obj.received));
-        setSuccess(true);
-      } catch (err) {
-        setSuccess(false);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        }
         log.error(`ERROR: fetching for ${title}`, err);
+      } finally {
+        setIsLoading(false);
       }
     }
     fetchTopFriends();
@@ -57,13 +64,44 @@ export function TopFriendsChart({
     ],
   };
 
-  if (!success) {
-    return <div>Loading chart..</div>;
+  let graphContent = <Bar data={data} />;
+  if (isLoading) {
+    graphContent = (
+      <div
+        style={{
+          position: 'relative',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <div style={{ position: 'absolute' }}>
+          <Spinner color="purple.400" size="xl" />
+        </div>
+        <Bar data={{ labels: [], datasets: [] }} />
+      </div>
+    );
+  } else if (error) {
+    graphContent = (
+      <div
+        style={{
+          position: 'relative',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <div style={{ position: 'absolute' }}>
+          <Text color="red.400">Uh oh! Something went wrong... </Text>
+        </div>
+        <Bar data={{ labels: [], datasets: [] }} />
+      </div>
+    );
   }
 
   return (
     <GraphContainer title={title} description={description}>
-      <Bar data={data} />
+      {graphContent}
     </GraphContainer>
   );
 }
