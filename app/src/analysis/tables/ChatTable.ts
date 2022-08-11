@@ -40,6 +40,7 @@ export class ChatCountTable extends Table {
     `;
 
     await sqlite3Wrapper.runP(this.db, q);
+    log.info(`INFO: created ${this.name}`);
     return this.name;
   }
 }

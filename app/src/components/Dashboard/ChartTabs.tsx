@@ -1,4 +1,5 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { TextsOverTimeChart } from 'components/Graphs/TextsOverTimeChart';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
@@ -103,6 +104,15 @@ export function ChartTabs() {
                   isEmoji: false,
                   limit,
                   isFromMe: false,
+                  groupChat,
+                  contact,
+                }}
+              />
+              <TextsOverTimeChart
+                title="Number of Texts Per Day"
+                description=""
+                filters={{
+                  limit,
                   groupChat,
                   contact,
                 }}

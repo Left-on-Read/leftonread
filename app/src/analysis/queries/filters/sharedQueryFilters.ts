@@ -40,14 +40,22 @@ function fluffFilter(): string {
     AND LENGTH(text) >= 1`;
 }
 
-export function getAllFilters(filters: SharedQueryFilters): string {
+export function getAllFilters(
+  filters: SharedQueryFilters,
+  defaultFilterStatement?: string
+): string {
   const contact = contactFilter(filters);
   const groupChats = groupChatFilter(filters);
   const word = wordFilter(filters);
   const fluff = fluffFilter();
 
-  const filtersArray = [contact, groupChats, word, fluff].filter(
-    (filter) => !!filter
-  );
+  const filtersArray = [
+    contact,
+    groupChats,
+    word,
+    fluff,
+    defaultFilterStatement,
+  ].filter((filter) => !!filter);
+
   return filtersArray.length > 0 ? `WHERE ${filtersArray.join(' AND ')}` : '';
 }

@@ -10,7 +10,10 @@ import { initializeCoreDb } from '../analysis/initializeCoreDb';
 import { queryContactOptions } from '../analysis/queries/ContactOptionsQuery';
 import { queryEarliestAndLatestDates } from '../analysis/queries/EarliestAndLatestDatesQuery';
 import { SharedQueryFilters } from '../analysis/queries/filters/sharedQueryFilters';
-import { queryTextsOverTime } from '../analysis/queries/TextsOverTimeQuery';
+import {
+  queryTextsOverTimeReceived,
+  queryTextsOverTimeSent,
+} from '../analysis/queries/TextsOverTimeQuery';
 import { queryTopFriends } from '../analysis/queries/TopFriendsQuery';
 import { queryTotalSentVsReceived } from '../analysis/queries/TotalSentVsReceivedQuery';
 import {
@@ -67,10 +70,18 @@ export function attachIpcListeners() {
   });
 
   ipcMain.handle(
-    'query-text-over-time',
+    'query-text-over-time-received',
     async (event, filters: SharedQueryFilters) => {
       const db = getDb();
-      return queryTextsOverTime(db, filters);
+      return queryTextsOverTimeReceived(db, filters);
+    }
+  );
+
+  ipcMain.handle(
+    'query-text-over-time-sent',
+    async (event, filters: SharedQueryFilters) => {
+      const db = getDb();
+      return queryTextsOverTimeSent(db, filters);
     }
   );
 

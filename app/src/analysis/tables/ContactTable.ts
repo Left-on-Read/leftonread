@@ -52,6 +52,7 @@ export class ContactTable extends Table {
     ) as ${Columns.CONTACT_NAME},
     ${normalizePhoneNumberStatement(`ZFULLNUMBER`)} AS ${Columns.CONTACT_PHONE}
     FROM CONTACTS_CLEAN_TABLE`;
+    log.info(`INFO: created ${this.name}`);
     return sqlite3Wrapper.runP(this.db, q);
   }
 }
