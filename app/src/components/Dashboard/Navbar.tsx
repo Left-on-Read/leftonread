@@ -1,4 +1,4 @@
-import { SearchIcon, SettingsIcon } from '@chakra-ui/icons';
+import { SettingsIcon } from '@chakra-ui/icons';
 import {
   Button,
   Icon,
@@ -8,13 +8,26 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
-import { FiGitPullRequest, FiLifeBuoy, FiRefreshCw } from 'react-icons/fi';
+import {
+  FiGitPullRequest,
+  FiLifeBuoy,
+  FiRefreshCw,
+  FiSliders,
+} from 'react-icons/fi';
 
 import LogoWithText from '../../../assets/LogoWithText.svg';
 import { APP_VERSION } from '../../constants/versions';
+import { FilterPanel } from '../Filters/FilterPanel';
 import { EmailModal } from '../Support/EmailModal';
 
 export function Navbar({ onRefresh }: { onRefresh: () => void }) {
@@ -45,14 +58,27 @@ export function Navbar({ onRefresh }: { onRefresh: () => void }) {
       >
         <img src={LogoWithText} alt="Left on Read" style={{ height: '100%' }} />
         <div>
-          <Button
-            size="sm"
-            style={{ marginRight: 16 }}
-            leftIcon={<SearchIcon />}
-            colorScheme="purple"
-          >
-            Adjust Filters (0)
-          </Button>
+          <Popover size="xl">
+            <PopoverTrigger>
+              <Button
+                size="sm"
+                style={{ marginRight: 16 }}
+                leftIcon={<Icon as={FiSliders} />}
+                colorScheme="purple"
+              >
+                Adjust Filters
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent style={{ width: '400px', marginRight: 16 }}>
+              <PopoverArrow />
+              <PopoverBody>
+                <div style={{ padding: 16 }}>
+                  <FilterPanel />
+                </div>
+              </PopoverBody>
+            </PopoverContent>
+          </Popover>
+
           <Menu>
             <MenuButton as={IconButton} icon={<SettingsIcon />} size="sm" />
             <MenuList>
