@@ -1,7 +1,7 @@
-import { filterOutReactions } from '../../constants/filters';
-import { objReplacementUnicode } from '../../constants/objReplacementUnicode';
 import log from 'electron-log';
 
+import { filterOutReactions } from '../../constants/filters';
+import { objReplacementUnicode } from '../../constants/objReplacementUnicode';
 import * as sqlite3Wrapper from '../../utils/sqliteWrapper';
 import { Table, TableNames } from './types';
 
@@ -47,15 +47,23 @@ export class CoreMainTable extends Table {
     FROM chat_message_join cmj
     JOIN chat_handle_join chj
       ON  chj.chat_id = cmj.chat_id
+    -- metadata about chats
     JOIN handle h
       ON h.ROWID = chj.handle_id
+    -- all messages sent and received
     JOIN message m
       ON m.ROWID = cmj.message_id
     JOIN DATE_TIME_TABLE
-      ON guid = datetimetable_guid 
+      ON m.guid = datetimetable_guid 
+    --  a collection of your messages (both direct and group)
+    JOIN chat c
+      ON chj.chat_id = c.ROWID
     WHERE ${fluffFilter()}
     -- it seems that texts sent and received in group chats are sent N times
     -- where N is the number of contacts in the chat. So we GROUP BY guid
+    -- The problem, though, is that then we lose who the text is actually from
+    -- We should then probably indicate to the user that it's from a group chat
+    -- Or figure out how to get it from the database
     GROUP BY guid
     `;
 
