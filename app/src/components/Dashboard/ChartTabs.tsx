@@ -1,5 +1,4 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
-import { TextsOverTimeChart } from 'components/Graphs/TextsOverTimeChart';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
@@ -9,6 +8,7 @@ import { DEFAULT_FILTER_LIMIT } from '../../constants';
 import { GroupChatFilters } from '../../constants/filters';
 import { daysAgo } from '../../main/util';
 import { SentVsReceivedChart } from '../Graphs/SentVsReceivedChart';
+import { TextsOverTimeChart } from '../Graphs/TextsOverTimeChart';
 import { TopFriendsChart } from '../Graphs/TopFriendsChart';
 import { WordOrEmojiCountChart } from '../Graphs/WordOrEmojiCountChart';
 
