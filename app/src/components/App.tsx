@@ -30,9 +30,9 @@ export function App() {
       <ChakraProvider theme={theme}>
         <HashRouter>
           <Routes>
-            <Route path="/t" element={<Redirecter />} />
+            <Route path="/" element={<Redirecter />} />
             <Route
-              path="/"
+              path="/start"
               element={<Home onInitialize={() => setIsInitializing(true)} />}
             />
             <Route
