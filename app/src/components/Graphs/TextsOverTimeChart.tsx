@@ -72,7 +72,6 @@ export function TextsOverTimeChart({
         borderColor: theme.colors.green['400'],
         borderWidth: 1.2,
         data: receivedData,
-        fill: true,
       },
       {
         backgroundColor: theme.colors.purple['200'],
@@ -80,14 +79,29 @@ export function TextsOverTimeChart({
         borderColor: theme.colors.purple['400'],
         borderWidth: 1.2,
         data: sentData,
-        fill: true,
       },
     ],
   };
 
+  const options = {
+    scales: {
+      xAxis: {
+        ticks: {
+          // value is of type number but Line props doesn't like that...
+          callback: (value: any) => {
+            return new Date(labels[value]).toLocaleString('default', {
+              month: 'long',
+            });
+          },
+          maxTicksLimit: 12,
+        },
+      },
+    },
+  };
+
   return (
     <GraphContainer title={title} description={description}>
-      <Line data={chartData} />
+      <Line data={chartData} options={options} />
     </GraphContainer>
   );
 }
