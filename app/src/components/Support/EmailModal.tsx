@@ -152,23 +152,27 @@ export function EmailModal({
                 />
                 <FormErrorMessage>Message content is required</FormErrorMessage>
               </FormControl>
-              <Collapse in={reason === 'support'}>
+              <Collapse in={reason === 'support' || reason === 'other'}>
                 <FormControl>
-                  <Checkbox
-                    colorScheme="purple"
-                    defaultChecked
-                    style={{ marginTop: 16 }}
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      marginTop: 16,
+                    }}
                   >
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <div>Include logs</div>
-                      <Tooltip
-                        label="Logs help us identify what went wrong. They do not contain any sensitive or personally identifiying information."
-                        fontSize="md"
-                      >
-                        <QuestionOutlineIcon style={{ marginLeft: 8 }} />
-                      </Tooltip>
-                    </div>
-                  </Checkbox>
+                    <Checkbox colorScheme="purple" defaultChecked>
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <div>Include logs</div>
+                      </div>
+                    </Checkbox>
+                    <Tooltip
+                      label="Logs help us identify what went wrong. They do not contain any messages or personally identifiying information."
+                      fontSize="md"
+                    >
+                      <QuestionOutlineIcon style={{ marginLeft: 8 }} />
+                    </Tooltip>
+                  </div>
                 </FormControl>
               </Collapse>
               {error && (

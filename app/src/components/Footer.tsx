@@ -19,12 +19,12 @@ export function Footer() {
           justifyContent: 'space-around',
         }}
       >
-        <Text color="gray.400" fontSize={12}>
+        <Text color="gray.400" fontSize={14}>
           Left on Read {APP_VERSION}
         </Text>
         <Button
           color="gray.400"
-          fontSize={12}
+          fontSize={14}
           onClick={() => {
             onEmailModalOpen();
           }}

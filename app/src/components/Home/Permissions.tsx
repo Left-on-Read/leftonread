@@ -26,7 +26,7 @@ export function Permissions() {
             fontWeight="bold"
             fontSize={{ lg: 'xl', xl: '3xl' }}
           >
-            Grant Permissions
+            Give Access
           </Text>
         </div>
 
@@ -36,7 +36,7 @@ export function Permissions() {
           style={{ marginTop: 16 }}
         >
           {`
-        In order for Left on Read to run, it requires Full Disk Access.
+        Like other applications, Left on Read requires access to your files.
         `}
         </Text>
 
@@ -46,13 +46,14 @@ export function Permissions() {
           style={{ padding: 24 }}
         >
           <ol>
-            <li>{`Click the "Open System Preferences" button below`}</li>
-            <li
-              style={{ marginTop: 22 }}
-            >{`Under "Full Disk Access", grant "Left on Read" access.`}</li>
-            <li
-              style={{ marginTop: 22 }}
-            >{`Fully quit and restart the "Left on Read" app`}</li>
+            <li> Open System Preferences below.</li>
+            <li style={{ marginTop: 22 }}>
+              Under Full Disk Access, grant Left on Read access. You may need to
+              add the app with the + button.
+            </li>
+            <li style={{ marginTop: 22 }}>
+              Fully quit and restart the Left on Read app.
+            </li>
           </ol>
         </Text>
       </div>

@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import { motion, useAnimationControls } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
 const PHRASES = [
@@ -35,7 +35,7 @@ export function InitializingTextSlider() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <Text style={{ color: 'white', marginTop: 16 }} fontSize="xl">
+      <Text style={{ color: 'white', marginTop: 16 }} fontSize="3xl">
         {textToShow}
       </Text>
     </motion.div>

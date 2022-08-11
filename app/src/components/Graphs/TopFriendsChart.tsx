@@ -54,12 +54,16 @@ export function TopFriendsChart({
       {
         label: 'Received',
         data: received,
-        backgroundColor: defaultTheme.colors.pink['200'],
+        backgroundColor: defaultTheme.colors.gray['200'],
+        borderColor: defaultTheme.colors.gray['500'],
+        borderRadius: 5,
       },
       {
         label: 'Sent',
         data: sent,
-        backgroundColor: defaultTheme.colors.cyan['200'],
+        backgroundColor: defaultTheme.colors.blue['200'],
+        borderColor: defaultTheme.colors.blue['400'],
+        borderRadius: 5,
       },
     ],
   };
