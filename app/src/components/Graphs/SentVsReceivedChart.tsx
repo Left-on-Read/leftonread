@@ -1,4 +1,11 @@
-import { Stat, StatGroup, StatLabel, StatNumber } from '@chakra-ui/react';
+import {
+  Skeleton,
+  Stat,
+  StatGroup,
+  StatLabel,
+  StatNumber,
+  Text,
+} from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
@@ -18,10 +25,14 @@ export function SentVsReceivedChart({
 }) {
   const [received, setReceived] = useState<number>();
   const [sent, setSent] = useState<number>();
-  const [success, setSuccess] = useState<boolean>(false);
+
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<null | string>(null);
 
   useEffect(() => {
     async function fetchSentVsReceived() {
+      // setError(null);
+      setIsLoading(true);
       try {
         const sentVsReceivedDataList: TotalSentVsReceivedResults =
           await ipcRenderer.invoke('query-total-sent-vs-received', filters);
@@ -40,39 +51,63 @@ export function SentVsReceivedChart({
         if (sentList.length === 1) {
           setSent(sentList[0].total);
         }
-
-        setSuccess(true);
-      } catch (err) {
-        setSuccess(false);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        }
         log.error(`ERROR: fetching for ${title}`, err);
+      } finally {
+        setIsLoading(false);
       }
     }
     fetchSentVsReceived();
   }, [filters, title]);
 
-  if (!success) {
-    return <div>Loading chart..</div>;
-  }
-
   return (
     <GraphContainer title={title} description={description}>
-      <StatGroup>
-        <Stat>
-          <StatLabel>Total</StatLabel>
-          <StatNumber>
-            {((received ?? 0) + (sent ?? 0)).toLocaleString()}
-          </StatNumber>
-        </Stat>
-        <Stat>
-          <StatLabel>Sent</StatLabel>
-          <StatNumber>{sent?.toLocaleString()}</StatNumber>
-        </Stat>
+      {error ? (
+        <Text color="red.400">Uh oh! Something went wrong.</Text>
+      ) : (
+        <StatGroup>
+          <Stat>
+            <StatLabel>Total</StatLabel>
+            <StatNumber>
+              {isLoading ? (
+                <div style={{ paddingRight: 48 }}>
+                  <Skeleton height={35} />
+                </div>
+              ) : (
+                <>{((received ?? 0) + (sent ?? 0)).toLocaleString()}</>
+              )}
+            </StatNumber>
+          </Stat>
+          <Stat>
+            <StatLabel>Sent</StatLabel>
+            <StatNumber>
+              {isLoading ? (
+                <div style={{ paddingRight: 48 }}>
+                  <Skeleton height={35} />
+                </div>
+              ) : (
+                <>{sent?.toLocaleString()}</>
+              )}
+            </StatNumber>
+          </Stat>
 
-        <Stat>
-          <StatLabel>Received</StatLabel>
-          <StatNumber>{received?.toLocaleString()}</StatNumber>
-        </Stat>
-      </StatGroup>
+          <Stat>
+            <StatLabel>Received</StatLabel>
+            <StatNumber>
+              {isLoading ? (
+                <div style={{ paddingRight: 48 }}>
+                  <Skeleton height={35} />
+                </div>
+              ) : (
+                <>{received?.toLocaleString()}</>
+              )}
+            </StatNumber>
+          </Stat>
+        </StatGroup>
+      )}
     </GraphContainer>
   );
 }

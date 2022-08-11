@@ -1,4 +1,4 @@
-import { theme } from '@chakra-ui/react';
+import { Spinner, Text, theme } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
@@ -20,10 +20,13 @@ export function TextsOverTimeChart({
   const [sent, setSent] = useState<TextOverTimeResults>([]);
   const [received, setReceived] = useState<TextOverTimeResults>([]);
 
-  const [success, setSuccess] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<null | string>(null);
 
   useEffect(() => {
     async function fetchTextsOverTime() {
+      setIsLoading(true);
+      setError(null);
       try {
         const [textOverTimeDataListReceived, textOverTimeDataListSent] =
           await Promise.all([
@@ -33,18 +36,17 @@ export function TextsOverTimeChart({
 
         setSent(textOverTimeDataListSent);
         setReceived(textOverTimeDataListReceived);
-        setSuccess(true);
-      } catch (err) {
-        setSuccess(false);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        }
         log.error(`ERROR: fetching for ${title}`, err);
+      } finally {
+        setIsLoading(false);
       }
     }
     fetchTextsOverTime();
   }, [filters, title]);
-
-  if (!success) {
-    return <div>Loading chart...</div>;
-  }
 
   const labels = sent.map((d) => new Date(d.day).toLocaleDateString());
 
@@ -99,9 +101,44 @@ export function TextsOverTimeChart({
     },
   };
 
+  let graphContent = <Line data={chartData} options={options} />;
+  if (isLoading) {
+    graphContent = (
+      <div
+        style={{
+          position: 'relative',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <div style={{ position: 'absolute' }}>
+          <Spinner color="purple.400" size="xl" />
+        </div>
+        <Line data={{ labels: [], datasets: [] }} options={options} />
+      </div>
+    );
+  } else if (error) {
+    graphContent = (
+      <div
+        style={{
+          position: 'relative',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <div style={{ position: 'absolute' }}>
+          <Text color="red.400">Uh oh! Something went wrong... </Text>
+        </div>
+        <Line data={{ labels: [], datasets: [] }} options={options} />
+      </div>
+    );
+  }
+
   return (
     <GraphContainer title={title} description={description}>
-      <Line data={chartData} options={options} />
+      {graphContent}
     </GraphContainer>
   );
 }
