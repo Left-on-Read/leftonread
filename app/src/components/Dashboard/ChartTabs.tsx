@@ -63,15 +63,21 @@ export function ChartTabs() {
             zIndex: 3,
           }}
         >
-          <Tab style={{ marginRight: 32 }}>Activity</Tab>
-          <Tab style={{ marginRight: 32 }}>Words & Emojis</Tab>
-          <Tab style={{ marginRight: 32 }}>Coming Soon</Tab>
+          <Tab style={{ marginRight: 32 }}>
+            <span style={{ marginRight: 10 }}>📱</span> Activity
+          </Tab>
+          <Tab style={{ marginRight: 32 }}>
+            <span style={{ marginRight: 10 }}>😃</span>Words & Emojis
+          </Tab>
+          <Tab style={{ marginRight: 32 }}>
+            <span style={{ marginRight: 10 }}>🚀</span>Coming Soon
+          </Tab>
         </TabList>
         <TabPanels style={{ paddingTop: 60 }}>
           <TabPanel>
             <div>
               <SentVsReceivedChart
-                title="🍆  Total Sent vs Received"
+                title="Total Sent vs Received"
                 description={
                   earliestAndLatestDate
                     ? `since ${earliestAndLatestDate.earliestDate.toLocaleDateString()} (${daysAgo(
@@ -86,7 +92,7 @@ export function ChartTabs() {
                 }}
               />
               <TopFriendsChart
-                title="🧑‍🤝‍🧑  Top Messaged Friends"
+                title="Top Messaged Friends"
                 description=""
                 filters={{ limit, groupChat, contact }}
               />
@@ -104,8 +110,8 @@ export function ChartTabs() {
           <TabPanel>
             <div>
               <WordOrEmojiCountChart
-                title="😃 Top Received Emojis"
-                description=""
+                title="Top Received Emojis"
+                description="These are the emojis you receive the most."
                 labelText="Count of Received Emojis"
                 filters={{
                   isEmoji: true,

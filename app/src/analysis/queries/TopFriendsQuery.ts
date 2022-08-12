@@ -95,7 +95,7 @@ export async function queryTopFriends(
   FROM
     COMBINED_TABLE
   ORDER BY ${TopFriendsOutputColumns.TOTAL} DESC
-  LIMIT ${50}
+  LIMIT ${limit}
   `;
 
   return sqlite3Wrapper.allP(db, query);
