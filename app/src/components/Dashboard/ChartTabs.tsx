@@ -9,7 +9,7 @@ import {
   FiEdit3,
   FiMeh,
   FiMessageCircle,
-  FiSmile,
+  FiStar,
   FiUsers,
 } from 'react-icons/fi';
 
@@ -72,7 +72,7 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
             <span style={{ marginRight: 10 }}>😃</span>Words & Emojis
           </Tab>
           <Tab style={{ marginRight: 32 }}>
-            <span style={{ marginRight: 10 }}>🚀</span>Coming Soon
+            <span style={{ marginRight: 10 }}>🚀</span>Coming Soon...
           </Tab>
         </TabList>
         <TabPanels style={{ paddingTop: 60 }}>
@@ -114,7 +114,7 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
               <WordOrEmojiCountChart
                 title="Top Received Emojis"
                 description=""
-                icon={FiSmile}
+                icon={FiStar}
                 labelText="Count of Received Emojis"
                 filters={{
                   isEmoji: true,

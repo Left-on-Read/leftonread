@@ -89,7 +89,24 @@ export function TextsOverTimeChart({
   };
 
   const options = {
+    // plugins: {
+    //   // 'legend' now within object 'plugins {}'
+    //   legend: {
+    //     labels: {
+    //       borderColor: 'red',
+    //       // fontSize: 18  // not 'fontSize:' anymore
+    //       font: {
+    //         size: 18, // 'size' now within object 'font {}'
+    //       },
+    //     },
+    //   },
+    // },
     scales: {
+      yAxis: {
+        ticks: {
+          precision: 0,
+        },
+      },
       xAxis: {
         ticks: {
           // value is of type number but Line props doesn't like that...

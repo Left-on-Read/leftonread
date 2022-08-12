@@ -65,7 +65,17 @@ export function WordOrEmojiCountChart({
     ],
   };
 
-  let graphContent = <Bar data={data} />;
+  const options = {
+    scales: {
+      yAxis: {
+        ticks: {
+          precision: 0,
+        },
+      },
+    },
+  };
+
+  let graphContent = <Bar data={data} options={options} />;
   if (isLoading) {
     graphContent = (
       <div

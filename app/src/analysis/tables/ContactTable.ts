@@ -118,7 +118,7 @@ export async function addContactNameColumn(db: sqlite3.Database) {
   } catch (e: any) {
     // TODO(Danilowicz): this should not be any, and also should never happen
     // if we drop the tables first, but for some reason it does.
-    log.error(`Could not add contact_name column: ${e}`);
+    log.warn(`Could not add contact_name column: ${e}`);
   }
 }
 
