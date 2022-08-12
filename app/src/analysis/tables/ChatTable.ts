@@ -11,6 +11,7 @@ export enum ChatTableColumns {
   CONTACT = 'contact',
 }
 
+// TODO(Danilowicz): I think this should be renamed WordTable
 export class ChatCountTable extends Table {
   async create(): Promise<TableNames> {
     const q = `

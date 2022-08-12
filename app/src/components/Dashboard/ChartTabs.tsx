@@ -14,8 +14,6 @@ import {
 } from 'react-icons/fi';
 
 import { EarliestAndLatestDateResults } from '../../analysis/queries/EarliestAndLatestDatesQuery';
-import { DEFAULT_FILTER_LIMIT } from '../../constants';
-import { GroupChatFilters } from '../../constants/filters';
 import { daysAgo } from '../../main/util';
 import { ComingSoon } from '../ComingSoon';
 import { SentVsReceivedChart } from '../Graphs/SentVsReceivedChart';

@@ -1,4 +1,3 @@
-import log from 'electron-log';
 import * as sqlite3 from 'sqlite3';
 
 import * as sqlite3Wrapper from '../../utils/sqliteWrapper';
