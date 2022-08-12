@@ -18,11 +18,11 @@ export default function BarChart({
         label: title,
         data,
         backgroundColor: [
-          Theme.palette.canaryYellow.faded,
-          Theme.palette.sherwoodGreen.faded,
-          Theme.palette.skyBlue.faded,
-          Theme.palette.palePink.faded,
-          Theme.palette.petalPurple.faded,
+          Theme.palette.canaryYellow.graphFaded,
+          Theme.palette.sherwoodGreen.graphFaded,
+          Theme.palette.skyBlue.graphFaded,
+          Theme.palette.palePink.graphFaded,
+          Theme.palette.petalPurple.graphFaded,
         ],
         borderColor: [
           Theme.palette.canaryYellow.main,
@@ -37,11 +37,25 @@ export default function BarChart({
   }
 
   const options = {
+    legend: {
+      labels: {
+        fontSize: 16,
+      },
+    },
     scales: {
       yAxes: [
         {
           ticks: {
             beginAtZero: true,
+            precision: 0,
+            fontSize: 16,
+          },
+        },
+      ],
+      xAxes: [
+        {
+          ticks: {
+            fontSize: 16,
           },
         },
       ],
