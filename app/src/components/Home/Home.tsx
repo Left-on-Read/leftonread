@@ -30,12 +30,13 @@ export function Home({ onInitialize }: { onInitialize: () => void }) {
           }}
         >
           <div>
-            <Float>
-              <img
-                src={Logo}
-                alt="logo"
-                style={{ width: 80, height: 80, marginBottom: 24 }}
-              />
+            <Float
+              circleShadowDimensions={{
+                marginTop: 12,
+                width: 60,
+              }}
+            >
+              <img src={Logo} alt="logo" style={{ width: 80, height: 80 }} />
             </Float>
             <Text
               bgGradient={['linear(to-r, blue.400, green.400)']}
@@ -44,6 +45,7 @@ export function Home({ onInitialize }: { onInitialize: () => void }) {
               fontWeight="bold"
               style={{
                 width: 'fit-content',
+                marginTop: 24,
               }}
             >
               WELCOME TO

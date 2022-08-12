@@ -2,11 +2,21 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
+import {
+  FiBookOpen,
+  FiCalendar,
+  FiEdit3,
+  FiMeh,
+  FiMessageCircle,
+  FiSmile,
+  FiUsers,
+} from 'react-icons/fi';
 
 import { EarliestAndLatestDateResults } from '../../analysis/queries/EarliestAndLatestDatesQuery';
 import { DEFAULT_FILTER_LIMIT } from '../../constants';
 import { GroupChatFilters } from '../../constants/filters';
 import { daysAgo } from '../../main/util';
+import { ComingSoon } from '../ComingSoon';
 import { SentVsReceivedChart } from '../Graphs/SentVsReceivedChart';
 import { TextsOverTimeChart } from '../Graphs/TextsOverTimeChart';
 import { TopFriendsChart } from '../Graphs/TopFriendsChart';
@@ -62,15 +72,21 @@ export function ChartTabs() {
             zIndex: 3,
           }}
         >
-          <Tab style={{ marginRight: 32 }}>Activity</Tab>
-          <Tab style={{ marginRight: 32 }}>Words & Emojis</Tab>
-          <Tab style={{ marginRight: 32 }}>More coming soon...</Tab>
+          <Tab style={{ marginRight: 32 }}>
+            <span style={{ marginRight: 10 }}>📱</span> Activity
+          </Tab>
+          <Tab style={{ marginRight: 32 }}>
+            <span style={{ marginRight: 10 }}>😃</span>Words & Emojis
+          </Tab>
+          <Tab style={{ marginRight: 32 }}>
+            <span style={{ marginRight: 10 }}>🚀</span>Coming Soon
+          </Tab>
         </TabList>
         <TabPanels style={{ paddingTop: 60 }}>
           <TabPanel>
             <div>
               <SentVsReceivedChart
-                title="🍆  Total Sent vs Received"
+                title="Total Sent vs Received"
                 description={
                   earliestAndLatestDate
                     ? `since ${earliestAndLatestDate.earliestDate.toLocaleDateString()} (${daysAgo(
@@ -79,19 +95,22 @@ export function ChartTabs() {
                       )} days ago)`
                     : 'since...'
                 }
+                icon={FiMessageCircle}
                 filters={{
                   groupChat,
                   contact,
                 }}
               />
               <TopFriendsChart
-                title="🧑‍🤝‍🧑  Top Messaged Friends"
+                title="Top Messaged Friends"
                 description=""
+                icon={FiUsers}
                 filters={{ limit, groupChat, contact }}
               />
               <TextsOverTimeChart
-                title="🗓️  Number of Messages Per Day"
+                title="Number of Messages Per Day"
                 description=""
+                icon={FiCalendar}
                 filters={{
                   limit,
                   groupChat,
@@ -103,8 +122,9 @@ export function ChartTabs() {
           <TabPanel>
             <div>
               <WordOrEmojiCountChart
-                title="😃 Top Received Emojis"
+                title="Top Received Emojis"
                 description=""
+                icon={FiSmile}
                 labelText="Count of Received Emojis"
                 filters={{
                   isEmoji: true,
@@ -115,14 +135,22 @@ export function ChartTabs() {
                 }}
               />
               <WordOrEmojiCountChart
-                title="😋  Top Sent Emojis"
+                title="Top Sent Emojis"
                 description=""
+                icon={FiMeh}
                 labelText="Count of Sent Emojis"
-                filters={{ isEmoji: true, limit, isFromMe: true, contact }}
+                filters={{
+                  isEmoji: true,
+                  limit,
+                  isFromMe: true,
+                  contact,
+                  groupChat,
+                }}
               />
               <WordOrEmojiCountChart
-                title="📨  Top Received Words"
+                title="Top Received Words"
                 description=""
+                icon={FiBookOpen}
                 labelText="Count of Received Words"
                 filters={{
                   isEmoji: false,
@@ -133,14 +161,23 @@ export function ChartTabs() {
                 }}
               />
               <WordOrEmojiCountChart
-                title="📝  Top Sent Words"
+                title="Top Sent Words"
                 description=""
+                icon={FiEdit3}
                 labelText="Count of Sent Words"
-                filters={{ isEmoji: false, limit, isFromMe: true, contact }}
+                filters={{
+                  isEmoji: false,
+                  limit,
+                  isFromMe: true,
+                  contact,
+                  groupChat,
+                }}
               />
             </div>
           </TabPanel>
-          <TabPanel />
+          <TabPanel>
+            <ComingSoon />
+          </TabPanel>
         </TabPanels>
       </Tabs>
     </div>

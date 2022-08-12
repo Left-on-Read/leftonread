@@ -3,6 +3,7 @@ import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
+import { IconType } from 'react-icons';
 
 import {
   IWordOrEmojiFilters,
@@ -13,11 +14,13 @@ import { GraphContainer } from './GraphContainer';
 export function WordOrEmojiCountChart({
   title,
   description,
+  icon,
   labelText,
   filters,
 }: {
   title: string;
   description: string;
+  icon: IconType;
   labelText: string;
   filters: IWordOrEmojiFilters;
 }) {
@@ -98,7 +101,7 @@ export function WordOrEmojiCountChart({
   }
 
   return (
-    <GraphContainer title={title} description={description}>
+    <GraphContainer title={title} description={description} icon={icon}>
       {graphContent}
     </GraphContainer>
   );

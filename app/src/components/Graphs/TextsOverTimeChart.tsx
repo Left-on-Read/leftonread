@@ -3,6 +3,7 @@ import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
+import { IconType } from 'react-icons';
 
 import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFilters';
 import { TextOverTimeResults } from '../../analysis/queries/TextsOverTimeQuery';
@@ -11,10 +12,12 @@ import { GraphContainer } from './GraphContainer';
 export function TextsOverTimeChart({
   title,
   description,
+  icon,
   filters,
 }: {
   title: string;
   description: string;
+  icon: IconType;
   filters: SharedQueryFilters;
 }) {
   const [sent, setSent] = useState<TextOverTimeResults>([]);
@@ -137,7 +140,7 @@ export function TextsOverTimeChart({
   }
 
   return (
-    <GraphContainer title={title} description={description}>
+    <GraphContainer title={title} description={description} icon={icon}>
       {graphContent}
     </GraphContainer>
   );
