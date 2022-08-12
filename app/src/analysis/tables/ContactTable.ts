@@ -27,7 +27,7 @@ export class ContactTable extends Table {
       ZABCDRECORD.Z_PK,
       ZABCDRECORD.ZFIRSTNAME,
       ZABCDRECORD.ZLASTNAME,
-      -- TODO: I understand this is ugly... use regex.
+      -- TODO(Danilowicz): I understand this is ugly... use regex.
       replace(
         replace(
           replace(

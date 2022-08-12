@@ -112,7 +112,18 @@ export async function queryEmojiOrWordCounts(
 
     SELECT
       SUM(${OutputColumns.COUNT}) as ${OutputColumns.COUNT},
-      ${ChatTableColumns.WORD} as ${OutputColumns.WORD}
+      -- TODO(Danilowicz): I understand this is ugly and hardcoded... should use regex.
+      replace(
+        replace(
+          replace(
+            replace(
+              replace(
+                ${ChatTableColumns.WORD},
+              ',', ""),
+            '!',""),
+          '!!', ""),
+        '.', ""),
+      '*', "") as ${OutputColumns.WORD}
     FROM
       COUNT_TEXT_TB
     GROUP BY ${ChatTableColumns.WORD}
