@@ -6,7 +6,7 @@ A free open-source iMessage analyzer for Mac Desktop. Built with Electron, SQLit
 
 ### Mission and Values
 
-**👩🏻Open-Source Transparency**: We open-sourced the entire application to keep users' security and privacy first.
+**Open-Source Transparency**: We open-sourced the entire application to keep users' security and privacy first.
 
 **Fast**: The first iteration was a [web application](https://www.reddit.com/r/dataisbeautiful/comments/biou3e/4_years_of_texts_between_me_and_my_long_distance/), but now we have rebuilt Left on Read as a desktop application that works without an Internet connection.
 
