@@ -3,12 +3,11 @@ import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
 import {
-  FiActivity,
   FiBookOpen,
   FiCalendar,
-  FiClipboard,
   FiEdit3,
   FiMeh,
+  FiMessageCircle,
   FiSmile,
   FiUsers,
 } from 'react-icons/fi';
@@ -96,7 +95,7 @@ export function ChartTabs() {
                       )} days ago)`
                     : 'since...'
                 }
-                icon={FiClipboard}
+                icon={FiMessageCircle}
                 filters={{
                   groupChat,
                   contact,

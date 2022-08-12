@@ -14,7 +14,7 @@ export function GraphContainer({
   children: React.ReactNode;
 }) {
   return (
-    <div style={{ marginBottom: 24 }}>
+    <div style={{ margin: '12px 0' }}>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Box
           style={{

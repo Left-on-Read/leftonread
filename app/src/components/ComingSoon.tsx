@@ -31,7 +31,7 @@ export function ComingSoon() {
       </Float>
       <div style={{ marginLeft: 64, paddingRight: 64 }}>
         <Text fontWeight="bold" fontSize="lg">
-          Stay tuned...
+          Thanks for your support!
         </Text>
         <Text>
           We have exciting features planned: sentiment analysis, powerful
