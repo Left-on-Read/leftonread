@@ -2,15 +2,15 @@
 	<img src="https://raw.githubusercontent.com/Left-on-Read/leftonread/main/web/src/assets/ICON_TEXT_LOGO.svg" />
 </h2>
 
-An text message analyzer for Mac Desktop. Built with Electron, SQLite, Typescript, and ❤️.
+A text message analyzer built with Electron, SQLite, Typescript, and ❤️.
 
 ### Mission and Values
 
 **Open-Source Transparency**: We open-sourced the entire application to keep users' security and privacy first.
 
-**Fast**: The first iteration was a [web application](https://www.reddit.com/r/dataisbeautiful/comments/biou3e/4_years_of_texts_between_me_and_my_long_distance/), but now we have rebuilt Left on Read as a desktop app.
-
 **Secure**: Without needing to manually re-upload, you can now use Left on Read securely and learn about yourself from your texts.
+
+**Redesigned**: The first iteration was a [web application](https://www.reddit.com/r/dataisbeautiful/comments/biou3e/4_years_of_texts_between_me_and_my_long_distance/), but now we have rebuilt Left on Read as a Desktop app.
 
 <p align="right"><a href="https://leftonread.me/">leftonread.me</a></p>
 
@@ -18,7 +18,7 @@ An text message analyzer for Mac Desktop. Built with Electron, SQLite, Typescrip
 
 We ❤️ contributors. Please read our [CODE OF CONDUCT](./CODE_OF_CONDUCT.md).
 
-At a high-level, this [lerna](https://github.com/lerna/lerna) monorepo is split up into a few project subdirectories.
+At a high-level, this [lerna](https://github.com/lerna/lerna) monorepo is split up into a few different project subdirectories.
 
 ## License
 
