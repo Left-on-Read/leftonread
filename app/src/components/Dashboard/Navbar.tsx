@@ -67,7 +67,7 @@ export function Navbar({ onRefresh }: { onRefresh: () => void }) {
                 // bg="purple.400"
                 // color="white"
               >
-                Adjust Filters (1)
+                Adjust Filters
               </Button>
             </PopoverTrigger>
             <PopoverContent style={{ width: '400px', marginRight: 16 }}>

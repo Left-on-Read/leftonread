@@ -7,6 +7,7 @@ import { EarliestAndLatestDateResults } from '../../analysis/queries/EarliestAnd
 import { DEFAULT_FILTER_LIMIT } from '../../constants';
 import { GroupChatFilters } from '../../constants/filters';
 import { daysAgo } from '../../main/util';
+import { ComingSoon } from '../ComingSoon';
 import { SentVsReceivedChart } from '../Graphs/SentVsReceivedChart';
 import { TextsOverTimeChart } from '../Graphs/TextsOverTimeChart';
 import { TopFriendsChart } from '../Graphs/TopFriendsChart';
@@ -64,7 +65,7 @@ export function ChartTabs() {
         >
           <Tab style={{ marginRight: 32 }}>Activity</Tab>
           <Tab style={{ marginRight: 32 }}>Words & Emojis</Tab>
-          <Tab style={{ marginRight: 32 }}>More coming soon...</Tab>
+          <Tab style={{ marginRight: 32 }}>Coming Soon</Tab>
         </TabList>
         <TabPanels style={{ paddingTop: 60 }}>
           <TabPanel>
@@ -118,7 +119,13 @@ export function ChartTabs() {
                 title="😋  Top Sent Emojis"
                 description=""
                 labelText="Count of Sent Emojis"
-                filters={{ isEmoji: true, limit, isFromMe: true, contact }}
+                filters={{
+                  isEmoji: true,
+                  limit,
+                  isFromMe: true,
+                  contact,
+                  groupChat,
+                }}
               />
               <WordOrEmojiCountChart
                 title="📨  Top Received Words"
@@ -136,11 +143,19 @@ export function ChartTabs() {
                 title="📝  Top Sent Words"
                 description=""
                 labelText="Count of Sent Words"
-                filters={{ isEmoji: false, limit, isFromMe: true, contact }}
+                filters={{
+                  isEmoji: false,
+                  limit,
+                  isFromMe: true,
+                  contact,
+                  groupChat,
+                }}
               />
             </div>
           </TabPanel>
-          <TabPanel />
+          <TabPanel>
+            <ComingSoon />
+          </TabPanel>
         </TabPanels>
       </Tabs>
     </div>
