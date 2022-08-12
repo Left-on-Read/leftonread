@@ -1,16 +1,10 @@
-import log from 'electron-log';
-
-import {
-  filterOutReactions,
-  GroupChatFilters,
-} from '../../../constants/filters';
-import { objReplacementUnicode } from '../../../constants/objReplacementUnicode';
+import { GroupChatFilters } from '../../../constants/filters';
 
 export interface SharedQueryFilters {
   limit?: number;
   contact?: string;
   word?: string;
-  groupChat?: string;
+  groupChat?: GroupChatFilters;
 }
 
 function wordFilter(filters: SharedQueryFilters): string | undefined {

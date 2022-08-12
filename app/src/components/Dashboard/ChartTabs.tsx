@@ -130,7 +130,7 @@ export function ChartTabs() {
                   isEmoji: true,
                   limit,
                   isFromMe: false,
-                  groupChat,
+                  groupChat: GroupChatFilters.BOTH,
                   contact,
                 }}
               />
