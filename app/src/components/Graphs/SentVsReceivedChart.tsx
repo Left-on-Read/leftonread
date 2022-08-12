@@ -9,6 +9,7 @@ import {
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
+import { IconType } from 'react-icons';
 
 import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFilters';
 import { TotalSentVsReceivedResults } from '../../analysis/queries/TotalSentVsReceivedQuery';
@@ -17,10 +18,12 @@ import { GraphContainer } from './GraphContainer';
 export function SentVsReceivedChart({
   title,
   description,
+  icon,
   filters,
 }: {
   title: string;
   description: string;
+  icon: IconType;
   filters: SharedQueryFilters;
 }) {
   const [received, setReceived] = useState<number>();
@@ -64,7 +67,7 @@ export function SentVsReceivedChart({
   }, [filters, title]);
 
   return (
-    <GraphContainer title={title} description={description}>
+    <GraphContainer title={title} description={description} icon={icon}>
       {error ? (
         <Text color="red.400">Uh oh! Something went wrong.</Text>
       ) : (

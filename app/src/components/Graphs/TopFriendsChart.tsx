@@ -3,6 +3,7 @@ import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
+import { IconType } from 'react-icons';
 
 import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFilters';
 import { TTopFriendsResults } from '../../analysis/queries/TopFriendsQuery';
@@ -11,10 +12,12 @@ import { GraphContainer } from './GraphContainer';
 export function TopFriendsChart({
   title,
   description,
+  icon,
   filters,
 }: {
   title: string;
   description: string;
+  icon: IconType;
   filters: SharedQueryFilters;
 }) {
   const [friends, setFriends] = useState<string[]>([]);
@@ -104,7 +107,7 @@ export function TopFriendsChart({
   }
 
   return (
-    <GraphContainer title={title} description={description}>
+    <GraphContainer title={title} description={description} icon={icon}>
       {graphContent}
     </GraphContainer>
   );

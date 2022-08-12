@@ -1,3 +1,5 @@
+import log from 'electron-log';
+
 import {
   filterOutReactions,
   GroupChatFilters,
