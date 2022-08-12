@@ -66,7 +66,7 @@ export function FilterPanel({
           </Text>
         </div>
       </div> */}
-      <div style={{ marginTop: 25 }}>
+      <div style={{ marginTop: 5 }}>
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: 8 }}>
           <Icon as={FiUser} style={{ marginRight: 6 }} />
           <Text fontWeight="bold">Contact</Text>
