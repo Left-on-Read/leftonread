@@ -113,7 +113,7 @@ export function Footer() {
                 textAlign: 'center',
               }}
             >
-              © Left on Read 2021
+              © Left on Read 2022
             </div>
           </div>
         </div>
