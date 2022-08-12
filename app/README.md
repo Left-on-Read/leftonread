@@ -16,45 +16,38 @@ We are proud to be using [Electron-React Boilerplate
 
 - First, install dependencies with `yarn`
 
-‼️ To run the app, you need to install dependencies in both the `app/src/` directory and the `app/` root directory. In other words:
+‼️ To run the app:
 
 ```
 # from project root
-cd app; yarn; cd src/; yarn;
+cd app; yarn; 
 ```
 
 - Run the application with `yarn start` in the `app` directory.
 
-## Contributing
-
-<!-- TODO: Move this to a CONTRIBUTING.md -->
-
-### Code Style
-
-- Use `electron-log` for logging
-- Keep files small
-
 ## Troubleshooting Local Development:
 
-In general, make sure you `yarn` installed with node `15.9.0` and `yarn start` on `15.9.0`. It seems the M1 chip requires this node version.
+In general, make sure you `yarn` installed with node `16.13.0` and `yarn start` on `16.13.0`. It seems the M1 chip might require 15.19.0, however.
 
 #### Permission denied or cannot find .db file
 
-You need to give your terminal application "full disk access."  Note:  If you are running 'yarn start' in an IDE, like VScode, you will need to give that IDE full disk access in order to run Left on Read locally. This is because the application needs to copy the chat.db file in `~/Library/Messages` into the Left on Read application folder `~/.leftonread`
+You need to give your terminal application (for example, iTerm2) "full disk access."
 
-To give your Terminal full disk access, go to System Preferences > Security and Privacy > Full Disk Access (a folder on the scrollbar) > and select iTerm.
+If you are running 'yarn start' in an IDE, like VScode, you will need to give that IDE full disk access in order to run Left on Read locally. 
+
+To give your Terminal full disk access, go to System Preferences > Security and Privacy > Full Disk Access (a folder on the scrollbar) > and select your terminal app or IDE.
 
 #### DATABASE MALFORMED — TRIGGER ERROR
 
 If you see a console error that says the database is malformed, then you need to delete the databases the application reads from (so then it can quickly create them from scratch again).
 
 ```
-cd; rm -ir ./leftonread
+cd ~; rm -ir ./leftonread
 ```
 
 Say yes to the prompt and delete all the files within `./leftonread` including the directory itself. The app will simply recreate it. You could remove the `-i` flag if you like to live on the edge and trust yourself not to delete your entire system because of a misspelling.
 
-After deleting, simply refresh the electron app. (It should hot reload automatically.)
+After deleting, simply refresh the Electron app with command + r or rerun yarn start. However, it should hot reload automatically.
 
 #### Cannot yarn start: JavaScript heap out of memory
 
@@ -98,4 +91,4 @@ You most likely have an old electron process running. If this is warning, you ca
 
 ### Error: Cannot find module
 
-If you are getting a "Cannot find module" error, you likely forgot to install the packages. Be sure to run `yarn` in the both the `app/` directory and `app/src` directory.
+If you are getting a "Cannot find module" error, you likely forgot to install the packages. Be sure to run `yarn` in the `app/` directory.
