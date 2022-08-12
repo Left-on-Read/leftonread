@@ -1,14 +1,16 @@
 import { Box, Icon, Text, theme as defaultTheme } from '@chakra-ui/react';
 import React from 'react';
-import { FiSmile, FiUsers } from 'react-icons/fi';
+import { IconType } from 'react-icons';
 
 export function GraphContainer({
   title,
   description,
+  icon,
   children,
 }: {
   title: string;
   description?: string;
+  icon: IconType;
   children: React.ReactNode;
 }) {
   return (
@@ -29,7 +31,7 @@ export function GraphContainer({
           boxShadow="lg"
         >
           <Icon
-            as={FiUsers}
+            as={icon}
             color="gray.500"
             style={{ width: '80%', height: '80%' }}
           />

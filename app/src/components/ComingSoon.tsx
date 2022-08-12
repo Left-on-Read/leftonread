@@ -34,8 +34,8 @@ export function ComingSoon() {
           Stay tuned...
         </Text>
         <Text>
-          We have exciting features planned including things like sentiment
-          analysis, powerful filtering, and support for Facebook Messenger 👀
+          We have exciting features planned: sentiment analysis, powerful
+          filtering, and support for Facebook Messenger 👀
         </Text>
         <div style={{ marginTop: 32 }} />
         <Button
@@ -45,7 +45,7 @@ export function ComingSoon() {
           fontSize="md"
           onClick={() => onEmailModalOpen()}
         >
-          Have ideas? Submit them here!
+          Have ideas? Submit them here! - ❤️ Teddy & Alex
         </Button>
       </div>
       <EmailModal isOpen={isEmailModalOpen} onClose={onEmailModalClose} />

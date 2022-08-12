@@ -2,6 +2,16 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
+import {
+  FiActivity,
+  FiBookOpen,
+  FiCalendar,
+  FiClipboard,
+  FiEdit3,
+  FiMeh,
+  FiSmile,
+  FiUsers,
+} from 'react-icons/fi';
 
 import { EarliestAndLatestDateResults } from '../../analysis/queries/EarliestAndLatestDatesQuery';
 import { DEFAULT_FILTER_LIMIT } from '../../constants';
@@ -86,6 +96,7 @@ export function ChartTabs() {
                       )} days ago)`
                     : 'since...'
                 }
+                icon={FiClipboard}
                 filters={{
                   groupChat,
                   contact,
@@ -94,11 +105,13 @@ export function ChartTabs() {
               <TopFriendsChart
                 title="Top Messaged Friends"
                 description=""
+                icon={FiUsers}
                 filters={{ limit, groupChat, contact }}
               />
               <TextsOverTimeChart
-                title="🗓️  Number of Messages Per Day"
+                title="Number of Messages Per Day"
                 description=""
+                icon={FiCalendar}
                 filters={{
                   limit,
                   groupChat,
@@ -111,7 +124,8 @@ export function ChartTabs() {
             <div>
               <WordOrEmojiCountChart
                 title="Top Received Emojis"
-                description="These are the emojis you receive the most."
+                description=""
+                icon={FiSmile}
                 labelText="Count of Received Emojis"
                 filters={{
                   isEmoji: true,
@@ -122,8 +136,9 @@ export function ChartTabs() {
                 }}
               />
               <WordOrEmojiCountChart
-                title="😋  Top Sent Emojis"
+                title="Top Sent Emojis"
                 description=""
+                icon={FiMeh}
                 labelText="Count of Sent Emojis"
                 filters={{
                   isEmoji: true,
@@ -134,8 +149,9 @@ export function ChartTabs() {
                 }}
               />
               <WordOrEmojiCountChart
-                title="📨  Top Received Words"
+                title="Top Received Words"
                 description=""
+                icon={FiBookOpen}
                 labelText="Count of Received Words"
                 filters={{
                   isEmoji: false,
@@ -146,8 +162,9 @@ export function ChartTabs() {
                 }}
               />
               <WordOrEmojiCountChart
-                title="📝  Top Sent Words"
+                title="Top Sent Words"
                 description=""
+                icon={FiEdit3}
                 labelText="Count of Sent Words"
                 filters={{
                   isEmoji: false,
