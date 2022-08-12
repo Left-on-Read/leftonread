@@ -34,7 +34,7 @@ export function SentVsReceivedChart({
 
   useEffect(() => {
     async function fetchSentVsReceived() {
-      // setError(null);
+      setError(null);
       setIsLoading(true);
       try {
         const sentVsReceivedDataList: TotalSentVsReceivedResults =

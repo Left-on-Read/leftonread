@@ -1,4 +1,5 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
@@ -22,13 +23,7 @@ import { TextsOverTimeChart } from '../Graphs/TextsOverTimeChart';
 import { TopFriendsChart } from '../Graphs/TopFriendsChart';
 import { WordOrEmojiCountChart } from '../Graphs/WordOrEmojiCountChart';
 
-export function ChartTabs() {
-  const [limit, setLimit] = useState<number>(DEFAULT_FILTER_LIMIT);
-  const [groupChat, setGroupChat] = useState<GroupChatFilters>(
-    GroupChatFilters.ONLY_INDIVIDUAL
-  );
-  const [contact, setContact] = useState<string | undefined>(undefined);
-
+export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
   const [earliestAndLatestDate, setEarliestAndLatestDates] = useState<{
     earliestDate: Date;
     latestDate: Date;
@@ -97,24 +92,21 @@ export function ChartTabs() {
                 }
                 icon={FiMessageCircle}
                 filters={{
-                  groupChat,
-                  contact,
+                  ...filters,
                 }}
               />
               <TopFriendsChart
                 title="Top Messaged Friends"
                 description=""
                 icon={FiUsers}
-                filters={{ limit, groupChat, contact }}
+                filters={{ ...filters }}
               />
               <TextsOverTimeChart
                 title="Number of Messages Per Day"
                 description=""
                 icon={FiCalendar}
                 filters={{
-                  limit,
-                  groupChat,
-                  contact,
+                  ...filters,
                 }}
               />
             </div>
@@ -128,10 +120,8 @@ export function ChartTabs() {
                 labelText="Count of Received Emojis"
                 filters={{
                   isEmoji: true,
-                  limit,
                   isFromMe: false,
-                  groupChat,
-                  contact,
+                  ...filters,
                 }}
               />
               <WordOrEmojiCountChart
@@ -141,10 +131,8 @@ export function ChartTabs() {
                 labelText="Count of Sent Emojis"
                 filters={{
                   isEmoji: true,
-                  limit,
                   isFromMe: true,
-                  contact,
-                  groupChat,
+                  ...filters,
                 }}
               />
               <WordOrEmojiCountChart
@@ -154,10 +142,8 @@ export function ChartTabs() {
                 labelText="Count of Received Words"
                 filters={{
                   isEmoji: false,
-                  limit,
                   isFromMe: false,
-                  groupChat,
-                  contact,
+                  ...filters,
                 }}
               />
               <WordOrEmojiCountChart
@@ -167,10 +153,8 @@ export function ChartTabs() {
                 labelText="Count of Sent Words"
                 filters={{
                   isEmoji: false,
-                  limit,
                   isFromMe: true,
-                  contact,
-                  groupChat,
+                  ...filters,
                 }}
               />
             </div>
