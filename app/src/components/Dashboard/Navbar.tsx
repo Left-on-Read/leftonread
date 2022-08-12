@@ -100,7 +100,7 @@ export function Navbar({
             <PopoverContent style={{ width: '400px', marginRight: 16 }}>
               <PopoverArrow />
               <PopoverBody>
-                <div style={{ padding: 16 }}>
+                <div style={{ padding: 10 }}>
                   <FilterPanel
                     contacts={allContacts}
                     filters={filters}

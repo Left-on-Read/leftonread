@@ -111,9 +111,7 @@ export function TextsOverTimeChart({
         ticks: {
           // value is of type number but Line props doesn't like that...
           callback: (value: any) => {
-            return new Date(labels[value]).toLocaleString('default', {
-              month: 'long',
-            });
+            return new Date(labels[value]).toLocaleDateString();
           },
           maxTicksLimit: 12,
         },
