@@ -42,7 +42,7 @@ export async function queryTextsOverTimeSent(
   db: sqlite3.Database,
   filters: SharedQueryFilters
 ): Promise<TextOverTimeResults> {
-  const allFilters = getAllFilters(filters, 'is_from_me = 1');
+  const allFilters = getAllFilters(filters, 'is_from_me = 1', 'contact_name');
   const q = getCoreQuery(allFilters);
 
   return allP(db, q);
@@ -52,7 +52,7 @@ export async function queryTextsOverTimeReceived(
   db: sqlite3.Database,
   filters: SharedQueryFilters
 ): Promise<TextOverTimeResults> {
-  const allFilters = getAllFilters(filters, 'is_from_me = 0');
+  const allFilters = getAllFilters(filters, 'is_from_me = 0', 'contact_name');
   const q = getCoreQuery(allFilters);
 
   return allP(db, q);

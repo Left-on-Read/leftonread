@@ -15,11 +15,14 @@ function wordFilter(filters: SharedQueryFilters): string | undefined {
   return `LOWER(text) LIKE "%${filters.word?.toLowerCase()}%"`;
 }
 
-function contactFilter(filters: SharedQueryFilters): string | undefined {
+function contactFilter(
+  filters: SharedQueryFilters,
+  columnName: string
+): string | undefined {
   if (!filters.contact || filters.contact.length === 0) {
     return undefined;
   }
-  return `friend = "${filters.contact}"`;
+  return `${columnName} = "${filters.contact}"`;
 }
 
 export function groupChatFilter(
@@ -33,9 +36,10 @@ export function groupChatFilter(
 
 export function getAllFilters(
   filters: SharedQueryFilters,
-  defaultFilterStatement?: string
+  defaultFilterStatement?: string,
+  contactColumnName?: string
 ): string {
-  const contact = contactFilter(filters);
+  const contact = contactFilter(filters, contactColumnName ?? 'friend');
   const groupChats = groupChatFilter(filters);
   const word = wordFilter(filters);
 

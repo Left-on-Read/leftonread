@@ -11,13 +11,16 @@ import {
   Popover,
   PopoverArrow,
   PopoverBody,
-  PopoverCloseButton,
   PopoverContent,
-  PopoverHeader,
   PopoverTrigger,
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
+import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
+import { IContactData } from 'components/Filters/ContactFilter';
+import { ipcRenderer } from 'electron';
+import log from 'electron-log';
+import { useEffect, useState } from 'react';
 import {
   FiGitPullRequest,
   FiLifeBuoy,
@@ -30,12 +33,36 @@ import { APP_VERSION } from '../../constants/versions';
 import { FilterPanel } from '../Filters/FilterPanel';
 import { EmailModal } from '../Support/EmailModal';
 
-export function Navbar({ onRefresh }: { onRefresh: () => void }) {
+export function Navbar({
+  onRefresh,
+  filters,
+  onUpdateFilters,
+}: {
+  onRefresh: () => void;
+  filters: SharedQueryFilters;
+  onUpdateFilters: (arg0: SharedQueryFilters) => void;
+}) {
   const {
     isOpen: isEmailModalOpen,
     onOpen: onEmailModalOpen,
     onClose: onEmailModalClose,
   } = useDisclosure();
+
+  const [allContacts, setAllContacts] = useState<IContactData[]>([]);
+
+  useEffect(() => {
+    async function getContacts() {
+      try {
+        const contacts: IContactData[] = await ipcRenderer.invoke(
+          'query-get-contact-options'
+        );
+        setAllContacts(contacts);
+      } catch (err) {
+        log.error('ERROR: fetching contact options', err);
+      }
+    }
+    getContacts();
+  }, []);
 
   return (
     <div
@@ -74,7 +101,11 @@ export function Navbar({ onRefresh }: { onRefresh: () => void }) {
               <PopoverArrow />
               <PopoverBody>
                 <div style={{ padding: 16 }}>
-                  <FilterPanel />
+                  <FilterPanel
+                    contacts={allContacts}
+                    filters={filters}
+                    onUpdateFilters={onUpdateFilters}
+                  />
                 </div>
               </PopoverBody>
             </PopoverContent>

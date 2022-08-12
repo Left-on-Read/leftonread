@@ -1,4 +1,3 @@
-import log from 'electron-log';
 import * as sqlite3 from 'sqlite3';
 
 import * as sqlite3Wrapper from '../../utils/sqliteWrapper';
@@ -31,7 +30,7 @@ export async function queryTotalSentVsReceived(
   db: sqlite3.Database,
   filters: SharedQueryFilters
 ): Promise<TotalSentVsReceivedResults> {
-  const allFilters = getAllFilters(filters);
+  const allFilters = getAllFilters(filters, undefined, 'contact_name');
   const q = `
   SELECT COUNT(*) as ${TotalSentVsReceivedOutputColumns.TOTAL}, 
   is_from_me AS ${TotalSentVsReceivedOutputColumns.IS_FROM_ME}
