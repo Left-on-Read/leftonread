@@ -2,13 +2,13 @@
 	<img src="https://raw.githubusercontent.com/Left-on-Read/leftonread/main/web/src/assets/ICON_TEXT_LOGO.svg" />
 </h2>
 
-A free open-source iMessage analyzer for Mac Desktop. Built with Electron, SQLite, Typescript, and ❤️.
+An text message analyzer for Mac Desktop. Built with Electron, SQLite, Typescript, and ❤️.
 
 ### Mission and Values
 
 **Open-Source Transparency**: We open-sourced the entire application to keep users' security and privacy first.
 
-**Fast**: The first iteration was a [web application](https://www.reddit.com/r/dataisbeautiful/comments/biou3e/4_years_of_texts_between_me_and_my_long_distance/), but now we have rebuilt Left on Read as a desktop application that works without an Internet connection.
+**Fast**: The first iteration was a [web application](https://www.reddit.com/r/dataisbeautiful/comments/biou3e/4_years_of_texts_between_me_and_my_long_distance/), but now we have rebuilt Left on Read as a desktop app.
 
 **Secure**: Without needing to manually re-upload, you can now use Left on Read securely and learn about yourself from your texts.
 
@@ -18,17 +18,13 @@ A free open-source iMessage analyzer for Mac Desktop. Built with Electron, SQLit
 
 We ❤️ contributors. Please read our [CODE OF CONDUCT](./CODE_OF_CONDUCT.md).
 
-At a high-level, this [lerna](https://github.com/lerna/lerna) monorepo is split up into 3 project subdirectories:
-
-1. [app](./app/README.md) — the Left on Read Electron application itself. `app` is not dependent on anything in `web`. (Remember: the app does not need to connect to the Internet.)
-2. [web](./web/README.md) - the marketing site, which uses Firebase to store emails.
-3. [eslint-config](./eslint-config/README.md) - a shared eslint config to maintain consistency.
+At a high-level, this [lerna](https://github.com/lerna/lerna) monorepo is split up into a few project subdirectories.
 
 ## License
 
-Left on Read is MIT Licensed.
+Left on Read is licensed under an Elastic License 2.0 (ELv2).
 
-By contributing to Left on Read, you agree that your contributions will be licensed under its MIT license.
+By contributing to Left on Read, you agree that your contributions will be licensed under ELv2.
 
 ## Sponsors
 
