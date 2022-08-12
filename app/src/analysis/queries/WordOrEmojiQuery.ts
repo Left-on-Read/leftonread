@@ -1,3 +1,4 @@
+import { GroupChatFilters } from 'constants/filters';
 import * as sqlite3 from 'sqlite3';
 
 import { getEmojiData } from '../../constants/emojis';
@@ -22,7 +23,7 @@ export interface IWordOrEmojiFilters {
   isFromMe: boolean;
   limit?: number;
   isEmoji: boolean;
-  groupChat?: string;
+  groupChat?: GroupChatFilters;
 }
 
 export interface IWordOrEmojiChartData {
@@ -102,7 +103,39 @@ export async function queryEmojiOrWordCounts(
     WITH COUNT_TEXT_TB AS (
       SELECT
         COUNT(${ChatTableColumns.WORD}) as ${OutputColumns.COUNT},
-        ${ChatTableColumns.WORD},
+        -- TODO(Danilowicz): I understand this is ugly and hardcoded... should use regex.
+        -- https://stackoverflow.com/questions/13240298/remove-numbers-from-string-sql-server
+        REPLACE
+        (REPLACE
+        (REPLACE
+        (REPLACE
+        (REPLACE
+        (REPLACE
+        (REPLACE
+        (REPLACE
+        (REPLACE
+        (REPLACE (
+          replace(
+            replace(
+              replace(
+                replace(
+                  replace(
+                    ${ChatTableColumns.WORD},
+                  ',', ""),
+                '!',""),
+              '!!', ""),
+            '.', ""),
+          '*', "")
+        , '0', ''),
+        '1', ''),
+        '2', ''),
+        '3', ''),
+        '4', ''),
+        '5', ''),
+        '6', ''),
+        '7', ''),
+        '8', ''),
+        '9', '') as ${ChatTableColumns.WORD},
         ${ChatTableColumns.CONTACT},
         ${ChatTableColumns.IS_FROM_ME}
       FROM ${ChatTableNames.COUNT_TABLE}
@@ -112,20 +145,10 @@ export async function queryEmojiOrWordCounts(
 
     SELECT
       SUM(${OutputColumns.COUNT}) as ${OutputColumns.COUNT},
-      -- TODO(Danilowicz): I understand this is ugly and hardcoded... should use regex.
-      replace(
-        replace(
-          replace(
-            replace(
-              replace(
-                ${ChatTableColumns.WORD},
-              ',', ""),
-            '!',""),
-          '!!', ""),
-        '.', ""),
-      '*', "") as ${OutputColumns.WORD}
+      ${ChatTableColumns.WORD} as ${OutputColumns.WORD}
     FROM
       COUNT_TEXT_TB
+    WHERE LENGTH(${ChatTableColumns.WORD}) >= 1
     GROUP BY ${ChatTableColumns.WORD}
     ORDER BY ${OutputColumns.COUNT} DESC
     LIMIT ${limit}
