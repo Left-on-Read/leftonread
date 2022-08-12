@@ -71,7 +71,22 @@ export function TopFriendsChart({
     ],
   };
 
-  let graphContent = <Bar data={data} />;
+  const options = {
+    scales: {
+      yAxis: {
+        ticks: {
+          precision: 0,
+        },
+      },
+      xAxis: {
+        ticks: {
+          precision: 0,
+        },
+      },
+    },
+  };
+
+  let graphContent = <Bar data={data} options={options} />;
   if (isLoading) {
     graphContent = (
       <div

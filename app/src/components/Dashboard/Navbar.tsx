@@ -94,7 +94,7 @@ export function Navbar({ onRefresh }: { onRefresh: () => void }) {
                 </Text>
               </MenuItem>
               <MenuDivider />
-              <MenuItem
+              {/* <MenuItem
                 onClick={() => {
                   onEmailModalOpen();
                 }}
@@ -103,7 +103,7 @@ export function Navbar({ onRefresh }: { onRefresh: () => void }) {
                 <Text size="sm" fontWeight={300}>
                   Contact Support
                 </Text>
-              </MenuItem>
+              </MenuItem> */}
               <MenuItem
                 onClick={() => {
                   onEmailModalOpen();
