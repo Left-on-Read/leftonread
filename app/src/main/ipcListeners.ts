@@ -1,3 +1,4 @@
+import * as Amplitude from '@amplitude/node';
 import axios from 'axios';
 import { ipcMain } from 'electron';
 import log from 'electron-log';
@@ -22,6 +23,8 @@ import {
 } from '../analysis/queries/WordOrEmojiQuery';
 import { API_BASE_URL } from '../constants/api';
 import { APP_VERSION } from '../constants/versions';
+import { AmplitudeClient } from '../utils/analytics';
+import { getUuid } from '../utils/store';
 
 function getDb() {
   const sqldb = sqlite3.verbose();
@@ -123,4 +126,27 @@ export function attachIpcListeners() {
   ipcMain.handle('check-initialized', async () => {
     return !!fs.existsSync(appDirectoryPath);
   });
+
+  ipcMain.handle(
+    'log-event',
+    (
+      event,
+      eventName: string,
+      properties: Record<string, string | number> | undefined
+    ) => {
+      const uuid = getUuid();
+
+      try {
+        AmplitudeClient.logEvent(
+          {
+            user_id: uuid,
+            event_type: eventName,
+          },
+          properties
+        );
+      } catch (e) {
+        log.error(e);
+      }
+    }
+  );
 }
