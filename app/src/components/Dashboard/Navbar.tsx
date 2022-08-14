@@ -18,6 +18,7 @@ import {
 } from '@chakra-ui/react';
 import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
 import { IContactData } from 'components/Filters/ContactFilter';
+import { GroupChatFilters } from 'constants/filters';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
@@ -30,6 +31,7 @@ import {
 
 import LogoWithText from '../../../assets/LogoWithText.svg';
 import { APP_VERSION } from '../../constants/versions';
+import { logEvent } from '../../utils/analytics';
 import { FilterPanel } from '../Filters/FilterPanel';
 import { EmailModal } from '../Support/EmailModal';
 
@@ -64,6 +66,14 @@ export function Navbar({
     getContacts();
   }, []);
 
+  let activeFilterCount = 0;
+  if (filters.contact) {
+    activeFilterCount += 1;
+  }
+  if (filters.groupChat === GroupChatFilters.BOTH) {
+    activeFilterCount += 1;
+  }
+
   return (
     <div
       style={{
@@ -93,8 +103,12 @@ export function Navbar({
                 leftIcon={<Icon as={FiSliders} />}
                 // bg="purple.400"
                 // color="white"
+                onClick={() => {
+                  logEvent({ eventName: 'ADJUST_FILTERS' });
+                }}
               >
                 Adjust Filters
+                {activeFilterCount > 0 ? ` (${activeFilterCount})` : ''}
               </Button>
             </PopoverTrigger>
             <PopoverContent style={{ width: '400px', marginRight: 16 }}>
@@ -117,6 +131,7 @@ export function Navbar({
               <MenuItem
                 onClick={() => {
                   onRefresh();
+                  logEvent({ eventName: 'REFRESH_DATA' });
                 }}
               >
                 <Icon as={FiRefreshCw} style={{ marginRight: 12 }} />

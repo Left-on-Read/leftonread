@@ -15,6 +15,7 @@ import {
 
 import { EarliestAndLatestDateResults } from '../../analysis/queries/EarliestAndLatestDatesQuery';
 import { daysAgo } from '../../main/util';
+import { logEvent } from '../../utils/analytics';
 import { ComingSoon } from '../ComingSoon';
 import { SentVsReceivedChart } from '../Graphs/SentVsReceivedChart';
 import { TextsOverTimeChart } from '../Graphs/TextsOverTimeChart';
@@ -53,7 +54,26 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
       {/* <span>
         Last text message: {earliestAndLatestDate?.latestDate.toLocaleString()}
       </span> */}
-      <Tabs variant="soft-rounded" colorScheme="purple" size="md">
+      <Tabs
+        variant="soft-rounded"
+        colorScheme="purple"
+        size="md"
+        onChange={(index) => {
+          let activeTab = 'Activity';
+          if (index === 1) {
+            activeTab = 'Words & Emojis';
+          } else if (index === 2) {
+            activeTab = 'Coming Soon...';
+          }
+
+          logEvent({
+            eventName: 'SET_ACTIVE_TAB',
+            properties: {
+              activeTab,
+            },
+          });
+        }}
+      >
         <TabList
           style={{
             position: 'fixed',
@@ -65,6 +85,7 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
             zIndex: 3,
           }}
         >
+          {/* IF YOU CHANGE THE TABS - PLEASE CHANGE LOGGING ABOVE */}
           <Tab style={{ marginRight: 32 }}>
             <span style={{ marginRight: 10 }}>📱</span> Activity
           </Tab>

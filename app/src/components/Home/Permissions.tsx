@@ -3,6 +3,8 @@ import { Button, Icon, Text } from '@chakra-ui/react';
 import electron from 'electron';
 import { FiFolder } from 'react-icons/fi';
 
+import { logEvent } from '../../utils/analytics';
+
 export function Permissions() {
   return (
     <div
@@ -74,6 +76,7 @@ export function Permissions() {
               `x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles`
             );
           }
+          logEvent({ eventName: 'OPEN_SYSTEM_PREFERENCES' });
         }}
         shadow="xl"
       >

@@ -5,6 +5,8 @@ import { useState } from 'react';
 import { IconType } from 'react-icons';
 import { FiBarChart2, FiGlobe, FiLock } from 'react-icons/fi';
 
+import { logEvent } from '../../utils/analytics';
+
 function BulletPoint({
   icon,
   title,
@@ -48,6 +50,12 @@ export function GetStarted({ onNext }: { onNext: (arg0: boolean) => void }) {
   const onStart = async () => {
     setIsLoading(true);
     const hasAccess = await ipcRenderer.invoke('check-permissions');
+    logEvent({
+      eventName: 'GET_STARTED',
+      properties: {
+        hasAccess,
+      },
+    });
     onNext(hasAccess);
   };
 
