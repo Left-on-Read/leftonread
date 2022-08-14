@@ -70,7 +70,7 @@ export function GetStarted({ onNext }: { onNext: (arg0: boolean) => void }) {
       <BulletPoint
         icon={FiLock}
         title="Your Device Only"
-        description="Just like your files and documents, this data remains on your device and is not shared nor uploaded."
+        description="Just like your private photos and documents, your messages will remain accessible only by you. The data will never even leave your computer."
         color="blue.400"
       />
       <BulletPoint

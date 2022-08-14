@@ -126,6 +126,13 @@ export function attachIpcListeners() {
     return !!fs.existsSync(appDirectoryPath);
   });
 
+  ipcMain.handle('reset-application-data', async () => {
+    if (!appDirectoryPath.includes('leftonread')) {
+      throw new Error('App Directory Path must include leftonread');
+    }
+    fs.rmSync(`${appDirectoryPath}`, { recursive: true });
+  });
+
   ipcMain.handle(
     'log-event',
     (

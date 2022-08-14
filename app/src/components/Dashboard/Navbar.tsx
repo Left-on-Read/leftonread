@@ -18,18 +18,19 @@ import {
 } from '@chakra-ui/react';
 import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
 import { IContactData } from 'components/Filters/ContactFilter';
-import { GroupChatFilters } from 'constants/filters';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
 import {
   FiGitPullRequest,
-  FiLifeBuoy,
   FiRefreshCw,
+  FiSlash,
   FiSliders,
 } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 
 import LogoWithText from '../../../assets/LogoWithText.svg';
+import { GroupChatFilters } from '../../constants/filters';
 import { APP_VERSION } from '../../constants/versions';
 import { logEvent } from '../../utils/analytics';
 import { FilterPanel } from '../Filters/FilterPanel';
@@ -44,6 +45,7 @@ export function Navbar({
   filters: SharedQueryFilters;
   onUpdateFilters: (arg0: SharedQueryFilters) => void;
 }) {
+  const navigate = useNavigate();
   const {
     isOpen: isEmailModalOpen,
     onOpen: onEmailModalOpen,
@@ -158,6 +160,18 @@ export function Navbar({
                 <Icon as={FiGitPullRequest} style={{ marginRight: 12 }} />
                 <Text size="sm" fontWeight={300}>
                   Feedback
+                </Text>
+              </MenuItem>
+              <MenuItem
+                onClick={async () => {
+                  logEvent({ eventName: 'RESET_APPLICATION_DATA ' });
+                  await ipcRenderer.invoke('reset-application-data');
+                  navigate('/start');
+                }}
+              >
+                <Icon as={FiSlash} style={{ marginRight: 12 }} />
+                <Text size="sm" fontWeight={300}>
+                  Reset Application
                 </Text>
               </MenuItem>
               <div
