@@ -18,7 +18,6 @@ import {
 } from '@chakra-ui/react';
 import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
 import { IContactData } from 'components/Filters/ContactFilter';
-import { GroupChatFilters } from 'constants/filters';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
@@ -31,6 +30,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 
 import LogoWithText from '../../../assets/LogoWithText.svg';
+import { GroupChatFilters } from '../../constants/filters';
 import { APP_VERSION } from '../../constants/versions';
 import { logEvent } from '../../utils/analytics';
 import { FilterPanel } from '../Filters/FilterPanel';
