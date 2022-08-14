@@ -28,10 +28,10 @@ import {
   FiRefreshCw,
   FiSliders,
 } from 'react-icons/fi';
-import { logEvent } from 'utils/analytics';
 
 import LogoWithText from '../../../assets/LogoWithText.svg';
 import { APP_VERSION } from '../../constants/versions';
+import { logEvent } from '../../utils/analytics';
 import { FilterPanel } from '../Filters/FilterPanel';
 import { EmailModal } from '../Support/EmailModal';
 
