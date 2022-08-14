@@ -24,10 +24,11 @@ import log from 'electron-log';
 import { useEffect, useState } from 'react';
 import {
   FiGitPullRequest,
-  FiLifeBuoy,
   FiRefreshCw,
+  FiSlash,
   FiSliders,
 } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 
 import LogoWithText from '../../../assets/LogoWithText.svg';
 import { APP_VERSION } from '../../constants/versions';
@@ -44,6 +45,7 @@ export function Navbar({
   filters: SharedQueryFilters;
   onUpdateFilters: (arg0: SharedQueryFilters) => void;
 }) {
+  const navigate = useNavigate();
   const {
     isOpen: isEmailModalOpen,
     onOpen: onEmailModalOpen,
@@ -158,6 +160,18 @@ export function Navbar({
                 <Icon as={FiGitPullRequest} style={{ marginRight: 12 }} />
                 <Text size="sm" fontWeight={300}>
                   Feedback
+                </Text>
+              </MenuItem>
+              <MenuItem
+                onClick={async () => {
+                  logEvent({ eventName: 'RESET_APPLICATION_DATA ' });
+                  await ipcRenderer.invoke('reset-application-data');
+                  navigate('/start');
+                }}
+              >
+                <Icon as={FiSlash} style={{ marginRight: 12 }} />
+                <Text size="sm" fontWeight={300}>
+                  Reset Application
                 </Text>
               </MenuItem>
               <div
