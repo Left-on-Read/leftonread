@@ -10,7 +10,7 @@ import '@fontsource/montserrat/900.css';
 
 import { ChakraProvider } from '@chakra-ui/react';
 import { Chart, registerables } from 'chart.js';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 
 import { theme } from '../theme';

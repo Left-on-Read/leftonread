@@ -13,8 +13,6 @@ import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 import path from 'path';
 
-import { AmplitudeClient } from '../utils/analytics';
-import { getUuid } from '../utils/store';
 import { attachIpcListeners } from './ipcListeners';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';

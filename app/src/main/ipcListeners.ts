@@ -1,4 +1,3 @@
-import * as Amplitude from '@amplitude/node';
 import axios from 'axios';
 import { ipcMain } from 'electron';
 import log from 'electron-log';
@@ -23,7 +22,7 @@ import {
 } from '../analysis/queries/WordOrEmojiQuery';
 import { API_BASE_URL } from '../constants/api';
 import { APP_VERSION } from '../constants/versions';
-import { AmplitudeClient } from '../utils/analytics';
+import { AmplitudeClient } from '../utils/amplitudeClient';
 import { getUuid } from '../utils/store';
 
 function getDb() {
