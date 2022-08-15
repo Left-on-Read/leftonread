@@ -9,6 +9,49 @@ import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFi
 import { TextOverTimeResults } from '../../analysis/queries/TextsOverTimeQuery';
 import { GraphContainer } from './GraphContainer';
 
+function generateSampledPoints(
+  data: {
+    y: number;
+    x: string;
+    is_from_me: number;
+  }[],
+  batchSize: number
+) {
+  const sampledData = [];
+  let batchCounter = 0;
+  let currentBatchTotal = 0;
+  let startDate = data[0]?.x;
+
+  data.forEach((point) => {
+    currentBatchTotal += point.y;
+    if (batchCounter === 0) {
+      startDate = point.x;
+    }
+    batchCounter += 1;
+    if (batchCounter === batchSize) {
+      sampledData.push({
+        y: currentBatchTotal,
+        x: startDate,
+        label: `${startDate} - ${point.x}`,
+        is_from_me: point.is_from_me,
+      });
+      batchCounter = 0;
+      currentBatchTotal = 0;
+    }
+  });
+
+  if (batchCounter > 0) {
+    sampledData.push({
+      y: currentBatchTotal,
+      x: startDate,
+      label: `${startDate} - ${data[data.length - 1].x}`,
+      is_from_me: data[data.length - 1].is_from_me,
+    });
+  }
+
+  return sampledData;
+}
+
 export function TextsOverTimeChart({
   title,
   description,
@@ -68,6 +111,17 @@ export function TextsOverTimeChart({
     };
   });
 
+  // Batch by week
+
+  const MAX_POINTS = 30;
+  const minLength = Math.max(sentData.length, receivedData.length);
+  let batchSize = 1;
+  if (minLength * 2 > MAX_POINTS) {
+    batchSize = Math.floor(minLength / MAX_POINTS);
+  }
+  const sampledSentData = generateSampledPoints(sentData, batchSize);
+  const sampledReceivedData = generateSampledPoints(receivedData, batchSize);
+
   const chartData = {
     labels,
     datasets: [
@@ -76,14 +130,14 @@ export function TextsOverTimeChart({
         label: 'Received Texts',
         borderColor: theme.colors.gray['400'],
         borderWidth: 0.8,
-        data: receivedData,
+        data: sampledReceivedData,
       },
       {
         backgroundColor: theme.colors.blue['200'],
         label: 'Sent Texts',
         borderColor: theme.colors.blue['400'],
         borderWidth: 0.8,
-        data: sentData,
+        data: sampledSentData,
       },
     ],
   };
@@ -114,6 +168,15 @@ export function TextsOverTimeChart({
             return new Date(labels[value]).toLocaleDateString();
           },
           maxTicksLimit: 12,
+        },
+      },
+    },
+    plugins: {
+      tooltip: {
+        callbacks: {
+          title: (context: any) => {
+            return context[0].raw.label;
+          },
         },
       },
     },
