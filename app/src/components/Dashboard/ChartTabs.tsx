@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import {
   FiBookOpen,
   FiCalendar,
+  FiClock,
   FiEdit3,
   FiMeh,
   FiMessageCircle,
@@ -19,6 +20,7 @@ import { logEvent } from '../../utils/analytics';
 import { ComingSoon } from '../ComingSoon';
 import { SentVsReceivedChart } from '../Graphs/SentVsReceivedChart';
 import { TextsOverTimeChart } from '../Graphs/TextsOverTimeChart';
+import { TimeOfDayChart } from '../Graphs/TimeOfDayChart';
 import { TopFriendsChart } from '../Graphs/TopFriendsChart';
 import { WordOrEmojiCountChart } from '../Graphs/WordOrEmojiCountChart';
 
@@ -119,6 +121,14 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
                 description=""
                 icon={FiUsers}
                 filters={{ ...filters }}
+              />
+              <TimeOfDayChart
+                title="Messages by Time of Day"
+                description="represented in your local time zone"
+                icon={FiClock}
+                filters={{
+                  ...filters,
+                }}
               />
               <TextsOverTimeChart
                 title="Number of Messages Per Day"
