@@ -14,6 +14,10 @@ import {
   queryTextsOverTimeReceived,
   queryTextsOverTimeSent,
 } from '../analysis/queries/TextsOverTimeQuery';
+import {
+  queryTimeOfDayReceived,
+  queryTimeOfDaySent,
+} from '../analysis/queries/TimeOfDayQuery';
 import { queryTopFriends } from '../analysis/queries/TopFriendsQuery';
 import { queryTotalSentVsReceived } from '../analysis/queries/TotalSentVsReceivedQuery';
 import {
@@ -84,6 +88,22 @@ export function attachIpcListeners() {
     async (event, filters: SharedQueryFilters) => {
       const db = getDb();
       return queryTextsOverTimeSent(db, filters);
+    }
+  );
+
+  ipcMain.handle(
+    'query-time-of-day-sent',
+    async (event, filters: SharedQueryFilters) => {
+      const db = getDb();
+      return queryTimeOfDaySent(db, filters);
+    }
+  );
+
+  ipcMain.handle(
+    'query-time-of-day-received',
+    async (event, filters: SharedQueryFilters) => {
+      const db = getDb();
+      return queryTimeOfDayReceived(db, filters);
     }
   );
 
