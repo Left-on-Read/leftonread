@@ -20,10 +20,20 @@ We are proud to be using [Electron-React Boilerplate
 
 ```
 # from project root
-cd app; yarn; 
+cd app; yarn;
 ```
 
 - Run the application with `yarn start` in the `app` directory.
+
+### Releasing
+
+To create a release, while in the root of `app`, run the following command depending on the release type:
+
+```
+yarn release:patch // This will bump 0.1.1 -> 0.1.2
+yarn release:minor // This will bump 0.1.4 -> 0.2.0
+yarn release:major // This will bump 0.1.4 -> 1.0.0
+```
 
 ## Troubleshooting Local Development:
 
@@ -33,7 +43,7 @@ In general, make sure you `yarn` installed with node `16.13.0` and `yarn start` 
 
 You need to give your terminal application (for example, iTerm2) "full disk access."
 
-If you are running 'yarn start' in an IDE, like VScode, you will need to give that IDE full disk access in order to run Left on Read locally. 
+If you are running 'yarn start' in an IDE, like VScode, you will need to give that IDE full disk access in order to run Left on Read locally.
 
 To give your Terminal full disk access, go to System Preferences > Security and Privacy > Full Disk Access (a folder on the scrollbar) > and select your terminal app or IDE.
 
