@@ -49,6 +49,10 @@ async function main() {
     `ℹ️  Bumped v${bumpedVersion.original} to v${bumpedVersion.updated}`
   );
 
+  // Add & Commit code
+  await git.add('.');
+  await git.commit(`Release v${bumpedVersion.updated}`);
+
   // Create a new tag
   await git.addAnnotatedTag(
     `v${bumpedVersion.updated}`,
@@ -56,10 +60,6 @@ async function main() {
   );
 
   console.log(`ℹ️  Created new tag v${bumpedVersion.updated}`);
-
-  // Add & Commit code
-  await git.add('.');
-  await git.commit(`Release v${bumpedVersion.updated}`);
 
   console.log(`ℹ️  Pushing updates to origin...`);
 
