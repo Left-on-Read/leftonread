@@ -1,6 +1,6 @@
 {
     "name": "left-on-read",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "license": "MIT",
     "main": "./dist/main/main.js",
     "scripts": {
