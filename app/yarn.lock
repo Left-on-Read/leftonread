@@ -7027,6 +7027,13 @@ json-buffer@3.0.1:
   version "3.0.1"
   resolved "https://registry.npmjs.org/json-buffer/-/json-buffer-3.0.1.tgz"
 
+json-bump@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/json-bump/-/json-bump-1.0.2.tgz#73be03bf43314ea7fab943fd36986b1989167ec7"
+  integrity sha512-9N4u62TdVMF81/JPRki7tE/2GvUyQsaKpjWRoa9xtxsq0SHS9TSX2TurVVvjEbN/qBvp+XtDVlMRAnnEngnZrQ==
+  dependencies:
+    fs-extra "^9.0.1"
+
 json-parse-even-better-errors@^2.3.0, json-parse-even-better-errors@^2.3.1:
   version "2.3.1"
   resolved "https://registry.npmjs.org/json-parse-even-better-errors/-/json-parse-even-better-errors-2.3.1.tgz"
