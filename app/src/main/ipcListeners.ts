@@ -6,7 +6,10 @@ import * as fs from 'fs';
 import * as sqlite3 from 'sqlite3';
 
 import { appDirectoryPath, chatPaths } from '../analysis/directories';
-import { initializeCoreDb } from '../analysis/initializeCoreDb';
+import {
+  clearExistingDirectory,
+  initializeCoreDb,
+} from '../analysis/initializeCoreDb';
 import { queryContactOptions } from '../analysis/queries/ContactOptionsQuery';
 import { queryEarliestAndLatestDates } from '../analysis/queries/EarliestAndLatestDatesQuery';
 import { SharedQueryFilters } from '../analysis/queries/filters/sharedQueryFilters';
@@ -147,10 +150,7 @@ export function attachIpcListeners() {
   });
 
   ipcMain.handle('reset-application-data', async () => {
-    if (!appDirectoryPath.includes('leftonread')) {
-      throw new Error('App Directory Path must include leftonread');
-    }
-    fs.rmSync(`${appDirectoryPath}`, { recursive: true });
+    await clearExistingDirectory();
   });
 
   ipcMain.handle(
