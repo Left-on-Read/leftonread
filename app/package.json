@@ -225,7 +225,7 @@
   },
   "build": {
     "productName": "Left on Read",
-    "appId": "",
+    "appId": "com.electron.left-on-read",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [
