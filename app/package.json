@@ -225,7 +225,7 @@
   },
   "build": {
     "productName": "Left on Read",
-    "appId": "org.erb.ElectronReact",
+    "appId": "",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [
