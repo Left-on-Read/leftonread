@@ -28,6 +28,15 @@ import {
   CoreTableNames,
 } from './tables/types';
 
+export async function clearExistingDirectory() {
+  if (fs.existsSync(appDirectoryPath)) {
+    if (!appDirectoryPath.includes('leftonread')) {
+      throw new Error('App Directory Path must include leftonread');
+    }
+    fs.rmSync(`${appDirectoryPath}`, { recursive: true });
+  }
+}
+
 async function createAppDirectory() {
   try {
     if (!fs.existsSync(appDirectoryPath)) {
@@ -58,6 +67,9 @@ export async function initializeCoreDb(): Promise<sqlite3.Database> {
   log.info(
     `INFO: Copying a chat.db and address book files from the user's library into a .leftonread folder`
   );
+
+  // Start from a completely clean slate when initializing to avoid database malformed errors
+  await clearExistingDirectory();
 
   await createAppDirectory();
   if (process.env.DEBUG_ENV) {
