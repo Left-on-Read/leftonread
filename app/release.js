@@ -56,10 +56,16 @@ async function main() {
   );
 
   console.log(`ℹ️  Created new tag v${bumpedVersion.updated}`);
+
+  // Add & Commit code
+  await git.add('.');
+  await git.commit(`Release v${bumpedVersion.updated}`);
+
   console.log(`ℹ️  Pushing updates to origin...`);
 
   // Push to origin
-  await git.pushTags('origin');
+  await git.push('origin');
+  await git.push(['origin', '--tags']);
 
   // Pull from origin
   await git.fetch('origin');

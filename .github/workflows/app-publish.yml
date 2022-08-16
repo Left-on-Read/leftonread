@@ -5,6 +5,10 @@ on:
     tags:
       - 'v*'
 
+defaults:
+  run:
+    working-directory: ./app/
+
 jobs:
   publish:
     # To enable auto publishing to github, update your electron publisher
