@@ -1,8 +1,5 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
-import { ipcRenderer } from 'electron';
-import log from 'electron-log';
-import { useEffect, useState } from 'react';
 import {
   FiBookOpen,
   FiCalendar,
@@ -14,7 +11,6 @@ import {
   FiUsers,
 } from 'react-icons/fi';
 
-import { EarliestAndLatestDateResults } from '../../analysis/queries/EarliestAndLatestDatesQuery';
 import { daysAgo } from '../../main/util';
 import { logEvent } from '../../utils/analytics';
 import { ComingSoon } from '../ComingSoon';
@@ -29,7 +25,7 @@ export function ChartTabs({
   earliestAndLatestDate,
 }: {
   filters: SharedQueryFilters;
-  earliestAndLatestDate?: {
+  earliestAndLatestDate: {
     earliestDate: Date;
     latestDate: Date;
   };
@@ -86,14 +82,10 @@ export function ChartTabs({
             <div>
               <SentVsReceivedChart
                 title="Total Sent vs Received"
-                description={
-                  earliestAndLatestDate
-                    ? `since ${earliestAndLatestDate.earliestDate.toLocaleDateString()} (${daysAgo(
-                        earliestAndLatestDate.earliestDate,
-                        new Date()
-                      )} days ago)`
-                    : 'since...'
-                }
+                description={`since ${earliestAndLatestDate.earliestDate.toLocaleDateString()} (${daysAgo(
+                  earliestAndLatestDate.earliestDate,
+                  new Date()
+                )} days ago)`}
                 icon={FiMessageCircle}
                 filters={{
                   ...filters,

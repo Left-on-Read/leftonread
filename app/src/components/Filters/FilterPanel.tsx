@@ -32,28 +32,24 @@ export function FilterPanel({
   filters: SharedQueryFilters;
   onUpdateFilters: (arg0: SharedQueryFilters) => void;
   contacts: IContactData[];
-  earliestAndLatestDate?: {
+  earliestAndLatestDate: {
     earliestDate: Date;
     latestDate: Date;
   };
 }) {
   const [dateRange, setDateRange] = useState<number[]>([0, 100]);
 
-  let startDate;
-  let endDate;
-  if (earliestAndLatestDate) {
-    const difference =
-      earliestAndLatestDate.latestDate.getTime() -
-      earliestAndLatestDate.earliestDate.getTime();
-    startDate = new Date(
-      (dateRange[0] / 100) * difference +
-        earliestAndLatestDate.earliestDate.getTime()
-    );
-    endDate = new Date(
-      (dateRange[1] / 100) * difference +
-        earliestAndLatestDate.earliestDate.getTime()
-    );
-  }
+  const difference =
+    earliestAndLatestDate.latestDate.getTime() -
+    earliestAndLatestDate.earliestDate.getTime();
+  const startDate = new Date(
+    (dateRange[0] / 100) * difference +
+      earliestAndLatestDate.earliestDate.getTime()
+  );
+  const endDate = new Date(
+    (dateRange[1] / 100) * difference +
+      earliestAndLatestDate.earliestDate.getTime()
+  );
 
   return (
     <div>
@@ -65,7 +61,7 @@ export function FilterPanel({
 
         <div style={{ display: 'flex' }}>
           <Text style={{ marginRight: 16, width: 150 }} fontSize="sm">
-            {startDate?.toLocaleDateString()}
+            {startDate.toLocaleDateString()}
           </Text>
           <RangeSlider
             min={0}
@@ -76,15 +72,15 @@ export function FilterPanel({
             }}
             onChangeEnd={(val) => {
               if (earliestAndLatestDate) {
-                const difference =
+                const diff =
                   earliestAndLatestDate.latestDate.getTime() -
                   earliestAndLatestDate.earliestDate.getTime();
                 const filterStart = new Date(
-                  (val[0] / 100) * difference +
+                  (val[0] / 100) * diff +
                     earliestAndLatestDate.earliestDate.getTime()
                 );
                 const filterEnd = new Date(
-                  (val[1] / 100) * difference +
+                  (val[1] / 100) * diff +
                     earliestAndLatestDate.earliestDate.getTime()
                 );
                 onUpdateFilters({
@@ -107,7 +103,7 @@ export function FilterPanel({
             </RangeSliderThumb>
           </RangeSlider>
           <Text style={{ marginLeft: 16, width: 150 }} fontSize="sm">
-            {endDate?.toLocaleDateString()}
+            {endDate.toLocaleDateString()}
           </Text>
         </div>
       </div>

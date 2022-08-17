@@ -86,44 +86,44 @@ export function TopFriendsChart({
     },
   };
 
-  let graphContent = <Bar data={data} options={options} />;
-  if (isLoading) {
-    graphContent = (
-      <div
-        style={{
-          position: 'relative',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <div style={{ position: 'absolute' }}>
-          <Spinner color="purple.400" size="xl" />
-        </div>
-        <Bar data={{ labels: [], datasets: [] }} />
-      </div>
-    );
-  } else if (error) {
-    graphContent = (
-      <div
-        style={{
-          position: 'relative',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <div style={{ position: 'absolute' }}>
-          <Text color="red.400">Uh oh! Something went wrong... </Text>
-        </div>
-        <Bar data={{ labels: [], datasets: [] }} />
-      </div>
-    );
-  }
-
   return (
     <GraphContainer title={title} description={description} icon={icon}>
-      {graphContent}
+      {error ? (
+        <div
+          style={{
+            position: 'relative',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <div style={{ position: 'absolute' }}>
+            <Text color="red.400">Uh oh! Something went wrong... </Text>
+          </div>
+          <Bar data={{ labels: [], datasets: [] }} />
+        </div>
+      ) : (
+        <div style={{ position: 'relative' }}>
+          {isLoading && (
+            <div
+              style={{
+                position: 'absolute',
+                height: '100%',
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                top: 0,
+                left: 0,
+                backgroundColor: 'rgba(255, 255, 255, 0.7)',
+              }}
+            >
+              <Spinner color="purple.400" size="xl" />
+            </div>
+          )}
+          <Bar data={data} options={options} />
+        </div>
+      )}
     </GraphContainer>
   );
 }

@@ -190,7 +190,6 @@ export function TimeOfDayChart({
           </div>
         ) : (
           <>
-            {' '}
             {isLoading && (
               <div style={{ position: 'absolute' }}>
                 <Spinner color="purple.400" size="xl" />
