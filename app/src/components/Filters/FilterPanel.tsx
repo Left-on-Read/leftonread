@@ -70,6 +70,7 @@ export function FilterPanel({
           <RangeSlider
             min={0}
             max={100}
+            defaultValue={[0, 100]}
             onChange={(val) => {
               setDateRange(val);
             }}
@@ -79,11 +80,11 @@ export function FilterPanel({
                   earliestAndLatestDate.latestDate.getTime() -
                   earliestAndLatestDate.earliestDate.getTime();
                 const filterStart = new Date(
-                  (dateRange[0] / 100) * difference +
+                  (val[0] / 100) * difference +
                     earliestAndLatestDate.earliestDate.getTime()
                 );
                 const filterEnd = new Date(
-                  (dateRange[1] / 100) * difference +
+                  (val[1] / 100) * difference +
                     earliestAndLatestDate.earliestDate.getTime()
                 );
                 onUpdateFilters({
@@ -95,12 +96,13 @@ export function FilterPanel({
                 });
               }
             }}
+            value={dateRange}
           >
             <RangeSliderTrack bg="purple.400" />
-            <RangeSliderThumb index={0} defaultValue={0}>
+            <RangeSliderThumb index={0}>
               <Box color="blue.400" as={ChevronLeftIcon} />
             </RangeSliderThumb>
-            <RangeSliderThumb index={1} defaultValue={100}>
+            <RangeSliderThumb index={1}>
               <Box color="blue.400" as={ChevronRightIcon} />
             </RangeSliderThumb>
           </RangeSlider>
@@ -172,6 +174,7 @@ export function FilterPanel({
           size="sm"
           onClick={() => {
             onUpdateFilters(DEFAULT_QUERY_FILTERS);
+            setDateRange([0, 100]);
           }}
         >
           Clear Filters
