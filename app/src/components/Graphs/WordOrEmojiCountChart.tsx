@@ -1,14 +1,12 @@
 import { Spinner, Text, theme } from '@chakra-ui/react';
+import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { IconType } from 'react-icons';
 
-import {
-  IWordOrEmojiFilters,
-  TWordOrEmojiResults,
-} from '../../analysis/queries/WordOrEmojiQuery';
+import { TWordOrEmojiResults } from '../../analysis/queries/WordOrEmojiQuery';
 import { GraphContainer } from './GraphContainer';
 
 export function WordOrEmojiCountChart({
@@ -17,12 +15,16 @@ export function WordOrEmojiCountChart({
   icon,
   labelText,
   filters,
+  isEmoji,
+  isFromMe,
 }: {
   title: string;
   description: string;
   icon: IconType;
   labelText: string;
-  filters: IWordOrEmojiFilters;
+  filters: SharedQueryFilters;
+  isEmoji: boolean;
+  isFromMe: boolean;
 }) {
   const [words, setWords] = useState<string[]>([]);
   const [count, setCount] = useState<number[]>([]);
@@ -37,7 +39,7 @@ export function WordOrEmojiCountChart({
       try {
         const data: TWordOrEmojiResults = await ipcRenderer.invoke(
           'query-word-emoji',
-          filters
+          { isEmoji, isFromMe, ...filters }
         );
         setWords(data.map((obj) => obj.word));
         setCount(data.map((obj) => obj.count));
@@ -51,7 +53,7 @@ export function WordOrEmojiCountChart({
       }
     }
     fetchWordData();
-  }, [title, filters]);
+  }, [filters, title, isEmoji, isFromMe]);
 
   const data = {
     labels: words,

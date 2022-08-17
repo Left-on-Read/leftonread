@@ -14,11 +14,13 @@ export function TopFriendsChart({
   description,
   icon,
   filters,
+  loadingOverride,
 }: {
   title: string;
   description: string;
   icon: IconType;
   filters: SharedQueryFilters;
+  loadingOverride?: boolean;
 }) {
   const [friends, setFriends] = useState<string[]>([]);
   const [received, setReceived] = useState<number[]>([]);
@@ -86,6 +88,8 @@ export function TopFriendsChart({
     },
   };
 
+  const showLoading = loadingOverride || isLoading;
+
   return (
     <GraphContainer title={title} description={description} icon={icon}>
       {error ? (
@@ -104,7 +108,7 @@ export function TopFriendsChart({
         </div>
       ) : (
         <div style={{ position: 'relative' }}>
-          {isLoading && (
+          {showLoading && (
             <div
               style={{
                 position: 'absolute',
