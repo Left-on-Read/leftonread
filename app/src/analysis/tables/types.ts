@@ -1,5 +1,6 @@
 import * as sqlite3 from 'sqlite3';
 
+// Why the heck are these enums instead of constants?
 export enum ChatTableNames {
   COUNT_TABLE = 'count_table',
 }
@@ -16,11 +17,16 @@ export enum CalendarTableNames {
   CALENDAR_TABLE = 'calendar_table',
 }
 
+export enum SentimentTableNames {
+  SENTIMENT_TABLE = 'sentiment_table',
+}
+
 export type TableNames =
   | ChatTableNames
   | AddressBookTableNames
   | CoreTableNames
-  | CalendarTableNames;
+  | CalendarTableNames
+  | SentimentTableNames;
 
 export class Table {
   name: TableNames;

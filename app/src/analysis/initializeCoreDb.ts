@@ -21,11 +21,13 @@ import {
   setContactNameColumn,
 } from './tables/ContactTable';
 import { CoreMainTable } from './tables/CoreTable';
+import { SentimentTable } from './tables/SentimentTable';
 import {
   AddressBookTableNames,
   CalendarTableNames,
   ChatTableNames,
   CoreTableNames,
+  SentimentTableNames,
 } from './tables/types';
 
 export async function clearExistingDirectory() {
@@ -55,6 +57,7 @@ async function dropAllTables(db: sqlite3.Database) {
     ...Object.values(CoreMainTable),
     ...Object.values(AddressBookTableNames),
     ...Object.values(CalendarTableNames),
+    ...Object.values(SentimentTableNames),
   ].map(async (tableName) =>
     sqlite3Wrapper.runP(db, `DROP TABLE IF EXISTS ${tableName}`)
   );
@@ -127,9 +130,21 @@ export async function initializeCoreDb(): Promise<sqlite3.Database> {
     lorDB,
     CoreTableNames.CORE_MAIN_TABLE
   ).create();
+
+  // Initial core tables
   await Promise.all([calTable, coreMainTable]);
 
-  await new ChatCountTable(lorDB, ChatTableNames.COUNT_TABLE).create();
+  // Some analysis tables
+  const chatCountTable = new ChatCountTable(
+    lorDB,
+    ChatTableNames.COUNT_TABLE
+  ).create();
+
+  const sentimentTable = new SentimentTable(
+    lorDB,
+    SentimentTableNames.SENTIMENT_TABLE
+  ).create();
+  await Promise.all([chatCountTable, sentimentTable]);
 
   log.info('INFO: Created LOR DB');
 
