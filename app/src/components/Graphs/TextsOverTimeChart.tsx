@@ -143,18 +143,6 @@ export function TextsOverTimeChart({
   };
 
   const options = {
-    // plugins: {
-    //   // 'legend' now within object 'plugins {}'
-    //   legend: {
-    //     labels: {
-    //       borderColor: 'red',
-    //       // fontSize: 18  // not 'fontSize:' anymore
-    //       font: {
-    //         size: 18, // 'size' now within object 'font {}'
-    //       },
-    //     },
-    //   },
-    // },
     scales: {
       yAxis: {
         ticks: {
@@ -182,44 +170,44 @@ export function TextsOverTimeChart({
     },
   };
 
-  let graphContent = <Line data={chartData} options={options} />;
-  if (isLoading) {
-    graphContent = (
-      <div
-        style={{
-          position: 'relative',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <div style={{ position: 'absolute' }}>
-          <Spinner color="purple.400" size="xl" />
-        </div>
-        <Line data={{ labels: [], datasets: [] }} options={options} />
-      </div>
-    );
-  } else if (error) {
-    graphContent = (
-      <div
-        style={{
-          position: 'relative',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <div style={{ position: 'absolute' }}>
-          <Text color="red.400">Uh oh! Something went wrong... </Text>
-        </div>
-        <Line data={{ labels: [], datasets: [] }} options={options} />
-      </div>
-    );
-  }
-
   return (
     <GraphContainer title={title} description={description} icon={icon}>
-      {graphContent}
+      {error ? (
+        <div
+          style={{
+            position: 'relative',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <div style={{ position: 'absolute' }}>
+            <Text color="red.400">Uh oh! Something went wrong... </Text>
+          </div>
+          <Line data={{ labels: [], datasets: [] }} options={options} />
+        </div>
+      ) : (
+        <div style={{ position: 'relative' }}>
+          {isLoading && (
+            <div
+              style={{
+                position: 'absolute',
+                height: '100%',
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                top: 0,
+                left: 0,
+                backgroundColor: 'rgba(255, 255, 255, 0.7)',
+              }}
+            >
+              <Spinner color="purple.400" size="xl" />
+            </div>
+          )}
+          <Line data={chartData} options={options} />
+        </div>
+      )}
     </GraphContainer>
   );
 }

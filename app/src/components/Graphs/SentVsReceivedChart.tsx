@@ -75,25 +75,29 @@ export function SentVsReceivedChart({
           <Stat>
             <StatLabel>Total</StatLabel>
             <StatNumber>
-              {isLoading ? (
-                <div style={{ paddingRight: 48 }}>
-                  <Skeleton height={35} />
-                </div>
-              ) : (
-                <>{((received ?? 0) + (sent ?? 0)).toLocaleString()}</>
-              )}
+              <div style={{ height: 50 }}>
+                {isLoading ? (
+                  <div style={{ paddingRight: 48 }}>
+                    <Skeleton height={35} />
+                  </div>
+                ) : (
+                  <>{((received ?? 0) + (sent ?? 0)).toLocaleString()}</>
+                )}
+              </div>
             </StatNumber>
           </Stat>
           <Stat>
             <StatLabel>Sent</StatLabel>
             <StatNumber>
-              {isLoading ? (
-                <div style={{ paddingRight: 48 }}>
-                  <Skeleton height={35} />
-                </div>
-              ) : (
-                <>{sent?.toLocaleString()}</>
-              )}
+              <div style={{ height: 50 }}>
+                {isLoading ? (
+                  <div style={{ paddingRight: 48 }}>
+                    <Skeleton height={35} />
+                  </div>
+                ) : (
+                  <>{sent?.toLocaleString()}</>
+                )}
+              </div>
             </StatNumber>
           </Stat>
 
