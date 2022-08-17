@@ -55,17 +55,17 @@ export function TopFriendsChart({
     labels: friends,
     datasets: [
       {
-        label: 'Received',
-        data: received,
-        backgroundColor: defaultTheme.colors.gray['200'],
-        borderColor: defaultTheme.colors.gray['500'],
-        borderRadius: 5,
-      },
-      {
         label: 'Sent',
         data: sent,
         backgroundColor: defaultTheme.colors.blue['200'],
         borderColor: defaultTheme.colors.blue['400'],
+        borderRadius: 5,
+      },
+      {
+        label: 'Received',
+        data: received,
+        backgroundColor: defaultTheme.colors.gray['200'],
+        borderColor: defaultTheme.colors.gray['500'],
         borderRadius: 5,
       },
     ],

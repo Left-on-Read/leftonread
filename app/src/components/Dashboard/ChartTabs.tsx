@@ -24,33 +24,16 @@ import { TimeOfDayChart } from '../Graphs/TimeOfDayChart';
 import { TopFriendsChart } from '../Graphs/TopFriendsChart';
 import { WordOrEmojiCountChart } from '../Graphs/WordOrEmojiCountChart';
 
-export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
-  const [earliestAndLatestDate, setEarliestAndLatestDates] = useState<{
+export function ChartTabs({
+  filters,
+  earliestAndLatestDate,
+}: {
+  filters: SharedQueryFilters;
+  earliestAndLatestDate?: {
     earliestDate: Date;
     latestDate: Date;
-  }>();
-
-  // TODO(Danilowicz): Possibly move this to electron-store?
-  useEffect(() => {
-    async function fetchEarliestAndLatestDates() {
-      try {
-        const datesDataList: EarliestAndLatestDateResults =
-          await ipcRenderer.invoke('query-earliest-and-latest-dates');
-        if (datesDataList && datesDataList.length === 1) {
-          const earlyDate = datesDataList[0].earliest_date;
-          const lateDate = datesDataList[0].latest_date;
-          setEarliestAndLatestDates({
-            earliestDate: new Date(earlyDate),
-            latestDate: new Date(lateDate),
-          });
-        }
-      } catch (err) {
-        log.error(`ERROR: fetching for fetchEarliestAndLatestDates`, err);
-      }
-    }
-    fetchEarliestAndLatestDates();
-  }, []);
-
+  };
+}) {
   return (
     <div>
       {/* <span>

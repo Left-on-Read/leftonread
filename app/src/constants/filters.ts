@@ -5,6 +5,11 @@ export enum GroupChatFilters {
   ONLY_INDIVIDUAL = 'Only Individual Conversations',
 }
 
+export type TimeRangeFilters = {
+  startDate: Date;
+  endDate: Date;
+};
+
 // TODO(Danilowicz) this should leverage constants/reactions
 export function filterOutReactions(): string {
   return `(

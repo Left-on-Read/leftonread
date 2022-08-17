@@ -27,31 +27,76 @@ export function FilterPanel({
   filters,
   onUpdateFilters,
   contacts,
+  earliestAndLatestDate,
 }: {
   filters: SharedQueryFilters;
   onUpdateFilters: (arg0: SharedQueryFilters) => void;
   contacts: IContactData[];
+  earliestAndLatestDate?: {
+    earliestDate: Date;
+    latestDate: Date;
+  };
 }) {
   const [dateRange, setDateRange] = useState<number[]>([0, 100]);
 
+  let startDate;
+  let endDate;
+  if (earliestAndLatestDate) {
+    const difference =
+      earliestAndLatestDate.latestDate.getTime() -
+      earliestAndLatestDate.earliestDate.getTime();
+    startDate = new Date(
+      (dateRange[0] / 100) * difference +
+        earliestAndLatestDate.earliestDate.getTime()
+    );
+    endDate = new Date(
+      (dateRange[1] / 100) * difference +
+        earliestAndLatestDate.earliestDate.getTime()
+    );
+  }
+
   return (
     <div>
-      {/* <div>
+      <div>
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: 8 }}>
           <Icon as={FiCalendar} style={{ marginRight: 6 }} />
           <Text fontWeight="bold">Time Range</Text>
         </div>
 
         <div style={{ display: 'flex' }}>
-          <Text style={{ marginRight: 16 }} fontSize="sm">
-            {filters.}
+          <Text style={{ marginRight: 16, width: 150 }} fontSize="sm">
+            {startDate?.toLocaleDateString()}
           </Text>
           <RangeSlider
             min={0}
             max={100}
-            onChangeEnd={(val) => {
+            defaultValue={[0, 100]}
+            onChange={(val) => {
               setDateRange(val);
             }}
+            onChangeEnd={(val) => {
+              if (earliestAndLatestDate) {
+                const difference =
+                  earliestAndLatestDate.latestDate.getTime() -
+                  earliestAndLatestDate.earliestDate.getTime();
+                const filterStart = new Date(
+                  (val[0] / 100) * difference +
+                    earliestAndLatestDate.earliestDate.getTime()
+                );
+                const filterEnd = new Date(
+                  (val[1] / 100) * difference +
+                    earliestAndLatestDate.earliestDate.getTime()
+                );
+                onUpdateFilters({
+                  ...filters,
+                  timeRange: {
+                    startDate: filterStart,
+                    endDate: filterEnd,
+                  },
+                });
+              }
+            }}
+            value={dateRange}
           >
             <RangeSliderTrack bg="purple.400" />
             <RangeSliderThumb index={0}>
@@ -61,12 +106,12 @@ export function FilterPanel({
               <Box color="blue.400" as={ChevronRightIcon} />
             </RangeSliderThumb>
           </RangeSlider>
-          <Text style={{ marginLeft: 16 }} fontSize="sm">
-            12/21/2021
+          <Text style={{ marginLeft: 16, width: 150 }} fontSize="sm">
+            {endDate?.toLocaleDateString()}
           </Text>
         </div>
-      </div> */}
-      <div style={{ marginTop: 5 }}>
+      </div>
+      <div style={{ marginTop: 25 }}>
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: 8 }}>
           <Icon as={FiUser} style={{ marginRight: 6 }} />
           <Text fontWeight="bold">Contact</Text>
@@ -129,6 +174,7 @@ export function FilterPanel({
           size="sm"
           onClick={() => {
             onUpdateFilters(DEFAULT_QUERY_FILTERS);
+            setDateRange([0, 100]);
           }}
         >
           Clear Filters
