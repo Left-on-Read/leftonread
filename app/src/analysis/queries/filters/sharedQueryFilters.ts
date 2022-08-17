@@ -1,10 +1,12 @@
-import { GroupChatFilters } from '../../../constants/filters';
+import { GroupChatFilters, TimeRangeFilters } from '../../../constants/filters';
+import { CoreMainTableColumns } from '../../tables/CoreTable';
 
 export interface SharedQueryFilters {
   limit?: number;
   contact?: string;
   word?: string;
   groupChat?: GroupChatFilters;
+  timeRange?: TimeRangeFilters;
 }
 
 function wordFilter(filters: SharedQueryFilters): string | undefined {
@@ -34,6 +36,21 @@ export function groupChatFilter(
   return undefined; // would query for both individual and groupchats
 }
 
+export function timeRangeFilter(
+  filters: SharedQueryFilters
+): string | undefined {
+  if (!filters.timeRange) {
+    return undefined;
+  }
+
+  const { startDate, endDate } = filters.timeRange;
+
+  const parsedStartDate = `"${startDate.toISOString().split('T')[0]} 00:00:00"`;
+  const parsedEndDate = `"${endDate.toISOString().split('T')[0]} 23:59:59"`;
+
+  return `${CoreMainTableColumns.DATE} BETWEEN ${parsedStartDate} AND ${parsedEndDate}`;
+}
+
 export function getAllFilters(
   filters: SharedQueryFilters,
   defaultFilterStatement?: string,
@@ -42,12 +59,14 @@ export function getAllFilters(
   const contact = contactFilter(filters, contactColumnName ?? 'friend');
   const groupChats = groupChatFilter(filters);
   const word = wordFilter(filters);
+  const timeRange = timeRangeFilter(filters);
 
   const filtersArray = [
     contact,
     groupChats,
     word,
     defaultFilterStatement,
+    timeRange,
   ].filter((filter) => !!filter);
 
   return filtersArray.length > 0 ? `WHERE ${filtersArray.join(' AND ')}` : '';

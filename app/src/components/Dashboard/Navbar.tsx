@@ -40,10 +40,15 @@ export function Navbar({
   onRefresh,
   filters,
   onUpdateFilters,
+  earliestAndLatestDate,
 }: {
   onRefresh: () => void;
   filters: SharedQueryFilters;
   onUpdateFilters: (arg0: SharedQueryFilters) => void;
+  earliestAndLatestDate?: {
+    earliestDate: Date;
+    latestDate: Date;
+  };
 }) {
   const navigate = useNavigate();
   const {
@@ -121,6 +126,7 @@ export function Navbar({
                     contacts={allContacts}
                     filters={filters}
                     onUpdateFilters={onUpdateFilters}
+                    earliestAndLatestDate={earliestAndLatestDate}
                   />
                 </div>
               </PopoverBody>
