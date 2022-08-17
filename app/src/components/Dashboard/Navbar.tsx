@@ -17,10 +17,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
-import { IContactData } from 'components/Filters/ContactFilter';
 import { ipcRenderer } from 'electron';
-import log from 'electron-log';
-import { useEffect, useState } from 'react';
 import {
   FiGitPullRequest,
   FiRefreshCw,
@@ -35,43 +32,24 @@ import { APP_VERSION } from '../../constants/versions';
 import { logEvent } from '../../utils/analytics';
 import { FilterPanel } from '../Filters/FilterPanel';
 import { EmailModal } from '../Support/EmailModal';
+import { useGlobalContext } from './GlobalContext';
 
 export function Navbar({
   onRefresh,
   filters,
   onUpdateFilters,
-  earliestAndLatestDate,
 }: {
   onRefresh: () => void;
   filters: SharedQueryFilters;
   onUpdateFilters: (arg0: SharedQueryFilters) => void;
-  earliestAndLatestDate: {
-    earliestDate: Date;
-    latestDate: Date;
-  };
 }) {
+  const { isLoading: isGlobalContextLoading } = useGlobalContext();
   const navigate = useNavigate();
   const {
     isOpen: isEmailModalOpen,
     onOpen: onEmailModalOpen,
     onClose: onEmailModalClose,
   } = useDisclosure();
-
-  const [allContacts, setAllContacts] = useState<IContactData[]>([]);
-
-  useEffect(() => {
-    async function getContacts() {
-      try {
-        const contacts: IContactData[] = await ipcRenderer.invoke(
-          'query-get-contact-options'
-        );
-        setAllContacts(contacts);
-      } catch (err) {
-        log.error('ERROR: fetching contact options', err);
-      }
-    }
-    getContacts();
-  }, []);
 
   let activeFilterCount = 0;
   if (filters.contact) {
@@ -105,16 +83,18 @@ export function Navbar({
           <Popover size="xl">
             <PopoverTrigger>
               <Button
-                size="sm"
+                size="md"
                 style={{ marginRight: 16 }}
                 leftIcon={<Icon as={FiSliders} />}
-                // bg="purple.400"
-                // color="white"
+                colorScheme="purple"
+                color="white"
                 onClick={() => {
                   logEvent({ eventName: 'ADJUST_FILTERS' });
                 }}
+                isLoading={isGlobalContextLoading}
+                loadingText="Filters"
               >
-                Adjust Filters
+                Filters
                 {activeFilterCount > 0 ? ` (${activeFilterCount})` : ''}
               </Button>
             </PopoverTrigger>
@@ -123,10 +103,8 @@ export function Navbar({
               <PopoverBody>
                 <div style={{ padding: 10 }}>
                   <FilterPanel
-                    contacts={allContacts}
                     filters={filters}
                     onUpdateFilters={onUpdateFilters}
-                    earliestAndLatestDate={earliestAndLatestDate}
                   />
                 </div>
               </PopoverBody>
@@ -134,7 +112,7 @@ export function Navbar({
           </Popover>
 
           <Menu>
-            <MenuButton as={IconButton} icon={<SettingsIcon />} size="sm" />
+            <MenuButton as={IconButton} icon={<SettingsIcon />} size="md" />
             <MenuList>
               <MenuItem
                 onClick={() => {

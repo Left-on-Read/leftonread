@@ -19,17 +19,11 @@ import { TextsOverTimeChart } from '../Graphs/TextsOverTimeChart';
 import { TimeOfDayChart } from '../Graphs/TimeOfDayChart';
 import { TopFriendsChart } from '../Graphs/TopFriendsChart';
 import { WordOrEmojiCountChart } from '../Graphs/WordOrEmojiCountChart';
+import { useGlobalContext } from './GlobalContext';
 
-export function ChartTabs({
-  filters,
-  earliestAndLatestDate,
-}: {
-  filters: SharedQueryFilters;
-  earliestAndLatestDate: {
-    earliestDate: Date;
-    latestDate: Date;
-  };
-}) {
+export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
+  const { dateRange, isLoading: isGlobalContextLoading } = useGlobalContext();
+
   return (
     <div>
       {/* <span>
@@ -82,36 +76,34 @@ export function ChartTabs({
             <div>
               <SentVsReceivedChart
                 title="Total Sent vs Received"
-                description={`since ${earliestAndLatestDate.earliestDate.toLocaleDateString()} (${daysAgo(
-                  earliestAndLatestDate.earliestDate,
-                  new Date()
-                )} days ago)`}
+                description={
+                  isGlobalContextLoading
+                    ? `since...`
+                    : `since ${dateRange.earliestDate.toLocaleDateString()} (${daysAgo(
+                        dateRange.earliestDate,
+                        new Date()
+                      )} days ago)`
+                }
                 icon={FiMessageCircle}
-                filters={{
-                  ...filters,
-                }}
+                filters={filters}
               />
               <TopFriendsChart
                 title="Top Messaged Friends"
                 description=""
                 icon={FiUsers}
-                filters={{ ...filters }}
+                filters={filters}
               />
               <TimeOfDayChart
                 title="Messages by Time of Day"
                 description="represented in your local time zone"
                 icon={FiClock}
-                filters={{
-                  ...filters,
-                }}
+                filters={filters}
               />
               <TextsOverTimeChart
                 title="Number of Messages Per Day"
                 description=""
                 icon={FiCalendar}
-                filters={{
-                  ...filters,
-                }}
+                filters={filters}
               />
             </div>
           </TabPanel>
@@ -122,44 +114,36 @@ export function ChartTabs({
                 description=""
                 icon={FiStar}
                 labelText="Count of Received Emojis"
-                filters={{
-                  isEmoji: true,
-                  isFromMe: false,
-                  ...filters,
-                }}
+                filters={filters}
+                isEmoji
+                isFromMe={false}
               />
               <WordOrEmojiCountChart
                 title="Top Sent Emojis"
                 description=""
                 icon={FiMeh}
                 labelText="Count of Sent Emojis"
-                filters={{
-                  isEmoji: true,
-                  isFromMe: true,
-                  ...filters,
-                }}
+                filters={filters}
+                isEmoji
+                isFromMe
               />
               <WordOrEmojiCountChart
                 title="Top Received Words"
                 description=""
                 icon={FiBookOpen}
                 labelText="Count of Received Words"
-                filters={{
-                  isEmoji: false,
-                  isFromMe: false,
-                  ...filters,
-                }}
+                filters={filters}
+                isEmoji={false}
+                isFromMe={false}
               />
               <WordOrEmojiCountChart
                 title="Top Sent Words"
                 description=""
                 icon={FiEdit3}
                 labelText="Count of Sent Words"
-                filters={{
-                  isEmoji: false,
-                  isFromMe: true,
-                  ...filters,
-                }}
+                filters={filters}
+                isEmoji={false}
+                isFromMe
               />
             </div>
           </TabPanel>

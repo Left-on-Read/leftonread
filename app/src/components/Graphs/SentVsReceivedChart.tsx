@@ -20,11 +20,13 @@ export function SentVsReceivedChart({
   description,
   icon,
   filters,
+  loadingOverride,
 }: {
   title: string;
-  description: string;
+  description?: string;
   icon: IconType;
   filters: SharedQueryFilters;
+  loadingOverride?: boolean;
 }) {
   const [received, setReceived] = useState<number>();
   const [sent, setSent] = useState<number>();
@@ -66,6 +68,8 @@ export function SentVsReceivedChart({
     fetchSentVsReceived();
   }, [filters, title]);
 
+  const showLoading = loadingOverride || isLoading;
+
   return (
     <GraphContainer title={title} description={description} icon={icon}>
       {error ? (
@@ -76,9 +80,9 @@ export function SentVsReceivedChart({
             <StatLabel>Total</StatLabel>
             <StatNumber>
               <div style={{ height: 50 }}>
-                {isLoading ? (
+                {showLoading ? (
                   <div style={{ paddingRight: 48 }}>
-                    <Skeleton height={35} />
+                    <Skeleton height={35} width={130} />
                   </div>
                 ) : (
                   <>{((received ?? 0) + (sent ?? 0)).toLocaleString()}</>
@@ -90,7 +94,7 @@ export function SentVsReceivedChart({
             <StatLabel>Sent</StatLabel>
             <StatNumber>
               <div style={{ height: 50 }}>
-                {isLoading ? (
+                {showLoading ? (
                   <div style={{ paddingRight: 48 }}>
                     <Skeleton height={35} />
                   </div>
@@ -104,7 +108,7 @@ export function SentVsReceivedChart({
           <Stat>
             <StatLabel>Received</StatLabel>
             <StatNumber>
-              {isLoading ? (
+              {showLoading ? (
                 <div style={{ paddingRight: 48 }}>
                   <Skeleton height={35} />
                 </div>

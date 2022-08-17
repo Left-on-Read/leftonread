@@ -25,13 +25,6 @@ Chart.register(...(registerables ?? []));
 
 export function App() {
   const [isInitializing, setIsInitializing] = useState<boolean>(false);
-  const [earliestAndLatestDate, setEarliestAndLatestDates] = useState<{
-    earliestDate: Date;
-    latestDate: Date;
-  }>({
-    earliestDate: new Date(),
-    latestDate: new Date(),
-  });
 
   return (
     <ErrorBoundary>
@@ -45,18 +38,12 @@ export function App() {
             />
             <Route
               path="/dashboard"
-              element={
-                <Dashboard
-                  onRefresh={() => setIsInitializing(true)}
-                  earliestAndLatestDate={earliestAndLatestDate}
-                />
-              }
+              element={<Dashboard onRefresh={() => setIsInitializing(true)} />}
             />
           </Routes>
           <Initializer
             isInitializing={isInitializing}
             onUpdateIsInitializing={setIsInitializing}
-            onUpdateEarliestAndLatestDates={setEarliestAndLatestDates}
           />
         </HashRouter>
       </ChakraProvider>

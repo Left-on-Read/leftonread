@@ -16,7 +16,7 @@ import { FiCalendar, FiUser } from 'react-icons/fi';
 
 import { DEFAULT_FILTER_LIMIT } from '../../constants';
 import { GroupChatFilters } from '../../constants/filters';
-import { IContactData } from './ContactFilter';
+import { useGlobalContext } from '../Dashboard/GlobalContext';
 
 export const DEFAULT_QUERY_FILTERS = {
   limit: DEFAULT_FILTER_LIMIT,
@@ -26,29 +26,20 @@ export const DEFAULT_QUERY_FILTERS = {
 export function FilterPanel({
   filters,
   onUpdateFilters,
-  contacts,
-  earliestAndLatestDate,
 }: {
   filters: SharedQueryFilters;
   onUpdateFilters: (arg0: SharedQueryFilters) => void;
-  contacts: IContactData[];
-  earliestAndLatestDate: {
-    earliestDate: Date;
-    latestDate: Date;
-  };
 }) {
-  const [dateRange, setDateRange] = useState<number[]>([0, 100]);
+  const { dateRange, contacts } = useGlobalContext();
+  const [filterDateRange, setFilterDateRange] = useState<number[]>([0, 100]);
 
   const difference =
-    earliestAndLatestDate.latestDate.getTime() -
-    earliestAndLatestDate.earliestDate.getTime();
+    dateRange.latestDate.getTime() - dateRange.earliestDate.getTime();
   const startDate = new Date(
-    (dateRange[0] / 100) * difference +
-      earliestAndLatestDate.earliestDate.getTime()
+    (filterDateRange[0] / 100) * difference + dateRange.earliestDate.getTime()
   );
   const endDate = new Date(
-    (dateRange[1] / 100) * difference +
-      earliestAndLatestDate.earliestDate.getTime()
+    (filterDateRange[1] / 100) * difference + dateRange.earliestDate.getTime()
   );
 
   return (
@@ -68,31 +59,27 @@ export function FilterPanel({
             max={100}
             defaultValue={[0, 100]}
             onChange={(val) => {
-              setDateRange(val);
+              setFilterDateRange(val);
             }}
             onChangeEnd={(val) => {
-              if (earliestAndLatestDate) {
-                const diff =
-                  earliestAndLatestDate.latestDate.getTime() -
-                  earliestAndLatestDate.earliestDate.getTime();
-                const filterStart = new Date(
-                  (val[0] / 100) * diff +
-                    earliestAndLatestDate.earliestDate.getTime()
-                );
-                const filterEnd = new Date(
-                  (val[1] / 100) * diff +
-                    earliestAndLatestDate.earliestDate.getTime()
-                );
-                onUpdateFilters({
-                  ...filters,
-                  timeRange: {
-                    startDate: filterStart,
-                    endDate: filterEnd,
-                  },
-                });
-              }
+              const diff =
+                dateRange.latestDate.getTime() -
+                dateRange.earliestDate.getTime();
+              const filterStart = new Date(
+                (val[0] / 100) * diff + dateRange.earliestDate.getTime()
+              );
+              const filterEnd = new Date(
+                (val[1] / 100) * diff + dateRange.earliestDate.getTime()
+              );
+              onUpdateFilters({
+                ...filters,
+                timeRange: {
+                  startDate: filterStart,
+                  endDate: filterEnd,
+                },
+              });
             }}
-            value={dateRange}
+            value={filterDateRange}
           >
             <RangeSliderTrack bg="purple.400" />
             <RangeSliderThumb index={0}>
@@ -170,7 +157,7 @@ export function FilterPanel({
           size="sm"
           onClick={() => {
             onUpdateFilters(DEFAULT_QUERY_FILTERS);
-            setDateRange([0, 100]);
+            setFilterDateRange([0, 100]);
           }}
         >
           Clear Filters
