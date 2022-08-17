@@ -5,6 +5,7 @@ import {
   theme as defaultTheme,
   useDisclosure,
 } from '@chakra-ui/react';
+import { EarliestAndLatestDateResults } from 'analysis/queries/EarliestAndLatestDatesQuery';
 import { ipcRenderer } from 'electron';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useCallback, useEffect, useState } from 'react';
@@ -18,9 +19,14 @@ import { EmailModal } from './Support/EmailModal';
 export function Initializer({
   isInitializing,
   onUpdateIsInitializing,
+  onUpdateEarliestAndLatestDates,
 }: {
   isInitializing: boolean;
   onUpdateIsInitializing: (arg0: boolean) => void;
+  onUpdateEarliestAndLatestDates: (arg0: {
+    earliestDate: Date;
+    latestDate: Date;
+  }) => void;
 }) {
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
@@ -34,6 +40,16 @@ export function Initializer({
     setError(null);
     try {
       await ipcRenderer.invoke('initialize-tables');
+      const datesDataList: EarliestAndLatestDateResults =
+        await ipcRenderer.invoke('query-earliest-and-latest-dates');
+      if (datesDataList && datesDataList.length === 1) {
+        const earlyDate = datesDataList[0].earliest_date;
+        const lateDate = datesDataList[0].latest_date;
+        onUpdateEarliestAndLatestDates({
+          earliestDate: new Date(earlyDate),
+          latestDate: new Date(lateDate),
+        });
+      }
       navigate('/dashboard');
       onUpdateIsInitializing(false);
     } catch (e: unknown) {
@@ -41,7 +57,7 @@ export function Initializer({
         setError(e.message);
       }
     }
-  }, [navigate, onUpdateIsInitializing]);
+  }, [navigate, onUpdateIsInitializing, onUpdateEarliestAndLatestDates]);
 
   useEffect(() => {
     if (isInitializing) {

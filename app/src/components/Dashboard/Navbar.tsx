@@ -45,7 +45,7 @@ export function Navbar({
   onRefresh: () => void;
   filters: SharedQueryFilters;
   onUpdateFilters: (arg0: SharedQueryFilters) => void;
-  earliestAndLatestDate?: {
+  earliestAndLatestDate: {
     earliestDate: Date;
     latestDate: Date;
   };
