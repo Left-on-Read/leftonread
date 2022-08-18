@@ -1,6 +1,7 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
 import {
+  FiArrowUpCircle,
   FiAward,
   FiBookOpen,
   FiCalendar,
@@ -8,6 +9,7 @@ import {
   FiEdit3,
   FiMeh,
   FiMessageCircle,
+  FiPercent,
   FiStar,
   FiUsers,
 } from 'react-icons/fi';
@@ -15,10 +17,12 @@ import {
 import { daysAgo } from '../../main/util';
 import { logEvent } from '../../utils/analytics';
 import { ComingSoon } from '../ComingSoon';
+import { SentimentOverTimeChart } from '../Graphs/SentimentOverTimeChart';
 import { SentVsReceivedChart } from '../Graphs/SentVsReceivedChart';
 import { TextsOverTimeChart } from '../Graphs/TextsOverTimeChart';
 import { TimeOfDayChart } from '../Graphs/TimeOfDayChart';
 import { TopFriendsChart } from '../Graphs/TopFriendsChart';
+import { TopSentimentFriendsChart } from '../Graphs/TopSentimentFriendsChart';
 import { TotalSentimentChart } from '../Graphs/TotalSentimentChart';
 import { WordOrEmojiCountChart } from '../Graphs/WordOrEmojiCountChart';
 import { useGlobalContext } from './GlobalContext';
@@ -157,9 +161,20 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
           <TabPanel>
             <div>
               <TotalSentimentChart
-                title="Percent Positivity"
+                title="Percent Positivity Overview"
                 description="A weighted percentage of how positive your texts are."
                 icon={FiAward}
+                filters={filters}
+              />
+              <SentimentOverTimeChart
+                title="Percent Positivity Over Time"
+                icon={FiPercent}
+                filters={filters}
+              />
+              <TopSentimentFriendsChart
+                title="Most Positive Conversations"
+                description="Minimum of 25 messages sent and received"
+                icon={FiArrowUpCircle}
                 filters={filters}
               />
             </div>

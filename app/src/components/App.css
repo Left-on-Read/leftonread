@@ -7,5 +7,5 @@
 }
 
 .negative-bar:hover {
-  border: 2px solid var(--chakra-colors-red-300);
+  border: 2px solid var(--chakra-colors-gray-300);
 }

@@ -1,6 +1,5 @@
 import { SettingsIcon } from '@chakra-ui/icons';
 import {
-  AvatarBadge,
   Button,
   Icon,
   IconButton,

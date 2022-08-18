@@ -35,14 +35,14 @@ function ProgressBar({ percentage }: { percentage: number }) {
       style={{
         width: '100%',
         height: 45,
-        border: `1px solid ${defaultTheme.colors.gray['200']}`,
-        borderRadius: 8,
+        border: `1px solid ${defaultTheme.colors.gray['300']}`,
+        borderRadius: 10,
         overflow: 'hidden',
         display: 'flex',
         alignItems: 'center',
         position: 'relative',
       }}
-      shadow="md"
+      shadow="lg"
     >
       <Tooltip
         label={`Percent Negativity: ${roundedNegativePercentage}%`}
@@ -52,7 +52,7 @@ function ProgressBar({ percentage }: { percentage: number }) {
           className="negative-bar"
           style={{
             borderRadius: 8,
-            backgroundColor: defaultTheme.colors.red['200'],
+            backgroundColor: defaultTheme.colors.gray['200'],
             height: '100%',
             width: '100%',
             position: 'absolute',
@@ -191,18 +191,14 @@ export function TotalSentimentChart({
             }}
           >
             <Stat style={{ width: '100%' }}>
-              <StatLabel style={{ marginBottom: 2 }}>
-                <Text fontSize="lg">Sent</Text>
-              </StatLabel>
+              <StatLabel style={{ marginBottom: 2 }}>Sent</StatLabel>
               <ProgressBar
                 percentage={calculateSentimentPercentage(sentTotal) * 100}
               />
             </Stat>
 
             <Stat style={{ marginTop: 24, width: '100%' }}>
-              <StatLabel style={{ marginBottom: 2 }}>
-                <Text fontSize="lg">Received</Text>
-              </StatLabel>
+              <StatLabel style={{ marginBottom: 2 }}>Received</StatLabel>
               <ProgressBar
                 percentage={calculateSentimentPercentage(receivedTotal) * 100}
               />

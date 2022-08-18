@@ -14,6 +14,10 @@ import { queryContactOptions } from '../analysis/queries/ContactOptionsQuery';
 import { queryEarliestAndLatestDates } from '../analysis/queries/EarliestAndLatestDatesQuery';
 import { SharedQueryFilters } from '../analysis/queries/filters/sharedQueryFilters';
 import {
+  querySentimentOverTimeReceived,
+  querySentimentOverTimeSent,
+} from '../analysis/queries/SentimentOverTimeQuery';
+import {
   queryTextsOverTimeReceived,
   queryTextsOverTimeSent,
 } from '../analysis/queries/TextsOverTimeQuery';
@@ -22,6 +26,7 @@ import {
   queryTimeOfDaySent,
 } from '../analysis/queries/TimeOfDayQuery';
 import { queryTopFriends } from '../analysis/queries/TopFriendsQuery';
+import { queryTopSentimentFriends } from '../analysis/queries/TopSentimentFriendsQuery';
 import { queryTotalSentiment } from '../analysis/queries/TotalSentimentQuery';
 import { queryTotalSentVsReceived } from '../analysis/queries/TotalSentVsReceivedQuery';
 import {
@@ -54,6 +59,14 @@ export function attachIpcListeners() {
   );
 
   ipcMain.handle(
+    'query-top-sentiment-friends',
+    async (event, filters: SharedQueryFilters) => {
+      const db = getDb();
+      return queryTopSentimentFriends(db, filters);
+    }
+  );
+
+  ipcMain.handle(
     'query-word-emoji',
     async (event, filters: IWordOrEmojiFilters) => {
       const db = getDb();
@@ -79,6 +92,22 @@ export function attachIpcListeners() {
     async (event, filters: SharedQueryFilters) => {
       const db = getDb();
       return queryTotalSentiment(db, filters);
+    }
+  );
+
+  ipcMain.handle(
+    'query-sentiment-over-time-sent',
+    async (event, filters: SharedQueryFilters) => {
+      const db = getDb();
+      return querySentimentOverTimeSent(db, filters);
+    }
+  );
+
+  ipcMain.handle(
+    'query-sentiment-over-time-received',
+    async (event, filters: SharedQueryFilters) => {
+      const db = getDb();
+      return querySentimentOverTimeReceived(db, filters);
     }
   );
 

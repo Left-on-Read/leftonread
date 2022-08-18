@@ -10,6 +10,14 @@ export enum SentimentTableColumns {
   COMPARATIVE = 'comparative',
 }
 
+const nullOrText = (value: string | null) => {
+  if (value === 'null' || value === null || value === 'NULL') {
+    return 'NULL';
+  }
+
+  return `"${value}"`;
+};
+
 export class SentimentTable extends Table {
   async create(): Promise<TableNames> {
     const createQ = `
@@ -17,8 +25,9 @@ export class SentimentTable extends Table {
         message_id INTEGER PRIMARY KEY,
         human_readable_date TEXT NOT NULL,
         is_from_me INTEGER NOT NULL,
-        contact_name TEXT NOT NULL,
+        contact_name TEXT,
         cache_roomnames TEXT,
+        phone_number TEXT NOT NULL,
         ${SentimentTableColumns.SCORE} INTEGER NOT NULL,
         ${SentimentTableColumns.COMPARATIVE} REAL NOT NULL
     )
@@ -37,19 +46,18 @@ export class SentimentTable extends Table {
       rowsToInsert.push(
         `(${currentMessage.message_id},${currentMessage.is_from_me},"${
           currentMessage.human_readable_date
-        }","${currentMessage.contact_name}",${
-          currentMessage.cache_roomnames === 'NULL' ||
-          currentMessage.cache_roomnames === null
-            ? 'NULL'
-            : `"${currentMessage.cache_roomnames}"`
-        },${result.score},${result.comparative})`
+        }",${nullOrText(currentMessage.contact_name)},${nullOrText(
+          currentMessage.cache_roomnames
+        )},"${currentMessage.phone_number}",${result.score},${
+          result.comparative
+        })`
       );
     }
 
     const insertQ = `
       INSERT INTO ${
         this.name
-      } (message_id, is_from_me, human_readable_date, contact_name, cache_roomnames, ${
+      } (message_id, is_from_me, human_readable_date, contact_name, cache_roomnames, phone_number, ${
       SentimentTableColumns.SCORE
     }, ${SentimentTableColumns.COMPARATIVE})
       VALUES
