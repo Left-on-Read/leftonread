@@ -14,6 +14,11 @@ import { queryContactOptions } from '../analysis/queries/ContactOptionsQuery';
 import { queryEarliestAndLatestDates } from '../analysis/queries/EarliestAndLatestDatesQuery';
 import { SharedQueryFilters } from '../analysis/queries/filters/sharedQueryFilters';
 import {
+  querySentimentOverTime,
+  querySentimentOverTimeReceived,
+  querySentimentOverTimeSent,
+} from '../analysis/queries/SentimentOverTimeQuery';
+import {
   queryTextsOverTimeReceived,
   queryTextsOverTimeSent,
 } from '../analysis/queries/TextsOverTimeQuery';
@@ -79,6 +84,22 @@ export function attachIpcListeners() {
     async (event, filters: SharedQueryFilters) => {
       const db = getDb();
       return queryTotalSentiment(db, filters);
+    }
+  );
+
+  ipcMain.handle(
+    'query-sentiment-over-time-sent',
+    async (event, filters: SharedQueryFilters) => {
+      const db = getDb();
+      return querySentimentOverTimeSent(db, filters);
+    }
+  );
+
+  ipcMain.handle(
+    'query-sentiment-over-time-received',
+    async (event, filters: SharedQueryFilters) => {
+      const db = getDb();
+      return querySentimentOverTimeReceived(db, filters);
     }
   );
 

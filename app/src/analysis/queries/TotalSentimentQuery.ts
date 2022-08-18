@@ -1,4 +1,3 @@
-import { CoreMainTable } from 'analysis/tables/CoreTable';
 import * as sqlite3 from 'sqlite3';
 
 import { allP } from '../../utils/sqliteWrapper';

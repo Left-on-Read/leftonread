@@ -1,5 +1,6 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
+import { SentimentOverTimeChart } from 'components/Graphs/SentimentOverTimeChart';
 import {
   FiAward,
   FiBookOpen,
@@ -8,6 +9,7 @@ import {
   FiEdit3,
   FiMeh,
   FiMessageCircle,
+  FiPercent,
   FiStar,
   FiUsers,
 } from 'react-icons/fi';
@@ -157,9 +159,14 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
           <TabPanel>
             <div>
               <TotalSentimentChart
-                title="Percent Positivity"
+                title="Percent Positivity Overview"
                 description="A weighted percentage of how positive your texts are."
                 icon={FiAward}
+                filters={filters}
+              />
+              <SentimentOverTimeChart
+                title="Percent Positivity Over Time"
+                icon={FiPercent}
                 filters={filters}
               />
             </div>
