@@ -145,6 +145,7 @@
     "react-router-dom": "^6.3.0",
     "react-select": "^5.4.0",
     "recursive-copy": "^2.0.14",
+    "sentiment": "^5.0.2",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
@@ -161,6 +162,7 @@
     "@types/react-dom": "^18.0.4",
     "@types/react-icons": "^3.0.0",
     "@types/react-test-renderer": "^18.0.0",
+    "@types/sentiment": "^5.0.1",
     "@types/sqlite3": "^3.1.8",
     "@types/terser-webpack-plugin": "^5.0.4",
     "@types/uuid": "^8.3.4",

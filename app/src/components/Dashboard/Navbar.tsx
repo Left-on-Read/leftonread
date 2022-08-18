@@ -1,5 +1,6 @@
 import { SettingsIcon } from '@chakra-ui/icons';
 import {
+  AvatarBadge,
   Button,
   Icon,
   IconButton,
@@ -14,6 +15,7 @@ import {
   PopoverContent,
   PopoverTrigger,
   Text,
+  theme as defaultTheme,
   useDisclosure,
 } from '@chakra-ui/react';
 import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
@@ -58,6 +60,9 @@ export function Navbar({
   if (filters.groupChat === GroupChatFilters.BOTH) {
     activeFilterCount += 1;
   }
+  if (filters.timeRange) {
+    activeFilterCount += 1;
+  }
 
   return (
     <div
@@ -84,7 +89,7 @@ export function Navbar({
             <PopoverTrigger>
               <Button
                 size="md"
-                style={{ marginRight: 16 }}
+                style={{ marginRight: 32 }}
                 leftIcon={<Icon as={FiSliders} />}
                 colorScheme="purple"
                 color="white"
@@ -95,7 +100,25 @@ export function Navbar({
                 loadingText="Filters"
               >
                 Filters
-                {activeFilterCount > 0 ? ` (${activeFilterCount})` : ''}
+                {activeFilterCount > 0 && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      backgroundColor: defaultTheme.colors.red['400'],
+                      height: 25,
+                      width: 25,
+                      borderRadius: '50%',
+                      top: -10,
+                      right: -10,
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      // border: `1px solid ${defaultTheme.colors.orange['400']}`,
+                    }}
+                  >
+                    <Text fontSize={16}>{activeFilterCount}</Text>
+                  </div>
+                )}
               </Button>
             </PopoverTrigger>
             <PopoverContent style={{ width: '400px', marginRight: 16 }}>

@@ -24,7 +24,7 @@ export function fluffFilter(): string {
 export class CoreMainTable extends Table {
   async create(): Promise<TableNames> {
     const q = `
-    CREATE TABLE IF NOT EXISTS SENTIMENT_TABLE AS
+    CREATE TABLE IF NOT EXISTS ${this.name} AS
 
     WITH DATE_TIME_TABLE AS
     (SELECT 

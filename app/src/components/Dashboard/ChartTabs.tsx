@@ -1,6 +1,7 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
 import {
+  FiAward,
   FiBookOpen,
   FiCalendar,
   FiClock,
@@ -18,6 +19,7 @@ import { SentVsReceivedChart } from '../Graphs/SentVsReceivedChart';
 import { TextsOverTimeChart } from '../Graphs/TextsOverTimeChart';
 import { TimeOfDayChart } from '../Graphs/TimeOfDayChart';
 import { TopFriendsChart } from '../Graphs/TopFriendsChart';
+import { TotalSentimentChart } from '../Graphs/TotalSentimentChart';
 import { WordOrEmojiCountChart } from '../Graphs/WordOrEmojiCountChart';
 import { useGlobalContext } from './GlobalContext';
 
@@ -38,6 +40,8 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
           if (index === 1) {
             activeTab = 'Words & Emojis';
           } else if (index === 2) {
+            activeTab = 'Sentiment';
+          } else if (index === 3) {
             activeTab = 'Coming Soon...';
           }
 
@@ -62,10 +66,13 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
         >
           {/* IF YOU CHANGE THE TABS - PLEASE CHANGE LOGGING ABOVE */}
           <Tab style={{ marginRight: 32 }}>
-            <span style={{ marginRight: 10 }}>📱</span> Activity
+            <span style={{ marginRight: 10 }}>📱</span>Activity
           </Tab>
           <Tab style={{ marginRight: 32 }}>
             <span style={{ marginRight: 10 }}>😃</span>Words & Emojis
+          </Tab>
+          <Tab style={{ marginRight: 32 }}>
+            <span style={{ marginRight: 10 }}>❤️</span>Sentiment
           </Tab>
           <Tab style={{ marginRight: 32 }}>
             <span style={{ marginRight: 10 }}>🚀</span>Coming Soon...
@@ -144,6 +151,16 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
                 filters={filters}
                 isEmoji={false}
                 isFromMe
+              />
+            </div>
+          </TabPanel>
+          <TabPanel>
+            <div>
+              <TotalSentimentChart
+                title="Percent Positivity"
+                description="A weighted percentage of how positive your texts are."
+                icon={FiAward}
+                filters={filters}
               />
             </div>
           </TabPanel>
