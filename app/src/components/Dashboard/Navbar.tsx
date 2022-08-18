@@ -19,6 +19,7 @@ import {
 } from '@chakra-ui/react';
 import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
 import { ipcRenderer } from 'electron';
+import { AnimatePresence, motion } from 'framer-motion';
 import {
   FiGitPullRequest,
   FiRefreshCw,
@@ -99,25 +100,35 @@ export function Navbar({
                 loadingText="Filters"
               >
                 Filters
-                {activeFilterCount > 0 && (
-                  <div
-                    style={{
-                      position: 'absolute',
-                      backgroundColor: defaultTheme.colors.red['400'],
-                      height: 25,
-                      width: 25,
-                      borderRadius: '50%',
-                      top: -10,
-                      right: -10,
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      // border: `1px solid ${defaultTheme.colors.orange['400']}`,
-                    }}
-                  >
-                    <Text fontSize={16}>{activeFilterCount}</Text>
-                  </div>
-                )}
+                <AnimatePresence>
+                  {activeFilterCount > 0 && (
+                    <motion.div
+                      key="filter-badge"
+                      initial={{
+                        height: 0,
+                        width: 0,
+                      }}
+                      animate={{ height: 25, width: 25 }}
+                      exit={{ height: 0, width: 0 }}
+                      style={{
+                        position: 'absolute',
+                        backgroundColor: defaultTheme.colors.red['400'],
+                        borderRadius: '50%',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        top: -10,
+                        right: -10,
+                      }}
+                      transition={{
+                        type: 'spring',
+                        duration: 0.2,
+                      }}
+                    >
+                      <Text fontSize={16}>{activeFilterCount}</Text>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </Button>
             </PopoverTrigger>
             <PopoverContent style={{ width: '400px', marginRight: 16 }}>

@@ -56,6 +56,7 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
             },
           });
         }}
+        isLazy
       >
         <TabList
           style={{

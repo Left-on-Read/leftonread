@@ -20,6 +20,10 @@ import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFi
 import { GraphContainer } from './GraphContainer';
 
 const calculateSentimentPercentage = (result: TotalSentimentResult) => {
+  if (result.positiveScore + Math.abs(result.negativeScore) === 0) {
+    return 0.5;
+  }
+
   return (
     result.positiveScore /
     (result.positiveScore + Math.abs(result.negativeScore))
