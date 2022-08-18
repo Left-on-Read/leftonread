@@ -1,3 +1,11 @@
 .border-hoverable:hover {
   border: 1px solid #2b6cb0;
 }
+
+.positive-bar:hover {
+  border: 2px solid var(--chakra-colors-green-300);
+}
+
+.negative-bar:hover {
+  border: 2px solid var(--chakra-colors-red-300);
+}

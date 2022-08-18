@@ -22,6 +22,7 @@ import {
   queryTimeOfDaySent,
 } from '../analysis/queries/TimeOfDayQuery';
 import { queryTopFriends } from '../analysis/queries/TopFriendsQuery';
+import { queryTotalSentiment } from '../analysis/queries/TotalSentimentQuery';
 import { queryTotalSentVsReceived } from '../analysis/queries/TotalSentVsReceivedQuery';
 import {
   IWordOrEmojiFilters,
@@ -70,6 +71,14 @@ export function attachIpcListeners() {
     async (event, filters: SharedQueryFilters) => {
       const db = getDb();
       return queryTotalSentVsReceived(db, filters);
+    }
+  );
+
+  ipcMain.handle(
+    'query-total-sentiment',
+    async (event, filters: SharedQueryFilters) => {
+      const db = getDb();
+      return queryTotalSentiment(db, filters);
     }
   );
 

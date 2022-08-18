@@ -1,10 +1,3 @@
-// SELECT
-// strftime('%H', human_readable_date) as hour,
-// is_from_me,
-// COUNT(*) as count
-// FROM core_main_table
-// GROUP BY strftime('%H', human_readable_date), is_from_me
-
 import * as sqlite3 from 'sqlite3';
 
 import { allP } from '../../utils/sqliteWrapper';
