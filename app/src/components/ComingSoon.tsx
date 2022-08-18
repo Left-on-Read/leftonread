@@ -34,8 +34,8 @@ export function ComingSoon() {
           Thanks for your support!
         </Text>
         <Text>
-          We have exciting features planned: sentiment analysis, powerful
-          filtering, and support for Facebook Messenger 👀
+          We have exciting features planned: powerful filtering and support for
+          Facebook Messenger 👀
         </Text>
         <div style={{ marginTop: 32 }} />
         <Button

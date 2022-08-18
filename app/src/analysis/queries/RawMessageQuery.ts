@@ -10,6 +10,7 @@ export type RawMessageQueryResult = {
   human_readable_date: string;
   contact_name: string;
   cache_roomnames: string;
+  phone_number: string;
 };
 
 const getCoreQuery = () => {
@@ -20,7 +21,8 @@ const getCoreQuery = () => {
             is_from_me,
             human_readable_date,
             contact_name,
-            cache_roomnames
+            cache_roomnames,
+            id AS phone_number
         FROM ${CoreTableNames.CORE_MAIN_TABLE}
     `;
 };
