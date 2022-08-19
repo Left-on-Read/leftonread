@@ -114,7 +114,7 @@ export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
               </div>
             </AlertDialogHeader>
             <AlertDialogBody>
-              {`We've added exciting new features that require a data refresh.`}
+              {`We've added exciting new features that require a data refresh!`}
             </AlertDialogBody>
             <AlertDialogFooter>
               <Button
