@@ -36,7 +36,11 @@ import {
 import { API_BASE_URL } from '../constants/api';
 import { APP_VERSION } from '../constants/versions';
 import { AmplitudeClient } from '../utils/amplitudeClient';
-import { getUuid } from '../utils/store';
+import {
+  checkRequiresRefresh,
+  getUuid,
+  setLastUpdatedVersion,
+} from '../utils/store';
 
 function getDb() {
   const sqldb = sqlite3.verbose();
@@ -213,4 +217,12 @@ export function attachIpcListeners() {
       }
     }
   );
+
+  ipcMain.handle('check-requires-refresh', async () => {
+    return checkRequiresRefresh();
+  });
+
+  ipcMain.handle('set-last-updated-version', async (event, version: string) => {
+    setLastUpdatedVersion(version);
+  });
 }
