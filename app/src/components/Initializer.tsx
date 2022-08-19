@@ -5,6 +5,7 @@ import {
   theme as defaultTheme,
   useDisclosure,
 } from '@chakra-ui/react';
+import { APP_VERSION } from 'constants/versions';
 import { ipcRenderer } from 'electron';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useCallback, useEffect, useState } from 'react';
@@ -34,6 +35,7 @@ export function Initializer({
     setError(null);
     try {
       await ipcRenderer.invoke('initialize-tables');
+      await ipcRenderer.invoke('set-last-updated-version', APP_VERSION);
 
       navigate('/dashboard');
       onUpdateIsInitializing(false);
