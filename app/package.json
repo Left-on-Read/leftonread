@@ -21,8 +21,8 @@
   },
   "license": "MIT",
   "author": {
-    "name": "Left on Read Maintainers",
-    "email": "electronreactboilerplate@gmail.com",
+    "name": "Left on Read",
+    "email": "help.leftonread@gmail.com",
     "url": "https://leftonread.me"
   },
   "contributors": [
@@ -228,7 +228,7 @@
   },
   "build": {
     "productName": "Left on Read",
-    "appId": "com.electron.left-on-read",
+    "appId": "com.leftonread.leftonread",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [
