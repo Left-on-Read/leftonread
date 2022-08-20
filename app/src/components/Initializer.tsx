@@ -40,6 +40,7 @@ export function Initializer({
       navigate('/dashboard');
       onUpdateIsInitializing(false);
     } catch (e: unknown) {
+      navigate('/');
       if (e instanceof Error) {
         setError(e.message);
       }

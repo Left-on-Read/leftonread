@@ -33,7 +33,7 @@ export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
     dateRange: { earliestDate: new Date(), latestDate: new Date() },
   });
 
-  const [doesRequireRefresh, setDoesRequireRefresh] = useState<boolean>(true);
+  const [doesRequireRefresh, setDoesRequireRefresh] = useState<boolean>(false);
   const cancelRef = useRef<any>();
 
   useEffect(() => {
