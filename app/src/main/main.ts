@@ -22,6 +22,10 @@ class AppUpdater {
     log.transports.file.level = 'info';
     autoUpdater.logger = log;
     autoUpdater.checkForUpdatesAndNotify();
+
+    autoUpdater.on('update-downloaded', () => {
+      log.info('Update successfully downloaded...');
+    });
   }
 }
 
