@@ -34,6 +34,7 @@ export function Initializer({
   const initializeTables = useCallback(async () => {
     setError(null);
     try {
+      navigate('/start');
       await ipcRenderer.invoke('initialize-tables');
       await ipcRenderer.invoke('set-last-updated-version', APP_VERSION);
 
