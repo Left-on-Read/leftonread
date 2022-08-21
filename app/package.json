@@ -283,7 +283,8 @@
     "publish": {
       "provider": "github",
       "owner": "Left-on-Read",
-      "repo": "leftonread"
+      "repo": "leftonread",
+      "vPrefixedTagName": true
     }
   },
   "devEngines": {
