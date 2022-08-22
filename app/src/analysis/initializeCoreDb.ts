@@ -62,8 +62,8 @@ async function dropAllTables(db: sqlite3.Database) {
     sqlite3Wrapper.runP(db, `DROP TABLE IF EXISTS ${tableName}`)
   );
 
+  await Promise.all(dropTablePromises);
   log.info('INFO: Dropped all pre-existing LOR-created tables.');
-  return Promise.all(dropTablePromises);
 }
 
 export async function initializeCoreDb(): Promise<sqlite3.Database> {
@@ -122,35 +122,39 @@ export async function initializeCoreDb(): Promise<sqlite3.Database> {
     }
   }
 
-  try {
-    const calTable = new CalendarTable(
-      lorDB,
-      CalendarTableNames.CALENDAR_TABLE
-    ).create();
-    const coreMainTable = new CoreMainTable(
-      lorDB,
-      CoreTableNames.CORE_MAIN_TABLE
-    ).create();
+  // try {
+  const calTable = new CalendarTable(
+    lorDB,
+    CalendarTableNames.CALENDAR_TABLE
+  ).create();
+  const coreMainTable = new CoreMainTable(
+    lorDB,
+    CoreTableNames.CORE_MAIN_TABLE
+  ).create();
 
-    // Initial core tables
-    await Promise.all([calTable, coreMainTable]);
+  // Initial core tables that are required
+  await Promise.all([calTable, coreMainTable]);
 
-    // Some analysis tables
-    const chatCountTable = new ChatCountTable(
-      lorDB,
-      ChatTableNames.COUNT_TABLE
-    ).create();
+  // Some analysis tables
+  const chatCountTable = new ChatCountTable(lorDB, ChatTableNames.COUNT_TABLE)
+    .create()
+    .catch((e) => log.error(e));
 
-    const sentimentTable = new SentimentTable(
-      lorDB,
-      SentimentTableNames.SENTIMENT_TABLE
-    ).create();
-    await Promise.all([chatCountTable, sentimentTable]);
-  } catch (e) {
-    // If error, clear stuff that happened
-    await clearExistingDirectory();
-    throw e;
-  }
+  const sentimentTable = new SentimentTable(
+    lorDB,
+    SentimentTableNames.SENTIMENT_TABLE
+  )
+    .create()
+    .catch((e) => log.error(e));
+
+  await Promise.all([chatCountTable, sentimentTable]);
+
+  // NOTE(Danilowicz): im not entirely sure we want to clear here
+  // } catch (e) {
+  //   // If error, clear stuff that happened
+  //   await clearExistingDirectory();
+  //   throw e;
+  // }
   log.info('INFO: Created LOR DB');
 
   return lorDB;

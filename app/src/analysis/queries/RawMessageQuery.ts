@@ -20,7 +20,7 @@ const getCoreQuery = () => {
             text AS message,
             is_from_me,
             human_readable_date,
-            contact_name,
+            COALESCE(contact_name, id) as contact_name,
             cache_roomnames,
             id AS phone_number
         FROM ${CoreTableNames.CORE_MAIN_TABLE}

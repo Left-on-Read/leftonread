@@ -38,7 +38,7 @@ export class SentimentTable extends Table {
 
     const allMessages = await getAllMessages(this.db);
 
-    const rowsToInsert = [];
+    const rowsToInsert: string[] = [];
     const sentiment = new Sentiment();
     for (let i = 0; i < allMessages.length; i += 1) {
       const currentMessage = allMessages[i];
