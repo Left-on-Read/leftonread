@@ -75,23 +75,15 @@ export async function initializeCoreDb(): Promise<sqlite3.Database> {
   await clearExistingDirectory();
 
   await createAppDirectory();
-  if (process.env.DEBUG_ENV) {
-    await Promise.all(
-      dirPairings.map(async (obj) =>
-        recursiveCopy(obj.debug, obj.app, {
-          overwrite: true,
-        })
-      )
-    );
-  } else {
-    await Promise.all(
-      dirPairings.map(async (obj) =>
-        recursiveCopy(obj.original, obj.app, {
-          overwrite: true,
-        })
-      )
-    );
-  }
+
+  await Promise.all(
+    dirPairings.map(async (obj) =>
+      recursiveCopy(obj.original, obj.app, {
+        overwrite: true,
+      })
+    )
+  );
+
   const possibleAddressBookDB = await findPossibleAddressBookDB();
   const lorDB = initializeDB(chatPaths.app);
 

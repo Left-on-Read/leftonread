@@ -43,20 +43,16 @@ export class CoreMainTable extends Table {
    FROM message msg)
     -- TODO(Danilowicz): instead of * we should just grab the columns we need
     SELECT
-      *
-    FROM chat_message_join cmj
-    JOIN chat_handle_join chj
-      ON  chj.chat_id = cmj.chat_id
-    JOIN handle h
-      ON h.ROWID = chj.handle_id
-    JOIN message m
-      ON m.ROWID = cmj.message_id
+      *,
+      m.ROWID as message_id
+    FROM
+    message m
+    JOIN handle h 
+      ON h.rowid = m.handle_id
+
     JOIN DATE_TIME_TABLE
       ON guid = datetimetable_guid 
     WHERE ${fluffFilter()}
-    -- it seems that texts sent and received in group chats are sent N times
-    -- where N is the number of contacts in the chat. So we GROUP BY guid
-    GROUP BY guid
     `;
 
     await sqlite3Wrapper.runP(this.db, q);

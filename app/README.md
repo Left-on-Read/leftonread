@@ -24,6 +24,7 @@ cd app; yarn;
 ```
 
 - Run the application with `yarn start` in the `app` directory.
+- You many also run the application with `yarn start:debug` in the `app` directory if you would like to use chat.db test data.
 
 ### Releasing
 
