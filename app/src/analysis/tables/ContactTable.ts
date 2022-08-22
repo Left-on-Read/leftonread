@@ -25,8 +25,8 @@ export class ContactTable extends Table {
     WITH CONTACTS_CLEAN_TABLE AS (
     SELECT
       ZABCDRECORD.Z_PK,
-      replace(ZABCDRECORD.ZFIRSTNAME, """, ""),
-      reaplce(ZABCDRECORD.ZLASTNAME, """, ""),
+     REPLACE(ZABCDRECORD.ZFIRSTNAME, """", "") as ZFIRSTNAME,
+     REPLACE(ZABCDRECORD.ZLASTNAME, """", "") as ZLASTNAME,
       -- TODO(Danilowicz): I understand this is ugly... use regex.
       replace(
         replace(
