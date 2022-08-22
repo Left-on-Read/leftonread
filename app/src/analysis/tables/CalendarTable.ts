@@ -4,8 +4,7 @@ import * as sqlite3Wrapper from '../../utils/sqliteWrapper';
 import { Table, TableNames } from './types';
 
 // TODO(Danilowicz): We do not need to create from 2000 to 2157, just the min and max of
-// human_readable_date on the core main table. Note that right now we Promise.all the creation
-// of the core_main_table and calendar_table.
+// human_readable_date on the core main table.
 export class CalendarTable extends Table {
   async create(): Promise<TableNames> {
     await sqlite3Wrapper.runP(
