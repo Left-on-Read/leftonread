@@ -6,13 +6,14 @@ import {
   RangeSlider,
   RangeSliderThumb,
   RangeSliderTrack,
-  Select,
   Switch,
   Text,
 } from '@chakra-ui/react';
+import { ContactOptionsQueryResult } from 'analysis/queries/ContactOptionsQuery';
 import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
 import { useState } from 'react';
 import { FiCalendar, FiUser } from 'react-icons/fi';
+import Select from 'react-select';
 
 import { DEFAULT_FILTER_LIMIT } from '../../constants';
 import { GroupChatFilters } from '../../constants/filters';
@@ -99,35 +100,19 @@ export function FilterPanel({
           <Icon as={FiUser} style={{ marginRight: 6 }} />
           <Text fontWeight="bold">Contact</Text>
         </div>
-        {/* Maybe this should be a multi select eventually that you can type into... */}
         <Select
-          size="sm"
-          onChange={(e) => {
-            if (e.target.value === 'none_selected') {
-              onUpdateFilters({
-                ...filters,
-                contact: undefined,
-              });
-            } else {
-              onUpdateFilters({
-                ...filters,
-                contact: e.target.value,
-              });
-            }
+          defaultValue={filters.contact}
+          onChange={(val) => {
+            console.log(val);
+            onUpdateFilters({
+              ...filters,
+              // https://stackoverflow.com/questions/53412934/disable-allowing-assigning-readonly-types-to-non-readonly-types
+              contact: val as ContactOptionsQueryResult[],
+            });
           }}
-          value={
-            filters.contact === undefined ? 'none_selected' : filters.contact
-          }
-        >
-          <option key="none" value="none_selected">
-            None
-          </option>
-          {contacts.map((contact) => (
-            <option key={contact.value} value={contact.value}>
-              {contact.label}
-            </option>
-          ))}
-        </Select>
+          options={contacts}
+          isMulti
+        />
       </div>
       <div style={{ marginTop: 25 }}>
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: 8 }}>
@@ -147,7 +132,6 @@ export function FilterPanel({
             }}
           />
         </div>
-        {/* Maybe this should be a multi select eventually that you can type into... */}
       </div>
       <div
         style={{ marginTop: 25, display: 'flex', justifyContent: 'flex-end' }}
