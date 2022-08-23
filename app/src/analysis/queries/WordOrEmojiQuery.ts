@@ -10,6 +10,7 @@ import { stopWords } from '../../constants/stopWords';
 import * as sqlite3Wrapper from '../../utils/sqliteWrapper';
 import { ChatTableColumns } from '../tables/ChatTable';
 import { ChatTableNames } from '../tables/types';
+import { ContactOptionsQueryResult } from './ContactOptionsQuery';
 import { groupChatFilter } from './filters/sharedQueryFilters';
 
 enum OutputColumns {
@@ -18,7 +19,7 @@ enum OutputColumns {
 }
 
 export interface IWordOrEmojiFilters {
-  contact?: string;
+  contact?: ContactOptionsQueryResult[];
   word?: string;
   isFromMe: boolean;
   limit?: number;
