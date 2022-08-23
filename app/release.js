@@ -13,7 +13,8 @@ async function main() {
   }
 
   // Assert branch is up to date
-  await git.fetch('origin', currentBranch);
+  // We do -a here so that we fetch the tags as well.
+  await git.fetch('-a');
   const status = await git.status();
   if (
     status.ahead > 0 ||
@@ -21,7 +22,9 @@ async function main() {
     status.modified.length > 0 ||
     status.staged.length > 0
   ) {
-    console.log('❌  Your branch is not in sync with the remote repo.');
+    console.log(
+      '❌  Your branch is not in sync with the remote repo. You might have local changes that you need to stash.'
+    );
     return;
   }
 
