@@ -13,7 +13,7 @@ import { ContactOptionsQueryResult } from 'analysis/queries/ContactOptionsQuery'
 import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
 import { useState } from 'react';
 import { FiCalendar, FiUser } from 'react-icons/fi';
-import Select from 'react-select';
+import { MultiSelect } from 'react-multi-select-component';
 
 import { DEFAULT_FILTER_LIMIT } from '../../constants';
 import { GroupChatFilters } from '../../constants/filters';
@@ -100,18 +100,19 @@ export function FilterPanel({
           <Icon as={FiUser} style={{ marginRight: 6 }} />
           <Text fontWeight="bold">Contact</Text>
         </div>
-        <Select
-          defaultValue={filters.contact}
-          onChange={(val) => {
-            console.log(val);
+        <MultiSelect
+          value={filters.contact ?? []}
+          onChange={(val: ContactOptionsQueryResult[]) => {
             onUpdateFilters({
               ...filters,
-              // https://stackoverflow.com/questions/53412934/disable-allowing-assigning-readonly-types-to-non-readonly-types
-              contact: val as ContactOptionsQueryResult[],
+              contact: val,
             });
           }}
+          labelledBy="Select"
           options={contacts}
-          isMulti
+          overrideStrings={{
+            allItemsAreSelected: 'All contacts selected.',
+          }}
         />
       </div>
       <div style={{ marginTop: 25 }}>
