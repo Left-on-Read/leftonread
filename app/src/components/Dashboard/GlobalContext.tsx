@@ -1,4 +1,4 @@
-import { IContactData } from 'components/Filters/ContactFilter';
+import { ContactOptionsQueryResult } from 'analysis/queries/ContactOptionsQuery';
 import React, { useContext } from 'react';
 
 export type TDateRange = {
@@ -8,7 +8,7 @@ export type TDateRange = {
 
 export type TGlobalContext = {
   isLoading: boolean;
-  contacts: IContactData[];
+  contacts: ContactOptionsQueryResult[];
   dateRange: TDateRange;
 };
 
@@ -25,9 +25,7 @@ export function useGlobalContext() {
   const context = useContext(GlobalContext);
 
   if (context === undefined) {
-    throw new Error(
-      'useActiveOrgId must be used within a ActiveOrgIdContextProvider'
-    );
+    throw new Error('Context is undefined');
   }
 
   return context;

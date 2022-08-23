@@ -1,9 +1,11 @@
 import { GroupChatFilters, TimeRangeFilters } from '../../../constants/filters';
+import { delimList } from '../../../utils/delimList';
 import { CoreMainTableColumns } from '../../tables/CoreTable';
+import { ContactOptionsQueryResult } from '../ContactOptionsQuery';
 
 export interface SharedQueryFilters {
   limit?: number;
-  contact?: string;
+  contact?: ContactOptionsQueryResult[];
   word?: string;
   groupChat?: GroupChatFilters;
   timeRange?: TimeRangeFilters;
@@ -24,7 +26,7 @@ function contactFilter(
   if (!filters.contact || filters.contact.length === 0) {
     return undefined;
   }
-  return `${columnName} = "${filters.contact}"`;
+  return `${columnName} IN (${delimList(filters.contact.map((c) => c.label))})`;
 }
 
 export function groupChatFilter(

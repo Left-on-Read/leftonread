@@ -8,9 +8,9 @@ import {
   Button,
   Icon,
 } from '@chakra-ui/react';
+import { ContactOptionsQueryResult } from 'analysis/queries/ContactOptionsQuery';
 import { EarliestAndLatestDateResults } from 'analysis/queries/EarliestAndLatestDatesQuery';
 import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
-import { IContactData } from 'components/Filters/ContactFilter';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useRef, useState } from 'react';
@@ -40,7 +40,7 @@ export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
     const fetchGlobalContext = async () => {
       const [datesDataList, contacts]: [
         EarliestAndLatestDateResults,
-        IContactData[]
+        ContactOptionsQueryResult[]
       ] = await Promise.all([
         ipcRenderer.invoke('query-earliest-and-latest-dates'),
         ipcRenderer.invoke('query-get-contact-options'),
