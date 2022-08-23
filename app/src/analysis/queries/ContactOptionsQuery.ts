@@ -1,6 +1,5 @@
 import * as sqlite3 from 'sqlite3';
 
-import { IContactData } from '../../components/Filters/ContactFilter';
 import { PHONE_NUMBER_LENGTH } from '../../utils/normalization';
 import { allP } from '../../utils/sqliteWrapper';
 import { ChatTableNames } from '../tables/types';
@@ -12,9 +11,15 @@ enum Columns {
   ID = 'id',
 }
 
+export interface ContactOptionsQueryResult {
+  value: string;
+  label: string;
+  mycount: number;
+}
+
 export async function queryContactOptions(
   db: sqlite3.Database
-): Promise<IContactData[]> {
+): Promise<ContactOptionsQueryResult[]> {
   const q = `
       SELECT
           COALESCE(contact_name, h.id) as ${Columns.VALUE},
