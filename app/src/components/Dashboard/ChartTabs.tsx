@@ -80,7 +80,7 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
             <span style={{ marginRight: 10 }}>❤️</span>Sentiment
           </Tab>
           <Tab style={{ marginRight: 32 }}>
-            <span style={{ marginRight: 10 }}>🚀</span>Coming Soon...
+            <span style={{ marginRight: 10 }}>🚀</span>Engagement
           </Tab>
         </TabList>
         <TabPanels style={{ paddingTop: 60 }}>
@@ -180,8 +180,11 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
               />
             </div>
           </TabPanel>
-          <TabPanel>
+          {/* <TabPanel>
             <ComingSoon />
+          </TabPanel> */}
+          <TabPanel>
+            <div>Engagement!</div>
           </TabPanel>
         </TabPanels>
       </Tabs>
