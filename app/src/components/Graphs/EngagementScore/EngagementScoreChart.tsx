@@ -194,7 +194,7 @@ export function EngagementScoreChart({
               style={{ display: 'flex', alignItems: 'center', marginTop: -36 }}
             >
               {isLoading ? (
-                <div style={{ padding: 12 }}>
+                <div style={{ padding: 28 }}>
                   <Skeleton height={79} width={36} />
                 </div>
               ) : (

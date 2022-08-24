@@ -13,6 +13,14 @@ export type EngagementResult = {
   isFromMe: number;
 };
 
+function getWhereStatement(filters: SharedQueryFilters) {
+  const allFilters = getAllFilters(filters, undefined, 'contact_name');
+
+  if (allFilters === '') {
+    return 'WHERE ';
+  }
+  return `${allFilters} AND`;
+}
 export async function queryAverageMessageLength(
   db: sqlite3.Database,
   filters: SharedQueryFilters
@@ -49,7 +57,8 @@ export async function queryDoubleTexts(
         COUNT(${EngagementTableColumns.IS_DOUBLE_TEXT}) AS value,
         is_from_me AS isFromMe
       FROM ${EngagementTableNames.ENGAGEMENT_TABLE}
-      ${allFilters} AND ${EngagementTableColumns.DELAY_IN_SECONDS} > ${TEN_MINUTES_IN_SECONDS}
+      ${getWhereStatement(filters)} 
+      ${EngagementTableColumns.DELAY_IN_SECONDS} > ${TEN_MINUTES_IN_SECONDS}
       GROUP BY is_from_me
     `;
 
@@ -60,8 +69,6 @@ export async function queryLeftOnRead(
   db: sqlite3.Database,
   filters: SharedQueryFilters
 ): Promise<EngagementResult[]> {
-  const allFilters = getAllFilters(filters, undefined, 'contact_name');
-
   const THREE_DAYS_IN_SECONDS = 60 * 60 * 24 * 3;
 
   const q = `
@@ -69,8 +76,8 @@ export async function queryLeftOnRead(
           COUNT(*) AS value,
           is_from_me AS isFromMe
         FROM ${EngagementTableNames.ENGAGEMENT_TABLE}
-        ${allFilters} 
-            AND ${EngagementTableColumns.DELAY_IN_SECONDS} > ${THREE_DAYS_IN_SECONDS}
+        ${getWhereStatement(filters)} 
+        ${EngagementTableColumns.DELAY_IN_SECONDS} > ${THREE_DAYS_IN_SECONDS}
         GROUP BY is_from_me
       `;
 
@@ -94,7 +101,10 @@ export async function queryAverageDelayV2(
       AVG(${EngagementTableColumns.DELAY_IN_SECONDS}) as value,
       ${EngagementTableColumns.IS_FROM_ME} as isFromMe
     FROM ${EngagementTableNames.ENGAGEMENT_TABLE}
-    ${allFilters} AND ${EngagementTableColumns.IS_DOUBLE_TEXT} = 0 AND ${EngagementTableColumns.DELAY_IN_SECONDS} < 5 * 24 * 60
+    ${getWhereStatement(filters)} 
+    ${EngagementTableColumns.IS_DOUBLE_TEXT} = 0 AND ${
+    EngagementTableColumns.DELAY_IN_SECONDS
+  } < 5 * 24 * 60
     GROUP BY ${EngagementTableColumns.IS_FROM_ME}
     `;
   return sqlite3Wrapper.allP(db, q);

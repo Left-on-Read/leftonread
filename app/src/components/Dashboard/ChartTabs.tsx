@@ -14,12 +14,10 @@ import {
   FiRadio,
   FiStar,
   FiUsers,
-  FiWatch,
 } from 'react-icons/fi';
 
 import { daysAgo } from '../../main/util';
 import { logEvent } from '../../utils/analytics';
-import { AverageDelayChart } from '../Graphs/AverageDelayChart';
 import { SentimentOverTimeChart } from '../Graphs/SentimentOverTimeChart';
 import { SentVsReceivedChart } from '../Graphs/SentVsReceivedChart';
 import { TextsOverTimeChart } from '../Graphs/TextsOverTimeChart';
