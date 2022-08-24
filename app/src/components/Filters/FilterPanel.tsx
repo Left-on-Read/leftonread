@@ -44,7 +44,7 @@ export function FilterPanel({
   );
 
   return (
-    <div>
+    <div style={{ zIndex: 10 }}>
       <div>
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: 8 }}>
           <Icon as={FiCalendar} style={{ marginRight: 6 }} />

@@ -72,7 +72,7 @@ export function Navbar({
         position: 'fixed',
         width: '100%',
         backgroundColor: 'white',
-        zIndex: 4,
+        zIndex: 8,
       }}
     >
       <div

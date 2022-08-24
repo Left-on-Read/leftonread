@@ -1,9 +1,11 @@
 import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Skeleton,
   Stat,
-  StatArrow,
-  StatHelpText,
-  StatLabel,
-  StatNumber,
   Text,
 } from '@chakra-ui/react';
 import { EngagementResult } from 'analysis/queries/EngagementQueries';
@@ -101,12 +103,16 @@ export function EngagementScoreChart({
   // Calculate engagement...
   const calculateEngagement = () => {
     // Evaluate double-text score - want this as close to zero as possible
-    const doubleTextDiff = Math.abs(
-      getValFromResult(doubleTextResults, true) -
+    const doubleTextTotal = Math.abs(
+      getValFromResult(doubleTextResults, true) +
         getValFromResult(doubleTextResults, false)
     );
 
-    const doubleTextScore = 1 - doubleTextDiff / (totalSent + totalReceived);
+    // Less than 80% of your texts should be double texts
+    const doubleTextScore = Math.max(
+      0.8 - doubleTextTotal / (totalSent + totalReceived),
+      0
+    );
 
     // Evaluate left on read numbers. Ideally as low as possible, and as close to each other as possible
     const leftonReadDiff = Math.abs(
@@ -118,9 +124,11 @@ export function EngagementScoreChart({
       getValFromResult(leftonreadResults, true) +
       getValFromResult(leftonreadResults, false);
 
-    const leftonReadScore =
-      (1 - leftonReadDiff / (totalSent + totalReceived)) *
-      (1 - leftonReadTotal / (totalSent + totalReceived));
+    // You should be responding to 50% of your texts
+    const leftonReadScore = Math.max(
+      0.5 - leftonReadTotal / (totalSent + totalReceived),
+      0
+    );
 
     // Evaluate message length. Ideally as high as possible and as close to each other as possible
     const avgLengthDiff = Math.abs(
@@ -131,9 +139,9 @@ export function EngagementScoreChart({
       getValFromResult(avgLengthResults, true) +
       getValFromResult(avgLengthResults, false);
 
+    // 100 characters is a very good score
     const avgLengthScore =
-      (1 - avgLengthDiff / (totalSent + totalReceived)) *
-      (avgLengthTotal / (totalSent + totalReceived));
+      Math.min(Math.max(avgLengthTotal - 40 - avgLengthDiff, 0), 100) / 100;
 
     // Evaluate average delay numbers. Ideally as low as possible, and as close to each other as possible
     const avgDelayDiff = Math.abs(
@@ -145,47 +153,143 @@ export function EngagementScoreChart({
       getValFromResult(avgDelayResults, true) +
       getValFromResult(avgDelayResults, false);
 
-    const avgDelayScore =
-      (1 - avgDelayDiff / (totalSent + totalReceived)) *
-      (1 - avgDelayTotal / (totalSent + totalReceived));
-
-    return (
-      2 * doubleTextScore +
-      leftonReadScore +
-      3 * avgLengthScore +
-      3 * avgDelayScore
+    const avgDelayScore = Math.min(
+      Math.max(1 - (avgDelayTotal + avgDelayDiff) / (5 * 24 * 60), 0),
+      1
     );
+
+    return {
+      total:
+        (doubleTextScore +
+          2 * leftonReadScore +
+          avgLengthScore +
+          3 * avgDelayScore) /
+        7,
+      doubleTextScore,
+      leftonReadScore,
+      avgLengthScore,
+      avgDelayScore,
+    };
   };
 
-  const engagementScore = calculateEngagement();
+  const {
+    total,
+    doubleTextScore,
+    leftonReadScore,
+    avgLengthScore,
+    avgDelayScore,
+  } = calculateEngagement();
 
   return (
     <GraphContainer title={title} description={description} icon={icon}>
       <div style={{ display: 'flex', marginTop: 25 }}>
         <Stat>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <div>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            <div
+              style={{ display: 'flex', alignItems: 'center', marginTop: -36 }}
+            >
+              {isLoading ? (
+                <div style={{ padding: 12 }}>
+                  <Skeleton height={79} width={36} />
+                </div>
+              ) : (
+                <Text
+                  bgGradient="linear(to-br, #7928CA, #FF0080)"
+                  bgClip="text"
+                  fontSize={88}
+                  fontWeight="extrabold"
+                >
+                  {Math.round(total * 100).toLocaleString()}
+                </Text>
+              )}
               <Text
-                bgGradient="linear(to-br, #7928CA, #FF0080)"
-                bgClip="text"
-                fontSize="6xl"
+                style={{ marginLeft: 12, paddingTop: 44 }}
                 fontWeight="extrabold"
+                fontSize={18}
+                color="gray"
               >
-                {engagementScore.toLocaleString()}
+                / 100
               </Text>
             </div>
-            <div style={{ marginLeft: 16 }}>
-              <Text>
-                <StatArrow type="increase" />
-                9.05%
-              </Text>
-              <Text fontSize="sm" color="gray">
-                compared to overall
-              </Text>
-            </div>
+
+            <Accordion allowToggle>
+              <AccordionItem>
+                <AccordionButton>
+                  <Text color="gray" fontWeight="bold" fontSize="12">
+                    See Score Breakdown
+                  </Text>
+                  <AccordionIcon color="gray" fontSize="14" />
+                </AccordionButton>
+                <AccordionPanel pb={4}>
+                  <Text fontSize="12" color="gray">
+                    <Text style={{ display: 'flex' }}>
+                      Double Text Score:{' '}
+                      {isLoading ? (
+                        <Skeleton
+                          height={5}
+                          width={6}
+                          style={{ marginLeft: 4 }}
+                        />
+                      ) : (
+                        <span style={{ fontWeight: 'bold', marginLeft: 4 }}>
+                          {Math.round(doubleTextScore * 100)}
+                        </span>
+                      )}
+                    </Text>
+                    <Text style={{ display: 'flex' }}>
+                      Left on Read Score:{' '}
+                      {isLoading ? (
+                        <Skeleton
+                          height={5}
+                          width={6}
+                          style={{ marginLeft: 4 }}
+                        />
+                      ) : (
+                        <span style={{ fontWeight: 'bold', marginLeft: 4 }}>
+                          {Math.round(avgLengthScore * 100)}
+                        </span>
+                      )}
+                    </Text>
+                    <Text style={{ display: 'flex' }}>
+                      Avg Msg Length Score:{' '}
+                      {isLoading ? (
+                        <Skeleton
+                          height={5}
+                          width={6}
+                          style={{ marginLeft: 4 }}
+                        />
+                      ) : (
+                        <span style={{ fontWeight: 'bold', marginLeft: 4 }}>
+                          {Math.round(avgLengthScore * 100)}
+                        </span>
+                      )}
+                    </Text>
+                    <Text style={{ display: 'flex' }}>
+                      Avg Response Time Score:{' '}
+                      {isLoading ? (
+                        <Skeleton
+                          height={5}
+                          width={6}
+                          style={{ marginLeft: 4 }}
+                        />
+                      ) : (
+                        <span style={{ fontWeight: 'bold', marginLeft: 4 }}>
+                          {Math.round(avgDelayScore * 100)}
+                        </span>
+                      )}
+                    </Text>
+                  </Text>
+                </AccordionPanel>
+              </AccordionItem>
+            </Accordion>
           </div>
         </Stat>
-        <div style={{ width: '60%' }}>
+        <div style={{ width: '60%', marginLeft: 48 }}>
           <ESCards
             avgLengthResults={avgLengthResults}
             doubleTextResults={doubleTextResults}
