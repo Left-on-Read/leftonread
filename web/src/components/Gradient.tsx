@@ -33,7 +33,7 @@ export function Gradient() {
         css={{
           position: 'absolute',
           bottom: 0,
-          height: '42%',
+          height: '8%',
           width: 0,
           borderRight: '100vw solid #FFFFFF',
           borderTop: '38vh solid transparent',

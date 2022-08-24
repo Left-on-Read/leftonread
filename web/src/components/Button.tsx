@@ -9,7 +9,7 @@ export default function Button({
   ...props
 }: {
   type?: 'submit' | 'button' | 'reset'
-  label: string
+  label: React.ReactNode
   onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void
   className?: string
   disabled?: boolean

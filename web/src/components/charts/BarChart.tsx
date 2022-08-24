@@ -39,12 +39,15 @@ export default function BarChart({
   const options = {
     legend: {
       labels: {
-        fontSize: 16,
+        fontSize: 20,
       },
     },
     scales: {
       yAxes: [
         {
+          gridLines: {
+            color: 'rgba(0, 0, 0, 0)',
+          },
           ticks: {
             beginAtZero: true,
             precision: 0,
@@ -54,7 +57,11 @@ export default function BarChart({
       ],
       xAxes: [
         {
+          gridLines: {
+            color: 'rgba(0, 0, 0, 0)',
+          },
           ticks: {
+            precision: 0,
             fontSize: 16,
           },
         },

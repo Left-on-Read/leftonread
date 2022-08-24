@@ -10,10 +10,9 @@ import { Text } from '../Text'
 import { TextNotification } from '../TextNotification'
 import type { IText } from '../types'
 
-const HEADER_TEXT = 'Powerful insights and unique analytics.'
+const HEADER_TEXT = 'Unique analytics for your 👀 only.'
 const DESCRIPTION_TEXT = `
-  Feel empowered about how you use technology. 
-  We render graphs about your text messages, so you can feel better about your relationship with your phone.`
+Just like your private photos and important documents, your text messages are only accessible to you and never seen by us. Privacy and security comes first, so our software is open-source.`
 
 const styles = {
   mainContainer: css({

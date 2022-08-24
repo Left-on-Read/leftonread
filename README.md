@@ -8,15 +8,15 @@ A text message analyzer built with Electron, SQLite, Typescript, and ❤️.
 
 **Open-Source Transparency**: We open-sourced the entire application to keep users' security and privacy first.
 
-**Secure**: Without needing to manually re-upload, you can now use Left on Read securely and learn about yourself from your texts.
+**Secure**: Just like your private photos and important documents, your text messages are only accessible to you and never seen by us.
 
-**Redesigned**: The first iteration was a [web application](https://www.reddit.com/r/dataisbeautiful/comments/biou3e/4_years_of_texts_between_me_and_my_long_distance/), but now we have rebuilt Left on Read as a Desktop app.
+**Fun**: The first iteration was a [web application](https://www.reddit.com/r/dataisbeautiful/comments/biou3e/4_years_of_texts_between_me_and_my_long_distance/), but now we have rebuilt Left on Read as a Desktop app for even more fun!
 
 <p align="right"><a href="https://leftonread.me/">leftonread.me</a></p>
 
 ## Contributing
 
-We ❤️ contributors. Please read our [CODE OF CONDUCT](./CODE_OF_CONDUCT.md).
+We are so appreciative of contributors and the Left on Read community. Please read our [CODE OF CONDUCT](./CODE_OF_CONDUCT.md).
 
 At a high-level, this [lerna](https://github.com/lerna/lerna) monorepo is split up into a few different project subdirectories.
 
