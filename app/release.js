@@ -1,10 +1,12 @@
 /* eslint-disable */
 const simpleGit = require('simple-git');
 const bump = require('json-bump');
+const fs = require('fs');
 
 async function main() {
   const git = simpleGit();
   const currentBranch = (await git.branchLocal()).current;
+  const webAppVersionConstantPath = '../web/src/constants/APP_VERSION.ts';
 
   // Assert on main branch
   if (currentBranch !== 'main') {
@@ -60,6 +62,18 @@ async function main() {
     .trim();
 
   const description = `Changelog since v${bumpedVersion.original}:\n${changelog}`;
+
+  console.log('ℹ️  Updating marketing site...');
+  fs.readFile(webAppVersionConstantPath, 'utf8', function (err, data) {
+    if (err) {
+      return console.log(err);
+    }
+    var result = data.replace(bumpedVersion.original, bumpedVersion.updated);
+
+    fs.writeFile(webAppVersionConstantPath, result, 'utf8', function (err) {
+      if (err) return console.log(err);
+    });
+  });
 
   // Add & Commit code
   await git.add('.');

@@ -14,7 +14,7 @@ const PP = `
 ---
 
 This Privacy Policy describes how your personal information is collected, used, and shared when you visit our marketing site,
-leftonread.me (the “Site”).
+leftonread.me (the “Site”). This Privacy Policy does not discuss our Desktop application.
 
 ----
 
@@ -50,7 +50,7 @@ operational, legal or regulatory reasons.
 
 ### Contact Us
 For more information about our privacy practices, if you have questions, or if you would like to make a complaint, 
-please contact us.
+please contact us: help.leftonread@gmail.com
 `
 
 export default function TermsOfService() {

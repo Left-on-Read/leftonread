@@ -44,7 +44,7 @@ function App({ Component, pageProps }: AppProps) {
         <title>Left on Read</title>
         <meta
           name="description"
-          content="What can you learn from your text messages? Left on Read is the internet's first and only free and open-source iMessage analyzing app"
+          content="What will you learn from your text messages? Left on Read is the internet's first and open-source iMessage analyzer app."
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>

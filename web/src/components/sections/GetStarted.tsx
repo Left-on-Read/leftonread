@@ -1,13 +1,14 @@
 import { belowBreakpoint, MIN_HEIGHT } from '../../theme'
+import { logEvent } from '../../utils/gtag'
 import Button from '../Button'
 import { DefaultContentContainer } from '../DefaultContentContainer'
 import { Gradient } from '../Gradient'
 import { Navbar } from '../Navbar'
 import { Text } from '../Text'
 
-const DISPLAY_TEXT = 'What can you learn from your texts?'
+const DISPLAY_TEXT = 'What will you learn from your texts?'
 const DESCRIPTION_TEXT =
-  'Learn about yourself and your texting habits with Left on Read, a free iMessage analyzer built for Mac Desktop.'
+  'Learn about your friends and your texting habits with Left on Read, a secure, open-source iMessage analyzer made with ❤️.'
 
 export function GetStarted({
   ctaRef,
@@ -15,6 +16,11 @@ export function GetStarted({
   ctaRef: React.RefObject<HTMLDivElement>
 }) {
   const handleGetStarted = () => {
+    logEvent({
+      action: 'clicked_top_level_download',
+      category: 'Top Level Download',
+    })
+
     if (ctaRef.current) {
       ctaRef.current?.scrollIntoView()
     }
@@ -45,9 +51,9 @@ export function GetStarted({
         >
           <div
             css={{
-              width: '60%',
+              width: '70%',
               [belowBreakpoint.md]: {
-                width: '80%',
+                width: '90%',
               },
               [belowBreakpoint.sm]: {
                 width: '100%',
@@ -57,7 +63,7 @@ export function GetStarted({
             <Text type="display">{DISPLAY_TEXT}</Text>
             <Text type="paragraph">{DESCRIPTION_TEXT}</Text>
             <Button
-              label="Download →"
+              label="Get Started →"
               css={{
                 marginTop: '64px',
                 [belowBreakpoint.sm]: { marginTop: '32px' },
