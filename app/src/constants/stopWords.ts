@@ -30,6 +30,7 @@ const stopWordsList = [
   'good',
   '',
   ' ',
+  'th',
   'lets',
   'u',
   'would',
