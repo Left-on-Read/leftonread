@@ -27,9 +27,9 @@ function Content() {
     <div>
       <Text type="header">
         <HighlightedText
-          text={'Get Left on Read for Mac'}
+          text={'Get Left on Read'}
           color={Theme.secondary.main}
-        />
+        />{' '}
       </Text>
       <Text type="paragraph">
         {'Learning about your texts is a click away. Our Desktop app is '}
