@@ -1,15 +1,15 @@
 {
-  "name": "left-on-read",
-  "version": "0.1.10",
-  "author": "Left on Read",
-  "description": "A message analyzing platform",
-  "main": "./dist/main/main.js",
-  "scripts": {
-    "electron-rebuild": "node -r ts-node/register ../../.erb/scripts/electron-rebuild.js",
-    "postinstall": "yarn electron-rebuild && npm run link-modules",
-    "link-modules": "node -r ts-node/register ../../.erb/scripts/link-modules.ts"
-  },
-  "dependencies": {
-    "sqlite3": "^5.0.10"
-  }
+    "name": "left-on-read",
+    "version": "0.1.11",
+    "author": "Left on Read",
+    "description": "A message analyzing platform",
+    "main": "./dist/main/main.js",
+    "scripts": {
+        "electron-rebuild": "node -r ts-node/register ../../.erb/scripts/electron-rebuild.js",
+        "postinstall": "yarn electron-rebuild && npm run link-modules",
+        "link-modules": "node -r ts-node/register ../../.erb/scripts/link-modules.ts"
+    },
+    "dependencies": {
+        "sqlite3": "^5.0.10"
+    }
 }
