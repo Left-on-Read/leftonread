@@ -1,5 +1,4 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
-import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
 import {
   FiArrowUpCircle,
   FiAward,
@@ -15,6 +14,8 @@ import {
   FiUsers,
 } from 'react-icons/fi';
 
+import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFilters';
+import { GroupChatFilters } from '../../constants/filters';
 import { daysAgo } from '../../main/util';
 import { logEvent } from '../../utils/analytics';
 import { EngagementScoreChart } from '../Graphs/EngagementScore/EngagementScoreChart';
@@ -28,14 +29,55 @@ import { TotalSentimentChart } from '../Graphs/TotalSentimentChart';
 import { WordOrEmojiCountChart } from '../Graphs/WordOrEmojiCountChart';
 import { useGlobalContext } from './GlobalContext';
 
+const titleFormatter = ({
+  titleName,
+  filters,
+}: {
+  titleName: string;
+  filters: SharedQueryFilters;
+}) => {
+  let title = titleName;
+  const { contact } = filters;
+  if (contact?.length === 1) {
+    title += ` with ${contact[0].label}`;
+  } else if (contact && contact.length > 1) {
+    title += ` with ${contact.length} contacts`;
+  }
+
+  return title;
+};
+
+const descriptionFormatter = ({
+  description,
+  filters,
+}: {
+  description: string;
+  filters: SharedQueryFilters;
+}) => {
+  let descriptionString = description;
+  const { groupChat } = filters;
+
+  if (descriptionString && groupChat === GroupChatFilters.BOTH) {
+    descriptionString += `, includes group chats`;
+  } else if (
+    descriptionString &&
+    groupChat === GroupChatFilters.ONLY_INDIVIDUAL
+  ) {
+    descriptionString += `, excludes group chats`;
+  } else if (groupChat === GroupChatFilters.BOTH) {
+    descriptionString += 'includes group chats';
+  } else {
+    descriptionString += 'excludes group chats';
+  }
+
+  return descriptionString;
+};
+
 export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
   const { dateRange, isLoading: isGlobalContextLoading } = useGlobalContext();
 
   return (
     <div>
-      {/* <span>
-        Last text message: {earliestAndLatestDate?.latestDate.toLocaleString()}
-      </span> */}
       <Tabs
         variant="soft-rounded"
         colorScheme="purple"
@@ -47,7 +89,7 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
           } else if (index === 2) {
             activeTab = 'Sentiment';
           } else if (index === 3) {
-            activeTab = 'Coming Soon...';
+            activeTab = 'Engagement';
           }
 
           logEvent({
@@ -88,33 +130,52 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
           <TabPanel>
             <div>
               <SentVsReceivedChart
-                title="Total Sent vs Received"
-                description={
-                  isGlobalContextLoading
-                    ? `since...`
+                title={titleFormatter({
+                  titleName: 'Total Sent vs Received',
+                  filters,
+                })}
+                description={descriptionFormatter({
+                  description: isGlobalContextLoading
+                    ? ``
                     : `since ${dateRange.earliestDate.toLocaleDateString()} (${daysAgo(
                         dateRange.earliestDate,
                         new Date()
-                      )} days ago)`
-                }
+                      )} days ago)`,
+                  filters,
+                })}
                 icon={FiMessageCircle}
                 filters={filters}
               />
               <TopFriendsChart
-                title="Top Messaged Friends"
-                description=""
+                title={titleFormatter({
+                  titleName:
+                    filters.contact?.length === 1
+                      ? 'Sent vs Received'
+                      : 'Top Messaged Friends',
+                  filters,
+                })}
+                description={descriptionFormatter({ description: '', filters })}
                 icon={FiUsers}
                 filters={filters}
               />
               <TimeOfDayChart
-                title="Messages by Time of Day"
-                description="represented in your local time zone"
+                title={titleFormatter({
+                  titleName: 'Messages by Time of Day',
+                  filters,
+                })}
+                description={descriptionFormatter({
+                  description: 'represented in your local time zone',
+                  filters,
+                })}
                 icon={FiClock}
                 filters={filters}
               />
               <TextsOverTimeChart
-                title="Number of Messages Per Day"
-                description=""
+                title={titleFormatter({
+                  titleName: 'Number of Messages Per Day',
+                  filters,
+                })}
+                description={descriptionFormatter({ description: '', filters })}
                 icon={FiCalendar}
                 filters={filters}
               />
@@ -123,8 +184,11 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
           <TabPanel>
             <div>
               <WordOrEmojiCountChart
-                title="Top Received Emojis"
-                description=""
+                title={titleFormatter({
+                  titleName: 'Top Received Emojis',
+                  filters,
+                })}
+                description={descriptionFormatter({ description: '', filters })}
                 icon={FiStar}
                 labelText="Count of Received Emojis"
                 filters={filters}
@@ -132,8 +196,11 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
                 isFromMe={false}
               />
               <WordOrEmojiCountChart
-                title="Top Sent Emojis"
-                description=""
+                title={titleFormatter({
+                  titleName: 'Top Sent Emojis',
+                  filters,
+                })}
+                description={descriptionFormatter({ description: '', filters })}
                 icon={FiMeh}
                 labelText="Count of Sent Emojis"
                 filters={filters}
@@ -141,8 +208,11 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
                 isFromMe
               />
               <WordOrEmojiCountChart
-                title="Top Received Words"
-                description=""
+                title={titleFormatter({
+                  titleName: 'Top Received Words',
+                  filters,
+                })}
+                description={descriptionFormatter({ description: '', filters })}
                 icon={FiBookOpen}
                 labelText="Count of Received Words"
                 filters={filters}
@@ -150,8 +220,11 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
                 isFromMe={false}
               />
               <WordOrEmojiCountChart
-                title="Top Sent Words"
-                description=""
+                title={titleFormatter({
+                  titleName: 'Top Sent Words',
+                  filters,
+                })}
+                description={descriptionFormatter({ description: '', filters })}
                 icon={FiEdit3}
                 labelText="Count of Sent Words"
                 filters={filters}
@@ -163,19 +236,35 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
           <TabPanel>
             <div>
               <TotalSentimentChart
-                title="Percent Positivity Overview"
-                description="A weighted percentage of how positive your texts are."
+                title={titleFormatter({
+                  titleName: 'Percent Positivity Overview',
+                  filters,
+                })}
+                description={descriptionFormatter({
+                  description:
+                    'A weighted percentage of how positive your texts are',
+                  filters,
+                })}
                 icon={FiAward}
                 filters={filters}
               />
               <SentimentOverTimeChart
-                title="Percent Positivity Over Time"
+                title={titleFormatter({
+                  titleName: 'Percent Positivity Over Time',
+                  filters,
+                })}
                 icon={FiPercent}
                 filters={filters}
               />
               <TopSentimentFriendsChart
-                title="Most Positive Conversations"
-                description="Minimum of 25 messages sent and received"
+                title={titleFormatter({
+                  titleName: 'Most Positive Conversations',
+                  filters,
+                })}
+                description={descriptionFormatter({
+                  description: 'Minimum of 25 messages sent and received',
+                  filters,
+                })}
                 icon={FiArrowUpCircle}
                 filters={filters}
               />
@@ -187,8 +276,14 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
           <TabPanel>
             <div>
               <EngagementScoreChart
-                title="Engagement Score ™"
-                description={`Measures how "good" of a texter you are.`}
+                title={titleFormatter({
+                  titleName: 'Engagement Score ™',
+                  filters,
+                })}
+                description={descriptionFormatter({
+                  description: `Measures how "good" of a texter you are`,
+                  filters,
+                })}
                 icon={FiRadio}
                 filters={filters}
               />
