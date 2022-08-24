@@ -57,7 +57,7 @@ export function Footer() {
                 },
               }}
             >
-              <div onClick={handleDownload}>Download</div>
+              <div onClick={handleDownload}>Download for Mac</div>
               <a
                 css={{
                   color: 'inherit',
