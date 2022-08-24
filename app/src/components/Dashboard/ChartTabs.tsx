@@ -1,6 +1,5 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
-import { EngagementScoreChart } from 'components/Graphs/EngagementScore/EngagementScoreChart';
 import {
   FiArrowUpCircle,
   FiAward,
@@ -18,6 +17,7 @@ import {
 
 import { daysAgo } from '../../main/util';
 import { logEvent } from '../../utils/analytics';
+import { EngagementScoreChart } from '../Graphs/EngagementScore/EngagementScoreChart';
 import { SentimentOverTimeChart } from '../Graphs/SentimentOverTimeChart';
 import { SentVsReceivedChart } from '../Graphs/SentVsReceivedChart';
 import { TextsOverTimeChart } from '../Graphs/TextsOverTimeChart';
