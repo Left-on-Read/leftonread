@@ -47,10 +47,10 @@ export class CoreMainTable extends Table {
       m.ROWID as message_id
     FROM
     message m
-    LEFT JOIN handle h 
+    JOIN handle h 
       ON h.rowid = m.handle_id
 
-    LEFT JOIN DATE_TIME_TABLE
+    JOIN DATE_TIME_TABLE
       ON guid = datetimetable_guid 
 
     LEFT JOIN chat_message_join c
