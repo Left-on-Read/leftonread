@@ -21,12 +21,17 @@ export enum SentimentTableNames {
   SENTIMENT_TABLE = 'sentiment_table',
 }
 
+export enum EngagementTableNames {
+  ENGAGEMENT_TABLE = 'engagement_table',
+}
+
 export type TableNames =
   | ChatTableNames
   | AddressBookTableNames
   | CoreTableNames
   | CalendarTableNames
-  | SentimentTableNames;
+  | SentimentTableNames
+  | EngagementTableNames;
 
 export class Table {
   name: TableNames;

@@ -10,8 +10,15 @@ import {
   clearExistingDirectory,
   initializeCoreDb,
 } from '../analysis/initializeCoreDb';
+import { queryAverageDelay } from '../analysis/queries/AverageDelayQuery';
 import { queryContactOptions } from '../analysis/queries/ContactOptionsQuery';
 import { queryEarliestAndLatestDates } from '../analysis/queries/EarliestAndLatestDatesQuery';
+import {
+  queryAverageDelayV2,
+  queryAverageMessageLength,
+  queryDoubleTexts,
+  queryLeftOnRead,
+} from '../analysis/queries/EngagementQueries';
 import { SharedQueryFilters } from '../analysis/queries/filters/sharedQueryFilters';
 import {
   querySentimentOverTimeReceived,
@@ -129,6 +136,22 @@ export function attachIpcListeners() {
   );
 
   ipcMain.handle(
+    'query-average-delay',
+    async (event, filters: SharedQueryFilters) => {
+      const db = getDb();
+      return queryAverageDelay(db, filters);
+    }
+  );
+
+  ipcMain.handle(
+    'query-average-delay-v2',
+    async (event, filters: SharedQueryFilters) => {
+      const db = getDb();
+      return queryAverageDelayV2(db, filters);
+    }
+  );
+
+  ipcMain.handle(
     'query-text-over-time-sent',
     async (event, filters: SharedQueryFilters) => {
       const db = getDb();
@@ -141,6 +164,30 @@ export function attachIpcListeners() {
     async (event, filters: SharedQueryFilters) => {
       const db = getDb();
       return queryTimeOfDaySent(db, filters);
+    }
+  );
+
+  ipcMain.handle(
+    'query-avg-length',
+    async (event, filters: SharedQueryFilters) => {
+      const db = getDb();
+      return queryAverageMessageLength(db, filters);
+    }
+  );
+
+  ipcMain.handle(
+    'query-double-texts',
+    async (event, filters: SharedQueryFilters) => {
+      const db = getDb();
+      return queryDoubleTexts(db, filters);
+    }
+  );
+
+  ipcMain.handle(
+    'query-left-on-read',
+    async (event, filters: SharedQueryFilters) => {
+      const db = getDb();
+      return queryLeftOnRead(db, filters);
     }
   );
 

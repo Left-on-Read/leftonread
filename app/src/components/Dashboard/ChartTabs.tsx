@@ -10,13 +10,14 @@ import {
   FiMeh,
   FiMessageCircle,
   FiPercent,
+  FiRadio,
   FiStar,
   FiUsers,
 } from 'react-icons/fi';
 
 import { daysAgo } from '../../main/util';
 import { logEvent } from '../../utils/analytics';
-import { ComingSoon } from '../ComingSoon';
+import { EngagementScoreChart } from '../Graphs/EngagementScore/EngagementScoreChart';
 import { SentimentOverTimeChart } from '../Graphs/SentimentOverTimeChart';
 import { SentVsReceivedChart } from '../Graphs/SentVsReceivedChart';
 import { TextsOverTimeChart } from '../Graphs/TextsOverTimeChart';
@@ -80,7 +81,7 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
             <span style={{ marginRight: 10 }}>❤️</span>Sentiment
           </Tab>
           <Tab style={{ marginRight: 32 }}>
-            <span style={{ marginRight: 10 }}>🚀</span>Coming Soon...
+            <span style={{ marginRight: 10 }}>⚡ </span>Engagement
           </Tab>
         </TabList>
         <TabPanels style={{ paddingTop: 60 }}>
@@ -180,8 +181,18 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
               />
             </div>
           </TabPanel>
-          <TabPanel>
+          {/* <TabPanel>
             <ComingSoon />
+          </TabPanel> */}
+          <TabPanel>
+            <div>
+              <EngagementScoreChart
+                title="Engagement Score ™"
+                description={`Measures how "good" of a texter you are.`}
+                icon={FiRadio}
+                filters={filters}
+              />
+            </div>
           </TabPanel>
         </TabPanels>
       </Tabs>

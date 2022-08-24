@@ -21,12 +21,14 @@ import {
   setContactNameColumn,
 } from './tables/ContactTable';
 import { CoreMainTable } from './tables/CoreTable';
+import { EngagementTable } from './tables/EngagementTable';
 import { SentimentTable } from './tables/SentimentTable';
 import {
   AddressBookTableNames,
   CalendarTableNames,
   ChatTableNames,
   CoreTableNames,
+  EngagementTableNames,
   SentimentTableNames,
 } from './tables/types';
 
@@ -58,6 +60,7 @@ async function dropAllTables(db: sqlite3.Database) {
     ...Object.values(AddressBookTableNames),
     ...Object.values(CalendarTableNames),
     ...Object.values(SentimentTableNames),
+    ...Object.values(EngagementTableNames),
   ].map(async (tableName) =>
     sqlite3Wrapper.runP(db, `DROP TABLE IF EXISTS ${tableName}`)
   );
@@ -139,7 +142,14 @@ export async function initializeCoreDb(): Promise<sqlite3.Database> {
     .create()
     .catch((e) => log.error(e));
 
-  await Promise.all([chatCountTable, sentimentTable]);
+  const engagementTable = new EngagementTable(
+    lorDB,
+    EngagementTableNames.ENGAGEMENT_TABLE
+  )
+    .create()
+    .catch((e) => log.error(e));
+
+  await Promise.all([chatCountTable, sentimentTable, engagementTable]);
 
   // NOTE(Danilowicz): im not entirely sure we want to clear here
   // } catch (e) {
