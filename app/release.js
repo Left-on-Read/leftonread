@@ -76,7 +76,7 @@ async function main() {
   });
 
   // Add & Commit code
-  await git.add('.');
+  await git.add('-A');
   await git.commit(`Release v${bumpedVersion.updated}`);
 
   // Create a new tag
