@@ -7,6 +7,7 @@ import { objReplacementUnicode } from '../../constants/objReplacementUnicode';
 import { punctuation } from '../../constants/punctuation';
 import { reactions } from '../../constants/reactions';
 import { stopWords } from '../../constants/stopWords';
+import { delimList } from '../../utils/delimList';
 import * as sqlite3Wrapper from '../../utils/sqliteWrapper';
 import { ChatTableColumns } from '../tables/ChatTable';
 import { ChatTableNames } from '../tables/types';
@@ -45,7 +46,9 @@ function contactFilter(filters: IWordOrEmojiFilters): string | undefined {
   if (!filters.contact || filters.contact.length === 0) {
     return undefined;
   }
-  return `${ChatTableColumns.CONTACT} = "${filters.contact}"`;
+  return `${ChatTableColumns.CONTACT} IN (${delimList(
+    filters.contact.map((c) => c.label)
+  )})`;
 }
 
 function wordFilter(filters: IWordOrEmojiFilters): string | undefined {
