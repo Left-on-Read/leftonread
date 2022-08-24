@@ -4,13 +4,13 @@
 
 A text message analyzer built with Electron, React, SQLite, Typescript, and ❤️.
 
-## Get Left on Read
+## Download Left on Read for Mac
 
 <h3><a href=https://github.com/Left-on-Read/leftonread/releases">Download</a></h3>
 
 <p align="right"><a href="https://leftonread.me/">leftonread.me</a></p>
 
-### Mission and Values
+## Mission and Values
 
 **Open-Source Transparency**: We open-sourced the entire application to keep users' security and privacy first.
 
