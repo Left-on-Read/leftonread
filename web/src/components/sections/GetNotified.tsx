@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import { LATEST_APP_VERSION_FOR_MARKETING_SITE } from '../../constants/APP_VERSION'
 import Theme, { belowBreakpoint } from '../../theme'
 import { writeEmailToFirestore } from '../../utils/firestore'
 import { logEvent } from '../../utils/gtag'
@@ -14,12 +15,11 @@ import { Text } from '../Text'
 const DEFAULT_PARAGRAPH_WEIGHT = 400
 
 export const handleDownload = () => {
-  const versionNumber = '0.1.10'
   logEvent({
     action: 'download',
     category: 'Download',
   })
-  window.location.href = `https://github.com/Left-on-Read/leftonread/releases/download/v${versionNumber}/Left-on-Read-${versionNumber}.dmg`
+  window.location.href = `https://github.com/Left-on-Read/leftonread/releases/download/v${LATEST_APP_VERSION_FOR_MARKETING_SITE}/Left-on-Read-${LATEST_APP_VERSION_FOR_MARKETING_SITE}.dmg`
 }
 
 function Content() {
@@ -27,12 +27,12 @@ function Content() {
     <div>
       <Text type="header">
         <HighlightedText
-          text={'Get Left on Read'}
+          text={'Download Left on Read'}
           color={Theme.secondary.main}
         />{' '}
       </Text>
       <Text type="paragraph">
-        {'Learning about your texts is a click away. Our Desktop app is '}
+        {'Available on Mac OS. Left on Read is '}
         <HighlightedText
           text={'free to try'}
           color={Theme.palette.sherwoodGreen.main}
@@ -104,23 +104,17 @@ export function GetNotified({
     signUpEmail(email)
   }
 
-  // UNUSED RIGHT NOW - REPLACED BY DOWNLOAD BUTTON
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const notiftyContent = (
+  const notifyContent = (
     <form
       onSubmit={handleSubmitNotify}
       css={{
-        marginTop: '40px',
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
         [belowBreakpoint.md]: {
-          marginTop: '80px',
           flexDirection: 'column',
           alignItems: 'initial',
-        },
-        [belowBreakpoint.sm]: {
-          marginTop: '40px',
         },
       }}
     >
@@ -157,16 +151,17 @@ export function GetNotified({
       >
         {state !== 'success' && state !== 'loading' && (
           <Button
+            secondary
             type="submit"
             css={{
               marginLeft: '40px',
-              fontSize: '22px',
+              fontSize: '20px',
               [belowBreakpoint.md]: {
                 fontSize: '18px',
                 marginLeft: '0px',
               },
             }}
-            label={'Notify me'}
+            label={'Enter'}
             data-testid="get-notified-button"
           />
         )}
@@ -176,58 +171,83 @@ export function GetNotified({
   )
 
   return (
-    <DefaultContentContainer>
+    <>
       <div
         css={{
-          display: 'flex',
-          flexDirection: 'column',
-          padding: '80px 0',
-          [belowBreakpoint.sm]: {
-            padding: '40px 0',
-          },
+          backgroundColor: Theme.palette.frogGreen.faded,
+          paddingTop: '36px',
+          paddingBottom: '50px',
         }}
-        ref={ctaRef}
       >
-        <Content />
+        <DefaultContentContainer>
+          <div
+            css={{
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            <Text type="secondary-header">
+              Join our community to learn about exciting new features and
+              updates
+            </Text>
+            {notifyContent}
+          </div>
+        </DefaultContentContainer>
+      </div>
+
+      <DefaultContentContainer>
         <div
           css={{
-            marginTop: '25px',
-            justifyContent: 'center',
             display: 'flex',
+            flexDirection: 'column',
+            padding: '80px 0',
+            [belowBreakpoint.sm]: {
+              padding: '40px 0',
+            },
           }}
+          ref={ctaRef}
         >
-          <Button
-            onClick={handleDownload}
-            type="submit"
+          <Content />
+          <div
             css={{
-              height: '75px',
-              width: '350px',
-              fontSize: '24px',
-              [belowBreakpoint.md]: {
-                fontSize: '18px',
-                marginLeft: '0px',
-              },
+              marginTop: '25px',
+              justifyContent: 'center',
+              display: 'flex',
             }}
-            label={
-              <div
-                css={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-evenly',
-                }}
-              >
-                <img
-                  src="https://assets-global.website-files.com/60ca686c96b42034829a80d3/60e4770d2aeb7a0efe3d8d97_apple.svg"
-                  loading="lazy"
-                  alt="Apple logo"
-                  className="download-img"
-                />
-                Download for Mac
-              </div>
-            }
-          />
+          >
+            <Button
+              onClick={handleDownload}
+              type="submit"
+              css={{
+                height: '75px',
+                width: '350px',
+                fontSize: '24px',
+                [belowBreakpoint.md]: {
+                  fontSize: '18px',
+                  marginLeft: '0px',
+                },
+              }}
+              label={
+                <div
+                  css={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-evenly',
+                  }}
+                >
+                  <img
+                    src="https://assets-global.website-files.com/60ca686c96b42034829a80d3/60e4770d2aeb7a0efe3d8d97_apple.svg"
+                    loading="lazy"
+                    alt="Apple logo"
+                    className="download-img"
+                  />
+                  Download for Mac
+                </div>
+              }
+            />
+          </div>
         </div>
-      </div>
-    </DefaultContentContainer>
+      </DefaultContentContainer>
+    </>
   )
 }

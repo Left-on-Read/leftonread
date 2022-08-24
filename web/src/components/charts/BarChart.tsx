@@ -39,7 +39,7 @@ export default function BarChart({
   const options = {
     legend: {
       labels: {
-        fontSize: 20,
+        fontSize: 16,
       },
     },
     scales: {

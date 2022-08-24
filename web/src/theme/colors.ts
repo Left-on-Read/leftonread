@@ -42,7 +42,7 @@ const canaryYellow: Color = {
 
 const frogGreen: Color = {
   main: '#7BCDBA',
-  hover: '#7BCDBA',
+  hover: '#43b59b',
   faded: 'rgba(123, 205, 186, 0.2)',
   graphFaded: 'rgba(123, 205, 186, 0.8)',
 }

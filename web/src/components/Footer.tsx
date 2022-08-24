@@ -47,6 +47,10 @@ export function Footer() {
                 justifyContent: 'space-around',
                 fontSize: '18px',
                 cursor: 'pointer',
+                [belowBreakpoint.md]: {
+                  flexDirection: 'column',
+                  lineHeight: '25px',
+                },
                 [belowBreakpoint.sm]: {
                   flexDirection: 'column',
                   lineHeight: '25px',

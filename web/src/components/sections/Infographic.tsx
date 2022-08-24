@@ -10,9 +10,9 @@ import { Text } from '../Text'
 import { TextNotification } from '../TextNotification'
 import type { IText } from '../types'
 
-const HEADER_TEXT = 'Unique analytics for your 👀 only.'
+const HEADER_TEXT = 'Unique analytics for your eyes only 👀'
 const DESCRIPTION_TEXT = `
-Just like your private photos and important documents, your text messages are only accessible to you and never seen by us. Privacy and security comes first, so our software is open-source.`
+Just like your private photos and important documents, your text messages are only accessible to you and never seen by us. Privacy and security comes first: our software is open-source.`
 
 const styles = {
   mainContainer: css({
@@ -20,7 +20,7 @@ const styles = {
     minHeight: MIN_HEIGHT,
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: Theme.palette.frogGreen.faded,
+    // backgroundColor: Theme.palette.frogGreen.faded,
     position: 'relative',
   }),
   contentContainer: css({
