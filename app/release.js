@@ -6,7 +6,7 @@ const fs = require('fs');
 async function main() {
   const git = simpleGit();
   const currentBranch = (await git.branchLocal()).current;
-  const webAppVersionConstantPath = '..web/src/constants/APP_VERSION.ts';
+  const webAppVersionConstantPath = '../web/src/constants/APP_VERSION.ts';
 
   // Assert on main branch
   if (currentBranch !== 'main') {
