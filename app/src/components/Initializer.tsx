@@ -39,12 +39,13 @@ export function Initializer({
       await ipcRenderer.invoke('set-last-updated-version', APP_VERSION);
 
       navigate('/dashboard');
-      onUpdateIsInitializing(false);
     } catch (e: unknown) {
-      navigate('/');
+      navigate('/start');
       if (e instanceof Error) {
         setError(e.message);
       }
+    } finally {
+      onUpdateIsInitializing(false);
     }
   }, [navigate, onUpdateIsInitializing]);
 

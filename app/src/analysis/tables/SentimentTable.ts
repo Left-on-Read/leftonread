@@ -22,7 +22,7 @@ export class SentimentTable extends Table {
   async create(): Promise<TableNames> {
     const createQ = `
     CREATE TABLE IF NOT EXISTS ${this.name} (
-        message_id INTEGER PRIMARY KEY,
+        message_id INTEGER NOT NULL,
         human_readable_date TEXT NOT NULL,
         is_from_me INTEGER NOT NULL,
         contact_name TEXT,
@@ -43,6 +43,7 @@ export class SentimentTable extends Table {
     for (let i = 0; i < allMessages.length; i += 1) {
       const currentMessage = allMessages[i];
       const result = sentiment.analyze(currentMessage.message);
+
       rowsToInsert.push(
         `(${currentMessage.message_id},${currentMessage.is_from_me},"${
           currentMessage.human_readable_date

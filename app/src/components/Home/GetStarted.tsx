@@ -57,6 +57,7 @@ export function GetStarted({ onNext }: { onNext: (arg0: boolean) => void }) {
       },
     });
     onNext(hasAccess);
+    setIsLoading(false);
   };
 
   return (

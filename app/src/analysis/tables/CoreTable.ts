@@ -47,16 +47,34 @@ export class CoreMainTable extends Table {
       m.ROWID as message_id
     FROM
     message m
-    JOIN handle h 
+    LEFT JOIN handle h 
       ON h.rowid = m.handle_id
 
-    JOIN DATE_TIME_TABLE
+    LEFT JOIN DATE_TIME_TABLE
       ON guid = datetimetable_guid 
+
+    LEFT JOIN chat_message_join c
+      ON c.message_id = m.ROWID
     WHERE ${fluffFilter()}
     `;
 
     await sqlite3Wrapper.runP(this.db, q);
     log.info(`INFO: created ${this.name}`);
+
+    // NOTE(teddy): Delete duplicate message_Id rows... not sure how they get in tehre...
+    // THIS DOES NOT WORk. I DONT KNOW WHY.
+    const deleteDupsQ = `
+      DELETE FROM ${this.name} 
+      WHERE ROWID NOT IN 
+      (
+        SELECT min(ROWID)
+        FROM ${this.name}
+        GROUP BY ROWID
+      )
+    `;
+    await sqlite3Wrapper.runP(this.db, deleteDupsQ);
+    log.info(`INFO: cleared any duplicates from ${this.name}`);
+
     return this.name;
   }
 }
