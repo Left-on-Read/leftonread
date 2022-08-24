@@ -8,6 +8,8 @@ import '@fontsource/montserrat/700.css';
 import '@fontsource/montserrat/800.css';
 import '@fontsource/montserrat/900.css';
 import './App.css';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 import { ChakraProvider } from '@chakra-ui/react';
 import { Chart, registerables } from 'chart.js';

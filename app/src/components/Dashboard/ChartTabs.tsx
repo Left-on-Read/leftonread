@@ -1,5 +1,6 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
+import { EngagementScoreChart } from 'components/Graphs/EngagementScore/EngagementScoreChart';
 import {
   FiArrowUpCircle,
   FiAward,
@@ -10,6 +11,7 @@ import {
   FiMeh,
   FiMessageCircle,
   FiPercent,
+  FiRadio,
   FiStar,
   FiUsers,
   FiWatch,
@@ -186,9 +188,10 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
           </TabPanel> */}
           <TabPanel>
             <div>
-              <AverageDelayChart
-                title="Average Response Time"
-                icon={FiWatch}
+              <EngagementScoreChart
+                title="Engagement Score ™"
+                description={`Measures how "good" of a texter you are.`}
+                icon={FiRadio}
                 filters={filters}
               />
             </div>
