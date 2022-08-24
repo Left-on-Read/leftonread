@@ -1,6 +1,11 @@
 import { belowBreakpoint } from '../theme'
 
-export type TextType = 'paragraph' | 'bold' | 'header' | 'display'
+export type TextType =
+  | 'paragraph'
+  | 'bold'
+  | 'header'
+  | 'display'
+  | 'secondary-header'
 
 const styles = {
   displayText: {
@@ -51,6 +56,22 @@ const styles = {
     },
     padding: '8px 0',
   },
+  secondaryHeader: {
+    fontWeight: 800,
+    textStroke: '1px black',
+    color: 'rgba(0, 0, 0, .72)',
+    fontSize: '25px',
+    [belowBreakpoint.lg]: {
+      fontSize: '28px',
+    },
+    [belowBreakpoint.md]: {
+      fontSize: '28px',
+    },
+    [belowBreakpoint.sm]: {
+      fontSize: '28px',
+    },
+    padding: '16px 0',
+  },
 }
 
 export function Text({
@@ -71,6 +92,8 @@ export function Text({
     classToApply = styles.displayText
   } else if (type === 'bold') {
     classToApply = styles.boldText
+  } else if (type === 'secondary-header') {
+    classToApply = styles.secondaryHeader
   }
 
   return (

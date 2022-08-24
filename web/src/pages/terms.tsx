@@ -12,7 +12,7 @@ const TOS = `
 ---
 ---
 
-These terms and conditions outline the rules and regulations for the use of all of Left on Read 's services. 
+These terms and conditions outline the rules and regulations for the use of all of Left on Read 's marketing website: www.leftonread.me. 
 By accessing this website we assume you accept these terms and conditions in full. Do not continue to use 
 Left on Read 's website if you do not accept all of the terms and conditions stated on this page. 
 
@@ -27,7 +27,7 @@ to same.
 
 ### Cookies
 We employ the use of cookies. By using Left on Read 's website you consent to the use of cookies in accordance with 
-Left on Read ’s privacy policy. Most of the modern day interactive web sites use cookies to enable us to retrieve user 
+Left on Read’s privacy policy. Most of the modern day interactive web sites use cookies to enable us to retrieve user 
 details for each visit. Cookies are used in some areas of our site to enable the functionality of this area and ease of 
 use for those people visiting, and also used as part of use of Google Analytics.
 
@@ -35,7 +35,7 @@ use for those people visiting, and also used as part of use of Google Analytics.
 
 ### License
 Unless otherwise stated, Left on Read and/or it’s licensors own the intellectual property rights for all material on 
-Left on Read . All intellectual property rights are reserved. You may view and or print pages from leftonread.me for 
+Left on Read's website. All intellectual property rights are reserved. You may view and or print pages from leftonread.me for 
 your own personal use subject to restrictions set in these terms and conditions.
 
 You must not:
@@ -67,7 +67,7 @@ Approved organizations may hyperlink to our Website as follows:
 - By use of the uniform resource locator (Web address) being linked to; or
 - By use of any other description of our Website or material being linked to that makes sense within the context and format 
 of content on the linking party's site.
-No use of Left on Read ’s logo or other artwork will be allowed for linking absent a trademark license agreement.
+No use of Left on Read’s logo or other artwork will be allowed for linking absent a trademark license agreement.
 
 ---
 
@@ -115,7 +115,7 @@ The limitations and exclusions of liability set out in this Section and elsewher
 ---
 ---
 
-If you have any queries regarding any of our terms, please contact us.
+If you have any queries regarding any of our terms, please contact us: help.leftonread@gmail.com
 `
 
 export default function TermsOfService() {

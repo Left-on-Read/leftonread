@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import { LATEST_APP_VERSION_FOR_MARKETING_SITE } from '../../constants/APP_VERSION'
 import Theme, { belowBreakpoint } from '../../theme'
 import { writeEmailToFirestore } from '../../utils/firestore'
 import { logEvent } from '../../utils/gtag'
@@ -13,50 +14,43 @@ import { Text } from '../Text'
 
 const DEFAULT_PARAGRAPH_WEIGHT = 400
 
+export const handleDownload = () => {
+  logEvent({
+    action: 'download',
+    category: 'Download',
+  })
+  window.location.href = `https://github.com/Left-on-Read/leftonread/releases/download/v${LATEST_APP_VERSION_FOR_MARKETING_SITE}/Left-on-Read-${LATEST_APP_VERSION_FOR_MARKETING_SITE}.dmg`
+}
+
 function Content() {
   return (
     <div>
       <Text type="header">
         <HighlightedText
-          text={'Get notified for early access'}
+          text={'Download Left on Read'}
           color={Theme.secondary.main}
-        />
+        />{' '}
       </Text>
       <Text type="paragraph">
-        {"We're working on reimagining Left on Read to make it more "}
+        {'Available on Mac OS. Left on Read is '}
         <HighlightedText
-          text={'insightful'}
+          text={'free to try'}
           color={Theme.palette.sherwoodGreen.main}
           weight={DEFAULT_PARAGRAPH_WEIGHT}
         />
         {', '}
         <HighlightedText
-          text={'beautiful'}
+          text={'open-source'}
           color={Theme.palette.skyBlue.main}
           weight={DEFAULT_PARAGRAPH_WEIGHT}
         />
         {', and '}
         <HighlightedText
-          text={'performant'}
+          text={'fun'}
           color={Theme.palette.palePink.main}
           weight={DEFAULT_PARAGRAPH_WEIGHT}
         />
-        {' than the first version 🚀.'}
-      </Text>
-      <Text type="paragraph">
-        {"We don't want to spoil too much, but the new Left on Read will "}
-        <HighlightedText
-          text={'run offline'}
-          color={Theme.palette.canaryYellow.main}
-          weight={DEFAULT_PARAGRAPH_WEIGHT}
-        />
-        {' and be ENTIRELY '}
-        <HighlightedText
-          text={'open source'}
-          color={Theme.secondary.main}
-          weight={DEFAULT_PARAGRAPH_WEIGHT}
-        />
-        {' 👀.'}
+        {' 🚀.'}
       </Text>
     </div>
   )
@@ -105,91 +99,155 @@ export function GetNotified({
     }
   }
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmitNotify = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     signUpEmail(email)
   }
-  return (
-    <DefaultContentContainer>
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const notifyContent = (
+    <form
+      onSubmit={handleSubmitNotify}
+      css={{
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        [belowBreakpoint.md]: {
+          flexDirection: 'column',
+          alignItems: 'initial',
+        },
+      }}
+    >
+      <Input
+        css={{
+          fontSize: '22px',
+          height: '32px',
+          width: '350px',
+          [belowBreakpoint.md]: {
+            fontSize: '18px',
+            height: '28px',
+            width: '270px',
+          },
+          [belowBreakpoint.sm]: {
+            fontSize: '16px',
+            height: '24px',
+            width: '230px',
+          },
+        }}
+        placeholder={'you@example.com'}
+        value={email}
+        onChange={(updatedEmail) => setEmail(updatedEmail)}
+        disabled={state === 'loading' || state === 'success'}
+        data-testid="get-notified-input"
+      />
       <div
         css={{
           display: 'flex',
-          flexDirection: 'column',
-          padding: '80px 0',
-          [belowBreakpoint.sm]: {
-            padding: '40px 0',
+          alignItems: 'center',
+          [belowBreakpoint.md]: {
+            marginTop: '12px',
           },
         }}
-        ref={ctaRef}
       >
-        <Content />
-        <form
-          onSubmit={handleSubmit}
-          css={{
-            marginTop: '40px',
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            [belowBreakpoint.md]: {
-              marginTop: '80px',
-              flexDirection: 'column',
-              alignItems: 'initial',
-            },
-            [belowBreakpoint.sm]: {
-              marginTop: '40px',
-            },
-          }}
-        >
-          <Input
+        {state !== 'success' && state !== 'loading' && (
+          <Button
+            secondary
+            type="submit"
             css={{
-              fontSize: '22px',
-              height: '32px',
-              width: '350px',
+              marginLeft: '40px',
+              fontSize: '20px',
               [belowBreakpoint.md]: {
                 fontSize: '18px',
-                height: '28px',
-                width: '270px',
-              },
-              [belowBreakpoint.sm]: {
-                fontSize: '16px',
-                height: '24px',
-                width: '230px',
+                marginLeft: '0px',
               },
             }}
-            placeholder={'you@example.com'}
-            value={email}
-            onChange={(updatedEmail) => setEmail(updatedEmail)}
-            disabled={state === 'loading' || state === 'success'}
-            data-testid="get-notified-input"
+            label={'Enter'}
+            data-testid="get-notified-button"
           />
+        )}
+        {state !== null && <StatusLoader state={state} message={message} />}
+      </div>
+    </form>
+  )
+
+  return (
+    <>
+      <div
+        css={{
+          backgroundColor: Theme.palette.frogGreen.faded,
+          paddingTop: '36px',
+          paddingBottom: '50px',
+        }}
+      >
+        <DefaultContentContainer>
           <div
             css={{
               display: 'flex',
-              alignItems: 'center',
-              [belowBreakpoint.md]: {
-                marginTop: '12px',
-              },
+              flexDirection: 'column',
             }}
           >
-            {state !== 'success' && state !== 'loading' && (
-              <Button
-                type="submit"
-                css={{
-                  marginLeft: '40px',
-                  fontSize: '22px',
-                  [belowBreakpoint.md]: {
-                    fontSize: '18px',
-                    marginLeft: '0px',
-                  },
-                }}
-                label={'Notify me'}
-                data-testid="get-notified-button"
-              />
-            )}
-            {state !== null && <StatusLoader state={state} message={message} />}
+            <Text type="secondary-header">
+              Join our community to learn about exciting new features and
+              updates
+            </Text>
+            {notifyContent}
           </div>
-        </form>
+        </DefaultContentContainer>
       </div>
-    </DefaultContentContainer>
+
+      <DefaultContentContainer>
+        <div
+          css={{
+            display: 'flex',
+            flexDirection: 'column',
+            padding: '80px 0',
+            [belowBreakpoint.sm]: {
+              padding: '40px 0',
+            },
+          }}
+          ref={ctaRef}
+        >
+          <Content />
+          <div
+            css={{
+              marginTop: '25px',
+              justifyContent: 'center',
+              display: 'flex',
+            }}
+          >
+            <Button
+              onClick={handleDownload}
+              type="submit"
+              css={{
+                height: '75px',
+                width: '350px',
+                fontSize: '24px',
+                [belowBreakpoint.md]: {
+                  fontSize: '18px',
+                  marginLeft: '0px',
+                },
+              }}
+              label={
+                <div
+                  css={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-evenly',
+                  }}
+                >
+                  <img
+                    src="https://assets-global.website-files.com/60ca686c96b42034829a80d3/60e4770d2aeb7a0efe3d8d97_apple.svg"
+                    loading="lazy"
+                    alt="Apple logo"
+                    className="download-img"
+                  />
+                  Download for Mac
+                </div>
+              }
+            />
+          </div>
+        </div>
+      </DefaultContentContainer>
+    </>
   )
 }

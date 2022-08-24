@@ -29,10 +29,10 @@ export default function Input({
         transition: 'border-color 200ms',
         '&:focus': {
           borderWidth: `2px`,
-          borderColor: Theme.primary.main,
+          borderColor: Theme.secondary.main,
         },
         '&:hover': {
-          borderColor: Theme.primary.main,
+          borderColor: Theme.secondary.main,
         },
         [belowBreakpoint.md]: {
           padding: '8px 8px',

@@ -6,13 +6,15 @@ export default function Button({
   onClick,
   className,
   disabled,
+  secondary,
   ...props
 }: {
   type?: 'submit' | 'button' | 'reset'
-  label: string
+  label: React.ReactNode
   onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void
   className?: string
   disabled?: boolean
+  secondary?: boolean
 }) {
   return (
     <button
@@ -20,7 +22,7 @@ export default function Button({
       className={className}
       onClick={onClick}
       css={{
-        backgroundColor: Theme.primary.main,
+        backgroundColor: Theme[secondary ? 'secondary' : 'primary'].main,
         padding: '16px 32px',
         fontSize: '26px',
         fontWeight: 300,
@@ -37,7 +39,7 @@ export default function Button({
           fontSize: '22px',
         },
         '&:hover': {
-          backgroundColor: Theme.primary.hover,
+          backgroundColor: Theme[secondary ? 'secondary' : 'primary'].hover,
         },
       }}
       disabled={disabled}

@@ -2,6 +2,7 @@ import Link from 'next/link'
 
 import Theme, { belowBreakpoint } from '../theme'
 import { DefaultContentContainer } from './DefaultContentContainer'
+import { handleDownload } from './sections/GetNotified'
 
 // NOTE(teddy): This is probably going to require a refactor to a column structure once we have more footer content.
 export function Footer() {
@@ -46,12 +47,17 @@ export function Footer() {
                 justifyContent: 'space-around',
                 fontSize: '18px',
                 cursor: 'pointer',
+                [belowBreakpoint.md]: {
+                  flexDirection: 'column',
+                  lineHeight: '25px',
+                },
                 [belowBreakpoint.sm]: {
                   flexDirection: 'column',
                   lineHeight: '25px',
                 },
               }}
             >
+              <div onClick={handleDownload}>Download</div>
               <a
                 css={{
                   color: 'inherit',
@@ -66,7 +72,7 @@ export function Footer() {
                   color: 'inherit',
                   textDecoration: 'none',
                 }}
-                href="mailto:alex.danilowicz@gmail.com"
+                href="mailto:help.leftonread@gmail.com"
               >
                 Contact Us
               </a>
