@@ -49,15 +49,15 @@ export class EngagementTable extends Table {
 
     let lastMessage = null;
 
-    const seenMessageIds = new Set<number>();
+    // const seenMessageIds = new Set<number>();
 
     for (let i = 0; i < allMessages.length; i += 1) {
       const currentMessage = allMessages[i];
 
-      if (seenMessageIds.has(currentMessage.message_id)) {
-        log.error(currentMessage.message_id);
-      }
-      seenMessageIds.add(currentMessage.message_id);
+      // if (seenMessageIds.has(currentMessage.message_id)) {
+      //   log.error(currentMessage.message_id);
+      // }
+      // seenMessageIds.add(currentMessage.message_id);
 
       let delayInSeconds = null;
       let isDoubleText = true;
@@ -65,8 +65,8 @@ export class EngagementTable extends Table {
       // Ensure it's in the same conversation
       if (lastMessage && lastMessage.chat_id === currentMessage.chat_id) {
         delayInSeconds =
-          (new Date(currentMessage.human_readable_date).getTime() -
-            new Date(lastMessage.human_readable_date).getTime()) /
+          (new Date(lastMessage.human_readable_date).getTime() -
+            new Date(currentMessage.human_readable_date).getTime()) /
           1000;
 
         if (lastMessage.is_from_me !== currentMessage.is_from_me) {

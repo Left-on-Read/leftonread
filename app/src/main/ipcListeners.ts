@@ -10,6 +10,7 @@ import {
   clearExistingDirectory,
   initializeCoreDb,
 } from '../analysis/initializeCoreDb';
+import { queryAverageDelay } from '../analysis/queries/AverageDelayQuery';
 import { queryContactOptions } from '../analysis/queries/ContactOptionsQuery';
 import { queryEarliestAndLatestDates } from '../analysis/queries/EarliestAndLatestDatesQuery';
 import { SharedQueryFilters } from '../analysis/queries/filters/sharedQueryFilters';
@@ -125,6 +126,14 @@ export function attachIpcListeners() {
     async (event, filters: SharedQueryFilters) => {
       const db = getDb();
       return queryTextsOverTimeReceived(db, filters);
+    }
+  );
+
+  ipcMain.handle(
+    'query-average-delay',
+    async (event, filters: SharedQueryFilters) => {
+      const db = getDb();
+      return queryAverageDelay(db, filters);
     }
   );
 

@@ -12,11 +12,12 @@ import {
   FiPercent,
   FiStar,
   FiUsers,
+  FiWatch,
 } from 'react-icons/fi';
 
 import { daysAgo } from '../../main/util';
 import { logEvent } from '../../utils/analytics';
-import { ComingSoon } from '../ComingSoon';
+import { AverageDelayChart } from '../Graphs/AverageDelayChart';
 import { SentimentOverTimeChart } from '../Graphs/SentimentOverTimeChart';
 import { SentVsReceivedChart } from '../Graphs/SentVsReceivedChart';
 import { TextsOverTimeChart } from '../Graphs/TextsOverTimeChart';
@@ -80,7 +81,7 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
             <span style={{ marginRight: 10 }}>❤️</span>Sentiment
           </Tab>
           <Tab style={{ marginRight: 32 }}>
-            <span style={{ marginRight: 10 }}>🚀</span>Engagement
+            <span style={{ marginRight: 10 }}>⚡ </span>Engagement
           </Tab>
         </TabList>
         <TabPanels style={{ paddingTop: 60 }}>
@@ -184,7 +185,13 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
             <ComingSoon />
           </TabPanel> */}
           <TabPanel>
-            <div>Engagement!</div>
+            <div>
+              <AverageDelayChart
+                title="Average Response Time"
+                icon={FiWatch}
+                filters={filters}
+              />
+            </div>
           </TabPanel>
         </TabPanels>
       </Tabs>
