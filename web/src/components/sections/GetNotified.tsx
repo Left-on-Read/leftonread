@@ -1,3 +1,4 @@
+import { Button } from '@chakra-ui/react'
 import * as React from 'react'
 
 import { LATEST_APP_VERSION_FOR_MARKETING_SITE } from '../../constants/APP_VERSION'
@@ -5,7 +6,6 @@ import Theme, { belowBreakpoint } from '../../theme'
 import { writeEmailToFirestore } from '../../utils/firestore'
 import { logEvent } from '../../utils/gtag'
 import { isValidEmail } from '../../utils/validation'
-import Button from '../Button'
 import { DefaultContentContainer } from '../DefaultContentContainer'
 import HighlightedText from '../HighlightedText'
 import Input from '../Input'
@@ -149,22 +149,7 @@ export function GetNotified({
           },
         }}
       >
-        {state !== 'success' && state !== 'loading' && (
-          <Button
-            secondary
-            type="submit"
-            css={{
-              marginLeft: '40px',
-              fontSize: '20px',
-              [belowBreakpoint.md]: {
-                fontSize: '18px',
-                marginLeft: '0px',
-              },
-            }}
-            label={'Enter'}
-            data-testid="get-notified-button"
-          />
-        )}
+        {state !== 'success' && state !== 'loading' && <Button>Enter</Button>}
         {state !== null && <StatusLoader state={state} message={message} />}
       </div>
     </form>
@@ -215,7 +200,7 @@ export function GetNotified({
               display: 'flex',
             }}
           >
-            <Button
+            {/* <Button
               onClick={handleDownload}
               type="submit"
               css={{
@@ -244,7 +229,8 @@ export function GetNotified({
                   Download for Mac
                 </div>
               }
-            />
+            /> */}
+            <Button>Download</Button>
           </div>
         </div>
       </DefaultContentContainer>

@@ -1,3 +1,5 @@
+import { Box } from '@chakra-ui/react'
+import { Text } from '@chakra-ui/react'
 import { css } from '@emotion/react'
 import { AnimateSharedLayout, motion } from 'framer-motion'
 import * as React from 'react'
@@ -6,13 +8,8 @@ import Theme, { belowBreakpoint, MIN_HEIGHT } from '../../theme'
 import BarChart from '../charts/BarChart'
 import { LIST_OF_TEXTS } from '../charts/data'
 import { DefaultContentContainer } from '../DefaultContentContainer'
-import { Text } from '../Text'
 import { TextNotification } from '../TextNotification'
 import type { IText } from '../types'
-
-const HEADER_TEXT = 'Unique analytics for your eyes only 👀'
-const DESCRIPTION_TEXT = `
-Just like your private photos and important documents, your text messages are only accessible to you and never seen by us. Privacy and security comes first: our software is open-source.`
 
 const styles = {
   mainContainer: css({
@@ -77,18 +74,75 @@ export function Infographic() {
   const { texts, receivedWords } = useTextData()
 
   return (
-    <div css={styles.mainContainer}>
+    <Box
+      style={{
+        height: '100vh',
+        minHeight: MIN_HEIGHT,
+        display: 'flex',
+        flexDirection: 'column',
+        // backgroundColor: Theme.palette.frogGreen.faded,
+        position: 'relative',
+      }}
+      bgGradient="linear(to-b, white, purple.50)"
+    >
       <DefaultContentContainer>
-        <div css={styles.contentContainer}>
-          <div css={styles.infoContainer}>
+        <Box
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            height: '100%',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
             <div>
-              <Text type="header">{HEADER_TEXT}</Text>
-              <Text type="paragraph">{DESCRIPTION_TEXT}</Text>
+              <Box
+                fontSize="6xl"
+                fontWeight="extrabold"
+                style={{
+                  lineHeight: 1.3,
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                <Text
+                  bgGradient="linear(to-r, blue.400, purple.400)"
+                  bgClip="text"
+                >
+                  Learn about your habits
+                </Text>
+                <div style={{ marginLeft: 16 }}>📈</div>
+              </Box>
+              <Text fontSize="xl" style={{ marginTop: 32 }}>
+                {`Left on Read renders graphs about your text messages, so you can feel
+                better about your relationship with your phone. We promise
+                you've never seen analytics like these before.`}
+              </Text>
             </div>
-            <div css={styles.textStackWrapper}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                width: '100%',
+              }}
+            >
               <TextStack data={texts} css={styles.textStack} />
             </div>
-            <div css={styles.chartWrapper}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: '40px',
+                width: '90%',
+              }}
+            >
               <BarChart
                 title={'Top Received Words'}
                 labels={receivedWords.labels}
@@ -98,10 +152,10 @@ export function Infographic() {
           </div>
           {/* NOTE(teddy): This creates space for the text message list */}
           <div css={styles.textStackBlock} />
-        </div>
+        </Box>
       </DefaultContentContainer>
       <TextList data={texts} css={styles.textList} />
-    </div>
+    </Box>
   )
 }
 
@@ -175,7 +229,7 @@ function TextList({
   return (
     <div
       className={className}
-      css={{
+      style={{
         position: 'absolute',
         top: '30px',
         right: '10px',
@@ -184,7 +238,7 @@ function TextList({
       <AnimateSharedLayout>
         <motion.ul
           layout
-          css={{
+          style={{
             listStyle: 'none',
           }}
         >
@@ -229,7 +283,7 @@ function TextStack({
     <motion.div
       key={`stack-text-${text.key}`}
       className={className}
-      css={{ opacity: 0 }}
+      style={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
       <TextNotification
