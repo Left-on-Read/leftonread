@@ -1,4 +1,4 @@
-import { belowBreakpoint } from '../theme'
+import { Box } from '@chakra-ui/react'
 
 export function DefaultContentContainer({
   children,
@@ -6,19 +6,15 @@ export function DefaultContentContainer({
   children: React.ReactNode
 }) {
   return (
-    <div
-      css={{
-        padding: '0 128px',
-        [belowBreakpoint.lg]: {
-          padding: '0 64px',
-        },
-        [belowBreakpoint.sm]: {
-          padding: '0 32px',
-        },
-        height: '100%',
+    <Box
+      paddingX={{
+        base: '32px',
+        md: '64px',
+        lg: '128px',
       }}
+      height="100%"
     >
       {children}
-    </div>
+    </Box>
   )
 }

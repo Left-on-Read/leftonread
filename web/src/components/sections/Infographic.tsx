@@ -1,4 +1,5 @@
-import { css } from '@emotion/react'
+import { Box } from '@chakra-ui/react'
+import { Text } from '@chakra-ui/react'
 import { AnimateSharedLayout, motion } from 'framer-motion'
 import * as React from 'react'
 
@@ -6,102 +7,122 @@ import Theme, { belowBreakpoint, MIN_HEIGHT } from '../../theme'
 import BarChart from '../charts/BarChart'
 import { LIST_OF_TEXTS } from '../charts/data'
 import { DefaultContentContainer } from '../DefaultContentContainer'
-import { Text } from '../Text'
 import { TextNotification } from '../TextNotification'
 import type { IText } from '../types'
-
-const HEADER_TEXT = 'Unique analytics for your eyes only 👀'
-const DESCRIPTION_TEXT = `
-Just like your private photos and important documents, your text messages are only accessible to you and never seen by us. Privacy and security comes first: our software is open-source.`
-
-const styles = {
-  mainContainer: css({
-    height: '100vh',
-    minHeight: MIN_HEIGHT,
-    display: 'flex',
-    flexDirection: 'column',
-    // backgroundColor: Theme.palette.frogGreen.faded,
-    position: 'relative',
-  }),
-  contentContainer: css({
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    height: '100%',
-  }),
-  infoContainer: css({
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    [belowBreakpoint.lg]: {
-      width: '100%',
-    },
-  }),
-  textStackWrapper: css({
-    display: 'flex',
-    justifyContent: 'center',
-    width: '100%',
-  }),
-  textStack: css({
-    display: 'none',
-    [belowBreakpoint.lg]: {
-      marginTop: '40px',
-      display: 'block',
-    },
-  }),
-  chartWrapper: css({
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: '40px',
-    width: '70%',
-    [belowBreakpoint.md]: {
-      width: '100%',
-    },
-  }),
-  textStackBlock: css({
-    flex: '0 0 400px',
-    [belowBreakpoint.lg]: {
-      display: 'none',
-    },
-  }),
-  textList: css({
-    marginRight: '12px',
-    [belowBreakpoint.lg]: {
-      display: 'none',
-    },
-  }),
-}
 
 export function Infographic() {
   const { texts, receivedWords } = useTextData()
 
   return (
-    <div css={styles.mainContainer}>
+    <Box
+      style={{
+        height: '100vh',
+        minHeight: MIN_HEIGHT,
+        display: 'flex',
+        flexDirection: 'column',
+        // backgroundColor: Theme.palette.frogGreen.faded,
+        position: 'relative',
+      }}
+      bgGradient="linear(to-b, white, purple.50)"
+    >
       <DefaultContentContainer>
-        <div css={styles.contentContainer}>
-          <div css={styles.infoContainer}>
+        <Box
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            height: '100%',
+          }}
+          flexDirection={{
+            base: 'column',
+            lg: 'row',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              width: '100%',
+            }}
+          >
             <div>
-              <Text type="header">{HEADER_TEXT}</Text>
-              <Text type="paragraph">{DESCRIPTION_TEXT}</Text>
+              <Box
+                style={{
+                  lineHeight: 1.3,
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+                fontSize={{
+                  base: '5xl',
+                  lg: '6xl',
+                }}
+                fontWeight="extrabold"
+              >
+                <Text
+                  bgGradient="linear(to-r, blue.400, purple.400)"
+                  bgClip="text"
+                >
+                  Learn about your habits
+                </Text>
+                <div style={{ marginLeft: 16 }}>📈</div>
+              </Box>
+              <Text
+                fontSize={{
+                  base: 'md',
+                  md: 'lg',
+                }}
+                style={{ marginTop: 32 }}
+              >
+                {`Left on Read renders graphs about your text messages, so you can feel
+                better about your relationship with your phone. We promise
+                you've never seen analytics like these before.`}
+              </Text>
             </div>
-            <div css={styles.textStackWrapper}>
-              <TextStack data={texts} css={styles.textStack} />
-            </div>
-            <div css={styles.chartWrapper}>
+            <Box
+              style={{
+                justifyContent: 'center',
+                width: '100%',
+              }}
+              display={{
+                base: 'flex',
+                lg: 'none',
+              }}
+            >
+              <TextStack data={texts} />
+            </Box>
+            <Box
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: '40px',
+              }}
+              width={{
+                base: '110%',
+                sm: '100%',
+                md: '80%',
+              }}
+            >
               <BarChart
                 title={'Top Received Words'}
                 labels={receivedWords.labels}
                 data={receivedWords.data}
               />
-            </div>
+            </Box>
           </div>
           {/* NOTE(teddy): This creates space for the text message list */}
-          <div css={styles.textStackBlock} />
-        </div>
+          <div style={{ flex: '0 0 400px' }} />
+        </Box>
       </DefaultContentContainer>
-      <TextList data={texts} css={styles.textList} />
-    </div>
+      <Box
+        display={{
+          base: 'none',
+          lg: 'initial',
+        }}
+      >
+        <TextList data={texts} />
+      </Box>
+    </Box>
   )
 }
 
@@ -165,26 +186,23 @@ function useTextData(): {
   }
 }
 
-function TextList({
-  data,
-  className,
-}: {
-  data: Array<IText>
-  className?: string
-}) {
+function TextList({ data }: { data: Array<IText> }) {
   return (
     <div
-      className={className}
-      css={{
+      style={{
         position: 'absolute',
         top: '30px',
         right: '10px',
+        marginRight: '12px',
+        [belowBreakpoint.lg]: {
+          display: 'none',
+        },
       }}
     >
       <AnimateSharedLayout>
         <motion.ul
           layout
-          css={{
+          style={{
             listStyle: 'none',
           }}
         >
@@ -203,13 +221,7 @@ function TextList({
   )
 }
 
-function TextStack({
-  data,
-  className,
-}: {
-  data: Array<IText>
-  className?: string
-}) {
+function TextStack({ data }: { data: Array<IText> }) {
   const text = data[0]
 
   if (!text) {
@@ -228,8 +240,11 @@ function TextStack({
   return (
     <motion.div
       key={`stack-text-${text.key}`}
-      className={className}
-      css={{ opacity: 0 }}
+      style={{
+        marginTop: '40px',
+        display: 'block',
+        opacity: 0,
+      }}
       animate={{ opacity: 1 }}
     >
       <TextNotification

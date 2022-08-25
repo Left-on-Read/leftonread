@@ -1,12 +1,13 @@
+import { ChakraProvider } from '@chakra-ui/react'
 import { css, Global } from '@emotion/react'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import * as React from 'react'
 
+import { chakraTheme } from '../theme/index'
 import { initFirestore } from '../utils/firestore'
 import * as gtag from '../utils/gtag'
-
 function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
 
@@ -48,7 +49,9 @@ function App({ Component, pageProps }: AppProps) {
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <Component {...pageProps} />
+      <ChakraProvider theme={chakraTheme}>
+        <Component {...pageProps} />
+      </ChakraProvider>
     </>
   )
 }
