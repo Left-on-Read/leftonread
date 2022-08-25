@@ -57,7 +57,7 @@ export function Footer() {
                 },
               }}
             >
-              <div onClick={handleDownload}>Download for Mac</div>
+              <div onClick={handleDownload}>Download</div>
               <a
                 css={{
                   color: 'inherit',
@@ -74,7 +74,7 @@ export function Footer() {
                 }}
                 href="mailto:help.leftonread@gmail.com"
               >
-                Contact Us
+                Contact
               </a>
               <Link href="/privacy">
                 <div>Privacy Policy</div>
