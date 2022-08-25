@@ -1,3 +1,5 @@
+import { extendTheme, theme as baseTheme } from '@chakra-ui/react'
+
 import { palette } from './colors'
 import { error, shadow, success } from './semantics'
 
@@ -39,3 +41,28 @@ export const belowBreakpoint = {
 }
 
 export const MIN_HEIGHT = '720px'
+
+// SEE THEME COLOURS HERE: https://chakra-ui.com/docs/styled-system/theme
+export const chakraTheme = extendTheme({
+  colors: {
+    primary: baseTheme.colors.purple,
+  },
+  fonts: {
+    body: `Roboto`,
+    heading: `Roboto`,
+  },
+  components: {
+    Button: {
+      baseStyle: {
+        fontWeight: 500,
+        fontSize: 14,
+      },
+      variants: {
+        primary: {
+          backgroundColor: 'purple.100',
+          _hover: { background: 'purple.200' },
+        },
+      },
+    },
+  },
+})

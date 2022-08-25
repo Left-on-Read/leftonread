@@ -1,9 +1,10 @@
 import * as React from 'react'
 
 import { Footer } from '../components/Footer'
-import { GetNotified } from '../components/sections/GetNotified'
+import { Download } from '../components/sections/Download'
 import { GetStarted } from '../components/sections/GetStarted'
 import { Infographic } from '../components/sections/Infographic'
+import { Security } from '../components/sections/Security'
 
 // TODO(teddy): Add a minheight
 export default function Landing() {
@@ -14,7 +15,9 @@ export default function Landing() {
     <>
       <GetStarted ctaRef={ctaRef} />
       <Infographic />
-      <GetNotified ctaRef={ctaRef} />
+      <Security />
+      <Download ctaRef={ctaRef} />
+      {/* <GetNotified ctaRef={ctaRef} /> */}
       <Footer />
     </>
   )

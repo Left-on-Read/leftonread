@@ -1,3 +1,4 @@
+import { Text } from '@chakra-ui/react'
 import Image from 'next/image'
 
 import { belowBreakpoint } from '../theme'
@@ -12,9 +13,9 @@ type Props = {
 export function TextNotification({ name, text, avatar }: Props) {
   return (
     <div
-      css={{
+      style={{
         width: '350px',
-        height: '74px',
+        height: '110px',
         padding: '15px',
         backgroundColor: 'rgba(158, 158, 158, 0.3)',
         borderRadius: '10px',
@@ -29,7 +30,7 @@ export function TextNotification({ name, text, avatar }: Props) {
       }}
     >
       <div
-        css={{
+        style={{
           height: '70px',
           flex: '0 0 70px',
           borderRadius: '50%',
@@ -42,7 +43,7 @@ export function TextNotification({ name, text, avatar }: Props) {
         <Image height={'60px'} width={'60px'} src={avatar.source} />
       </div>
       <div
-        css={{
+        style={{
           marginLeft: '15px',
           display: 'flex',
           flexDirection: 'column',
@@ -50,7 +51,7 @@ export function TextNotification({ name, text, avatar }: Props) {
         }}
       >
         <div
-          css={{
+          style={{
             marginBottom: '4px',
             fontWeight: 'bold',
             display: 'flex',
@@ -59,13 +60,13 @@ export function TextNotification({ name, text, avatar }: Props) {
           {name}
         </div>
         <div
-          css={{
+          style={{
             maxHeight: '65px',
             textOverflow: 'ellipsis',
             overflow: 'hidden',
           }}
         >
-          {text}
+          <Text style={{ lineHeight: 1.2 }}>{text}</Text>
         </div>
       </div>
     </div>

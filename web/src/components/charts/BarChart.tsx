@@ -1,6 +1,5 @@
+import { theme as defaultTheme } from '@chakra-ui/react'
 import { Bar } from 'react-chartjs-2'
-
-import Theme from '../../theme'
 
 export default function BarChart({
   labels,
@@ -17,21 +16,10 @@ export default function BarChart({
       {
         label: title,
         data,
-        backgroundColor: [
-          Theme.palette.canaryYellow.graphFaded,
-          Theme.palette.sherwoodGreen.graphFaded,
-          Theme.palette.skyBlue.graphFaded,
-          Theme.palette.palePink.graphFaded,
-          Theme.palette.petalPurple.graphFaded,
-        ],
-        borderColor: [
-          Theme.palette.canaryYellow.main,
-          Theme.palette.sherwoodGreen.main,
-          Theme.palette.skyBlue.main,
-          Theme.palette.palePink.main,
-          Theme.palette.petalPurple.main,
-        ],
+        backgroundColor: defaultTheme.colors.blue['100'],
+        borderColor: defaultTheme.colors.blue['400'],
         borderWidth: 1,
+        borderRadius: 8,
       },
     ],
   }
@@ -45,9 +33,9 @@ export default function BarChart({
     scales: {
       yAxes: [
         {
-          gridLines: {
-            color: 'rgba(0, 0, 0, 0)',
-          },
+          // gridLines: {
+          //   color: 'rgba(0, 0, 0, 0)',
+          // },
           ticks: {
             beginAtZero: true,
             precision: 0,
@@ -57,9 +45,9 @@ export default function BarChart({
       ],
       xAxes: [
         {
-          gridLines: {
-            color: 'rgba(0, 0, 0, 0)',
-          },
+          // gridLines: {
+          //   color: 'rgba(0, 0, 0, 0)',
+          // },
           ticks: {
             precision: 0,
             fontSize: 16,

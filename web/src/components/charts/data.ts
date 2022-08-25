@@ -1,4 +1,5 @@
-import Theme from '../../theme'
+import { theme as defaultTheme } from '@chakra-ui/react'
+
 import type { IText } from '../types'
 
 const DEFAULT_LENGTH = 3500
@@ -13,7 +14,7 @@ export const LIST_OF_TEXTS: Array<IText> = [
     words: ['bro', 'crazy', 'article', 'times', 'frat'],
     avatar: {
       source: '/alexander.png',
-      color: Theme.palette.canaryYellow.main,
+      color: defaultTheme.colors.yellow['200'],
     },
   },
   {
@@ -24,7 +25,7 @@ export const LIST_OF_TEXTS: Array<IText> = [
     words: ['double', 'text', 'isabel', 'hasnt', 'responded', 'bro'],
     avatar: {
       source: '/alexander.png',
-      color: Theme.palette.canaryYellow.main,
+      color: defaultTheme.colors.yellow['200'],
     },
   },
   {
@@ -43,7 +44,7 @@ export const LIST_OF_TEXTS: Array<IText> = [
     ],
     avatar: {
       source: '/annie.png',
-      color: Theme.palette.frogGreen.main,
+      color: defaultTheme.colors.green['200'],
     },
   },
   {
@@ -54,7 +55,7 @@ export const LIST_OF_TEXTS: Array<IText> = [
     words: ['think', 'annie', 'drunk', 'tonight', 'lol'],
     avatar: {
       source: '/cathy.png',
-      color: Theme.palette.palePink.main,
+      color: defaultTheme.colors.pink['200'],
     },
   },
   {
@@ -65,7 +66,7 @@ export const LIST_OF_TEXTS: Array<IText> = [
     words: ['cathy', 'silly', 'drunk'],
     avatar: {
       source: '/annie.png',
-      color: Theme.palette.frogGreen.main,
+      color: defaultTheme.colors.green['200'],
     },
   },
   {
@@ -87,7 +88,7 @@ export const LIST_OF_TEXTS: Array<IText> = [
     ],
     avatar: {
       source: '/george.png',
-      color: Theme.palette.petalPurple.faded,
+      color: defaultTheme.colors.purple['200'],
     },
   },
   {
@@ -99,7 +100,7 @@ export const LIST_OF_TEXTS: Array<IText> = [
     words: ['kidding', 'saved', 'weekend', 'bro', 'money', 'white', 'claws'],
     avatar: {
       source: '/george.png',
-      color: Theme.palette.petalPurple.faded,
+      color: defaultTheme.colors.purple['200'],
     },
   },
   {
@@ -110,7 +111,7 @@ export const LIST_OF_TEXTS: Array<IText> = [
     words: ['george', 'addiction', 'sports', 'basement'],
     avatar: {
       source: '/allison.png',
-      color: Theme.palette.sherwoodGreen.main,
+      color: defaultTheme.colors.green['200'],
     },
   },
   {
@@ -121,7 +122,7 @@ export const LIST_OF_TEXTS: Array<IText> = [
     words: ['literally', 'times', 'alone', 'past', 'weekend'],
     avatar: {
       source: '/allison.png',
-      color: Theme.palette.sherwoodGreen.main,
+      color: defaultTheme.colors.green['200'],
     },
   },
   {
@@ -132,7 +133,7 @@ export const LIST_OF_TEXTS: Array<IText> = [
     words: ['super', 'down', 'bike', 'weekend'],
     avatar: {
       source: '/nate.png',
-      color: Theme.palette.skyBlue.main,
+      color: defaultTheme.colors.blue['200'],
     },
   },
   {
@@ -154,7 +155,7 @@ export const LIST_OF_TEXTS: Array<IText> = [
     ],
     avatar: {
       source: '/jackie.png',
-      color: Theme.palette.sherwoodGreen.main,
+      color: defaultTheme.colors.green['200'],
     },
   },
   {
@@ -166,7 +167,7 @@ export const LIST_OF_TEXTS: Array<IText> = [
     words: ['nate', 'invite', 'bike', 'ride', 'sports', 'basement'],
     avatar: {
       source: '/isabel.png',
-      color: Theme.palette.petalPurple.hover,
+      color: defaultTheme.colors.purple['200'],
     },
   },
   {
@@ -177,7 +178,7 @@ export const LIST_OF_TEXTS: Array<IText> = [
     words: ['man', 'huge', 'crush', 'isabel', 'should', 'tell', 'her'],
     avatar: {
       source: '/alexander.png',
-      color: Theme.palette.canaryYellow.main,
+      color: defaultTheme.colors.yellow['200'],
     },
   },
   {
@@ -188,7 +189,7 @@ export const LIST_OF_TEXTS: Array<IText> = [
     words: ['alex', 'texting', 'some', 'reason', 'likes', 'me'],
     avatar: {
       source: '/isabel.png',
-      color: Theme.palette.petalPurple.hover,
+      color: defaultTheme.colors.purple['200'],
     },
   },
   {
@@ -199,7 +200,7 @@ export const LIST_OF_TEXTS: Array<IText> = [
     words: ['why', 'george', 'keep', 'asking', 'sports', 'basement', 'him'],
     avatar: {
       source: '/adam.png',
-      color: Theme.palette.palePink.main,
+      color: defaultTheme.colors.pink['200'],
     },
   },
   {
@@ -219,7 +220,7 @@ export const LIST_OF_TEXTS: Array<IText> = [
     ],
     avatar: {
       source: '/nate.png',
-      color: Theme.palette.skyBlue.main,
+      color: defaultTheme.colors.blue['200'],
     },
   },
   {
@@ -231,7 +232,7 @@ export const LIST_OF_TEXTS: Array<IText> = [
     words: ['figure', 'out', 'pay', 'landlord', 'peter', 'rent', 'month'],
     avatar: {
       source: '/jackie.png',
-      color: Theme.palette.sherwoodGreen.main,
+      color: defaultTheme.colors.green['200'],
     },
   },
 ]

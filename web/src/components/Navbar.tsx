@@ -1,10 +1,11 @@
+import { Box, Button, Text } from '@chakra-ui/react'
+import Image from 'next/image'
 import { useRouter } from 'next/router'
 import * as React from 'react'
 
-import IconTextLogo from '../assets/ICON_TEXT_LOGO.svg'
 import { belowBreakpoint } from '../theme'
 
-export function Navbar() {
+export function Navbar({ onDownload }: { onDownload: () => void }) {
   const router = useRouter()
 
   const navigateHome = () => {
@@ -13,8 +14,8 @@ export function Navbar() {
 
   return (
     <>
-      <div
-        css={{
+      <Box
+        style={{
           height: '70px',
           width: '100%',
           display: 'flex',
@@ -24,8 +25,11 @@ export function Navbar() {
           marginTop: '10px',
         }}
       >
-        <IconTextLogo
-          css={{
+        <Image
+          src={'/LogoWithText.svg'}
+          width="250px"
+          height="50px"
+          style={{
             width: '350px',
             [belowBreakpoint.lg]: {
               width: '300px',
@@ -37,30 +41,42 @@ export function Navbar() {
           }}
           onClick={navigateHome}
         />
-        <img
-          src={require('../assets/ICON.png')}
-          css={{
-            width: '64px',
-            display: 'none',
-            [belowBreakpoint.md]: {
-              display: 'block',
-            },
-            cursor: 'pointer',
-          }}
-          onClick={navigateHome}
-        />
-        <div
-          css={{
-            display: 'flex',
+        <Box
+          style={{
             alignItems: 'center',
             fontSize: '22px',
             fontWeight: 300,
-            [belowBreakpoint.sm]: {
-              display: 'none',
-            },
           }}
-        ></div>
-      </div>
+          display={{
+            base: 'none',
+            md: 'flex',
+          }}
+        >
+          <Button
+            variant="link"
+            colorScheme="purple"
+            onClick={() => onDownload()}
+            style={{
+              marginRight: 64,
+            }}
+          >
+            <Text fontSize="xl" fontWeight="thin">
+              Download
+            </Text>
+          </Button>
+          <Button
+            variant="link"
+            colorScheme="purple"
+            onClick={() => {
+              window.location.assign('mailto:help.leftonread@gmail.com')
+            }}
+          >
+            <Text fontSize="xl" fontWeight="thin">
+              Contact Us
+            </Text>
+          </Button>
+        </Box>
+      </Box>
     </>
   )
 }

@@ -1,9 +1,9 @@
+import { Text } from '@chakra-ui/react'
 import { motion, useAnimation } from 'framer-motion'
 import * as React from 'react'
 
 import { usePrevious } from '../hooks/usePrevious'
 import Theme from '../theme'
-import { Text } from './Text'
 
 // Set Values
 const Dimension = 25
@@ -149,9 +149,6 @@ export function StatusLoader({
           strokeWidth={StrokeWidth}
           strokeDasharray={`${CheckmarkOffset} ${CheckmarkOffset}`}
           strokeDashoffset={CheckmarkOffset}
-          css={{
-            transformOrigin: '50% 50%',
-          }}
         />
         <g>
           <motion.line
@@ -178,15 +175,8 @@ export function StatusLoader({
           />
         </g>
       </motion.svg>
-      <motion.span
-        animate={textControls}
-        css={{
-          opacity: 0,
-          color: Theme.primary.main,
-        }}
-        data-testid="status-message"
-      >
-        <Text type="paragraph">{message}</Text>
+      <motion.span animate={textControls} data-testid="status-message">
+        <Text>{message}</Text>
       </motion.span>
     </>
   )

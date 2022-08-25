@@ -1,33 +1,32 @@
+import { Text } from '@chakra-ui/react'
 import ReactMarkdown from 'react-markdown'
-
-import { Text } from './Text'
 
 const renderers = {
   heading: ({ level, children }: { level: number; children: string }) => {
     if (level === 1) {
-      return <Text type="display">{children}</Text>
+      return <Text fontSize="3xl">{children}</Text>
     } else if (level === 2) {
-      return <Text type="header">{children}</Text>
+      return <Text fontSize="xl">{children}</Text>
     } else if (level === 3) {
-      return <Text type="bold">{children}</Text>
+      return <Text fontSize="lg">{children}</Text>
     }
 
-    return <Text type="paragraph">{children}</Text>
+    return <Text fontSize="md">{children}</Text>
   },
   paragraph: ({ children }: { children: string }) => {
-    return <Text type="paragraph">{children}</Text>
+    return <Text fontSize="md">{children}</Text>
   },
   listItem: ({ children }: { children: string }) => {
     return (
       <li>
-        <Text type="paragraph">{children}</Text>
+        <Text fontSize="md">{children}</Text>
       </li>
     )
   },
   thematicBreak: () => {
     return (
       <div
-        css={{
+        style={{
           width: '100%',
           padding: '12px 0',
         }}

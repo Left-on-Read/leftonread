@@ -11,7 +11,7 @@ const GRADIENT_KEYFRAMES = keyframes`
 export function Gradient() {
   return (
     <div
-      css={{
+      style={{
         top: 0,
         right: 0,
         position: 'absolute',
@@ -21,7 +21,7 @@ export function Gradient() {
       }}
     >
       <div
-        css={{
+        style={{
           height: '100%',
           width: '100%',
           background: `linear-gradient(260deg, ${Theme.palette.sherwoodGreen.main} 0%, ${Theme.palette.palePink.main} 33%, ${Theme.palette.canaryYellow.main} 66%, ${Theme.palette.skyBlue.main} 100%)`,
@@ -30,7 +30,7 @@ export function Gradient() {
         }}
       />
       <div
-        css={{
+        style={{
           position: 'absolute',
           bottom: 0,
           height: '8%',

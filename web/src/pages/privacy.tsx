@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router'
+
 import { DefaultContentContainer } from '../components/DefaultContentContainer'
 import { Footer } from '../components/Footer'
 import { Markdown } from '../components/Markdown'
@@ -54,10 +56,15 @@ please contact us: help.leftonread@gmail.com
 `
 
 export default function TermsOfService() {
+  const router = useRouter()
   return (
     <>
       <DefaultContentContainer>
-        <Navbar />
+        <Navbar
+          onDownload={() => {
+            router.push('/')
+          }}
+        />
         <Markdown raw={PP} />
       </DefaultContentContainer>
       <Footer />
