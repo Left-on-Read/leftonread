@@ -35,3 +35,7 @@ _Support this project by becoming a sponsor. Your logo will show up here with a 
 Thank you to Vercel for sponsoring this project!
 
 [![Vercel](./assets/documentation/powered-by-vercel.svg)](https://vercel.com/?utm_source=leftonread&utm_campaign=oss)
+
+## Donate
+
+<a href="https://www.buymeacoffee.com/leftonread" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>

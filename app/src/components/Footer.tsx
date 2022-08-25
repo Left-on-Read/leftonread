@@ -1,4 +1,4 @@
-import { Button, Text, useDisclosure } from '@chakra-ui/react';
+import { Button, useDisclosure } from '@chakra-ui/react';
 
 import { APP_VERSION } from '../constants/versions';
 import { EmailModal } from './Support/EmailModal';
@@ -19,9 +19,36 @@ export function Footer() {
           justifyContent: 'space-around',
         }}
       >
-        <Text color="gray.400" fontSize={14}>
+        <Button
+          color="gray.400"
+          fontSize={14}
+          onClick={() => {
+            window.open(
+              'https://github.com/Left-on-Read/leftonread',
+              '_blank',
+              'top=500,left=200,frame=false,nodeIntegration=no'
+            );
+          }}
+          variant="link"
+        >
           Left on Read {APP_VERSION}
-        </Text>
+        </Button>
+
+        <Button
+          color="gray.400"
+          fontSize={14}
+          onClick={() => {
+            window.open(
+              'https://www.buymeacoffee.com/leftonread',
+              '_blank',
+              'top=500,left=200,frame=false,nodeIntegration=no'
+            );
+          }}
+          variant="link"
+        >
+          ☕ Buy us a coffee
+        </Button>
+
         <Button
           color="gray.400"
           fontSize={14}
