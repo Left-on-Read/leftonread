@@ -42,6 +42,17 @@ export function Footer() {
                 San Francisco, US
               </Box>
               <Box>© Left on Read 2022</Box>
+              <a
+                data-testid="footer-anchor-vercel"
+                href="https://vercel.com/?utm_source=leftonread&utm_campaign=oss"
+              >
+                <img
+                  data-testid="footer-img-vercel"
+                  src={
+                    'https://raw.githubusercontent.com/Left-on-Read/leftonread/main/assets/documentation/powered-by-vercel.svg'
+                  }
+                />
+              </a>
             </Stack>
             <Stack fontSize="md">
               <Text
