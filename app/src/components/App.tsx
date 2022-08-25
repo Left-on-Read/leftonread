@@ -11,7 +11,7 @@ import './App.css';
 
 import { ChakraProvider } from '@chakra-ui/react';
 import { Chart, registerables } from 'chart.js';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 
 import { theme } from '../theme';
@@ -25,6 +25,22 @@ Chart.register(...(registerables ?? []));
 
 export function App() {
   const [isInitializing, setIsInitializing] = useState<boolean>(false);
+
+  // Give every chart a white background color for export reasons
+  // https://stackoverflow.com/questions/69357233/background-color-of-the-chart-area-in-chartjs-not-working
+  useEffect(() => {
+    Chart.register({
+      id: 'custom_canvas_background_color',
+      beforeDraw: (chart: any) => {
+        const ctx = chart.canvas.getContext('2d');
+        ctx.save();
+        ctx.globalCompositeOperation = 'destination-over';
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, chart.width, chart.height);
+        ctx.restore();
+      },
+    });
+  }, []);
 
   return (
     <ErrorBoundary>

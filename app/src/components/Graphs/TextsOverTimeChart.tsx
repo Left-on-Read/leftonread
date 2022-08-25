@@ -1,7 +1,7 @@
 import { Spinner, Text, theme } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { IconType } from 'react-icons';
 
@@ -170,8 +170,14 @@ export function TextsOverTimeChart({
     },
   };
 
+  const graphRefToShare = useRef(null);
   return (
-    <GraphContainer title={title} description={description} icon={icon}>
+    <GraphContainer
+      title={title}
+      description={description}
+      icon={icon}
+      graphRefToShare={graphRefToShare}
+    >
       {error ? (
         <div
           style={{
@@ -205,7 +211,7 @@ export function TextsOverTimeChart({
               <Spinner color="purple.400" size="xl" />
             </div>
           )}
-          <Line data={chartData} options={options} />
+          <Line data={chartData} options={options} ref={graphRefToShare} />
         </div>
       )}
     </GraphContainer>

@@ -29,7 +29,7 @@ import { TotalSentimentChart } from '../Graphs/TotalSentimentChart';
 import { WordOrEmojiCountChart } from '../Graphs/WordOrEmojiCountChart';
 import { useGlobalContext } from './GlobalContext';
 
-const titleFormatter = ({
+export const titleFormatter = ({
   titleName,
   filters,
 }: {
@@ -40,14 +40,15 @@ const titleFormatter = ({
   const { contact } = filters;
   if (contact?.length === 1) {
     title += ` with ${contact[0].label}`;
-  } else if (contact && contact.length > 1) {
-    title += ` with ${contact.length} contacts`;
   }
+  // TODO(Danilowicz): add who is excluded here.
+  // As I think most people will exclude their S.O.
+  // And want to be reminded who they are excluding
 
   return title;
 };
 
-const descriptionFormatter = ({
+export const descriptionFormatter = ({
   description,
   filters,
 }: {

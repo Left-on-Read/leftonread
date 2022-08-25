@@ -2,7 +2,7 @@ import { Spinner, Text, theme as defaultTheme } from '@chakra-ui/react';
 import { TopSentimentFriendsResult } from 'analysis/queries/TopSentimentFriendsQuery';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { IconType } from 'react-icons';
 
@@ -85,8 +85,14 @@ export function TopSentimentFriendsChart({
     },
   };
 
+  const graphRefToShare = useRef(null);
   return (
-    <GraphContainer title={title} description={description} icon={icon}>
+    <GraphContainer
+      title={title}
+      description={description}
+      icon={icon}
+      graphRefToShare={graphRefToShare}
+    >
       {error ? (
         <div
           style={{
@@ -120,7 +126,7 @@ export function TopSentimentFriendsChart({
               <Spinner color="purple.400" size="xl" />
             </div>
           )}
-          <Bar data={data} options={options} />
+          <Bar data={data} options={options} ref={graphRefToShare} />
         </div>
       )}
     </GraphContainer>
