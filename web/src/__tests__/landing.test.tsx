@@ -17,11 +17,11 @@ it('renders core interaction elements', () => {
   const CTAButton = screen.getByTestId('cta-button')
   expect(CTAButton).toBeVisible()
 
-  const GetNotifiedInput = screen.getByTestId('get-notified-input')
-  expect(GetNotifiedInput).toBeVisible()
+  // const GetNotifiedInput = screen.getByTestId('get-notified-input')
+  // expect(GetNotifiedInput).toBeVisible()
 
-  const GetNotifiedButton = screen.getByTestId('get-notified-button')
-  expect(GetNotifiedButton).toBeVisible()
+  // const GetNotifiedButton = screen.getByTestId('get-notified-button')
+  // expect(GetNotifiedButton).toBeVisible()
 })
 
 it('scrolls to notification section when CTA button is clicked', () => {
