@@ -74,7 +74,7 @@ export function Footer() {
                 }}
                 href="mailto:help.leftonread@gmail.com"
               >
-                Contact
+                Contact Us
               </a>
               <Link href="/privacy">
                 <div>Privacy Policy</div>
@@ -119,7 +119,7 @@ export function Footer() {
                 textAlign: 'center',
               }}
             >
-              © Left on Read 2022
+              © Left on Read 2018
             </div>
           </div>
         </div>
