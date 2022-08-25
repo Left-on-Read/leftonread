@@ -1,6 +1,5 @@
 import { Box } from '@chakra-ui/react'
 import { Text } from '@chakra-ui/react'
-import { css } from '@emotion/react'
 import { AnimateSharedLayout, motion } from 'framer-motion'
 import * as React from 'react'
 
@@ -10,65 +9,6 @@ import { LIST_OF_TEXTS } from '../charts/data'
 import { DefaultContentContainer } from '../DefaultContentContainer'
 import { TextNotification } from '../TextNotification'
 import type { IText } from '../types'
-
-const styles = {
-  mainContainer: css({
-    height: '100vh',
-    minHeight: MIN_HEIGHT,
-    display: 'flex',
-    flexDirection: 'column',
-    // backgroundColor: Theme.palette.frogGreen.faded,
-    position: 'relative',
-  }),
-  contentContainer: css({
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    height: '100%',
-  }),
-  infoContainer: css({
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    [belowBreakpoint.lg]: {
-      width: '100%',
-    },
-  }),
-  textStackWrapper: css({
-    display: 'flex',
-    justifyContent: 'center',
-    width: '100%',
-  }),
-  textStack: css({
-    display: 'none',
-    [belowBreakpoint.lg]: {
-      marginTop: '40px',
-      display: 'block',
-    },
-  }),
-  chartWrapper: css({
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: '40px',
-    width: '70%',
-    [belowBreakpoint.md]: {
-      width: '100%',
-    },
-  }),
-  textStackBlock: css({
-    flex: '0 0 400px',
-    [belowBreakpoint.lg]: {
-      display: 'none',
-    },
-  }),
-  textList: css({
-    marginRight: '12px',
-    [belowBreakpoint.lg]: {
-      display: 'none',
-    },
-  }),
-}
 
 export function Infographic() {
   const { texts, receivedWords } = useTextData()
@@ -89,9 +29,12 @@ export function Infographic() {
         <Box
           style={{
             display: 'flex',
-            flexDirection: 'row',
             alignItems: 'center',
             height: '100%',
+          }}
+          flexDirection={{
+            base: 'column',
+            lg: 'row',
           }}
         >
           <div
@@ -111,6 +54,7 @@ export function Infographic() {
                 }}
                 fontSize={{
                   base: '5xl',
+                  lg: '6xl',
                 }}
                 fontWeight="extrabold"
               >
@@ -125,6 +69,7 @@ export function Infographic() {
               <Text
                 fontSize={{
                   base: 'md',
+                  md: 'lg',
                 }}
                 style={{ marginTop: 32 }}
               >
@@ -155,7 +100,7 @@ export function Infographic() {
               width={{
                 base: '110%',
                 sm: '100%',
-                md: '90%',
+                md: '80%',
               }}
             >
               <BarChart

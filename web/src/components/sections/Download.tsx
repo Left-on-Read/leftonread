@@ -3,7 +3,11 @@ import { Box, Button, Text } from '@chakra-ui/react'
 
 import { DefaultContentContainer } from '../DefaultContentContainer'
 
-export function Download() {
+export function Download({
+  ctaRef,
+}: {
+  ctaRef: React.RefObject<HTMLDivElement>
+}) {
   return (
     <Box
       style={{
@@ -12,6 +16,7 @@ export function Download() {
         position: 'relative',
       }}
       bgGradient="linear(to-b, blue.50, green.50)"
+      ref={ctaRef}
     >
       <DefaultContentContainer>
         <Box
@@ -28,6 +33,7 @@ export function Download() {
             <Text
               fontSize={{
                 base: '4xl',
+                md: '5xl',
                 lg: '6xl',
               }}
               fontWeight="extrabold"
@@ -48,6 +54,7 @@ export function Download() {
             <Text
               fontSize={{
                 base: 'md',
+                md: 'lg',
                 lg: 'xl',
               }}
               textAlign={{

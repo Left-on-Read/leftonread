@@ -65,6 +65,7 @@ export function Security() {
           <Box
             fontSize={{
               base: '2xl',
+              md: '3xl',
               lg: '5xl',
             }}
             style={{

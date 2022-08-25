@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
-import Theme, { belowBreakpoint } from '../theme'
+import Theme from '../theme'
 import { DefaultContentContainer } from './DefaultContentContainer'
 import { handleDownload } from './sections/GetNotified'
 
@@ -30,6 +30,7 @@ export function Footer() {
             <Box
               flexDirection={{
                 base: 'column',
+                md: 'row',
               }}
               alignItems={{
                 base: 'start',

@@ -16,7 +16,7 @@ export default function Landing() {
       <GetStarted ctaRef={ctaRef} />
       <Infographic />
       <Security />
-      <Download />
+      <Download ctaRef={ctaRef} />
       {/* <GetNotified ctaRef={ctaRef} /> */}
       <Footer />
     </>

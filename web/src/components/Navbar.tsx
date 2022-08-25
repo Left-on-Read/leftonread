@@ -5,7 +5,7 @@ import * as React from 'react'
 
 import { belowBreakpoint } from '../theme'
 
-export function Navbar() {
+export function Navbar({ onDownload }: { onDownload: () => void }) {
   const router = useRouter()
 
   const navigateHome = () => {
@@ -55,7 +55,7 @@ export function Navbar() {
           <Button
             variant="link"
             colorScheme="purple"
-            onClick={() => window.alert('hello')}
+            onClick={() => onDownload()}
             style={{
               marginRight: 64,
             }}
@@ -67,7 +67,9 @@ export function Navbar() {
           <Button
             variant="link"
             colorScheme="purple"
-            onClick={() => window.alert('hello')}
+            onClick={() => {
+              window.location.assign('mailto:help.leftonread@gmail.com')
+            }}
           >
             <Text fontSize="xl" fontWeight="thin">
               Contact Us

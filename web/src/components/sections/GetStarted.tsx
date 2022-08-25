@@ -2,7 +2,6 @@ import { ArrowForwardIcon } from '@chakra-ui/icons'
 import { Box, Button, Text } from '@chakra-ui/react'
 import Image from 'next/Image'
 
-import { MIN_HEIGHT } from '../../theme'
 import { logEvent } from '../../utils/gtag'
 import { DefaultContentContainer } from '../DefaultContentContainer'
 import { Navbar } from '../Navbar'
@@ -25,12 +24,13 @@ export function GetStarted({
 
   return (
     <DefaultContentContainer>
-      <Navbar />
+      <Navbar onDownload={handleGetStarted} />
       {/* Contains landing content and image */}
       <Box
         display="flex"
         flexDirection={{
           base: 'column',
+          lg: 'row',
         }}
         alignItems={{
           base: 'center',
@@ -40,6 +40,7 @@ export function GetStarted({
         <Box
           height={{
             base: '80vh',
+            lg: '90vh',
           }}
           display="flex"
           flexDirection={{
@@ -49,6 +50,10 @@ export function GetStarted({
             base: 'center',
           }}
           alignItems={'flex-start'}
+          width={{
+            base: '100%',
+            lg: '45%',
+          }}
         >
           <Text
             bgGradient="linear(to-r, blue.400, purple.400)"
@@ -62,7 +67,7 @@ export function GetStarted({
             What will you learn from your texts?
           </Text>
           <Text
-            fontSize={{ base: 'md', lg: 'xl' }}
+            fontSize={{ base: 'md', md: 'lg', lg: 'xl' }}
             style={{ marginTop: 16, lineHeight: 1.4 }}
             color="gray"
           >
@@ -78,10 +83,15 @@ export function GetStarted({
             }}
             fontSize={{
               base: 'lg',
+              md: 'xl',
               lg: '2xl',
             }}
             style={{ marginTop: 48 }}
             shadow="xl"
+            padding={{
+              sm: 3,
+              lg: 7,
+            }}
             rightIcon={<ArrowForwardIcon />}
           >
             Get Started
@@ -101,37 +111,41 @@ export function GetStarted({
               <Image src={'/floating_app_five.png'} layout="fill" />
             </Box>
           </Box> */}
-      </Box>
-      <Box
-        width={{ base: '100%' }}
-        height={{ base: '200px' }}
-        display={{
-          base: 'block',
-          md: 'none',
-        }}
-        style={{
-          position: 'relative',
-        }}
-      >
         <Box
+          width={{ base: '100%', lg: '55%' }}
+          height={{ base: 200, md: 300, lg: 400 }}
           style={{
-            position: 'absolute',
-            zIndex: -1,
-          }}
-          top={{
-            base: -240,
-          }}
-          left={{
-            base: -100,
-          }}
-          height={{
-            base: 600,
-          }}
-          width={{
-            base: 600,
+            position: 'relative',
           }}
         >
-          <Image src={'/floating_app_five.png'} layout="fill" />
+          <Box
+            style={{
+              position: 'absolute',
+              zIndex: -1,
+            }}
+            top={{
+              base: -240,
+              md: -280,
+              lg: -290,
+            }}
+            left={{
+              base: -100,
+              md: -50,
+              lg: -150,
+            }}
+            height={{
+              base: 600,
+              md: 700,
+              lg: 1000,
+            }}
+            width={{
+              base: 600,
+              md: 700,
+              lg: 1000,
+            }}
+          >
+            <Image src={'/floating_app_five.png'} layout="fill" />
+          </Box>
         </Box>
       </Box>
     </DefaultContentContainer>
