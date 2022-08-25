@@ -1,7 +1,7 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 
 import Landing from '../pages/index'
-import { writeEmailToFirestore } from '../utils/firestore'
+// import { writeEmailToFirestore } from '../utils/firestore'
 
 jest.mock('react-chartjs-2')
 jest.mock('../utils/firestore')
@@ -33,35 +33,35 @@ it('scrolls to notification section when CTA button is clicked', () => {
   expect(window.HTMLElement.prototype.scrollIntoView).toBeCalledTimes(1)
 })
 
-it('allows email submission', async () => {
-  render(<Landing />)
-  const testEmail = 'test@test.com'
-  const GetNotifiedInput = screen.getByTestId('get-notified-input')
-  const GetNotifiedButton = screen.getByTestId('get-notified-button')
+// it('allows email submission', async () => {
+//   render(<Landing />)
+//   const testEmail = 'test@test.com'
+//   const GetNotifiedInput = screen.getByTestId('get-notified-input')
+//   const GetNotifiedButton = screen.getByTestId('get-notified-button')
 
-  fireEvent.change(GetNotifiedInput, { target: { value: testEmail } })
-  fireEvent.click(GetNotifiedButton)
+//   fireEvent.change(GetNotifiedInput, { target: { value: testEmail } })
+//   fireEvent.click(GetNotifiedButton)
 
-  await waitFor(() => {
-    expect(screen.getByTestId('status-message')).toBeInTheDocument()
-  })
+//   await waitFor(() => {
+//     expect(screen.getByTestId('status-message')).toBeInTheDocument()
+//   })
 
-  expect(writeEmailToFirestore).toBeCalledTimes(1)
-  expect(writeEmailToFirestore).toBeCalledWith(testEmail)
-})
+//   expect(writeEmailToFirestore).toBeCalledTimes(1)
+//   expect(writeEmailToFirestore).toBeCalledWith(testEmail)
+// })
 
-it('does not send submit invalid email', async () => {
-  render(<Landing />)
-  const testEmail = 'test'
-  const GetNotifiedInput = screen.getByTestId('get-notified-input')
-  const GetNotifiedButton = screen.getByTestId('get-notified-button')
+// it('does not send submit invalid email', async () => {
+//   render(<Landing />)
+//   const testEmail = 'test'
+//   const GetNotifiedInput = screen.getByTestId('get-notified-input')
+//   const GetNotifiedButton = screen.getByTestId('get-notified-button')
 
-  fireEvent.change(GetNotifiedInput, { target: { value: testEmail } })
-  fireEvent.click(GetNotifiedButton)
+//   fireEvent.change(GetNotifiedInput, { target: { value: testEmail } })
+//   fireEvent.click(GetNotifiedButton)
 
-  await waitFor(() => {
-    expect(screen.getByTestId('status-message')).toBeInTheDocument()
-  })
+//   await waitFor(() => {
+//     expect(screen.getByTestId('status-message')).toBeInTheDocument()
+//   })
 
-  expect(writeEmailToFirestore).toBeCalledTimes(0)
-})
+//   expect(writeEmailToFirestore).toBeCalledTimes(0)
+// })
