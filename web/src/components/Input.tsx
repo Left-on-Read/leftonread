@@ -1,5 +1,3 @@
-import Theme, { belowBreakpoint } from '../theme'
-
 export default function Input({
   placeholder,
   className,
