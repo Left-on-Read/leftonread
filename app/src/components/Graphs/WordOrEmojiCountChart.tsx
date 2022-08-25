@@ -2,7 +2,7 @@ import { Spinner, Text, theme } from '@chakra-ui/react';
 import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { IconType } from 'react-icons';
 
@@ -75,10 +75,33 @@ export function WordOrEmojiCountChart({
         },
       },
     },
+    // TODO(Danilowicz): Only show this if rendered in share modal
+    // plugins: {
+    //   title: {
+    //     display: true,
+    //     text: `My ${title}`,
+    //     font: {
+    //       size: 18,
+    //     },
+    //   },
+    //   subtitle: {
+    //     display: true,
+    //     text: "Check out https://leftonread.me/ it's awesome!",
+    //     font: {
+    //       size: 12,
+    //     },
+    //   },
+    // },
   };
 
+  const graphRefToShare = useRef(null);
   return (
-    <GraphContainer title={title} description={description} icon={icon}>
+    <GraphContainer
+      title={title}
+      description={description}
+      icon={icon}
+      graphRefToShare={graphRefToShare}
+    >
       {error ? (
         <div
           style={{
@@ -112,7 +135,7 @@ export function WordOrEmojiCountChart({
               <Spinner color="purple.400" size="xl" />
             </div>
           )}
-          <Bar data={data} options={options} />
+          <Bar data={data} options={options} ref={graphRefToShare} />
         </div>
       )}
     </GraphContainer>

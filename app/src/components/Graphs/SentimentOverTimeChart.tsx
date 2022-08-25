@@ -2,7 +2,7 @@ import { Spinner, Text, theme } from '@chakra-ui/react';
 import { SentimentOverTimeResult } from 'analysis/queries/SentimentOverTimeQuery';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { IconType } from 'react-icons';
 
@@ -178,8 +178,14 @@ export function SentimentOverTimeChart({
     },
   };
 
+  const graphRefToShare = useRef(null);
   return (
-    <GraphContainer title={title} description={description} icon={icon}>
+    <GraphContainer
+      graphRefToShare={graphRefToShare}
+      title={title}
+      description={description}
+      icon={icon}
+    >
       {error ? (
         <div
           style={{
@@ -213,7 +219,7 @@ export function SentimentOverTimeChart({
               <Spinner color="purple.400" size="xl" />
             </div>
           )}
-          <Line data={chartData} options={options} />
+          <Line ref={graphRefToShare} data={chartData} options={options} />
         </div>
       )}
     </GraphContainer>
