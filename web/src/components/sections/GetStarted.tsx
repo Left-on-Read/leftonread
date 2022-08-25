@@ -1,14 +1,10 @@
-import { belowBreakpoint, MIN_HEIGHT } from '../../theme'
-import { logEvent } from '../../utils/gtag'
-import Button from '../Button'
-import { DefaultContentContainer } from '../DefaultContentContainer'
-import { Gradient } from '../Gradient'
-import { Navbar } from '../Navbar'
-import { Text } from '../Text'
+import { ArrowForwardIcon } from '@chakra-ui/icons'
+import { Box, Button, Text } from '@chakra-ui/react'
+import Image from 'next/image'
 
-const DISPLAY_TEXT = 'What will you learn from your texts?'
-const DESCRIPTION_TEXT =
-  'Learn about your friends and your texting habits with Left on Read, a secure, open-source iMessage analyzer made with ❤️.'
+import { logEvent } from '../../utils/gtag'
+import { DefaultContentContainer } from '../DefaultContentContainer'
+import { Navbar } from '../Navbar'
 
 export function GetStarted({
   ctaRef,
@@ -28,52 +24,130 @@ export function GetStarted({
 
   return (
     <DefaultContentContainer>
-      <div
-        css={{
-          height: '100vh',
-          minHeight: MIN_HEIGHT,
-          display: 'flex',
-          flexDirection: 'column',
+      <Navbar onDownload={handleGetStarted} />
+      {/* Contains landing content and image */}
+      <Box
+        display="flex"
+        flexDirection={{
+          base: 'column',
+          lg: 'row',
+        }}
+        alignItems={{
+          base: 'center',
         }}
       >
-        <Gradient />
-        <Navbar />
-        <div
-          css={{
-            flexGrow: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            [belowBreakpoint.sm]: {
-              alignItems: 'center',
-            },
+        {/* Contains just landing content */}
+        <Box
+          height={{
+            base: '80vh',
+            lg: '90vh',
+          }}
+          display="flex"
+          flexDirection={{
+            base: 'column',
+          }}
+          justifyContent={{
+            base: 'center',
+          }}
+          alignItems={'flex-start'}
+          width={{
+            base: '100%',
+            lg: '45%',
           }}
         >
-          <div
-            css={{
-              width: '70%',
-              [belowBreakpoint.md]: {
-                width: '90%',
-              },
-              [belowBreakpoint.sm]: {
-                width: '100%',
-              },
+          <Text
+            bgGradient="linear(to-r, blue.400, purple.400)"
+            bgClip="text"
+            fontSize={{ base: '5xl', md: '5xl', lg: '6xl' }}
+            fontWeight="extrabold"
+            lineHeight={{
+              base: 1.2,
             }}
           >
-            <Text type="display">{DISPLAY_TEXT}</Text>
-            <Text type="paragraph">{DESCRIPTION_TEXT}</Text>
-            <Button
-              label="Get Started →"
-              css={{
-                marginTop: '64px',
-                [belowBreakpoint.sm]: { marginTop: '32px' },
+            What will you learn from your texts?
+          </Text>
+          <Text
+            fontSize={{ base: 'md', md: 'lg', lg: 'xl' }}
+            style={{ marginTop: 16, lineHeight: 1.4 }}
+            color="gray"
+          >
+            Learn about your friends and your texting habits with Left on Read,
+            a secure iMessage analyzer made with ❤️
+          </Text>
+          <Button
+            colorScheme="purple"
+            onClick={handleGetStarted}
+            data-testid="cta-button"
+            size={{
+              base: 'lg',
+            }}
+            fontSize={{
+              base: 'lg',
+              md: 'xl',
+              lg: '2xl',
+            }}
+            style={{ marginTop: 48 }}
+            shadow="xl"
+            padding={{
+              sm: 3,
+              lg: 7,
+            }}
+            rightIcon={<ArrowForwardIcon />}
+          >
+            Get Started
+          </Button>
+        </Box>
+        {/* <Box style={{ width: '55%', position: 'relative' }}>
+            <Box
+              style={{
+                position: 'absolute',
+                top: -500,
+                left: -150,
+                height: 1000,
+                width: 1000,
+                zIndex: -1,
               }}
-              onClick={handleGetStarted}
-              data-testid="cta-button"
-            />
-          </div>
-        </div>
-      </div>
+            >
+              <Image src={'/floating_app_five.png'} layout="fill" />
+            </Box>
+          </Box> */}
+        <Box
+          width={{ base: '100%', lg: '55%' }}
+          height={{ base: 200, md: 300, lg: 400 }}
+          style={{
+            position: 'relative',
+          }}
+        >
+          <Box
+            style={{
+              position: 'absolute',
+              zIndex: -1,
+            }}
+            top={{
+              base: -240,
+              md: -280,
+              lg: -290,
+            }}
+            left={{
+              base: -100,
+              md: -50,
+              lg: -150,
+            }}
+            height={{
+              base: 600,
+              md: 700,
+              lg: 1000,
+            }}
+            width={{
+              base: 600,
+              md: 700,
+              lg: 1000,
+            }}
+          >
+            <Image src={'/floating_app_five.png'} layout="fill" />
+          </Box>
+        </Box>
+      </Box>
     </DefaultContentContainer>
   )
 }

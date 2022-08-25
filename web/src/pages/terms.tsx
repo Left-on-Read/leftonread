@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router'
+
 import { DefaultContentContainer } from '../components/DefaultContentContainer'
 import { Footer } from '../components/Footer'
 import { Markdown } from '../components/Markdown'
@@ -119,10 +121,16 @@ If you have any queries regarding any of our terms, please contact us: help.left
 `
 
 export default function TermsOfService() {
+  const router = useRouter()
+
   return (
     <>
       <DefaultContentContainer>
-        <Navbar />
+        <Navbar
+          onDownload={() => {
+            router.push('/')
+          }}
+        />
         <Markdown raw={TOS} />
       </DefaultContentContainer>
       <Footer />
