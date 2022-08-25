@@ -1,6 +1,6 @@
 import { ArrowForwardIcon } from '@chakra-ui/icons'
 import { Box, Button, Text } from '@chakra-ui/react'
-import Image from 'next/Image'
+import Image from 'next/image'
 
 import { logEvent } from '../../utils/gtag'
 import { DefaultContentContainer } from '../DefaultContentContainer'
