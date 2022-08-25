@@ -4,7 +4,7 @@ The home of our marketing site at [https://leftonread.me/](https://leftonread.me
 
 It is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-It is deployed via Vercel.
+It is deployed via Vercel. To deploy to production, you must log into Vercel manually and click promote to production. It is done manually like this so that deploys are coordinated with when new releases are live.
 
 ## Local Development
 
