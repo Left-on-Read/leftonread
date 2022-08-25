@@ -99,17 +99,20 @@ export function Infographic() {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
+              width: '100%',
             }}
           >
             <div>
               <Box
-                fontSize="6xl"
-                fontWeight="extrabold"
                 style={{
                   lineHeight: 1.3,
                   display: 'flex',
                   alignItems: 'center',
                 }}
+                fontSize={{
+                  base: '5xl',
+                }}
+                fontWeight="extrabold"
               >
                 <Text
                   bgGradient="linear(to-r, blue.400, purple.400)"
@@ -119,28 +122,40 @@ export function Infographic() {
                 </Text>
                 <div style={{ marginLeft: 16 }}>📈</div>
               </Box>
-              <Text fontSize="xl" style={{ marginTop: 32 }}>
+              <Text
+                fontSize={{
+                  base: 'md',
+                }}
+                style={{ marginTop: 32 }}
+              >
                 {`Left on Read renders graphs about your text messages, so you can feel
                 better about your relationship with your phone. We promise
                 you've never seen analytics like these before.`}
               </Text>
             </div>
-            <div
+            <Box
               style={{
-                display: 'flex',
                 justifyContent: 'center',
                 width: '100%',
               }}
+              display={{
+                base: 'flex',
+                lg: 'none',
+              }}
             >
-              <TextStack data={texts} css={styles.textStack} />
-            </div>
-            <div
+              <TextStack data={texts} />
+            </Box>
+            <Box
               style={{
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
                 marginTop: '40px',
-                width: '90%',
+              }}
+              width={{
+                base: '110%',
+                sm: '100%',
+                md: '90%',
               }}
             >
               <BarChart
@@ -148,13 +163,20 @@ export function Infographic() {
                 labels={receivedWords.labels}
                 data={receivedWords.data}
               />
-            </div>
+            </Box>
           </div>
           {/* NOTE(teddy): This creates space for the text message list */}
-          <div css={styles.textStackBlock} />
+          <div style={{ flex: '0 0 400px' }} />
         </Box>
       </DefaultContentContainer>
-      <TextList data={texts} css={styles.textList} />
+      <Box
+        display={{
+          base: 'none',
+          lg: 'initial',
+        }}
+      >
+        <TextList data={texts} />
+      </Box>
     </Box>
   )
 }
@@ -219,20 +241,17 @@ function useTextData(): {
   }
 }
 
-function TextList({
-  data,
-  className,
-}: {
-  data: Array<IText>
-  className?: string
-}) {
+function TextList({ data }: { data: Array<IText> }) {
   return (
     <div
-      className={className}
       style={{
         position: 'absolute',
         top: '30px',
         right: '10px',
+        marginRight: '12px',
+        [belowBreakpoint.lg]: {
+          display: 'none',
+        },
       }}
     >
       <AnimateSharedLayout>
@@ -257,13 +276,7 @@ function TextList({
   )
 }
 
-function TextStack({
-  data,
-  className,
-}: {
-  data: Array<IText>
-  className?: string
-}) {
+function TextStack({ data }: { data: Array<IText> }) {
   const text = data[0]
 
   if (!text) {
@@ -282,8 +295,11 @@ function TextStack({
   return (
     <motion.div
       key={`stack-text-${text.key}`}
-      className={className}
-      style={{ opacity: 0 }}
+      style={{
+        marginTop: '40px',
+        display: 'block',
+        opacity: 0,
+      }}
       animate={{ opacity: 1 }}
     >
       <TextNotification

@@ -26,11 +26,13 @@ export function Download() {
           <Box style={{ display: 'flex', alignItems: 'center', marginTop: 80 }}>
             {/* <Image src={'/ICON.png'} height={70} width={70} /> */}
             <Text
-              fontSize="6xl"
+              fontSize={{
+                base: '4xl',
+                lg: '6xl',
+              }}
               fontWeight="extrabold"
               bgGradient="linear(to-r, blue.400, purple.400)"
               bgClip="text"
-              style={{ marginLeft: 16 }}
             >
               Get Left on Read
             </Text>
@@ -43,7 +45,16 @@ export function Download() {
               alignItems: 'center',
             }}
           >
-            <Text fontSize="xl">
+            <Text
+              fontSize={{
+                base: 'md',
+                lg: 'xl',
+              }}
+              textAlign={{
+                base: 'center',
+                lg: 'start',
+              }}
+            >
               Currently available on Mac OS and coming soon to other platforms.
             </Text>
             <Box shadow="xl">

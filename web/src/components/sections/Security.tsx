@@ -15,19 +15,28 @@ export function Security() {
       <DefaultContentContainer>
         <Box
           style={{
-            marginTop: 100,
-            margin: '3% 3%',
             backgroundColor: 'white',
             padding: '5%',
             borderRadius: 32,
             display: 'flex',
             justifyContent: 'space-between',
           }}
+          margin={{
+            base: '0',
+            lg: '3%',
+          }}
           bgGradient="linear(to-br, purple.700, purple.400)"
+          flexDirection={{
+            base: 'column',
+            lg: 'row',
+          }}
         >
-          <div style={{ width: '50%' }}>
+          <Box width={{ base: '100%', lg: '50%' }}>
             <Box
-              fontSize="5xl"
+              fontSize={{
+                base: '3xl',
+                lg: '4xl',
+              }}
               fontWeight="extrabold"
               style={{
                 lineHeight: 1.3,
@@ -37,14 +46,27 @@ export function Security() {
             >
               <Text color="white">For your eyes only 👀</Text>
             </Box>
-            <Text fontSize="xl" style={{ marginTop: 32 }} color="white">
+            <Text
+              fontSize={{
+                base: 'md',
+                lg: 'xl',
+              }}
+              marginTop={{
+                base: 4,
+                lg: 8,
+              }}
+              color="white"
+            >
               Just like your private photos and important documents, your text
               messages are only accessible to you and never seen by us. Privacy
               and security comes first: our software is open-source.
             </Text>
-          </div>
+          </Box>
           <Box
-            fontSize="5xl"
+            fontSize={{
+              base: '2xl',
+              lg: '5xl',
+            }}
             style={{
               display: 'flex',
               flexDirection: 'column',
@@ -52,6 +74,10 @@ export function Security() {
               alignItems: 'center',
             }}
             fontWeight="extrabold"
+            marginY={{
+              base: 4,
+              lg: 0,
+            }}
           >
             <Text
               bgGradient="linear(to-br, orange.100, pink.200)"

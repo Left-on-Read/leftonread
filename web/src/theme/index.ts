@@ -64,5 +64,10 @@ export const chakraTheme = extendTheme({
         },
       },
     },
+    Text: {
+      sizes: {
+        
+      }
+    }
   },
 })

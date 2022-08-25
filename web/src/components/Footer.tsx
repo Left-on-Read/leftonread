@@ -1,10 +1,15 @@
 import { Box } from '@chakra-ui/react'
 import Image from 'next/image'
 import Link from 'next/link'
+import React from 'react'
 
 import Theme, { belowBreakpoint } from '../theme'
 import { DefaultContentContainer } from './DefaultContentContainer'
 import { handleDownload } from './sections/GetNotified'
+
+function LinkWrapper({ children }: { children: React.ReactNode }) {
+  return <Box marginTop={{ base: 4 }}>{children}</Box>
+}
 
 // NOTE(teddy): This is probably going to require a refactor to a column structure once we have more footer content.
 export function Footer() {
@@ -15,17 +20,22 @@ export function Footer() {
         bgColor="white"
       >
         <DefaultContentContainer>
-          <div
+          <Box
             style={{
               width: '100%',
               display: 'flex',
               flexDirection: 'column',
             }}
           >
-            <div
+            <Box
+              flexDirection={{
+                base: 'column',
+              }}
+              alignItems={{
+                base: 'start',
+              }}
               style={{
                 display: 'flex',
-                alignItems: 'center',
               }}
             >
               <Link href="/">
@@ -39,71 +49,90 @@ export function Footer() {
                   height={Theme.footer.images.md.height}
                 />
               </Link>
-              <div
+              <Box
                 style={{
                   flex: '1 1 0',
                   display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
                   justifyContent: 'space-around',
                   fontSize: '18px',
                   cursor: 'pointer',
-                  [belowBreakpoint.md]: {
-                    flexDirection: 'column',
-                    lineHeight: '25px',
-                  },
-                  [belowBreakpoint.sm]: {
-                    flexDirection: 'column',
-                    lineHeight: '25px',
-                  },
+                }}
+                flexDirection={{
+                  base: 'column',
+                }}
+                alignItems={{
+                  base: 'start',
                 }}
               >
-                <div onClick={handleDownload}>Download</div>
-                <a
-                  style={{
-                    color: 'inherit',
-                    textDecoration: 'none',
+                <Box
+                  onClick={handleDownload}
+                  marginTop={{
+                    base: 2,
                   }}
-                  href="https://github.com/Left-on-Read/leftonread/issues/new?&labels=contact-us&template=contact_us.md"
                 >
-                  Feedback
+                  Download
+                </Box>
+                <LinkWrapper>
+                  <a
+                    style={{
+                      color: 'inherit',
+                      textDecoration: 'none',
+                    }}
+                    href="https://github.com/Left-on-Read/leftonread/issues/new?&labels=contact-us&template=contact_us.md"
+                  >
+                    Feedback
+                  </a>
+                </LinkWrapper>
+
+                <LinkWrapper>
+                  <a
+                    style={{
+                      color: 'inherit',
+                      textDecoration: 'none',
+                    }}
+                    href="mailto:help.leftonread@gmail.com"
+                  >
+                    Contact Us
+                  </a>
+                </LinkWrapper>
+
+                <LinkWrapper>
+                  <Link href="/privacy">
+                    <div>Privacy Policy</div>
+                  </Link>
+                </LinkWrapper>
+                <LinkWrapper>
+                  <Link href="/terms">
+                    <div>Terms</div>
+                  </Link>
+                </LinkWrapper>
+              </Box>
+              <LinkWrapper>
+                <a href="https://github.com/Left-on-Read/leftonread">
+                  <Image
+                    src={'/GitHub_Icon.png'}
+                    style={{
+                      color: 'violet',
+                      width: Theme.footer.images.sm.width,
+                      height: Theme.footer.images.sm.width,
+                    }}
+                    width={Theme.footer.images.sm.width}
+                    height={Theme.footer.images.sm.width}
+                  />
                 </a>
-                <a
-                  style={{
-                    color: 'inherit',
-                    textDecoration: 'none',
-                  }}
-                  href="mailto:help.leftonread@gmail.com"
-                >
-                  Contact Us
-                </a>
-                <Link href="/privacy">
-                  <div>Privacy Policy</div>
-                </Link>
-                <Link href="/terms">
-                  <div>Terms</div>
-                </Link>
-              </div>
-              <a href="https://github.com/Left-on-Read/leftonread">
-                <Image
-                  src={'/GitHub_Icon.png'}
-                  style={{
-                    color: 'violet',
-                    width: Theme.footer.images.sm.width,
-                    height: Theme.footer.images.sm.width,
-                  }}
-                  width={Theme.footer.images.sm.width}
-                  height={Theme.footer.images.sm.width}
-                />
-              </a>
-            </div>
-            <div
+              </LinkWrapper>
+            </Box>
+            <Box
               style={{
                 display: 'flex',
-                alignItems: 'center',
                 justifyContent: 'space-around',
-                flexDirection: 'row',
                 marginTop: '28px',
+              }}
+              flexDirection={{
+                base: 'column',
+              }}
+              alignItems={{
+                base: 'start',
               }}
             >
               <a
@@ -117,15 +146,18 @@ export function Footer() {
                   }
                 />
               </a>
-              <div
+              <Box
                 style={{
                   textAlign: 'center',
                 }}
+                marginTop={{
+                  base: 4,
+                }}
               >
                 © Left on Read 2022
-              </div>
-            </div>
-          </div>
+              </Box>
+            </Box>
+          </Box>
         </DefaultContentContainer>
       </Box>
     </footer>

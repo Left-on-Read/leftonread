@@ -25,101 +25,69 @@ export function GetStarted({
 
   return (
     <DefaultContentContainer>
+      <Navbar />
+      {/* Contains landing content and image */}
       <Box
-        style={{
-          height: '100vh',
-          minHeight: MIN_HEIGHT,
-          display: 'flex',
-          flexDirection: 'column',
+        display="flex"
+        flexDirection={{
+          base: 'column',
+        }}
+        alignItems={{
+          base: 'center',
         }}
       >
-        <Navbar />
+        {/* Contains just landing content */}
         <Box
-          style={{
-            display: 'flex',
-            height: '100%',
-            alignItems: 'center',
+          height={{
+            base: '80vh',
           }}
+          display="flex"
+          flexDirection={{
+            base: 'column',
+          }}
+          justifyContent={{
+            base: 'center',
+          }}
+          alignItems={'flex-start'}
         >
-          <Box style={{ width: '45%' }}>
-            <Text
-              bgGradient="linear(to-r, blue.400, purple.400)"
-              bgClip="text"
-              fontSize="6xl"
-              fontWeight="extrabold"
-              style={{
-                lineHeight: 1.3,
-              }}
-            >
-              What will you learn from your texts?
-            </Text>
-            <Text
-              fontSize="xl"
-              style={{ marginTop: 16, lineHeight: 1.4 }}
-              color="gray"
-            >
-              Learn about your friends and your texting habits with Left on
-              Read, a secure iMessage analyzer made with ❤️
-            </Text>
-            <Button
-              colorScheme="purple"
-              onClick={handleGetStarted}
-              data-testid="cta-button"
-              size="lg"
-              fontSize="2xl"
-              style={{ padding: 28, marginTop: 48 }}
-              shadow="xl"
-              rightIcon={<ArrowForwardIcon />}
-            >
-              Get Started
-            </Button>
-          </Box>
-          <Box style={{ width: '55%', position: 'relative' }}>
-            {/* <Box
-              style={{
-                position: 'absolute',
-                backgroundColor: 'lightgray',
-                opacity: 0.4,
-                width: 850,
-                height: 30,
-                borderRadius: '50%',
-                top: 270,
-                left: 150,
-              }}
-            /> */}
-            {/* <Box
-              style={{
-                position: 'absolute',
-                top: -500,
-                left: -50,
-                height: 850,
-                width: 1000,
-              }}
-            >
-              <Image src={'/floating_app.png'} layout="fill" />
-            </Box> */}
-            {/* <Box
-              style={{
-                position: 'absolute',
-                top: -450,
-                left: -150,
-                height: 890,
-                width: 1200,
-              }}
-            >
-              <Image src={'/floating_app_three.png'} layout="fill" />
-            </Box> */}
-            {/* <Box
-              style={{
-                position: 'absolute',
-                top: -550,
-                left: -100,
-                height: 950,
-                width: 1200,
-              }}
-            >
-              <Image src={'/floating_app_four.png'} layout="fill" />
-            </Box> */}
+          <Text
+            bgGradient="linear(to-r, blue.400, purple.400)"
+            bgClip="text"
+            fontSize={{ base: '5xl', md: '5xl', lg: '6xl' }}
+            fontWeight="extrabold"
+            lineHeight={{
+              base: 1.2,
+            }}
+          >
+            What will you learn from your texts?
+          </Text>
+          <Text
+            fontSize={{ base: 'md', lg: 'xl' }}
+            style={{ marginTop: 16, lineHeight: 1.4 }}
+            color="gray"
+          >
+            Learn about your friends and your texting habits with Left on Read,
+            a secure iMessage analyzer made with ❤️
+          </Text>
+          <Button
+            colorScheme="purple"
+            onClick={handleGetStarted}
+            data-testid="cta-button"
+            size={{
+              base: 'lg',
+            }}
+            fontSize={{
+              base: 'lg',
+              lg: '2xl',
+            }}
+            style={{ marginTop: 48 }}
+            shadow="xl"
+            rightIcon={<ArrowForwardIcon />}
+          >
+            Get Started
+          </Button>
+        </Box>
+        {/* <Box style={{ width: '55%', position: 'relative' }}>
             <Box
               style={{
                 position: 'absolute',
@@ -132,7 +100,38 @@ export function GetStarted({
             >
               <Image src={'/floating_app_five.png'} layout="fill" />
             </Box>
-          </Box>
+          </Box> */}
+      </Box>
+      <Box
+        width={{ base: '100%' }}
+        height={{ base: '200px' }}
+        display={{
+          base: 'block',
+          md: 'none',
+        }}
+        style={{
+          position: 'relative',
+        }}
+      >
+        <Box
+          style={{
+            position: 'absolute',
+            zIndex: -1,
+          }}
+          top={{
+            base: -240,
+          }}
+          left={{
+            base: -100,
+          }}
+          height={{
+            base: 600,
+          }}
+          width={{
+            base: 600,
+          }}
+        >
+          <Image src={'/floating_app_five.png'} layout="fill" />
         </Box>
       </Box>
     </DefaultContentContainer>

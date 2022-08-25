@@ -1,4 +1,4 @@
-import { Button, Text } from '@chakra-ui/react'
+import { Box, Button, Text } from '@chakra-ui/react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import * as React from 'react'
@@ -14,7 +14,7 @@ export function Navbar() {
 
   return (
     <>
-      <div
+      <Box
         style={{
           height: '70px',
           width: '100%',
@@ -41,12 +41,15 @@ export function Navbar() {
           }}
           onClick={navigateHome}
         />
-        <div
+        <Box
           style={{
-            display: 'flex',
             alignItems: 'center',
             fontSize: '22px',
             fontWeight: 300,
+          }}
+          display={{
+            base: 'none',
+            md: 'flex',
           }}
         >
           <Button
@@ -70,8 +73,8 @@ export function Navbar() {
               Contact Us
             </Text>
           </Button>
-        </div>
-      </div>
+        </Box>
+      </Box>
     </>
   )
 }
