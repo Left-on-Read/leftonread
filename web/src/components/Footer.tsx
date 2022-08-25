@@ -57,7 +57,7 @@ export function Footer() {
                 },
               }}
             >
-              <div onClick={handleDownload}>Download for Mac</div>
+              <div onClick={handleDownload}>Download</div>
               <a
                 css={{
                   color: 'inherit',
@@ -119,7 +119,7 @@ export function Footer() {
                 textAlign: 'center',
               }}
             >
-              © Left on Read 2022
+              © Left on Read 2018
             </div>
           </div>
         </div>
