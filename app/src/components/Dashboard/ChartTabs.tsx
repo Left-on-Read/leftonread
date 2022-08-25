@@ -39,7 +39,8 @@ export const titleFormatter = ({
   let title = titleName;
   const { contact } = filters;
   if (contact?.length === 1) {
-    title += ` with ${contact[0].label}`;
+    const word = titleName.toLowerCase().includes('sent') ? 'to' : 'from';
+    title += ` ${word} ${contact[0].label}`;
   }
   // TODO(Danilowicz): add who is excluded here.
   // As I think most people will exclude their S.O.

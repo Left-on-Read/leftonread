@@ -14,13 +14,11 @@ import electron from 'electron';
 import { useEffect, useState } from 'react';
 
 export function ShareModal({
-  title,
   isOpen,
   onClose,
   children,
   graphRefToShare,
 }: {
-  title: string;
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
@@ -95,7 +93,6 @@ export function ShareModal({
         </ModalHeader>
         {/* <ModalCloseButton /> */}
         <ModalBody>
-          {title}
           {children}
           {/* <Bar data={data} ref={chartRef} /> */}
           {/* {isSuccess ? (

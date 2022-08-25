@@ -1,8 +1,9 @@
 import { Box, Icon, Text, theme as defaultTheme } from '@chakra-ui/react';
-import { ShareModal } from 'components/Sharing/ShareModal';
 import React, { useState } from 'react';
 import { IconType } from 'react-icons';
 import { FiShare } from 'react-icons/fi';
+
+import { ShareModal } from '../Sharing/ShareModal';
 
 export function GraphContainer({
   title,
@@ -23,7 +24,6 @@ export function GraphContainer({
       <ShareModal
         isOpen={isShareOpen}
         onClose={() => setIsShareOpen(false)}
-        title={title}
         graphRefToShare={graphRefToShare}
       >
         {children}
