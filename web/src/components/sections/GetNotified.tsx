@@ -1,4 +1,5 @@
 import { Button } from '@chakra-ui/react'
+import { Text } from '@chakra-ui/react'
 import * as React from 'react'
 
 import { LATEST_APP_VERSION_FOR_MARKETING_SITE } from '../../constants/APP_VERSION'
@@ -10,7 +11,6 @@ import { DefaultContentContainer } from '../DefaultContentContainer'
 import HighlightedText from '../HighlightedText'
 import Input from '../Input'
 import { StatusLoader, StatusLoaderState } from '../StatusLoader'
-import { Text } from '../Text'
 
 const DEFAULT_PARAGRAPH_WEIGHT = 400
 
@@ -25,13 +25,13 @@ export const handleDownload = () => {
 function Content() {
   return (
     <div>
-      <Text type="header">
+      <Text>
         <HighlightedText
           text={'Download Left on Read'}
           color={Theme.secondary.main}
         />{' '}
       </Text>
-      <Text type="paragraph">
+      <Text>
         {'Available on Mac OS. Left on Read is '}
         <HighlightedText
           text={'free to try'}
@@ -108,32 +108,13 @@ export function GetNotified({
   const notifyContent = (
     <form
       onSubmit={handleSubmitNotify}
-      css={{
+      style={{
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        [belowBreakpoint.md]: {
-          flexDirection: 'column',
-          alignItems: 'initial',
-        },
       }}
     >
       <Input
-        css={{
-          fontSize: '22px',
-          height: '32px',
-          width: '350px',
-          [belowBreakpoint.md]: {
-            fontSize: '18px',
-            height: '28px',
-            width: '270px',
-          },
-          [belowBreakpoint.sm]: {
-            fontSize: '16px',
-            height: '24px',
-            width: '230px',
-          },
-        }}
         placeholder={'you@example.com'}
         value={email}
         onChange={(updatedEmail) => setEmail(updatedEmail)}
@@ -141,12 +122,9 @@ export function GetNotified({
         data-testid="get-notified-input"
       />
       <div
-        css={{
+        style={{
           display: 'flex',
           alignItems: 'center',
-          [belowBreakpoint.md]: {
-            marginTop: '12px',
-          },
         }}
       >
         {state !== 'success' && state !== 'loading' && <Button>Enter</Button>}
@@ -158,7 +136,7 @@ export function GetNotified({
   return (
     <>
       <div
-        css={{
+        style={{
           backgroundColor: Theme.palette.frogGreen.faded,
           paddingTop: '36px',
           paddingBottom: '50px',
@@ -166,12 +144,12 @@ export function GetNotified({
       >
         <DefaultContentContainer>
           <div
-            css={{
+            style={{
               display: 'flex',
               flexDirection: 'column',
             }}
           >
-            <Text type="secondary-header">
+            <Text>
               Join our community to learn about exciting new features and
               updates
             </Text>
@@ -182,7 +160,7 @@ export function GetNotified({
 
       <DefaultContentContainer>
         <div
-          css={{
+          style={{
             display: 'flex',
             flexDirection: 'column',
             padding: '80px 0',
@@ -194,7 +172,7 @@ export function GetNotified({
         >
           <Content />
           <div
-            css={{
+            style={{
               marginTop: '25px',
               justifyContent: 'center',
               display: 'flex',
