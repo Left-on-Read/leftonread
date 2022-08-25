@@ -23,7 +23,5 @@ const punctuationList = [
   '--',
   '---',
   '—',
-  ')',
-  '(',
 ];
 export const punctuation = delimList(punctuationList);

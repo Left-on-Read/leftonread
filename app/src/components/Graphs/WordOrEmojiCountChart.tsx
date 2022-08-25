@@ -76,22 +76,22 @@ export function WordOrEmojiCountChart({
       },
     },
     // TODO(Danilowicz): Only show this if rendered in share modal
-    plugins: {
-      title: {
-        display: true,
-        text: `My ${title}`,
-        font: {
-          size: 18,
-        },
-      },
-      subtitle: {
-        display: true,
-        text: "Check out https://leftonread.me/ it's awesome!",
-        font: {
-          size: 12,
-        },
-      },
-    },
+    // plugins: {
+    //   title: {
+    //     display: true,
+    //     text: `My ${title}`,
+    //     font: {
+    //       size: 18,
+    //     },
+    //   },
+    //   subtitle: {
+    //     display: true,
+    //     text: "Check out https://leftonread.me/ it's awesome!",
+    //     font: {
+    //       size: 12,
+    //     },
+    //   },
+    // },
   };
 
   const graphRefToShare = useRef(null);
