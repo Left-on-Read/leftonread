@@ -2,10 +2,8 @@ import { Button } from '@chakra-ui/react'
 import { Text } from '@chakra-ui/react'
 import * as React from 'react'
 
-import { LATEST_APP_VERSION_FOR_MARKETING_SITE } from '../../constants/APP_VERSION'
 import Theme, { belowBreakpoint } from '../../theme'
 import { writeEmailToFirestore } from '../../utils/firestore'
-import { logEvent } from '../../utils/gtag'
 import { isValidEmail } from '../../utils/validation'
 import { DefaultContentContainer } from '../DefaultContentContainer'
 import HighlightedText from '../HighlightedText'
@@ -13,14 +11,6 @@ import Input from '../Input'
 import { StatusLoader, StatusLoaderState } from '../StatusLoader'
 
 const DEFAULT_PARAGRAPH_WEIGHT = 400
-
-export const handleDownload = () => {
-  logEvent({
-    action: 'download',
-    category: 'Download',
-  })
-  window.location.href = `https://github.com/Left-on-Read/leftonread/releases/download/v${LATEST_APP_VERSION_FOR_MARKETING_SITE}/Left-on-Read-${LATEST_APP_VERSION_FOR_MARKETING_SITE}.dmg`
-}
 
 function Content() {
   return (
@@ -66,10 +56,10 @@ export function GetNotified({
   const [state, setState] = React.useState<StatusLoaderState | null>(null)
 
   const signUpEmail = async (submittedEmail: string) => {
-    logEvent({
-      action: 'submit_email',
-      category: 'Notify',
-    })
+    // logEvent({
+    //   action: 'submit_email',
+    //   category: 'Notify',
+    // })
 
     if (!isValidEmail(submittedEmail)) {
       setState('error')
@@ -82,20 +72,20 @@ export function GetNotified({
 
     try {
       await writeEmailToFirestore(submittedEmail)
-      logEvent({
-        action: 'submit_email_success',
-        category: 'Notify',
-      })
+      // logEvent({
+      //   action: 'submit_email_success',
+      //   category: 'Notify',
+      // })
       setState('success')
       setMessage('Successfully signed up!')
     } catch (e) {
       setState('error')
       setMessage('Uh oh, something went wrong.')
-      logEvent({
-        action: 'submit_email_error',
-        category: 'Notify',
-        label: e,
-      })
+      // logEvent({
+      //   action: 'submit_email_error',
+      //   category: 'Notify',
+      //   label: e,
+      // })
     }
   }
 

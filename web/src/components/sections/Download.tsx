@@ -1,7 +1,17 @@
 import { DownloadIcon } from '@chakra-ui/icons'
 import { Box, Button, Text } from '@chakra-ui/react'
 
+import { LATEST_APP_VERSION_FOR_MARKETING_SITE } from '../../constants/APP_VERSION'
+import { logEvent } from '../../utils/gtag'
 import { DefaultContentContainer } from '../DefaultContentContainer'
+
+export const handleDownload = () => {
+  logEvent({
+    action: 'download',
+    category: 'Download',
+  })
+  window.location.href = `https://github.com/Left-on-Read/leftonread/releases/download/v${LATEST_APP_VERSION_FOR_MARKETING_SITE}/Left-on-Read-${LATEST_APP_VERSION_FOR_MARKETING_SITE}.dmg`
+}
 
 export function Download({
   ctaRef,
@@ -71,40 +81,12 @@ export function Download({
                 size="lg"
                 style={{ marginTop: 40 }}
                 // ref={ctaRef}
+                onClick={handleDownload}
               >
                 Download for Mac
               </Button>
             </Box>
           </Box>
-          {/* <Box
-            style={{
-              marginTop: 40,
-              display: 'flex',
-              justifyContent: 'space-around',
-              width: '100%',
-            }}
-            fontSize="2xl"
-            fontWeight="extrabold"
-          >
-            <Text
-              bgGradient="linear(to-br, orange.400, pink.500)"
-              bgClip="text"
-            >
-              ✓ Open Source
-            </Text>
-            <Text
-              bgGradient="linear(to-br, orange.400, pink.500)"
-              bgClip="text"
-            >
-              ✓ Fun
-            </Text>
-            <Text
-              bgGradient="linear(to-br, orange.400, pink.500)"
-              bgClip="text"
-            >
-              ✓ Free to Try
-            </Text>
-          </Box> */}
         </Box>
       </DefaultContentContainer>
     </Box>
