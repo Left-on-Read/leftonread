@@ -15,8 +15,11 @@ export function Infographic() {
 
   return (
     <Box
+      height={{
+        base: 'auto',
+        lg: '70vh',
+      }}
       style={{
-        height: '100vh',
         minHeight: MIN_HEIGHT,
         display: 'flex',
         flexDirection: 'column',
@@ -29,7 +32,6 @@ export function Infographic() {
         <Box
           style={{
             display: 'flex',
-            alignItems: 'center',
             height: '100%',
           }}
           flexDirection={{
@@ -41,7 +43,6 @@ export function Infographic() {
             style={{
               display: 'flex',
               flexDirection: 'column',
-              alignItems: 'center',
               width: '100%',
             }}
           >
@@ -50,13 +51,15 @@ export function Infographic() {
                 style={{
                   lineHeight: 1.3,
                   display: 'flex',
-                  alignItems: 'center',
                 }}
                 fontSize={{
-                  base: '5xl',
+                  base: '4xl',
                   lg: '6xl',
                 }}
                 fontWeight="extrabold"
+                marginTop={{
+                  base: '100px',
+                }}
               >
                 <Text
                   bgGradient="linear(to-r, blue.400, purple.400)"
@@ -111,7 +114,12 @@ export function Infographic() {
             </Box>
           </div>
           {/* NOTE(teddy): This creates space for the text message list */}
-          <div style={{ flex: '0 0 400px' }} />
+          <Box
+            flex={{
+              base: '0 0 100px',
+              lg: '0 0 300px',
+            }}
+          />
         </Box>
       </DefaultContentContainer>
       <Box

@@ -34,7 +34,8 @@ export function Security() {
           <Box width={{ base: '100%', lg: '50%' }}>
             <Box
               fontSize={{
-                base: '3xl',
+                base: '2xl',
+                md: '3xl',
                 lg: '4xl',
               }}
               fontWeight="extrabold"
