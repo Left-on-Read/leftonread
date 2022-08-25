@@ -30,7 +30,7 @@ export async function queryTimeOfDaySent(
   db: sqlite3.Database,
   filters: SharedQueryFilters
 ): Promise<TimeOfDayResults> {
-  const allFilters = getAllFilters(filters, 'is_from_me = 1', 'contact_name');
+  const allFilters = getAllFilters(filters, 'is_from_me = 1');
   const q = getCoreQuery(allFilters);
 
   return allP(db, q);
@@ -40,7 +40,7 @@ export async function queryTimeOfDayReceived(
   db: sqlite3.Database,
   filters: SharedQueryFilters
 ): Promise<TimeOfDayResults> {
-  const allFilters = getAllFilters(filters, 'is_from_me = 0', 'contact_name');
+  const allFilters = getAllFilters(filters, 'is_from_me = 0');
   const q = getCoreQuery(allFilters);
 
   return allP(db, q);

@@ -26,7 +26,7 @@ export class SentimentTable extends Table {
         human_readable_date TEXT NOT NULL,
         is_from_me INTEGER NOT NULL,
         contact_name TEXT,
-        cache_roomnames TEXT,
+        room_name TEXT,
         phone_number TEXT NOT NULL,
         ${SentimentTableColumns.SCORE} INTEGER NOT NULL,
         ${SentimentTableColumns.COMPARATIVE} REAL NOT NULL
@@ -48,7 +48,7 @@ export class SentimentTable extends Table {
         `(${currentMessage.message_id},${currentMessage.is_from_me},"${
           currentMessage.human_readable_date
         }",${nullOrText(currentMessage.contact_name)},${nullOrText(
-          currentMessage.cache_roomnames
+          currentMessage.room_name
         )},"${currentMessage.phone_number}",${result.score},${
           result.comparative
         })`
@@ -58,7 +58,7 @@ export class SentimentTable extends Table {
     const insertQ = `
       INSERT INTO ${
         this.name
-      } (message_id, is_from_me, human_readable_date, contact_name, cache_roomnames, phone_number, ${
+      } (message_id, is_from_me, human_readable_date, contact_name, room_name, phone_number, ${
       SentimentTableColumns.SCORE
     }, ${SentimentTableColumns.COMPARATIVE})
       VALUES

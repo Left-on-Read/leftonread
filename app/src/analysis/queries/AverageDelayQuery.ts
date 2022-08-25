@@ -17,7 +17,7 @@ export async function queryAverageDelay(
   db: sqlite3.Database,
   filters: SharedQueryFilters
 ): Promise<AverageDelayResult[]> {
-  const allFilters = getAllFilters(filters, undefined, 'contact_name');
+  const allFilters = getAllFilters(filters, undefined);
 
   const q = `
   SELECT

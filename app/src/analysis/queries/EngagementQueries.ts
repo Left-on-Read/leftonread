@@ -14,7 +14,7 @@ export type EngagementResult = {
 };
 
 function getWhereStatement(filters: SharedQueryFilters) {
-  const allFilters = getAllFilters(filters, undefined, 'contact_name');
+  const allFilters = getAllFilters(filters, undefined);
 
   if (allFilters === '') {
     return 'WHERE ';
@@ -25,7 +25,7 @@ export async function queryAverageMessageLength(
   db: sqlite3.Database,
   filters: SharedQueryFilters
 ): Promise<EngagementResult[]> {
-  const allFilters = getAllFilters(filters, undefined, 'contact_name');
+  const allFilters = getAllFilters(filters, undefined);
 
   const q = `
     SELECT 
@@ -48,8 +48,6 @@ export async function queryDoubleTexts(
   db: sqlite3.Database,
   filters: SharedQueryFilters
 ): Promise<EngagementResult[]> {
-  const allFilters = getAllFilters(filters, undefined, 'contact_name');
-
   const TEN_MINUTES_IN_SECONDS = 10 * 60;
 
   const q = `
@@ -94,8 +92,6 @@ export async function queryAverageDelayV2(
   db: sqlite3.Database,
   filters: SharedQueryFilters
 ): Promise<EngagementResult[]> {
-  const allFilters = getAllFilters(filters, undefined, 'contact_name');
-
   const q = `
     SELECT
       AVG(${EngagementTableColumns.DELAY_IN_SECONDS}) as value,
