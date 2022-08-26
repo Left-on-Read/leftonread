@@ -11,8 +11,8 @@ import electron, { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
 import { FiVoicemail } from 'react-icons/fi';
-import { logEvent } from 'utils/analytics';
 
+import { logEvent } from '../../utils/analytics';
 import { GraphContainer } from './GraphContainer';
 
 function hasNumber(myString: string) {
