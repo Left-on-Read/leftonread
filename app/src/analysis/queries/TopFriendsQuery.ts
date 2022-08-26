@@ -41,7 +41,7 @@ is_from_me as ${TopFriendsColumns.IS_FROM_ME}
 FROM ${CoreTableNames.CORE_MAIN_TABLE}
 -- NOTE: filters should always be applied as earliest as possible
 ${allFilters}
-GROUP BY id, is_from_me
+GROUP BY COALESCE(contact_name, id), is_from_me
 `;
 };
 
@@ -75,7 +75,7 @@ export async function queryTopFriends(
   COMBINED_TABLE AS (
     SELECT
       sent + received as ${TopFriendsOutputColumns.TOTAL},
-      RECEIVED_TABLE.${TopFriendsColumns.FRIEND} as ${
+      SENT_TABLE.${TopFriendsColumns.FRIEND} as ${
     TopFriendsOutputColumns.FRIEND
   },
       sent as ${TopFriendsOutputColumns.SENT},
@@ -83,7 +83,8 @@ export async function queryTopFriends(
     FROM
       RECEIVED_TABLE
     -- NOTE: could do a LEFT JOIN here if you want to see group chats only
-    JOIN
+    -- RIGHT JOIN gives you both
+    RIGHT JOIN
       SENT_TABLE
     ON
       RECEIVED_TABLE.${TopFriendsColumns.FRIEND} = SENT_TABLE.${
