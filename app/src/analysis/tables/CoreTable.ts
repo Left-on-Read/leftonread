@@ -56,7 +56,7 @@ export class CoreMainTable extends Table {
     -- TODO(Danilowicz): instead of * we should just grab the columns we need
     SELECT
       *,
-      COALESCE(contact_name, id, group_chat_participants) as contact_name_with_group_chat_participants_populated,
+      group_chat_participants as contact_name_with_group_chat_participants_populated,
       m.ROWID as message_id
     FROM
     message m

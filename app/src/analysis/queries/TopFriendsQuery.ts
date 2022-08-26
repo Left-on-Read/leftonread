@@ -41,7 +41,7 @@ is_from_me as sent
 FROM ${CoreTableNames.CORE_MAIN_TABLE}
 -- NOTE: filters should always be applied as earliest as possible
 ${allFilters}
-GROUP BY id, is_from_me
+GROUP BY COALESCE(contact_name, id, contact_name_with_group_chat_participants_populated), is_from_me
 `;
 };
 
@@ -55,7 +55,8 @@ function getSentOrReceived(
     count AS ${alias},
     friend
   FROM (${getCoreQuery(allFilters)})
-  WHERE sent = ${isFromMe ? '1' : '0'}`;
+  WHERE sent = ${isFromMe ? '1' : '0'}
+  GROUP BY friend`;
 }
 
 export async function queryTopFriends(

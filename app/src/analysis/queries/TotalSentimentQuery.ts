@@ -30,7 +30,7 @@ export async function queryTotalSentiment(
   db: sqlite3.Database,
   filters: SharedQueryFilters
 ): Promise<TotalSentimentResult[]> {
-  const allFilters = getAllFilters(filters, undefined, 'contact_name');
+  const allFilters = getAllFilters(filters, undefined);
   const q = getCoreQuery(allFilters);
 
   return allP(db, q);
