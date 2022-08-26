@@ -1,5 +1,4 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
-import { RespondReminders } from 'components/Graphs/RespondReminders';
 import {
   FiArrowUpCircle,
   FiAward,
@@ -20,6 +19,7 @@ import { GroupChatFilters } from '../../constants/filters';
 import { daysAgo } from '../../main/util';
 import { logEvent } from '../../utils/analytics';
 import { EngagementScoreChart } from '../Graphs/EngagementScore/EngagementScoreChart';
+import { RespondReminders } from '../Graphs/RespondReminders';
 import { SentimentOverTimeChart } from '../Graphs/SentimentOverTimeChart';
 import { SentVsReceivedChart } from '../Graphs/SentVsReceivedChart';
 import { TextsOverTimeChart } from '../Graphs/TextsOverTimeChart';
