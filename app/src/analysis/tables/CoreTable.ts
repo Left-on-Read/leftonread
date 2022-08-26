@@ -47,11 +47,12 @@ export class CoreMainTable extends Table {
       m.ROWID as message_id
     FROM
     message m
-    JOIN handle h 
+    -- The left join is important here, because handle_id 0 is used when you send group messages
+    LEFT JOIN handle h
       ON h.rowid = m.handle_id
 
     JOIN DATE_TIME_TABLE
-      ON guid = datetimetable_guid 
+      ON m.guid = datetimetable_guid 
 
     LEFT JOIN chat_message_join c
       ON c.message_id = m.ROWID

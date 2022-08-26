@@ -1,7 +1,7 @@
-import { GroupChatFilters } from 'constants/filters';
 import * as sqlite3 from 'sqlite3';
 
 import { getEmojiData } from '../../constants/emojis';
+import { GroupChatFilters } from '../../constants/filters';
 import { DEFAULT_FILTER_LIMIT } from '../../constants/index';
 import { objReplacementUnicode } from '../../constants/objReplacementUnicode';
 import { punctuation } from '../../constants/punctuation';
@@ -118,6 +118,8 @@ export async function queryEmojiOrWordCounts(
         (REPLACE
         (REPLACE
         (REPLACE
+        (REPLACE
+        (REPLACE
         (REPLACE (
           replace(
             replace(
@@ -139,7 +141,10 @@ export async function queryEmojiOrWordCounts(
         '6', ''),
         '7', ''),
         '8', ''),
-        '9', '') as ${ChatTableColumns.WORD},
+        '9', ''),
+        '?', ''),
+        ':', '')
+         as ${ChatTableColumns.WORD},
         ${ChatTableColumns.CONTACT},
         ${ChatTableColumns.IS_FROM_ME}
       FROM ${ChatTableNames.COUNT_TABLE}

@@ -49,13 +49,8 @@ export function SentVsReceivedChart({
           (obj) => obj.is_from_me === 1
         );
 
-        if (receivedList.length === 1) {
-          setReceived(receivedList[0].total);
-        }
-
-        if (sentList.length === 1) {
-          setSent(sentList[0].total);
-        }
+        setReceived(receivedList[0]?.total ?? 0);
+        setSent(sentList[0]?.total ?? 0);
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err.message);

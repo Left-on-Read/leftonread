@@ -11,12 +11,14 @@ export function GraphContainer({
   icon,
   children,
   graphRefToShare,
+  tooltip,
 }: {
   title: string;
   description?: string;
   icon: IconType;
   children: React.ReactNode;
   graphRefToShare?: React.MutableRefObject<null>;
+  tooltip?: React.ReactNode;
 }) {
   const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
   return (
@@ -70,10 +72,11 @@ export function GraphContainer({
                 />
               )}
             </div>
-            <div>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
               <Text fontSize="sm" color="gray">
                 {description}
               </Text>
+              <span style={{ marginLeft: '10px' }}>{tooltip}</span>
             </div>
           </div>
         </div>
