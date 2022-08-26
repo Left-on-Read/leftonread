@@ -19,6 +19,7 @@ import { GroupChatFilters } from '../../constants/filters';
 import { daysAgo } from '../../main/util';
 import { logEvent } from '../../utils/analytics';
 import { EngagementScoreChart } from '../Graphs/EngagementScore/EngagementScoreChart';
+import { RespondReminders } from '../Graphs/RespondReminders';
 import { SentimentOverTimeChart } from '../Graphs/SentimentOverTimeChart';
 import { SentVsReceivedChart } from '../Graphs/SentVsReceivedChart';
 import { TextsOverTimeChart } from '../Graphs/TextsOverTimeChart';
@@ -111,7 +112,7 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
             width: '100%',
             background:
               'linear-gradient(0deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 25%, rgba(255,255,255,1) 100%)',
-            zIndex: 3,
+            zIndex: 6,
           }}
         >
           {/* IF YOU CHANGE THE TABS - PLEASE CHANGE LOGGING ABOVE */}
@@ -289,6 +290,7 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
                 icon={FiRadio}
                 filters={filters}
               />
+              <RespondReminders />
             </div>
           </TabPanel>
         </TabPanels>
