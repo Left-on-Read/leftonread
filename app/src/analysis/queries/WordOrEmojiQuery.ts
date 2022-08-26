@@ -1,7 +1,7 @@
-import { GroupChatFilters } from 'constants/filters';
 import * as sqlite3 from 'sqlite3';
 
 import { getEmojiData } from '../../constants/emojis';
+import { GroupChatFilters } from '../../constants/filters';
 import { DEFAULT_FILTER_LIMIT } from '../../constants/index';
 import { objReplacementUnicode } from '../../constants/objReplacementUnicode';
 import { punctuation } from '../../constants/punctuation';

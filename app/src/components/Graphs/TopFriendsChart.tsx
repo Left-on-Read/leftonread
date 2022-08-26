@@ -5,7 +5,6 @@ import {
   theme as defaultTheme,
   Tooltip,
 } from '@chakra-ui/react';
-import { GroupChatFilters } from 'constants/filters';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useRef, useState } from 'react';
@@ -15,6 +14,7 @@ import { FiInfo } from 'react-icons/fi';
 
 import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFilters';
 import { TTopFriendsResults } from '../../analysis/queries/TopFriendsQuery';
+import { GroupChatFilters } from '../../constants/filters';
 import { GraphContainer } from './GraphContainer';
 
 export function TopFriendsChart({
