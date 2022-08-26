@@ -4,23 +4,17 @@ import * as sqlite3Wrapper from '../../utils/sqliteWrapper';
 import { Columns as ContactNameColumns } from './ContactTable';
 import { CoreTableNames, Table, TableNames } from './types';
 
-export enum ChatTableColumns {
-  WORD = 'word',
-  CACHE_ROOMNAMES = 'cache_roomnames',
-  IS_FROM_ME = 'is_from_me',
-  CONTACT = 'contact',
-}
-
-// TODO(Danilowicz): I think this should be renamed WordTable
+// TODO(Danilowicz): I think this should be renamed WordTable. Horribly named.
 export class ChatCountTable extends Table {
   async create(): Promise<TableNames> {
     const q = `
       CREATE TABLE ${this.name} AS
-      WITH RECURSIVE SPLIT_TEXT_TABLE (cache_roomnames, id, is_from_me, guid, text, etc) AS
+      WITH RECURSIVE SPLIT_TEXT_TABLE (room_name, id, contact_name_with_group_chat_participants_populated, is_from_me, guid, text, etc) AS
       (
         SELECT
-          m.cache_roomnames,
+          m.room_name,
           coalesce(m.${ContactNameColumns.CONTACT_NAME}, m.id) as id,
+          m.contact_name_with_group_chat_participants_populated,
           m.is_from_me,
           m.guid, '',
           m.text || ' '
@@ -28,15 +22,16 @@ export class ChatCountTable extends Table {
         FROM ${CoreTableNames.CORE_MAIN_TABLE} m
         UNION ALL
         SELECT
-          cache_roomnames, id, is_from_me, guid, SUBSTR(etc, 0, INSTR(etc, ' ')), SUBSTR(etc, INSTR(etc, ' ')+1)
+        room_name, id, contact_name_with_group_chat_participants_populated, is_from_me, guid, SUBSTR(etc, 0, INSTR(etc, ' ')), SUBSTR(etc, INSTR(etc, ' ')+1)
         FROM SPLIT_TEXT_TABLE
         WHERE etc <> ''
       )
         SELECT
-          id as ${ChatTableColumns.CONTACT},
-          LOWER(text) as ${ChatTableColumns.WORD},
-          is_from_me as ${ChatTableColumns.IS_FROM_ME},
-          cache_roomnames as ${ChatTableColumns.CACHE_ROOMNAMES}
+          id as contact,
+          contact_name_with_group_chat_participants_populated,
+          LOWER(text) as word,
+          is_from_me,
+          room_name
         FROM SPLIT_TEXT_TABLE
     `;
 

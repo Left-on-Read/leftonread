@@ -1,3 +1,5 @@
+import log from 'electron-log';
+
 import { GroupChatFilters, TimeRangeFilters } from '../../../constants/filters';
 import { delimList } from '../../../utils/delimList';
 import { CoreMainTableColumns } from '../../tables/CoreTable';
@@ -19,22 +21,35 @@ function wordFilter(filters: SharedQueryFilters): string | undefined {
   return `LOWER(text) LIKE "%${filters.word?.toLowerCase()}%"`;
 }
 
-function contactFilter(
-  filters: SharedQueryFilters,
-  columnName: string
-): string | undefined {
+export function contactFilter(filters: SharedQueryFilters): string | undefined {
   if (!filters.contact || filters.contact.length === 0) {
     return undefined;
   }
-  return `${columnName} IN (${delimList(filters.contact.map((c) => c.label))})`;
+  const convertListToLikeStatements = (
+    contacts: ContactOptionsQueryResult[]
+  ) => {
+    return contacts
+      .map(
+        (c) =>
+          `OR contact_name_with_group_chat_participants_populated LIKE '%${c.label}%'`
+      )
+      .join('');
+  };
+
+  const final = `(contact_name_with_group_chat_participants_populated IN (${delimList(
+    filters.contact.map((c) => c.label)
+  )}) ${convertListToLikeStatements(filters.contact)})`;
+  return final;
 }
 
 export function groupChatFilter(
   filters: SharedQueryFilters
 ): string | undefined {
+  log.info(filters.groupChat);
   if (filters.groupChat === GroupChatFilters.ONLY_INDIVIDUAL) {
-    return `cache_roomnames IS NULL`;
+    return `room_name IS NULL`;
   }
+
   return undefined; // would query for both individual and groupchats
 }
 
@@ -55,10 +70,9 @@ export function timeRangeFilter(
 
 export function getAllFilters(
   filters: SharedQueryFilters,
-  defaultFilterStatement?: string,
-  contactColumnName?: string
+  defaultFilterStatement?: string
 ): string {
-  const contact = contactFilter(filters, contactColumnName ?? 'friend');
+  const contact = contactFilter(filters);
   const groupChats = groupChatFilter(filters);
   const word = wordFilter(filters);
   const timeRange = timeRangeFilter(filters);
@@ -71,5 +85,8 @@ export function getAllFilters(
     timeRange,
   ].filter((filter) => !!filter);
 
-  return filtersArray.length > 0 ? `WHERE ${filtersArray.join(' AND ')}` : '';
+  const finalFilter =
+    filtersArray.length > 0 ? `WHERE ${filtersArray.join(' AND ')}` : '';
+  console.log(finalFilter);
+  return finalFilter;
 }
