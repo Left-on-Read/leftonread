@@ -143,7 +143,7 @@ export async function queryEmojiOrWordCounts(
         '8', ''),
         '9', ''),
         '?', ''),
-        ':', '') as word,
+        ':', '')
          as ${ChatTableColumns.WORD},
         ${ChatTableColumns.CONTACT},
         ${ChatTableColumns.IS_FROM_ME}

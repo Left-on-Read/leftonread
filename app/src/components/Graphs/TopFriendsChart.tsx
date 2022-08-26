@@ -1,9 +1,17 @@
-import { Spinner, Text, theme as defaultTheme } from '@chakra-ui/react';
+import {
+  Icon,
+  Spinner,
+  Text,
+  theme as defaultTheme,
+  Tooltip,
+} from '@chakra-ui/react';
+import { GroupChatFilters } from 'constants/filters';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useRef, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { IconType } from 'react-icons';
+import { FiInfo } from 'react-icons/fi';
 
 import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFilters';
 import { TTopFriendsResults } from '../../analysis/queries/TopFriendsQuery';
@@ -97,6 +105,18 @@ export function TopFriendsChart({
       title={title}
       description={description}
       icon={icon}
+      tooltip={
+        filters.groupChat === GroupChatFilters.BOTH ? (
+          <Tooltip
+            label="When including group chats, Left on Read attributes your sent messages to the group itself, and does not spread the count across the individuals of the group."
+            fontSize="md"
+          >
+            <span>
+              <Icon as={FiInfo} color="gray.500" />
+            </span>
+          </Tooltip>
+        ) : null
+      }
     >
       {error ? (
         <div
