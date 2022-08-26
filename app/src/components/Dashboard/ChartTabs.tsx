@@ -1,4 +1,5 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { RespondReminders } from 'components/Graphs/RespondReminders';
 import {
   FiArrowUpCircle,
   FiAward,
@@ -111,7 +112,7 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
             width: '100%',
             background:
               'linear-gradient(0deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 25%, rgba(255,255,255,1) 100%)',
-            zIndex: 3,
+            zIndex: 6,
           }}
         >
           {/* IF YOU CHANGE THE TABS - PLEASE CHANGE LOGGING ABOVE */}
@@ -289,6 +290,7 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
                 icon={FiRadio}
                 filters={filters}
               />
+              <RespondReminders />
             </div>
           </TabPanel>
         </TabPanels>

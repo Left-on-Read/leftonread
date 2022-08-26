@@ -20,6 +20,7 @@ import {
   queryLeftOnRead,
 } from '../analysis/queries/EngagementQueries';
 import { SharedQueryFilters } from '../analysis/queries/filters/sharedQueryFilters';
+import { queryRespondReminders } from '../analysis/queries/RespondReminders';
 import {
   querySentimentOverTimeReceived,
   querySentimentOverTimeSent,
@@ -198,6 +199,11 @@ export function attachIpcListeners() {
       return queryTimeOfDayReceived(db, filters);
     }
   );
+
+  ipcMain.handle('query-respond-reminders', async (event) => {
+    const db = getDb();
+    return queryRespondReminders(db);
+  });
 
   ipcMain.handle('check-permissions', async () => {
     return new Promise<boolean>((resolve) => {
