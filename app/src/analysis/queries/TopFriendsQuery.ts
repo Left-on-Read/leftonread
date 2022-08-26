@@ -34,11 +34,10 @@ enum TopFriendsOutputColumns {
 
 const getCoreQuery = (allFilters: string) => {
   return `SELECT
-COUNT(*) as ${TopFriendsColumns.COUNT},
-id as ${TopFriendsColumns.PHONE_NUMBER},
-COALESCE(contact_name, id) as ${TopFriendsColumns.FRIEND},
-contact_name_with_group_chat_participants_populated,
-is_from_me as ${TopFriendsColumns.IS_FROM_ME}
+COUNT(*) as count,
+id as phone_number,
+COALESCE(contact_name, id, contact_name_with_group_chat_participants_populated) as friend,
+is_from_me as sent
 FROM ${CoreTableNames.CORE_MAIN_TABLE}
 -- NOTE: filters should always be applied as earliest as possible
 ${allFilters}
@@ -53,11 +52,10 @@ function getSentOrReceived(
 ) {
   return `
   SELECT
-    ${TopFriendsColumns.COUNT} AS ${alias},
-    ${TopFriendsColumns.FRIEND}
+    count AS ${alias},
+    friend
   FROM (${getCoreQuery(allFilters)})
-  WHERE ${TopFriendsColumns.IS_FROM_ME} = ${isFromMe ? '1' : '0'}
-  GROUP BY ${TopFriendsColumns.FRIEND}`;
+  WHERE sent = ${isFromMe ? '1' : '0'}`;
 }
 
 export async function queryTopFriends(
@@ -76,15 +74,15 @@ export async function queryTopFriends(
   COMBINED_TABLE AS (
     SELECT
       sent + received as ${TopFriendsOutputColumns.TOTAL},
-      RECEIVED_TABLE.${TopFriendsColumns.FRIEND} as ${
-    TopFriendsOutputColumns.FRIEND
-  },
+      -- NOTE: sent table has the group chat messages
+      SENT_TABLE.friend as ${TopFriendsOutputColumns.FRIEND},
       sent as ${TopFriendsOutputColumns.SENT},
       received as ${TopFriendsOutputColumns.RECEIVED}
     FROM
+      -- TODO: I think because we are RIGHT JOIN if you only 
+      -- receieve and don't send then that's a problem
       RECEIVED_TABLE
-    -- NOTE: could do a LEFT JOIN here if you want to see group chats only
-    JOIN
+    RIGHT JOIN
       SENT_TABLE
     ON
       RECEIVED_TABLE.${TopFriendsColumns.FRIEND} = SENT_TABLE.${

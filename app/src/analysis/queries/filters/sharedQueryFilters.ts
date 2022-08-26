@@ -87,6 +87,5 @@ export function getAllFilters(
 
   const finalFilter =
     filtersArray.length > 0 ? `WHERE ${filtersArray.join(' AND ')}` : '';
-  console.log(finalFilter);
   return finalFilter;
 }
