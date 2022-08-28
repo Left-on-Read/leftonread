@@ -1,5 +1,3 @@
-/* eslint-disable simple-import-sort/imports */
-import { queryGroupChatByFriends } from '../analysis/queries/GroupChatByFriends';
 import axios from 'axios';
 import { ipcMain } from 'electron';
 import log from 'electron-log';
@@ -22,6 +20,7 @@ import {
   queryLeftOnRead,
 } from '../analysis/queries/EngagementQueries';
 import { SharedQueryFilters } from '../analysis/queries/filters/sharedQueryFilters';
+import { queryGroupChatByFriends } from '../analysis/queries/GroupChatByFriends';
 import { queryRespondReminders } from '../analysis/queries/RespondReminders';
 import {
   querySentimentOverTimeReceived,
