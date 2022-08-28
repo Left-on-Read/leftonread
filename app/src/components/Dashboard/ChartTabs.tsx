@@ -1,4 +1,5 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { GroupChatByFriendsChart } from 'components/Graphs/GroupChatByFriendsChart';
 import {
   FiArrowUpCircle,
   FiAward,
@@ -93,6 +94,8 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
             activeTab = 'Sentiment';
           } else if (index === 3) {
             activeTab = 'Engagement';
+          } else if (index === 4) {
+            activeTab = 'Group Chats';
           }
 
           logEvent({
@@ -127,6 +130,9 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
           </Tab>
           <Tab style={{ marginRight: 32 }}>
             <span style={{ marginRight: 10 }}>⚡ </span>Engagement
+          </Tab>
+          <Tab style={{ marginRight: 32 }}>
+            <span style={{ marginRight: 10 }}>👨‍👩‍👦</span>Group Chats
           </Tab>
         </TabList>
         <TabPanels style={{ paddingTop: 60 }}>
@@ -292,6 +298,17 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
               />
               <RespondReminders />
             </div>
+          </TabPanel>
+          <TabPanel>
+            <GroupChatByFriendsChart
+              title={titleFormatter({
+                titleName: 'Who Sends the Most in Your Group Chats',
+                filters,
+              })}
+              description={descriptionFormatter({ description: '', filters })}
+              icon={FiUsers}
+              filters={filters}
+            />
           </TabPanel>
         </TabPanels>
       </Tabs>

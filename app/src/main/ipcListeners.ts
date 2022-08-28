@@ -1,3 +1,5 @@
+/* eslint-disable simple-import-sort/imports */
+import { queryGroupChatByFriends } from '../analysis/queries/GroupChatByFriends';
 import axios from 'axios';
 import { ipcMain } from 'electron';
 import log from 'electron-log';
@@ -278,4 +280,12 @@ export function attachIpcListeners() {
   ipcMain.handle('set-last-updated-version', async (event, version: string) => {
     setLastUpdatedVersion(version);
   });
+
+  ipcMain.handle(
+    'query-group-chat-by-friends',
+    async (event, version: string) => {
+      const db = getDb();
+      return queryGroupChatByFriends(db);
+    }
+  );
 }
