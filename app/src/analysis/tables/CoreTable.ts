@@ -44,7 +44,10 @@ export class CoreMainTable extends Table {
     -- TODO(Danilowicz): instead of * we should just grab the columns we need
     SELECT
       *,
-      m.ROWID as message_id
+      m.ROWID as message_id,
+      -- TODO(Danilowicz): every query should just use coalesced_contact_name
+      -- instead of coalescing themselves
+      coalesce(contact_name, id) as coalesced_contact_name
     FROM
     message m
     -- The left join is important here, because handle_id 0 is used when you send group messages

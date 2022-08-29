@@ -8,12 +8,11 @@ import {
   RangeSliderTrack,
   Switch,
   Text,
-  Tooltip,
 } from '@chakra-ui/react';
 import { ContactOptionsQueryResult } from 'analysis/queries/ContactOptionsQuery';
 import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
 import { useState } from 'react';
-import { FiCalendar, FiInfo, FiUser } from 'react-icons/fi';
+import { FiCalendar, FiUser } from 'react-icons/fi';
 import { MultiSelect } from 'react-multi-select-component';
 
 import { DEFAULT_FILTER_LIMIT } from '../../constants';
