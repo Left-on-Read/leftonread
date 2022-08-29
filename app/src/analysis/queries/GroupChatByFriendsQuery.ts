@@ -33,7 +33,7 @@ export async function queryGroupChatByFriends(
   const allFilters = getAllGroupChatTabFilters(filters);
   const q = `
     WITH GROUP_CHAT_NAMES AS (select
-        group_concat(distinct contact_name) as participants,
+        group_concat(distinct coalesced_contact_name) as participants,
         display_name,
         cmj.chat_id
     from
@@ -43,7 +43,7 @@ export async function queryGroupChatByFriends(
     group by
         c."ROWID"
     having
-        count(distinct contact_name) > 1),
+        count(distinct coalesced_contact_name) > 1),
     
     -- texts in a group chat
     CORE_GROUP_CHAT_TABLE AS (
@@ -51,7 +51,7 @@ export async function queryGroupChatByFriends(
     text,
     display_name,
     human_readable_date,
-    coalesce(contact_name, "you") as contact_name, 
+    coalesce(coalesced_contact_name, "you") as contact_name, 
     participants, is_from_me, 
     CASE WHEN display_name = "" THEN participants ELSE display_name END as group_chat_name 
     FROM core_main_table cm
@@ -63,6 +63,7 @@ export async function queryGroupChatByFriends(
     FROM CORE_GROUP_CHAT_TABLE
     ${allFilters} 
     GROUP BY contact_name, is_from_me, group_chat_name
+    ORDER BY count
     `;
 
   return sqlite3Wrapper.allP(db, q);
