@@ -14,6 +14,7 @@ export type TimeRangeFilters = {
 export function filterOutReactions(): string {
   return `(
     LOWER(text) NOT LIKE "emphasized%"
+    AND LOWER(text) NOT LIKE "emphasised%"
     AND LOWER(text) NOT LIKE "loved%"
     AND LOWER(text) NOT LIKE "liked%"
     AND LOWER(text) NOT LIKE "disliked%"
