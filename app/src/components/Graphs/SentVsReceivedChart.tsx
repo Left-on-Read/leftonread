@@ -70,7 +70,7 @@ export function SentVsReceivedChart({
       {error ? (
         <Text color="red.400">Uh oh! Something went wrong.</Text>
       ) : (
-        <StatGroup>
+        <StatGroup style={{ marginBottom: 30 }}>
           <Stat>
             <StatLabel>Total</StatLabel>
             <StatNumber>
@@ -80,7 +80,14 @@ export function SentVsReceivedChart({
                     <Skeleton height={35} width={130} />
                   </div>
                 ) : (
-                  <>{((received ?? 0) + (sent ?? 0)).toLocaleString()}</>
+                  <Text
+                    bgGradient="linear(to-r, blue.400, green.400)"
+                    bgClip="text"
+                    fontSize="5xl"
+                    fontWeight="extrabold"
+                  >
+                    {((received ?? 0) + (sent ?? 0)).toLocaleString()}
+                  </Text>
                 )}
               </div>
             </StatNumber>
@@ -94,7 +101,14 @@ export function SentVsReceivedChart({
                     <Skeleton height={35} />
                   </div>
                 ) : (
-                  <>{sent?.toLocaleString()}</>
+                  <Text
+                    bgGradient="linear(to-r, green.400, purple.400)"
+                    bgClip="text"
+                    fontSize="5xl"
+                    fontWeight="extrabold"
+                  >
+                    {sent?.toLocaleString()}
+                  </Text>
                 )}
               </div>
             </StatNumber>
@@ -108,7 +122,14 @@ export function SentVsReceivedChart({
                   <Skeleton height={35} />
                 </div>
               ) : (
-                <>{received?.toLocaleString()}</>
+                <Text
+                  bgGradient="linear(to-r, purple.400, red.400)"
+                  bgClip="text"
+                  fontSize="5xl"
+                  fontWeight="extrabold"
+                >
+                  {received?.toLocaleString()}
+                </Text>
               )}
             </StatNumber>
           </Stat>

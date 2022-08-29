@@ -13,6 +13,8 @@ import {
 import electron from 'electron';
 import { useEffect, useState } from 'react';
 
+import { logEvent } from '../../utils/analytics';
+
 export function ShareModal({
   isOpen,
   onClose,
@@ -44,6 +46,10 @@ export function ShareModal({
 
       electron.clipboard.write({
         image: nativeImg,
+      });
+
+      logEvent({
+        eventName: 'COPIED_GRAPH_TO_CLIPBOARD',
       });
     }
   };
