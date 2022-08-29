@@ -1,9 +1,9 @@
 import { GroupChatByFriendsChart } from 'components/Graphs/GroupChatByFriendsChart';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FiUsers } from 'react-icons/fi';
-import Select from 'react-select';
+import Select, { GroupBase, OptionsOrGroups } from 'react-select';
 
 import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFilters';
 import { GroupChatByFriends } from '../../analysis/queries/GroupChatByFriendsQuery';
@@ -53,15 +53,22 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
     fetchGroupChatByFriends();
   }, [filters]);
 
-  // Literally don't know why this React Select is so bonkers with its types.
   return (
     <>
       <Select
         value={groupChatToFilterBy}
         onChange={(selected) => {
-          setGroupChatToFilterBy(selected.label);
+          if (selected) {
+            // Literally don't know why this React Select is so bonkers with its types.
+            // @ts-ignore. Label does exist.
+            setGroupChatToFilterBy(selected.label);
+          }
         }}
-        options={groupChatNames}
+        options={
+          groupChatNames as unknown as
+            | OptionsOrGroups<string, GroupBase<string>>
+            | undefined
+        }
       />
       <GroupChatByFriendsChart
         title={`Who Texts the Most in ${groupChatToFilterBy}`}
