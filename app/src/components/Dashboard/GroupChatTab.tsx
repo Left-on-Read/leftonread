@@ -1,3 +1,4 @@
+import { Text } from '@chakra-ui/react';
 import { GroupChatByFriendsChart } from 'components/Graphs/GroupChatByFriendsChart';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
@@ -24,6 +25,7 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
       setIsLoading(true);
       try {
         // TODO: Seperate, fastest query to get all group chat names
+        // Order by most texted and those with display names
         const groupChatByFriendsDataList: GroupChatByFriends[] =
           await ipcRenderer.invoke('query-group-chat-by-friends', filters);
 
@@ -53,8 +55,12 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
     fetchGroupChatByFriends();
   }, [filters]);
 
+  // Use async select to load options in
   return (
     <>
+      <Text fontSize="sm" fontWeight={600}>
+        Select a group chat:
+      </Text>
       <Select
         value={groupChatToFilterBy}
         onChange={(selected) => {
