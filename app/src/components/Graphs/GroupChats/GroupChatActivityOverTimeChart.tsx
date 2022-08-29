@@ -4,13 +4,13 @@ import log from 'electron-log';
 import { useEffect, useRef, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { IconType } from 'react-icons';
+import { generateSampledPoints } from 'utils/overTimeHelpers';
 
-import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFilters';
-import { TextOverTimeResults } from '../../analysis/queries/TextsOverTimeQuery';
-import { generateSampledPoints } from '../../utils/overTimeHelpers';
-import { GraphContainer } from './GraphContainer';
+import { SharedGroupChatTabQueryFilters } from '../../../analysis/queries/filters/sharedGroupChatTabFilters';
+import { GroupActivityOverTimeResult } from '../../../analysis/queries/GroupChatActivityOverTimeQuery';
+import { GraphContainer } from '../GraphContainer';
 
-export function TextsOverTimeChart({
+export function GroupChatActivityOverTimeChart({
   title,
   description,
   icon,
@@ -19,10 +19,9 @@ export function TextsOverTimeChart({
   title: string;
   description: string;
   icon: IconType;
-  filters: SharedQueryFilters;
+  filters: SharedGroupChatTabQueryFilters;
 }) {
-  const [sent, setSent] = useState<TextOverTimeResults>([]);
-  const [received, setReceived] = useState<TextOverTimeResults>([]);
+  const [data, setData] = useState<GroupActivityOverTimeResult[]>([]);
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<null | string>(null);
@@ -32,14 +31,10 @@ export function TextsOverTimeChart({
       setIsLoading(true);
       setError(null);
       try {
-        const [textOverTimeDataListReceived, textOverTimeDataListSent] =
-          await Promise.all([
-            ipcRenderer.invoke('query-text-over-time-received', filters),
-            ipcRenderer.invoke('query-text-over-time-sent', filters),
-          ]);
+        const groupChatByFriendsDataList: GroupActivityOverTimeResult[] =
+          await ipcRenderer.invoke('query-group-activity-over-time', filters);
 
-        setSent(textOverTimeDataListSent);
-        setReceived(textOverTimeDataListReceived);
+        setData(groupChatByFriendsDataList);
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err.message);
@@ -52,50 +47,34 @@ export function TextsOverTimeChart({
     fetchTextsOverTime();
   }, [filters, title]);
 
-  const labels = sent.map((d) => new Date(d.day).toLocaleDateString());
+  const labels = data.map((d) => new Date(d.date).toLocaleDateString());
 
-  const sentData = sent.map((d) => {
+  const countData = data.map((d) => {
     return {
       y: d.count,
-      x: new Date(d.day).toLocaleDateString(),
-      is_from_me: d.is_from_me,
-    };
-  });
-  const receivedData = received.map((d) => {
-    return {
-      y: d.count,
-      x: new Date(d.day).toLocaleDateString(),
-      is_from_me: d.is_from_me,
+      x: new Date(d.date).toLocaleDateString(),
+      is_from_me: 0,
     };
   });
 
   // Batch by week
-
   const MAX_POINTS = 30;
-  const minLength = Math.max(sentData.length, receivedData.length);
+  const minLength = countData.length;
   let batchSize = 1;
   if (minLength > MAX_POINTS) {
     batchSize = Math.floor(minLength / MAX_POINTS);
   }
-  const sampledSentData = generateSampledPoints(sentData, batchSize);
-  const sampledReceivedData = generateSampledPoints(receivedData, batchSize);
+  const sampledData = generateSampledPoints(countData, batchSize);
 
   const chartData = {
     labels,
     datasets: [
       {
         backgroundColor: theme.colors.blue['200'],
-        label: 'Sent Texts',
+        label: 'Texts',
         borderColor: theme.colors.blue['400'],
         borderWidth: 0.8,
-        data: sampledSentData,
-      },
-      {
-        backgroundColor: theme.colors.gray['200'],
-        label: 'Received Texts',
-        borderColor: theme.colors.gray['400'],
-        borderWidth: 0.8,
-        data: sampledReceivedData,
+        data: sampledData,
       },
     ],
   };
