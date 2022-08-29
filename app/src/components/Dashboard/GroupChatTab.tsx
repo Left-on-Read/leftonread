@@ -1,5 +1,4 @@
 import { Text } from '@chakra-ui/react';
-import { GroupChatByFriendsChart } from 'components/Graphs/GroupChatByFriendsChart';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
@@ -8,6 +7,7 @@ import Select, { GroupBase, OptionsOrGroups } from 'react-select';
 
 import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFilters';
 import { GroupChatByFriends } from '../../analysis/queries/GroupChatByFriendsQuery';
+import { GroupChatByFriendsChart } from '../Graphs/GroupChatByFriendsChart';
 
 export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
   const [groupChatToFilterBy, setGroupChatToFilterBy] = useState<string>('');
