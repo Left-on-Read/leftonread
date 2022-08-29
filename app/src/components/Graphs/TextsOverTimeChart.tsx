@@ -116,7 +116,7 @@ export function TextsOverTimeChart({
   const MAX_POINTS = 30;
   const minLength = Math.max(sentData.length, receivedData.length);
   let batchSize = 1;
-  if (minLength * 2 > MAX_POINTS) {
+  if (minLength > MAX_POINTS) {
     batchSize = Math.floor(minLength / MAX_POINTS);
   }
   const sampledSentData = generateSampledPoints(sentData, batchSize);
