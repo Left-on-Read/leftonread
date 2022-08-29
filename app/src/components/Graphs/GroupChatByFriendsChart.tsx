@@ -1,14 +1,12 @@
 import { Spinner, Text, theme as defaultTheme } from '@chakra-ui/react';
-import { group } from 'console';
+import { SharedGroupChatTabQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useRef, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { IconType } from 'react-icons';
-import Select from 'react-select';
 
-import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFilters';
-import { GroupChatByFriends } from '../../analysis/queries/GroupChatByFriends';
+import { GroupChatByFriends } from '../../analysis/queries/GroupChatByFriendsQuery';
 import { GraphContainer } from './GraphContainer';
 
 export function GroupChatByFriendsChart({
@@ -21,24 +19,14 @@ export function GroupChatByFriendsChart({
   title: string;
   description: string;
   icon: IconType;
-  filters: SharedQueryFilters;
+  filters: SharedGroupChatTabQueryFilters;
   loadingOverride?: boolean;
 }) {
-  const [groupChatToFilterBy, setGroupChatToFilterBy] = useState<string | null>(
-    null
-  );
-  const [groupChatNames, setGroupChatNames] = useState<
-    { value: string; label: string }[]
-  >([]);
-  const [count, setCount] = useState<
-    { group_chat_name: string; count: number }[]
-  >([]);
-  const [contactNames, setContactNames] = useState<
-    { contact_name: string; group_chat_name: string }[]
-  >([]);
-
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<null | string>(null);
+
+  const [count, setCount] = useState<number[]>([]);
+  const [contactNames, setContactNames] = useState<string[]>([]);
 
   useEffect(() => {
     async function fetchGroupChatByFriends() {
@@ -48,24 +36,9 @@ export function GroupChatByFriendsChart({
         const groupChatByFriendsDataList: GroupChatByFriends[] =
           await ipcRenderer.invoke('query-group-chat-by-friends', filters);
 
-        const gt = groupChatByFriendsDataList.map((obj) => obj.group_chat_name);
-        const setGct = [...new Set(gt)];
+        const cn = groupChatByFriendsDataList.map((obj) => obj.contact_name);
+        const ct = groupChatByFriendsDataList.map((obj) => obj.count);
 
-        const gct = setGct.map((name) => {
-          return { value: name, label: name };
-        });
-
-        setGroupChatNames(gct);
-
-        const ct = groupChatByFriendsDataList.map((obj) => {
-          return { count: obj.count, group_chat_name: obj.group_chat_name };
-        });
-        const cn = groupChatByFriendsDataList.map((obj) => {
-          return {
-            group_chat_name: obj.group_chat_name,
-            contact_name: obj.contact_name,
-          };
-        });
         setContactNames(cn);
         setCount(ct);
       } catch (err: unknown) {
@@ -80,20 +53,12 @@ export function GroupChatByFriendsChart({
     fetchGroupChatByFriends();
   }, [filters, title]);
 
-  const contactNamesData = contactNames
-    .filter((g) => g.group_chat_name === groupChatToFilterBy)
-    .map((c) => c.contact_name);
-
-  const countData = count
-    .filter((g) => g.group_chat_name === groupChatToFilterBy)
-    .map((c) => c.count);
-
   const data = {
-    labels: contactNamesData,
+    labels: contactNames,
     datasets: [
       {
         label: 'Count',
-        data: countData,
+        data: count,
         backgroundColor: defaultTheme.colors.blue['200'],
         borderColor: defaultTheme.colors.blue['400'],
         borderRadius: 5,
@@ -121,15 +86,6 @@ export function GroupChatByFriendsChart({
   const graphRefToShare = useRef(null);
   return (
     <>
-      <Select
-        value={groupChatToFilterBy}
-        onChange={(val) => {
-          if (val && val.label) {
-            setGroupChatToFilterBy(val.label);
-          }
-        }}
-        options={groupChatNames}
-      />
       <GraphContainer
         graphRefToShare={graphRefToShare}
         title={title}
