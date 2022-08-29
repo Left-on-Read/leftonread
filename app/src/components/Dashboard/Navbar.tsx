@@ -99,7 +99,7 @@ export function Navbar({
                 isLoading={isGlobalContextLoading}
                 loadingText="Filters"
               >
-                Filters
+                <Text>Adjust Filters</Text>
                 <AnimatePresence>
                   {activeFilterCount > 0 && (
                     <motion.div

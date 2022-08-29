@@ -16,6 +16,7 @@ import log from 'electron-log';
 import { useEffect, useRef, useState } from 'react';
 import { FiAlertCircle } from 'react-icons/fi';
 
+import { logEvent } from '../../utils/analytics';
 import { DEFAULT_QUERY_FILTERS } from '../Filters/FilterPanel';
 import { Footer } from '../Footer';
 import { ChartTabs } from './ChartTabs';
@@ -81,6 +82,12 @@ export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
     };
 
     checkRequiresRefresh();
+  }, []);
+
+  useEffect(() => {
+    logEvent({
+      eventName: 'LOADED_DASHBOARD',
+    });
   }, []);
 
   return (

@@ -25,7 +25,14 @@ function TimeOfDayVisualizer({
   const maxReceived = Math.max(...receivedData.map((point) => point.count));
 
   return (
-    <div style={{ width: '100%', display: 'flex' }}>
+    <div
+      style={{
+        width: '100%',
+        display: 'flex',
+        marginBottom: 60,
+        marginTop: 30,
+      }}
+    >
       <div
         style={{
           marginTop: 30,
