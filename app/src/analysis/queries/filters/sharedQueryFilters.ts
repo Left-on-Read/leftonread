@@ -11,11 +11,6 @@ export interface SharedQueryFilters {
   timeRange?: TimeRangeFilters;
 }
 
-export interface SharedGroupChatTabQueryFilters {
-  groupChatName: string;
-  timeRange?: TimeRangeFilters;
-}
-
 function wordFilter(filters: SharedQueryFilters): string | undefined {
   if (!filters.word || filters.word.length === 0) {
     return undefined;

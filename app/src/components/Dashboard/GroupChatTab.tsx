@@ -7,7 +7,8 @@ import Select, { GroupBase, OptionsOrGroups } from 'react-select';
 
 import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFilters';
 import { GroupChatByFriends } from '../../analysis/queries/GroupChatByFriendsQuery';
-import { GroupChatByFriendsChart } from '../Graphs/GroupChatByFriendsChart';
+import { GroupChatActivityOverTimeChart } from '../Graphs/GroupChats/GroupChatActivityOverTimeChart';
+import { GroupChatByFriendsChart } from '../Graphs/GroupChats/GroupChatByFriendsChart';
 
 export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
   const [groupChatToFilterBy, setGroupChatToFilterBy] = useState<string>('');
@@ -75,6 +76,12 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
             | OptionsOrGroups<string, GroupBase<string>>
             | undefined
         }
+      />
+      <GroupChatActivityOverTimeChart
+        title={`Group Chat Activity in ${groupChatToFilterBy}`}
+        description=""
+        icon={FiUsers}
+        filters={{ ...filters, groupChatName: groupChatToFilterBy }}
       />
       <GroupChatByFriendsChart
         title={`Who Texts the Most in ${groupChatToFilterBy}`}

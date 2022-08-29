@@ -1,23 +1,22 @@
 import { Spinner, Text, theme as defaultTheme } from '@chakra-ui/react';
-import { SharedGroupChatTabQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useRef, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { IconType } from 'react-icons';
 
-import { GroupChatByFriends } from '../../analysis/queries/GroupChatByFriendsQuery';
-import { GraphContainer } from './GraphContainer';
+import { SharedGroupChatTabQueryFilters } from '../../../analysis/queries/filters/sharedGroupChatTabFilters';
+import { GroupChatByFriends } from '../../../analysis/queries/GroupChatByFriendsQuery';
+import { useGlobalContext } from '../../Dashboard/GlobalContext';
+import { GraphContainer } from '../GraphContainer';
 
 export function GroupChatByFriendsChart({
   title,
-  description,
   icon,
   filters,
   loadingOverride,
 }: {
   title: string;
-  description: string;
   icon: IconType;
   filters: SharedGroupChatTabQueryFilters;
   loadingOverride?: boolean;
@@ -27,6 +26,8 @@ export function GroupChatByFriendsChart({
 
   const [count, setCount] = useState<number[]>([]);
   const [contactNames, setContactNames] = useState<string[]>([]);
+
+  const { dateRange } = useGlobalContext();
 
   useEffect(() => {
     async function fetchGroupChatByFriends() {
@@ -89,7 +90,21 @@ export function GroupChatByFriendsChart({
       <GraphContainer
         graphRefToShare={graphRefToShare}
         title={title}
-        description={description}
+        description={
+          contactNames.length > 0
+            ? `${
+                contactNames[contactNames.length - 1]
+              } takes the cake as the most talkative between ${
+                filters.timeRange?.startDate
+                  ? filters.timeRange?.startDate.toLocaleDateString()
+                  : dateRange.earliestDate.toLocaleDateString()
+              } and ${
+                filters.timeRange?.endDate
+                  ? filters.timeRange?.endDate.toLocaleDateString()
+                  : dateRange.latestDate.toLocaleDateString()
+              } 🏆`
+            : ''
+        }
         icon={icon}
       >
         {error ? (

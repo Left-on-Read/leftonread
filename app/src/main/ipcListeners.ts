@@ -19,10 +19,9 @@ import {
   queryDoubleTexts,
   queryLeftOnRead,
 } from '../analysis/queries/EngagementQueries';
-import {
-  SharedGroupChatTabQueryFilters,
-  SharedQueryFilters,
-} from '../analysis/queries/filters/sharedQueryFilters';
+import { SharedGroupChatTabQueryFilters } from '../analysis/queries/filters/sharedGroupChatTabFilters';
+import { SharedQueryFilters } from '../analysis/queries/filters/sharedQueryFilters';
+import { queryGroupChatActivityOverTime } from '../analysis/queries/GroupChatActivityOverTimeQuery';
 import { queryGroupChatByFriends } from '../analysis/queries/GroupChatByFriendsQuery';
 import { queryRespondReminders } from '../analysis/queries/RespondReminders';
 import {
@@ -288,6 +287,14 @@ export function attachIpcListeners() {
     async (event, filters: SharedGroupChatTabQueryFilters) => {
       const db = getDb();
       return queryGroupChatByFriends(db, filters);
+    }
+  );
+
+  ipcMain.handle(
+    'query-group-activity-over-time',
+    async (event, filters: SharedGroupChatTabQueryFilters) => {
+      const db = getDb();
+      return queryGroupChatActivityOverTime(db, filters);
     }
   );
 }
