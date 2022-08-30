@@ -50,7 +50,7 @@ export async function queryGroupChatByFriends(
     FROM CORE_GROUP_CHAT_TABLE
     ${allFilters} 
     GROUP BY contact_name, is_from_me, group_chat_name
-    ORDER BY count
+    ORDER BY count DESC
     `;
 
   return sqlite3Wrapper.allP(db, q);

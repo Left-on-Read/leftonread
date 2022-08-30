@@ -1,6 +1,5 @@
 import log from 'electron-log';
 
-import { filterOutReactions } from '../../constants/filters';
 import { objReplacementUnicode } from '../../constants/objReplacementUnicode';
 import * as sqlite3Wrapper from '../../utils/sqliteWrapper';
 import { Table, TableNames } from './types';
@@ -16,7 +15,7 @@ export enum CoreMainTableColumns {
  */
 export function fluffFilter(): string {
   return `
-    ${filterOutReactions()} AND unicode(TRIM(text)) != ${objReplacementUnicode}
+    unicode(TRIM(text)) != ${objReplacementUnicode}
     AND text IS NOT NULL
     AND LENGTH(text) >= 1`;
 }

@@ -80,6 +80,14 @@ export function GroupChatByFriendsChart({
         },
       },
     },
+    plugins: {
+      legend: {
+        display: false,
+        // Disable ability to click on legend
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        onClick: (_e: any) => null,
+      },
+    },
   };
 
   const showLoading = loadingOverride || isLoading;
@@ -93,7 +101,7 @@ export function GroupChatByFriendsChart({
         description={
           contactNames.length > 0
             ? `${
-                contactNames[contactNames.length - 1]
+                contactNames[0]
               } takes the cake as the most talkative between ${
                 filters.timeRange?.startDate
                   ? filters.timeRange?.startDate.toLocaleDateString()

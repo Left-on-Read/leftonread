@@ -37,12 +37,12 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
         ];
 
         const gct = setGct.map((name) => {
-          return { value: name, label: name };
+          return { value: name, label: name.replace(',', ', ') };
         });
 
         setGroupChatNames(gct);
         if (gct.length > 0) {
-          setGroupChatToFilterBy(gct[0].label);
+          setGroupChatToFilterBy(gct[0].value);
         }
       } catch (err: unknown) {
         if (err instanceof Error) {
@@ -68,7 +68,7 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
           if (selected) {
             // Literally don't know why this React Select is so bonkers with its types.
             // @ts-ignore. Label does exist.
-            setGroupChatToFilterBy(selected.label);
+            setGroupChatToFilterBy(selected.value);
           }
         }}
         options={
@@ -77,15 +77,21 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
             | undefined
         }
       />
+      {/* NOTE(Danilowicz): Not proud of the .replace here... */}
       <GroupChatActivityOverTimeChart
-        title={`Group Chat Activity in ${groupChatToFilterBy}`}
+        title={`Group Chat Activity in ${groupChatToFilterBy.replace(
+          ',',
+          ', '
+        )}`}
         description=""
         icon={FiUsers}
         filters={{ ...filters, groupChatName: groupChatToFilterBy }}
       />
       <GroupChatByFriendsChart
-        title={`Who Texts the Most in ${groupChatToFilterBy}`}
-        description=""
+        title={`Who Texts the Most in ${groupChatToFilterBy.replace(
+          ',',
+          ', '
+        )}`}
         icon={FiUsers}
         filters={{ ...filters, groupChatName: groupChatToFilterBy }}
       />
