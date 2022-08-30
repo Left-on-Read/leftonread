@@ -1,5 +1,6 @@
 import * as sqlite3 from 'sqlite3';
 
+import { filterOutReactions } from '../../constants/filters';
 import * as sqlite3Wrapper from '../../utils/sqliteWrapper';
 import { CoreTableNames } from '../tables/types';
 
@@ -25,6 +26,7 @@ export async function queryRespondReminders(
       WHERE 
         human_readable_date > (SELECT DATETIME('now', '-7 day'))
         AND cache_roomnames IS NULL
+        AND ${filterOutReactions()}
       GROUP BY id
     )
 

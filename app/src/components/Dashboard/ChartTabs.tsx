@@ -1,4 +1,11 @@
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import {
+  filter,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+} from '@chakra-ui/react';
 import {
   FiArrowUpCircle,
   FiAward,
@@ -16,7 +23,6 @@ import {
 
 import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFilters';
 import { GroupChatFilters } from '../../constants/filters';
-import { daysAgo } from '../../main/util';
 import { logEvent } from '../../utils/analytics';
 import { EngagementScoreChart } from '../Graphs/EngagementScore/EngagementScoreChart';
 import { RespondReminders } from '../Graphs/RespondReminders';
@@ -80,6 +86,13 @@ export const descriptionFormatter = ({
 export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
   const { dateRange, isLoading: isGlobalContextLoading } = useGlobalContext();
 
+  const earlyDate = filters.timeRange?.startDate
+    ? filters.timeRange.startDate
+    : dateRange.earliestDate;
+  const lateDate = filters.timeRange?.endDate
+    ? filters.timeRange?.endDate
+    : dateRange.latestDate;
+  const daysAgoDescription = `between ${earlyDate.toLocaleDateString()} and ${lateDate.toLocaleDateString()}`;
   return (
     <div>
       <Tabs
@@ -144,12 +157,7 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
                   filters,
                 })}
                 description={descriptionFormatter({
-                  description: isGlobalContextLoading
-                    ? ``
-                    : `since ${dateRange.earliestDate.toLocaleDateString()} (${daysAgo(
-                        dateRange.earliestDate,
-                        new Date()
-                      )} days ago)`,
+                  description: isGlobalContextLoading ? `` : daysAgoDescription,
                   filters,
                 })}
                 icon={FiMessageCircle}

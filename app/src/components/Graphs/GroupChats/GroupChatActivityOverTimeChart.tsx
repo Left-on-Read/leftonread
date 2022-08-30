@@ -7,7 +7,7 @@ import { IconType } from 'react-icons';
 import { generateSampledPoints } from 'utils/overTimeHelpers';
 
 import { SharedGroupChatTabQueryFilters } from '../../../analysis/queries/filters/sharedGroupChatTabFilters';
-import { GroupActivityOverTimeResult } from '../../../analysis/queries/GroupChatActivityOverTimeQuery';
+import { GroupActivityOverTimeResult } from '../../../analysis/queries/GroupChats/GroupChatActivityOverTimeQuery';
 import { GraphContainer } from '../GraphContainer';
 
 export function GroupChatActivityOverTimeChart({
@@ -103,6 +103,12 @@ export function GroupChatActivityOverTimeChart({
             return context[0].raw.label;
           },
         },
+      },
+      legend: {
+        display: false,
+        // Disable ability to click on legend
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        onClick: (_e: any) => null,
       },
     },
   };

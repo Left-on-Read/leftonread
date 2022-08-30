@@ -1,4 +1,8 @@
-import { GroupChatFilters, TimeRangeFilters } from '../../../constants/filters';
+import {
+  filterOutReactions,
+  GroupChatFilters,
+  TimeRangeFilters,
+} from '../../../constants/filters';
 import { delimList } from '../../../utils/delimList';
 import { CoreMainTableColumns } from '../../tables/CoreTable';
 import { ContactOptionsQueryResult } from '../ContactOptionsQuery';
@@ -62,6 +66,9 @@ export function getAllFilters(
   const groupChats = groupChatFilter(filters);
   const word = wordFilter(filters);
   const timeRange = timeRangeFilter(filters);
+
+  // TODO(Danilowicz): add this back in
+  // const reactionsFilter = filterOutReactions();
 
   const filtersArray = [
     contact,

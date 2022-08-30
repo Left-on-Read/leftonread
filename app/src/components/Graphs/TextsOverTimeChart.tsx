@@ -125,6 +125,11 @@ export function TextsOverTimeChart({
           },
         },
       },
+      // Disable ability to click on legend
+      legend: {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        onClick: (_e: any) => null,
+      },
     },
   };
 

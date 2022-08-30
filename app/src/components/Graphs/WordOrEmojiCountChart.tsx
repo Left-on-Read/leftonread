@@ -75,23 +75,29 @@ export function WordOrEmojiCountChart({
         },
       },
     },
-    // TODO(Danilowicz): Only show this if rendered in share modal
-    // plugins: {
-    //   title: {
-    //     display: true,
-    //     text: `My ${title}`,
-    //     font: {
-    //       size: 18,
-    //     },
-    //   },
-    //   subtitle: {
-    //     display: true,
-    //     text: "Check out https://leftonread.me/ it's awesome!",
-    //     font: {
-    //       size: 12,
-    //     },
-    //   },
-    // },
+    plugins: {
+      legend: {
+        // Disable ability to click on legend
+        display: false,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        onClick: (_e: any) => null,
+      },
+      // TODO(Danilowicz): Only show this if rendered in share modal
+      // title: {
+      //   display: true,
+      //   text: `My ${title}`,
+      //   font: {
+      //     size: 18,
+      //   },
+      // },
+      // subtitle: {
+      //   display: true,
+      //   text: "Check out https://leftonread.me/ it's awesome!",
+      //   font: {
+      //     size: 12,
+      //   },
+      // },
+    },
   };
 
   const graphRefToShare = useRef(null);
