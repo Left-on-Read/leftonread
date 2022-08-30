@@ -1,4 +1,11 @@
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import {
+  Stack,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+} from '@chakra-ui/react';
 import {
   FiArrowUpCircle,
   FiAward,
@@ -137,7 +144,7 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
         </TabList>
         <TabPanels style={{ paddingTop: 60 }}>
           <TabPanel>
-            <div>
+            <Stack direction="column" spacing={40}>
               <SentVsReceivedChart
                 title={titleFormatter({
                   titleName: 'Total Sent vs Received',
@@ -188,10 +195,10 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
                 icon={FiCalendar}
                 filters={filters}
               />
-            </div>
+            </Stack>
           </TabPanel>
           <TabPanel>
-            <div>
+            <Stack direction="column" spacing={40}>
               <WordOrEmojiCountChart
                 title={titleFormatter({
                   titleName: 'Top Received Emojis',
@@ -215,6 +222,7 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
                 filters={filters}
                 isEmoji
                 isFromMe
+                isPremiumGraph
               />
               <WordOrEmojiCountChart
                 title={titleFormatter({
@@ -227,6 +235,7 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
                 filters={filters}
                 isEmoji={false}
                 isFromMe={false}
+                isPremiumGraph
               />
               <WordOrEmojiCountChart
                 title={titleFormatter({
@@ -239,11 +248,12 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
                 filters={filters}
                 isEmoji={false}
                 isFromMe
+                isPremiumGraph
               />
-            </div>
+            </Stack>
           </TabPanel>
           <TabPanel>
-            <div>
+            <Stack direction="column" spacing={40}>
               <TotalSentimentChart
                 title={titleFormatter({
                   titleName: 'Percent Positivity Overview',
@@ -277,10 +287,10 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
                 icon={FiArrowUpCircle}
                 filters={filters}
               />
-            </div>
+            </Stack>
           </TabPanel>
           <TabPanel>
-            <div>
+            <Stack direction="column" spacing={40}>
               <EngagementScoreChart
                 title={titleFormatter({
                   titleName: 'Engagement Score ™',
@@ -294,7 +304,7 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
                 filters={filters}
               />
               <RespondReminders />
-            </div>
+            </Stack>
           </TabPanel>
           <TabPanel>
             <GroupChatTab filters={filters} />

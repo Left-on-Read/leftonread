@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const migrations = {
   '0.1.1': (store: any) => store.set('requiredUpdateVersion', '0.1.1'),
+  '>=0.2.0': (store: any) => store.set('license', ''),
 };
 
 const schema = {
@@ -21,6 +22,10 @@ const schema = {
     // Breaking version for user
     type: 'string',
     default: '0.0.1',
+  },
+  license: {
+    type: 'string',
+    default: '',
   },
 } as const;
 
@@ -44,4 +49,10 @@ export function checkRequiresRefresh(): boolean {
 
 export function setLastUpdatedVersion(version: string) {
   store.set('lastUpdatedVersion', version);
+}
+
+export function hasValidLicense() {
+  log.info('license key:');
+  log.info(store.get('license'));
+  return store.get('license') !== '';
 }

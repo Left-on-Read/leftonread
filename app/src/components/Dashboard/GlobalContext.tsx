@@ -10,6 +10,7 @@ export type TGlobalContext = {
   isLoading: boolean;
   contacts: ContactOptionsQueryResult[];
   dateRange: TDateRange;
+  isPremium: boolean;
 };
 
 export const GlobalContext = React.createContext<TGlobalContext>({
@@ -19,6 +20,7 @@ export const GlobalContext = React.createContext<TGlobalContext>({
     earliestDate: new Date(),
     latestDate: new Date(),
   },
+  isPremium: false,
 });
 
 export function useGlobalContext() {

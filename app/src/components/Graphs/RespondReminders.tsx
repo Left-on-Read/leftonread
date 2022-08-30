@@ -129,6 +129,7 @@ export function RespondReminders() {
       title="Reminders"
       description="Did you forget to respond to these messages?"
       icon={FiVoicemail}
+      isPremiumGraph
     >
       <Stack spacing={8}>
         {error && <Text color="red.400">Uh oh! Something went wrong... </Text>}

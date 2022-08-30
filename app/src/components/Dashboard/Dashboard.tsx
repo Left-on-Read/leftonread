@@ -32,6 +32,7 @@ export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
     isLoading: true,
     contacts: [],
     dateRange: { earliestDate: new Date(), latestDate: new Date() },
+    isPremium: false,
   });
 
   const [doesRequireRefresh, setDoesRequireRefresh] = useState<boolean>(false);
@@ -39,12 +40,14 @@ export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
 
   useEffect(() => {
     const fetchGlobalContext = async () => {
-      const [datesDataList, contacts]: [
+      const [datesDataList, contacts, isPremium]: [
         EarliestAndLatestDateResults,
-        ContactOptionsQueryResult[]
+        ContactOptionsQueryResult[],
+        boolean
       ] = await Promise.all([
         ipcRenderer.invoke('query-earliest-and-latest-dates'),
         ipcRenderer.invoke('query-get-contact-options'),
+        ipcRenderer.invoke('has-valid-license'),
       ]);
 
       let earliestDate = new Date();
@@ -61,6 +64,7 @@ export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
           earliestDate,
           latestDate,
         },
+        isPremium,
       });
     };
 

@@ -17,6 +17,7 @@ export function WordOrEmojiCountChart({
   filters,
   isEmoji,
   isFromMe,
+  isPremiumGraph,
 }: {
   title: string;
   description: string;
@@ -25,6 +26,7 @@ export function WordOrEmojiCountChart({
   filters: SharedQueryFilters;
   isEmoji: boolean;
   isFromMe: boolean;
+  isPremiumGraph?: boolean;
 }) {
   const [words, setWords] = useState<string[]>([]);
   const [count, setCount] = useState<number[]>([]);
@@ -101,6 +103,7 @@ export function WordOrEmojiCountChart({
       description={description}
       icon={icon}
       graphRefToShare={graphRefToShare}
+      isPremiumGraph={!!isPremiumGraph}
     >
       {error ? (
         <div

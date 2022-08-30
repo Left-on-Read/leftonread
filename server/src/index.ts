@@ -12,7 +12,14 @@ const app: Express = express()
 const port = process.env.PORT || 8080
 
 app.use(cors())
-app.use(bodyParser.json())
+app.use((req, res, next) => {
+  if (req.originalUrl.includes('stripe')) {
+    next()
+  } else {
+    bodyParser.json()(req, res, next)
+  }
+})
+
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(morgan('dev'))
 

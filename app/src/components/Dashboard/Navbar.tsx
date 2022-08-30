@@ -22,6 +22,7 @@ import { ipcRenderer } from 'electron';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   FiGitPullRequest,
+  FiLock,
   FiRefreshCw,
   FiSlash,
   FiSliders,
@@ -45,7 +46,7 @@ export function Navbar({
   filters: SharedQueryFilters;
   onUpdateFilters: (arg0: SharedQueryFilters) => void;
 }) {
-  const { isLoading: isGlobalContextLoading } = useGlobalContext();
+  const { isLoading: isGlobalContextLoading, isPremium } = useGlobalContext();
   const navigate = useNavigate();
   const {
     isOpen: isEmailModalOpen,
@@ -147,6 +148,23 @@ export function Navbar({
           <Menu>
             <MenuButton as={IconButton} icon={<SettingsIcon />} size="md" />
             <MenuList>
+              {!isPremium && (
+                <MenuItem
+                  onClick={() => {
+                    onRefresh();
+                    logEvent({ eventName: 'UNLOCK_PREMIUM' });
+                  }}
+                >
+                  <Icon
+                    as={FiLock}
+                    style={{ marginRight: 12 }}
+                    color="yellow.500"
+                  />
+                  <Text size="sm" fontWeight={500} color="yellow.500">
+                    Unlock Premium
+                  </Text>
+                </MenuItem>
+              )}
               <MenuItem
                 onClick={() => {
                   onRefresh();

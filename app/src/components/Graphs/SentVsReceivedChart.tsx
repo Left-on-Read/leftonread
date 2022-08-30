@@ -66,7 +66,11 @@ export function SentVsReceivedChart({
   const showLoading = loadingOverride || isLoading;
 
   return (
-    <GraphContainer title={title} description={description} icon={icon}>
+    <GraphContainer
+      title={title}
+      description={description}
+      icon={icon}
+    >
       {error ? (
         <Text color="red.400">Uh oh! Something went wrong.</Text>
       ) : (

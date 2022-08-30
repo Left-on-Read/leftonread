@@ -51,6 +51,7 @@ import { AmplitudeClient } from '../utils/amplitudeClient';
 import {
   checkRequiresRefresh,
   getUuid,
+  hasValidLicense,
   setLastUpdatedVersion,
 } from '../utils/store';
 
@@ -290,4 +291,8 @@ export function attachIpcListeners() {
       return queryGroupChatByFriends(db, filters);
     }
   );
+
+  ipcMain.handle('has-valid-license', async (event) => {
+    return hasValidLicense();
+  });
 }
