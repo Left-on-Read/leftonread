@@ -4,10 +4,10 @@ import log from 'electron-log';
 import { useEffect, useRef, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { IconType } from 'react-icons';
-import { generateSampledPoints } from 'utils/overTimeHelpers';
 
 import { SharedGroupChatTabQueryFilters } from '../../../analysis/queries/filters/sharedGroupChatTabFilters';
 import { GroupActivityOverTimeResult } from '../../../analysis/queries/GroupChats/GroupChatActivityOverTimeQuery';
+import { generateSampledPoints } from '../../../utils/overTimeHelpers';
 import { GraphContainer } from '../GraphContainer';
 
 export function GroupChatActivityOverTimeChart({
