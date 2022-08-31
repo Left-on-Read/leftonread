@@ -320,6 +320,7 @@ export function attachIpcListeners() {
   ipcMain.handle('deactivate-license', async () => {
     deactivateLicense();
   });
+  
   ipcMain.handle(
     'query-group-activity-over-time',
     async (event, filters: SharedGroupChatTabQueryFilters) => {
