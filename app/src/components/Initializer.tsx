@@ -24,6 +24,8 @@ export function Initializer({
   onUpdateIsInitializing: (arg0: boolean) => void;
 }) {
   const navigate = useNavigate();
+
+  const [isRunning, setIsRunning] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const {
     isOpen: isEmailModalOpen,
@@ -33,6 +35,7 @@ export function Initializer({
 
   const initializeTables = useCallback(async () => {
     setError(null);
+    setIsRunning(true);
     try {
       navigate('/start');
       await ipcRenderer.invoke('initialize-tables');
@@ -46,14 +49,15 @@ export function Initializer({
       }
     } finally {
       onUpdateIsInitializing(false);
+      setIsRunning(false);
     }
   }, [navigate, onUpdateIsInitializing]);
 
   useEffect(() => {
-    if (isInitializing) {
+    if (isInitializing && !isRunning) {
       initializeTables();
     }
-  }, [isInitializing, initializeTables]);
+  }, [isInitializing, initializeTables, isRunning]);
 
   return (
     <>
