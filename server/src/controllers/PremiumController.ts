@@ -78,7 +78,7 @@ export const handleStripeWebhookEvent = async (req: Request, res: Response) => {
     const mailOptions = {
       from: process.env.EMAIL, // TODO: Perhaps update this email?
       to: customerEmail,
-      subject: `Left on Read Premium License Key`,
+      subject: `Left on Read: Gold Unlocked!`,
       html: getEmailTemplate(licenseKey), // TODO: Update this content...
     }
 
