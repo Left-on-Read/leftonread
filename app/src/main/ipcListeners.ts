@@ -295,11 +295,11 @@ export function attachIpcListeners() {
   );
 
   ipcMain.handle('activate-license', async (event, licenseKey: string) => {
-    const deviceId = await machineId(false);
+    const registrationId = await machineId(false);
     try {
       await axios.post(`${API_BASE_URL}/activate`, {
         licenseKey,
-        deviceId,
+        registrationId,
       });
     } catch (err: any) {
       const errorMessage = err?.response?.data?.message;
