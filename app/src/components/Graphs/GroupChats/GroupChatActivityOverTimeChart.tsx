@@ -1,28 +1,27 @@
 import { Spinner, Text, theme } from '@chakra-ui/react';
-import { SentimentOverTimeResult } from 'analysis/queries/SentimentOverTimeQuery';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useRef, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { IconType } from 'react-icons';
+import { generateSampledPoints } from 'utils/overTimeHelpers';
 
-import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFilters';
-import { generateSampledPoints } from '../../utils/overTimeHelpers';
-import { GraphContainer } from './GraphContainer';
+import { SharedGroupChatTabQueryFilters } from '../../../analysis/queries/filters/sharedGroupChatTabFilters';
+import { GroupActivityOverTimeResult } from '../../../analysis/queries/GroupChatActivityOverTimeQuery';
+import { GraphContainer } from '../GraphContainer';
 
-export function SentimentOverTimeChart({
+export function GroupChatActivityOverTimeChart({
   title,
   description,
   icon,
   filters,
 }: {
   title: string;
-  description?: string;
+  description: string;
   icon: IconType;
-  filters: SharedQueryFilters;
+  filters: SharedGroupChatTabQueryFilters;
 }) {
-  const [sent, setSent] = useState<SentimentOverTimeResult[]>([]);
-  const [received, setReceived] = useState<SentimentOverTimeResult[]>([]);
+  const [data, setData] = useState<GroupActivityOverTimeResult[]>([]);
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<null | string>(null);
@@ -32,16 +31,10 @@ export function SentimentOverTimeChart({
       setIsLoading(true);
       setError(null);
       try {
-        const [sentSentiment, receivedSentiment]: [
-          SentimentOverTimeResult[],
-          SentimentOverTimeResult[]
-        ] = await Promise.all([
-          ipcRenderer.invoke('query-sentiment-over-time-sent', filters),
-          ipcRenderer.invoke('query-sentiment-over-time-received', filters),
-        ]);
+        const groupChatByFriendsDataList: GroupActivityOverTimeResult[] =
+          await ipcRenderer.invoke('query-group-activity-over-time', filters);
 
-        setSent(sentSentiment);
-        setReceived(receivedSentiment);
+        setData(groupChatByFriendsDataList);
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err.message);
@@ -54,56 +47,34 @@ export function SentimentOverTimeChart({
     fetchTextsOverTime();
   }, [filters, title]);
 
-  const labels = sent.map((d) => new Date(d.day).toLocaleDateString());
+  const labels = data.map((d) => new Date(d.date).toLocaleDateString());
 
-  const sentData = sent.map((d) => {
+  const countData = data.map((d) => {
     return {
-      y:
-        d.positiveScore === 0 && d.negativeScore === 0
-          ? 0.5
-          : d.positiveScore / (d.positiveScore + Math.abs(d.negativeScore)),
-      x: new Date(d.day).toLocaleDateString(),
-      is_from_me: d.is_from_me,
-    };
-  });
-  const receivedData = received.map((d) => {
-    return {
-      y:
-        d.positiveScore === 0 && d.negativeScore === 0
-          ? 0.5
-          : d.positiveScore / (d.positiveScore + Math.abs(d.negativeScore)),
-      x: new Date(d.day).toLocaleDateString(),
-      is_from_me: d.is_from_me,
+      y: d.count,
+      x: new Date(d.date).toLocaleDateString(),
+      is_from_me: 0,
     };
   });
 
   // Batch by week
-
   const MAX_POINTS = 30;
-  const minLength = Math.max(sentData.length, receivedData.length);
+  const minLength = countData.length;
   let batchSize = 1;
   if (minLength > MAX_POINTS) {
     batchSize = Math.floor(minLength / MAX_POINTS);
   }
-  const sampledSentData = generateSampledPoints(sentData, batchSize);
-  const sampledReceivedData = generateSampledPoints(receivedData, batchSize);
+  const sampledData = generateSampledPoints(countData, batchSize);
 
   const chartData = {
     labels,
     datasets: [
       {
-        backgroundColor: theme.colors.green['200'],
-        label: 'Sent Texts',
-        borderColor: theme.colors.green['400'],
+        backgroundColor: theme.colors.blue['200'],
+        label: 'Texts',
+        borderColor: theme.colors.blue['400'],
         borderWidth: 0.8,
-        data: sampledSentData,
-      },
-      {
-        backgroundColor: theme.colors.gray['200'],
-        label: 'Received Texts',
-        borderColor: theme.colors.gray['400'],
-        borderWidth: 0.8,
-        data: sampledReceivedData,
+        data: sampledData,
       },
     ],
   };
@@ -139,11 +110,10 @@ export function SentimentOverTimeChart({
   const graphRefToShare = useRef(null);
   return (
     <GraphContainer
-      graphRefToShare={graphRefToShare}
       title={title}
       description={description}
       icon={icon}
-      isPremiumGraph
+      graphRefToShare={graphRefToShare}
     >
       {error ? (
         <div
@@ -178,7 +148,7 @@ export function SentimentOverTimeChart({
               <Spinner color="purple.400" size="xl" />
             </div>
           )}
-          <Line ref={graphRefToShare} data={chartData} options={options} />
+          <Line data={chartData} options={options} ref={graphRefToShare} />
         </div>
       )}
     </GraphContainer>
