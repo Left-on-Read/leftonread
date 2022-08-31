@@ -1,13 +1,11 @@
-import { ipcMain } from 'electron';
 import log from 'electron-log';
 import Store from 'electron-store';
-import { useEffect, useState } from 'react';
 import semver from 'semver';
 import { v4 as uuidv4 } from 'uuid';
 
 const migrations = {
   '0.1.1': (store: any) => store.set('requiredUpdateVersion', '0.1.1'),
-  '>=0.2.0': (store: any) => store.set('license', ''),
+  '>=0.2.2': (store: any) => store.set('license', ''),
 };
 
 const schema = {
