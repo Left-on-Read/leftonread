@@ -26,25 +26,6 @@ import { Navbar } from './Navbar';
 
 const store = new Store();
 
-// function useHasActivatedLicense() {
-//   const [hasActivatedLicense, setHasActivatedLicense] = useState<boolean>(
-//     store.get('license') !== ''
-//   );
-
-//   useEffect(() => {
-//     const unsubscribe = ipcRenderer.on(
-//       'license-change',
-//       (event, isActivated: boolean) => setHasActivatedLicense(isActivated)
-//     );
-
-//     return () => {
-//       listener();
-//     };
-//   }, []);
-
-//   return hasActivatedLicense;
-// }
-
 export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
   const [isPremium, setIsPremium] = useState<boolean>(
     store.get('license') !== ''
