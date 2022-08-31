@@ -138,7 +138,7 @@ export function PremiumModal({
                 </div>
               </ModalBody>
               <ModalFooter>
-                <Button colorScheme="purple" onClick={onClose}>
+                <Button colorScheme="purple" onClick={closeHandler}>
                   See New Analytics
                 </Button>
               </ModalFooter>
