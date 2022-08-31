@@ -159,7 +159,7 @@ export function Navbar({
                 <MenuItem
                   onClick={() => {
                     onPremiumModalOpen();
-                    logEvent({ eventName: 'UNLOCK_PREMIUM' });
+                    logEvent({ eventName: 'UNLOCK_GOLD_NAVBAR' });
                   }}
                 >
                   <Icon

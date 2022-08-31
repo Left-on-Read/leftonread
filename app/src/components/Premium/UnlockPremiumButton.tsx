@@ -1,9 +1,9 @@
 import { Box, Button, Icon, useDisclosure } from '@chakra-ui/react';
 import { FiLock } from 'react-icons/fi';
 
+import { logEvent } from '../../utils/analytics';
+import { STRIPE_LINK } from './constants';
 import { PremiumModal } from './PremiumModal';
-
-const STRIPE_LINK = 'https://buy.stripe.com/6oEaIG8jF3QK8rSbIK';
 
 export function UnlockPremiumButton() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -16,6 +16,9 @@ export function UnlockPremiumButton() {
           bgGradient="linear(to-br, yellow.400, yellow.600)"
           colorScheme="yellow"
           onClick={() => {
+            logEvent({
+              eventName: 'UNLOCK_GOLD',
+            });
             window.open(STRIPE_LINK);
             onOpen();
           }}
