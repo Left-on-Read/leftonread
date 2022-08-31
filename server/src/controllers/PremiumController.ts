@@ -50,8 +50,7 @@ export const handleStripeWebhookEvent = async (req: Request, res: Response) => {
     const stripeObject: Stripe.PaymentIntent = event.data
       .object as Stripe.PaymentIntent
 
-    // const customerEmail = stripeObject.charges?.data[0].billing_details.email
-    const customerEmail = 'teddyni19@gmail.com'
+    const customerEmail = stripeObject.charges?.data[0].billing_details.email
 
     if (!customerEmail) {
       throw new Error('Missing customer email')
@@ -107,8 +106,6 @@ export const verifyLicenseKey = async (req: Request, res: Response) => {
       message: 'This is an invalid license key.',
     })
   }
-
-  console.log(foundRow.registrationId)
 
   if (
     foundRow.registrationId !== '' &&
