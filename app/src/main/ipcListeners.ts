@@ -296,17 +296,17 @@ export function attachIpcListeners() {
 
   ipcMain.handle('activate-license', async (event, licenseKey: string) => {
     const deviceId = await machineId(false);
-
     try {
       await axios.post(`${API_BASE_URL}/activate`, {
         licenseKey,
         deviceId,
       });
-    } catch (err: unknown) {
-      log.error(err);
+    } catch (err: any) {
+      const errorMessage = err?.response?.data?.message;
+
       return {
         activated: false,
-        message: err instanceof Error ? err.message : 'Something went wrong...',
+        message: errorMessage || 'Something went wrong...',
       };
     }
 

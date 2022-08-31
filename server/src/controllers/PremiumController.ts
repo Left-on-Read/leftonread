@@ -83,7 +83,9 @@ export const verifyLicenseKey = async (req: Request, res: Response) => {
 
   const isActivated = 1 === 1
 
-  console.log(req.body)
+  //   return res.status(StatusCodes.BAD_REQUEST).json({
+  //     message: 'This license key has already been activated on another device.',
+  //   })
 
   return res.status(StatusCodes.OK).json({
     isActivated,

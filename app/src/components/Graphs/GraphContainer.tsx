@@ -6,7 +6,7 @@ import {
   theme as defaultTheme,
 } from '@chakra-ui/react';
 import { useGlobalContext } from 'components/Dashboard/GlobalContext';
-import { UnlockPremiumButton } from 'components/UnlockPremiumButton';
+import { UnlockPremiumButton } from 'components/Premium/UnlockPremiumButton';
 import React, { useState } from 'react';
 import { IconType } from 'react-icons';
 import { FiShare } from 'react-icons/fi';

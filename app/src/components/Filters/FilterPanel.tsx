@@ -18,7 +18,7 @@ import { MultiSelect } from 'react-multi-select-component';
 import { DEFAULT_FILTER_LIMIT } from '../../constants';
 import { GroupChatFilters } from '../../constants/filters';
 import { useGlobalContext } from '../Dashboard/GlobalContext';
-import { UnlockPremiumButton } from '../UnlockPremiumButton';
+import { UnlockPremiumButton } from '../Premium/UnlockPremiumButton';
 
 export const DEFAULT_QUERY_FILTERS = {
   limit: DEFAULT_FILTER_LIMIT,
