@@ -13,6 +13,7 @@ import { EarliestAndLatestDateResults } from 'analysis/queries/EarliestAndLatest
 import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
+import Store from 'electron-store';
 import { useEffect, useRef, useState } from 'react';
 import { FiAlertCircle } from 'react-icons/fi';
 
@@ -23,7 +24,32 @@ import { ChartTabs } from './ChartTabs';
 import { GlobalContext, TGlobalContext } from './GlobalContext';
 import { Navbar } from './Navbar';
 
+const store = new Store();
+
+// function useHasActivatedLicense() {
+//   const [hasActivatedLicense, setHasActivatedLicense] = useState<boolean>(
+//     store.get('license') !== ''
+//   );
+
+//   useEffect(() => {
+//     const unsubscribe = ipcRenderer.on(
+//       'license-change',
+//       (event, isActivated: boolean) => setHasActivatedLicense(isActivated)
+//     );
+
+//     return () => {
+//       listener();
+//     };
+//   }, []);
+
+//   return hasActivatedLicense;
+// }
+
 export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
+  const [isPremium, setIsPremium] = useState<boolean>(
+    store.get('license') !== ''
+  );
+
   const [filters, setFilters] = useState<SharedQueryFilters>(
     DEFAULT_QUERY_FILTERS
   );
@@ -32,6 +58,8 @@ export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
     isLoading: true,
     contacts: [],
     dateRange: { earliestDate: new Date(), latestDate: new Date() },
+    isPremium,
+    activatePremium: () => setIsPremium(true),
   });
 
   const [doesRequireRefresh, setDoesRequireRefresh] = useState<boolean>(false);
@@ -61,6 +89,8 @@ export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
           earliestDate,
           latestDate,
         },
+        isPremium: false, // NOTE: Does not matter what we set it to here
+        activatePremium: () => {},
       });
     };
 
@@ -92,7 +122,13 @@ export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
 
   return (
     <div>
-      <GlobalContext.Provider value={globalData}>
+      <GlobalContext.Provider
+        value={{
+          ...globalData,
+          isPremium,
+          activatePremium: () => setIsPremium(true),
+        }}
+      >
         <Navbar
           onRefresh={onRefresh}
           filters={filters}

@@ -22,6 +22,7 @@ import { ipcRenderer } from 'electron';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   FiGitPullRequest,
+  FiLock,
   FiRefreshCw,
   FiSlash,
   FiSliders,
@@ -33,6 +34,7 @@ import { GroupChatFilters } from '../../constants/filters';
 import { APP_VERSION } from '../../constants/versions';
 import { logEvent } from '../../utils/analytics';
 import { FilterPanel } from '../Filters/FilterPanel';
+import { PremiumModal } from '../Premium/PremiumModal';
 import { EmailModal } from '../Support/EmailModal';
 import { useGlobalContext } from './GlobalContext';
 
@@ -45,12 +47,18 @@ export function Navbar({
   filters: SharedQueryFilters;
   onUpdateFilters: (arg0: SharedQueryFilters) => void;
 }) {
-  const { isLoading: isGlobalContextLoading } = useGlobalContext();
+  const { isLoading: isGlobalContextLoading, isPremium } = useGlobalContext();
   const navigate = useNavigate();
   const {
     isOpen: isEmailModalOpen,
     onOpen: onEmailModalOpen,
     onClose: onEmailModalClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isPremiumModalOpen,
+    onOpen: onPremiumModalOpen,
+    onClose: onPremiumModalClose,
   } = useDisclosure();
 
   let activeFilterCount = 0;
@@ -147,6 +155,39 @@ export function Navbar({
           <Menu>
             <MenuButton as={IconButton} icon={<SettingsIcon />} size="md" />
             <MenuList>
+              {!isPremium && (
+                <MenuItem
+                  onClick={() => {
+                    onPremiumModalOpen();
+                    logEvent({ eventName: 'UNLOCK_PREMIUM' });
+                  }}
+                >
+                  <Icon
+                    as={FiLock}
+                    style={{ marginRight: 12 }}
+                    color="yellow.500"
+                  />
+                  <Text size="sm" fontWeight={500} color="yellow.500">
+                    Unlock Premium
+                  </Text>
+                </MenuItem>
+              )}
+              {isPremium && process.env.NODE_ENV === 'development' && (
+                <MenuItem
+                  onClick={() => {
+                    ipcRenderer.invoke('deactivate-license');
+                  }}
+                >
+                  <Icon
+                    as={FiLock}
+                    style={{ marginRight: 12 }}
+                    color="yellow.500"
+                  />
+                  <Text size="sm" fontWeight={500} color="yellow.500">
+                    Deactivate License
+                  </Text>
+                </MenuItem>
+              )}
               <MenuItem
                 onClick={() => {
                   onRefresh();
@@ -209,6 +250,7 @@ export function Navbar({
         </div>
       </div>
       <EmailModal isOpen={isEmailModalOpen} onClose={onEmailModalClose} />
+      <PremiumModal isOpen={isPremiumModalOpen} onClose={onPremiumModalClose} />
     </div>
   );
 }

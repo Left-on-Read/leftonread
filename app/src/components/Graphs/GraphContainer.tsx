@@ -10,6 +10,8 @@ import { IconType } from 'react-icons';
 import { FiShare } from 'react-icons/fi';
 
 import { logEvent } from '../../utils/analytics';
+import { useGlobalContext } from '../Dashboard/GlobalContext';
+import { UnlockPremiumButton } from '../Premium/UnlockPremiumButton';
 import { ShareModal } from '../Sharing/ShareModal';
 
 export function GraphContainer({
@@ -19,6 +21,7 @@ export function GraphContainer({
   children,
   graphRefToShare,
   tooltip,
+  isPremiumGraph,
 }: {
   title: string;
   description?: string;
@@ -26,8 +29,13 @@ export function GraphContainer({
   children: React.ReactNode;
   graphRefToShare?: React.MutableRefObject<null>;
   tooltip?: React.ReactNode;
+  isPremiumGraph?: boolean;
 }) {
+  const { isPremium } = useGlobalContext();
   const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
+
+  const isLocked = isPremiumGraph && !isPremium;
+
   return (
     <>
       <ShareModal
@@ -104,7 +112,38 @@ export function GraphContainer({
             )}
           </div>
         </div>
-        <div style={{ padding: '24px 48px' }}>{children}</div>
+        <div
+          style={{
+            padding: '24px 48px',
+            position: 'relative',
+          }}
+        >
+          {isLocked && (
+            <div
+              style={{
+                position: 'absolute',
+                height: '100%',
+                width: '100%',
+                zIndex: 2,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <UnlockPremiumButton />
+            </div>
+          )}
+          <div
+            style={{
+              ...(isLocked && {
+                filter: 'blur(8px)',
+                opacity: 0.9,
+              }),
+            }}
+          >
+            {children}
+          </div>
+        </div>
       </div>
     </>
   );

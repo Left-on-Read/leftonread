@@ -3,6 +3,7 @@ import { ipcMain } from 'electron';
 import log from 'electron-log';
 import FormData from 'form-data';
 import * as fs from 'fs';
+import { machineId } from 'node-machine-id';
 import * as sqlite3 from 'sqlite3';
 
 import { appDirectoryPath, chatPaths } from '../analysis/directories';
@@ -48,7 +49,9 @@ import { API_BASE_URL } from '../constants/api';
 import { APP_VERSION } from '../constants/versions';
 import { AmplitudeClient } from '../utils/amplitudeClient';
 import {
+  activateLicense,
   checkRequiresRefresh,
+  deactivateLicense,
   getUuid,
   setLastUpdatedVersion,
 } from '../utils/store';
@@ -289,6 +292,34 @@ export function attachIpcListeners() {
       return queryGroupChatByFriends(db, filters);
     }
   );
+
+  ipcMain.handle('activate-license', async (event, licenseKey: string) => {
+    const registrationId = await machineId(false);
+    try {
+      await axios.post(`${API_BASE_URL}/activate`, {
+        licenseKey,
+        registrationId,
+      });
+    } catch (err: any) {
+      const errorMessage = err?.response?.data?.message;
+
+      return {
+        activated: false,
+        message: errorMessage || 'Something went wrong...',
+      };
+    }
+
+    activateLicense(licenseKey);
+
+    return {
+      activated: true,
+      message: 'Successfully activated!',
+    };
+  });
+
+  ipcMain.handle('deactivate-license', async () => {
+    deactivateLicense();
+  });
 
   ipcMain.handle(
     'query-group-activity-over-time',

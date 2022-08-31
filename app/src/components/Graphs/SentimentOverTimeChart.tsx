@@ -148,6 +148,7 @@ export function SentimentOverTimeChart({
       title={title}
       description={description}
       icon={icon}
+      isPremiumGraph
     >
       {error ? (
         <div

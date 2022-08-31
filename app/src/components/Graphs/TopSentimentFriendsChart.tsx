@@ -92,6 +92,7 @@ export function TopSentimentFriendsChart({
       description={description}
       icon={icon}
       graphRefToShare={graphRefToShare}
+      isPremiumGraph
     >
       {error ? (
         <div

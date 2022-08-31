@@ -1,10 +1,13 @@
+import { ipcMain } from 'electron';
 import log from 'electron-log';
 import Store from 'electron-store';
+import { useEffect, useState } from 'react';
 import semver from 'semver';
 import { v4 as uuidv4 } from 'uuid';
 
 const migrations = {
   '0.1.1': (store: any) => store.set('requiredUpdateVersion', '0.1.1'),
+  '>=0.2.0': (store: any) => store.set('license', ''),
 };
 
 const schema = {
@@ -22,9 +25,14 @@ const schema = {
     type: 'string',
     default: '0.0.1',
   },
+  license: {
+    type: 'string',
+    default: '',
+  },
 } as const;
 
 const store = new Store({ schema, migrations });
+Store.initRenderer();
 log.info(`Store path: ${store.path}`);
 
 export function getUuid(): string {
@@ -44,4 +52,12 @@ export function checkRequiresRefresh(): boolean {
 
 export function setLastUpdatedVersion(version: string) {
   store.set('lastUpdatedVersion', version);
+}
+
+export function activateLicense(licenseKey: string) {
+  store.set('license', licenseKey);
+}
+
+export function deactivateLicense() {
+  store.set('license', '');
 }
