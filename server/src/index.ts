@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/node'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import dotenv from 'dotenv'
@@ -7,6 +8,16 @@ import morgan from 'morgan'
 import { LorRouter } from './router'
 
 dotenv.config()
+
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 0.5,
+  enabled: process.env.NODE_ENV !== 'development',
+})
 
 const app: Express = express()
 const port = process.env.PORT || 8080
