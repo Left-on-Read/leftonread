@@ -165,6 +165,22 @@ export function Navbar({
                   </Text>
                 </MenuItem>
               )}
+              {isPremium && process.env.NODE_ENV === 'development' && (
+                <MenuItem
+                  onClick={() => {
+                    ipcRenderer.invoke('deactivate-license');
+                  }}
+                >
+                  <Icon
+                    as={FiLock}
+                    style={{ marginRight: 12 }}
+                    color="yellow.500"
+                  />
+                  <Text size="sm" fontWeight={500} color="yellow.500">
+                    Deactivate License
+                  </Text>
+                </MenuItem>
+              )}
               <MenuItem
                 onClick={() => {
                   onRefresh();

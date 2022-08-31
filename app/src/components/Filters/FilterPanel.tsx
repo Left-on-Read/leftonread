@@ -68,7 +68,7 @@ export function FilterPanel({
           <UnlockPremiumButton />
         </div>
       )}
-      <div style={{ filter: 'blur(2px)', opacity: 0.2 }}>
+      <div style={{ ...(!isPremium && { filter: 'blur(2px)', opacity: 0.2 }) }}>
         <div>
           <div
             style={{ display: 'flex', alignItems: 'center', marginBottom: 8 }}

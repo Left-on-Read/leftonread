@@ -41,7 +41,7 @@ export const handleStripeWebhookEvent = async (req: Request, res: Response) => {
     }
 
     //  Generate license key,
-    const licenseKey = uuidv4()
+    const licenseKey = `LOR-${uuidv4()}`
 
     // TODO: Insert license key into database
     // db.insert(licenseKey)
@@ -81,9 +81,11 @@ export const verifyLicenseKey = async (req: Request, res: Response) => {
   // TODO: Update the db so that this license key is used with this device id
   // db.update(licenseKey, deviceId)
 
-  const isValid = 1 === 1
+  const isActivated = 1 === 1
+
+  console.log(req.body)
 
   return res.status(StatusCodes.OK).json({
-    isValid,
+    isActivated,
   })
 }

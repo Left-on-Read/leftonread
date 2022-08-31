@@ -3,6 +3,7 @@ import { ipcMain } from 'electron';
 import log from 'electron-log';
 import FormData from 'form-data';
 import * as fs from 'fs';
+import { machineId } from 'node-machine-id';
 import * as sqlite3 from 'sqlite3';
 
 import { appDirectoryPath, chatPaths } from '../analysis/directories';
@@ -49,9 +50,10 @@ import { API_BASE_URL } from '../constants/api';
 import { APP_VERSION } from '../constants/versions';
 import { AmplitudeClient } from '../utils/amplitudeClient';
 import {
+  activateLicense,
   checkRequiresRefresh,
+  deactivateLicense,
   getUuid,
-  hasValidLicense,
   setLastUpdatedVersion,
 } from '../utils/store';
 
@@ -292,7 +294,31 @@ export function attachIpcListeners() {
     }
   );
 
-  ipcMain.handle('has-valid-license', async (event) => {
-    return hasValidLicense();
+  ipcMain.handle('activate-license', async (event, licenseKey: string) => {
+    const deviceId = await machineId(false);
+
+    try {
+      await axios.post(`${API_BASE_URL}/activate`, {
+        licenseKey,
+        deviceId,
+      });
+    } catch (err: unknown) {
+      log.error(err);
+      return {
+        activated: false,
+        message: err instanceof Error ? err.message : 'Something went wrong...',
+      };
+    }
+
+    activateLicense(licenseKey);
+
+    return {
+      activated: true,
+      message: 'Successfully activated!',
+    };
+  });
+
+  ipcMain.handle('deactivate-license', async () => {
+    deactivateLicense();
   });
 }
