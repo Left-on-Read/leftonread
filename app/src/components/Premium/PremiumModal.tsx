@@ -17,9 +17,11 @@ import { useState } from 'react';
 import Confetti from 'react-confetti';
 
 import Celebration from '../../../assets/illustrations/celebration.svg';
+import { logEvent } from '../../utils/analytics';
 import { useGlobalContext } from '../Dashboard/GlobalContext';
 import { Float } from '../Float';
 import { EmailModal } from '../Support/EmailModal';
+import { STRIPE_LINK } from './constants';
 
 export function PremiumModal({
   isOpen,
@@ -69,6 +71,12 @@ export function PremiumModal({
         setIsActivationSuccessful(true);
       } else {
         setError(message);
+        logEvent({
+          eventName: 'ACTIVATION_ERROR',
+          properties: {
+            error: message,
+          },
+        });
       }
     } catch (e: unknown) {
       log.error(e);
@@ -171,9 +179,10 @@ export function PremiumModal({
                     fontSize={14}
                     style={{ marginTop: 24 }}
                     onClick={() => {
-                      window.open(
-                        'https://checkout.stripe.com/pay/cs_live_b1DBvSe1jfp8QHlIDbn6OO4J2J86GcwsH7qS5w9TFRasiTMKaVAoFrd5jl#fidkdWxOYHwnPyd1blppbHNgWjA0SVNMdHJGSkZzMGJ0YmQ2S2ZvS0lRVFF1TH10RlFoSms2UktObDJfSV9RNWowTGxrN2dKXVdVXHRMbDA1UU9Wazwwf39VYmpuN2hMU2R1fENcSnB8Nkg2NTVXVFc8YG8ydicpJ3VpbGtuQH11anZgYUxhJz8nM2pAZExCPW9DNlROPXdWZ0xOJ3gl'
-                      );
+                      logEvent({
+                        eventName: 'NO_LICENSE_KEY',
+                      });
+                      window.open(STRIPE_LINK);
                     }}
                   >
                     {`Don't have a license key? Get one here.`}
@@ -182,7 +191,12 @@ export function PremiumModal({
               </ModalBody>
               <ModalFooter>
                 <Button
-                  onClick={activateLicenseKey}
+                  onClick={() => {
+                    logEvent({
+                      eventName: 'ACTIVATE_KEY',
+                    });
+                    activateLicenseKey();
+                  }}
                   isLoading={isActivating}
                   disabled={isActivating}
                   loadingText="Activating..."
