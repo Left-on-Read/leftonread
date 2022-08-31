@@ -151,10 +151,10 @@ export function PremiumModal({
               <ModalBody>
                 <div>
                   <Text fontWeight="medium" style={{ marginBottom: 6 }}>
-                    Your License Key
+                    Enter Your License Key
                   </Text>
                   <Input
-                    placeholder="LOR-365f9d34-6d39-4868-ae71"
+                    placeholder="e.g. LOR-365f9d34-6d39-4868"
                     size="md"
                     value={licenseKey}
                     onChange={(e) => setLicenseKey(e.target.value)}
@@ -165,6 +165,19 @@ export function PremiumModal({
                       <Text color="red.400">{error}</Text>
                     </div>
                   )}
+                  <Button
+                    variant="link"
+                    color="gray.400"
+                    fontSize={14}
+                    style={{ marginTop: 24 }}
+                    onClick={() => {
+                      window.open(
+                        'https://checkout.stripe.com/pay/cs_live_b1DBvSe1jfp8QHlIDbn6OO4J2J86GcwsH7qS5w9TFRasiTMKaVAoFrd5jl#fidkdWxOYHwnPyd1blppbHNgWjA0SVNMdHJGSkZzMGJ0YmQ2S2ZvS0lRVFF1TH10RlFoSms2UktObDJfSV9RNWowTGxrN2dKXVdVXHRMbDA1UU9Wazwwf39VYmpuN2hMU2R1fENcSnB8Nkg2NTVXVFc8YG8ydicpJ3VpbGtuQH11anZgYUxhJz8nM2pAZExCPW9DNlROPXdWZ0xOJ3gl'
+                      );
+                    }}
+                  >
+                    {`Don't have a license key? Get one here.`}
+                  </Button>
                 </div>
               </ModalBody>
               <ModalFooter>

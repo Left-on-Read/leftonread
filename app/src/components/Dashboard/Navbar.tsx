@@ -18,6 +18,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
+import { PremiumModal } from 'components/Premium/PremiumModal';
 import { ipcRenderer } from 'electron';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
@@ -52,6 +53,12 @@ export function Navbar({
     isOpen: isEmailModalOpen,
     onOpen: onEmailModalOpen,
     onClose: onEmailModalClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isPremiumModalOpen,
+    onOpen: onPremiumModalOpen,
+    onClose: onPremiumModalClose,
   } = useDisclosure();
 
   let activeFilterCount = 0;
@@ -151,7 +158,7 @@ export function Navbar({
               {!isPremium && (
                 <MenuItem
                   onClick={() => {
-                    onRefresh();
+                    onPremiumModalOpen();
                     logEvent({ eventName: 'UNLOCK_PREMIUM' });
                   }}
                 >
@@ -243,6 +250,7 @@ export function Navbar({
         </div>
       </div>
       <EmailModal isOpen={isEmailModalOpen} onClose={onEmailModalClose} />
+      <PremiumModal isOpen={isPremiumModalOpen} onClose={onPremiumModalClose} />
     </div>
   );
 }
