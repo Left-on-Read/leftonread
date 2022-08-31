@@ -77,11 +77,7 @@ export function SentVsReceivedChart({
     : dateRange.latestDate;
   const daysAgoNumber = daysAgo(earlyDate, lateDate);
   return (
-    <GraphContainer
-      title={title}
-      description={description}
-      icon={icon}
-    >
+    <GraphContainer title={title} description={description} icon={icon}>
       {error ? (
         <Text color="red.400">Uh oh! Something went wrong.</Text>
       ) : (
