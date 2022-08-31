@@ -47,17 +47,32 @@ export class CoreMainTable extends Table {
       -- TODO(Danilowicz): every query should just use coalesced_contact_name
       -- instead of coalescing themselves
       coalesce(contact_name, id) as coalesced_contact_name
-    FROM
-    message m
-    -- The left join is important here, because handle_id 0 is used when you send group messages
+    -- Some texts sent to individuals 
+    -- dont show up unless
+    -- you take the ROWID of the message
+    -- get the chat_id
+    -- get the handle_id,
+    -- then join to the handle table.
+    -- It's not enough to simply join on the handle table.
+    -- Also, when you send a group message
+    -- it is assigned a handle_id of 0
+    -- and handle_id of 0 is not present in the join tables.
+
+    FROM message m
+    LEFT JOIN chat_message_join cmj
+    ON
+    m.ROWID = cmj.message_id
+    LEFT JOIN chat_handle_join chj
+    USING(chat_id)
     LEFT JOIN handle h
-      ON h.rowid = m.handle_id
+    ON
+    -- What you join is super important here
+    -- if you do m.handle_id then you will have null contact_names
+    h.ROWID = chj.handle_id 
+
 
     JOIN DATE_TIME_TABLE
       ON m.guid = datetimetable_guid 
-
-    LEFT JOIN chat_message_join c
-      ON c.message_id = m.ROWID
     WHERE ${fluffFilter()}
     `;
 
