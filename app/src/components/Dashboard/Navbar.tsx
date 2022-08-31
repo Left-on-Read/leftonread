@@ -168,7 +168,7 @@ export function Navbar({
                     color="yellow.500"
                   />
                   <Text size="sm" fontWeight={500} color="yellow.500">
-                    Unlock Premium
+                    Unlock Gold
                   </Text>
                 </MenuItem>
               )}

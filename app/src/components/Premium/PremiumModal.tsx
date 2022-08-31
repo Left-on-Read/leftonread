@@ -95,7 +95,7 @@ export function PremiumModal({
         <ModalContent>
           {isActivationSuccessful ? (
             <>
-              <ModalHeader>Premium Unlocked</ModalHeader>
+              <ModalHeader>Gold Unlocked</ModalHeader>
               <ModalCloseButton />
               <ModalBody>
                 <div
@@ -145,7 +145,7 @@ export function PremiumModal({
             </>
           ) : (
             <>
-              <ModalHeader>Unlock Premium</ModalHeader>
+              <ModalHeader>Unlock Gold</ModalHeader>
               <ModalCloseButton />
 
               <ModalBody>

@@ -5,6 +5,8 @@ import nodemailer from 'nodemailer'
 import Stripe from 'stripe'
 import { v4 as uuidv4 } from 'uuid'
 
+import { getEmailTemplate } from '../emailTemplate'
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? '', {
   apiVersion: '2022-08-01',
 })
@@ -51,7 +53,6 @@ export const handleStripeWebhookEvent = async (req: Request, res: Response) => {
       .object as Stripe.PaymentIntent
 
     const customerEmail = stripeObject.charges?.data[0].billing_details.email
-
     if (!customerEmail) {
       throw new Error('Missing customer email')
     }
@@ -78,7 +79,7 @@ export const handleStripeWebhookEvent = async (req: Request, res: Response) => {
       from: process.env.EMAIL, // TODO: Perhaps update this email?
       to: customerEmail,
       subject: `Left on Read Premium License Key`,
-      html: licenseKey, // TODO: Update this content...
+      html: getEmailTemplate(licenseKey), // TODO: Update this content...
     }
 
     // Send the email
