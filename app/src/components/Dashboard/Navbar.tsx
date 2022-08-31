@@ -18,7 +18,6 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
-import { PremiumModal } from 'components/Premium/PremiumModal';
 import { ipcRenderer } from 'electron';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
@@ -35,6 +34,7 @@ import { GroupChatFilters } from '../../constants/filters';
 import { APP_VERSION } from '../../constants/versions';
 import { logEvent } from '../../utils/analytics';
 import { FilterPanel } from '../Filters/FilterPanel';
+import { PremiumModal } from '../Premium/PremiumModal';
 import { EmailModal } from '../Support/EmailModal';
 import { useGlobalContext } from './GlobalContext';
 
