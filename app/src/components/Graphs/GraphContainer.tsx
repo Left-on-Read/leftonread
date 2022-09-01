@@ -95,7 +95,7 @@ export function GraphContainer({
                 <span style={{ marginLeft: '10px' }}>{tooltip}</span>
               </div>
             </div>
-            {graphRefToShare && (
+            {graphRefToShare && !isLocked && (
               <IconButton
                 icon={<Icon as={FiShare} />}
                 aria-label="Share"
