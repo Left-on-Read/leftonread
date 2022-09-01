@@ -82,10 +82,14 @@ export function FilterPanel({
               {startDate.toLocaleDateString()}
             </Text>
             <RangeSlider
+              tabIndex={-1}
               min={0}
               max={100}
               defaultValue={[0, 100]}
               onChange={(val) => {
+                if (!isPremium) {
+                  return;
+                }
                 setFilterDateRange(val);
               }}
               onChangeEnd={(val) => {
@@ -129,12 +133,15 @@ export function FilterPanel({
             <Text fontWeight="bold">Contact</Text>
           </div>
           <MultiSelect
+            disabled={!isPremium}
             value={filters.contact ?? []}
             onChange={(val: ContactOptionsQueryResult[]) => {
-              onUpdateFilters({
-                ...filters,
-                contact: val,
-              });
+              if (isPremium) {
+                onUpdateFilters({
+                  ...filters,
+                  contact: val,
+                });
+              }
             }}
             labelledBy="Select"
             options={contacts}
@@ -151,6 +158,8 @@ export function FilterPanel({
               Include Group Chats
             </Text>
             <Switch
+              tabIndex={-1}
+              disabled={!isPremium}
               colorScheme="purple"
               isChecked={filters.groupChat === GroupChatFilters.BOTH}
               onChange={(e) => {
@@ -168,6 +177,8 @@ export function FilterPanel({
           style={{ marginTop: 25, display: 'flex', justifyContent: 'flex-end' }}
         >
           <Button
+            disabled={!isPremium}
+            tabIndex={-1}
             variant="link"
             size="sm"
             onClick={() => {
