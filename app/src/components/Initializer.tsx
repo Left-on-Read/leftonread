@@ -61,6 +61,7 @@ export function Initializer({
       navigate('/start');
       await ipcRenderer.invoke('initialize-tables');
       await ipcRenderer.invoke('set-last-updated-version', APP_VERSION);
+      setProgressNumber(99);
 
       navigate('/dashboard');
     } catch (e: unknown) {
@@ -69,7 +70,6 @@ export function Initializer({
         setError(e.message);
       }
     } finally {
-      setProgressNumber(99);
       onUpdateIsInitializing(false);
       setIsRunning(false);
     }
