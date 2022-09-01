@@ -45,6 +45,7 @@ export function Initializer({
         randomIntFromInterval(3, 15) + progressNumber;
       if (proposedProgressNumber > 99) {
         proposedProgressNumber = 99;
+        setProgressNumber(99);
       } else {
         setProgressNumber(randomIntFromInterval(3, 15) + progressNumber);
       }

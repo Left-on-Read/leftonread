@@ -23,6 +23,8 @@ const PHRASES_SCRAMBLED = [
   'Powering line charts with ⛽...',
   'Powering pie charts with 🍩...',
   'Launching machine learning model...',
+  'Almost done...',
+  'Making it pop 🎉',
 ];
 
 shuffleArray(PHRASES_SCRAMBLED);
@@ -32,10 +34,17 @@ export function InitializingTextSlider() {
   const [currentItemIndex, setCurrentItemIndex] = useState(0);
 
   useEffect(() => {
-    const id = setTimeout(
-      () => setCurrentItemIndex((currentItemIndex + 1) % PHRASES.length),
-      4500
-    );
+    const id = setTimeout(() => {
+      let proposedCurrentIndex = currentItemIndex + 1;
+
+      if (proposedCurrentIndex >= PHRASES.length - 1) {
+        proposedCurrentIndex = Math.floor(Math.random() * PHRASES.length);
+      } else {
+        proposedCurrentIndex = (currentItemIndex + 1) % PHRASES.length;
+      }
+
+      setCurrentItemIndex(proposedCurrentIndex);
+    }, 4500);
     return () => {
       clearInterval(id); // removes React warning when gets unmounted
     };
