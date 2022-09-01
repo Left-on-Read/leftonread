@@ -65,15 +65,21 @@ export class CoreMainTable extends Table {
     LEFT JOIN chat_handle_join chj
     USING(chat_id)
     LEFT JOIN handle h
-    ON
-    -- What you join is super important here
-    -- if you do m.handle_id then you will have null contact_names
-    h.ROWID = chj.handle_id 
+    -- if it's a group chat, then join using the message table
+    ON CASE WHEN m.cache_roomnames IS NOT NULL AND h.ROWID = m.handle_id THEN 1
+    -- if it's NOT group chat, then join using the chj table, which tends to have missing data 
+    WHEN  m.cache_roomnames IS NULL AND h.ROWID = chj.handle_id  THEN 1
+    ELSE 0
+    END = 1
+
 
 
     JOIN DATE_TIME_TABLE
       ON m.guid = datetimetable_guid 
     WHERE ${fluffFilter()}
+
+    -- remove duplicate messages from group chats
+    GROUP BY guid 
     `;
 
     await sqlite3Wrapper.runP(this.db, q);
