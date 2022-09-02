@@ -87,7 +87,7 @@ export function GroupChatByFriendsChart({
           },
         },
       }
-    : {};
+    : { 'lor-chartjs-logo-watermark-plugin': false };
 
   const options = {
     scales: {

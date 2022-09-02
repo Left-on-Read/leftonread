@@ -101,7 +101,7 @@ export function GroupChatActivityOverTimeChart({
           },
         },
       }
-    : {};
+    : { 'lor-chartjs-logo-watermark-plugin': false };
 
   const options = {
     scales: {

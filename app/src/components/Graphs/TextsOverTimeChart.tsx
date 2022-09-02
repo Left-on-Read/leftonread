@@ -105,6 +105,7 @@ export function TextsOverTimeChart({
 
   const sharingLabel = isShareOpen
     ? {
+        'lor-chartjs-logo-watermark-plugin': true,
         title: {
           display: true,
           text: `My ${title}`,
@@ -123,7 +124,7 @@ export function TextsOverTimeChart({
           },
         },
       }
-    : {};
+    : { 'lor-chartjs-logo-watermark-plugin': false };
 
   const options = {
     scales: {

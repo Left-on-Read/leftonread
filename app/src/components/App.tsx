@@ -26,26 +26,11 @@ Chart.register(...(registerables ?? []));
 export function App() {
   const [isInitializing, setIsInitializing] = useState<boolean>(false);
 
-  // const image = new Image();
-  // image.src = 'https://www.chartjs.org/img/chartjs-logo.svg';
-  // id: 'customImage',
-  // beforeDraw: (chart: any) => {
-  //   if (image.complete) {
-  //     const { ctx } = chart;
-  //     const { top, left, width, height } = chart.chartArea;
-  //     const x = left + width - image.width;
-  //     const y = top + height - image.height;
-  //     ctx.drawImage(image, x, y);
-  //   } else {
-  //     image.onload = () => chart.draw();
-  //   }
-  // },
-
-  // Give every chart a white background color for export reasons
-  // https://stackoverflow.com/questions/69357233/background-color-of-the-chart-area-in-chartjs-not-working
   useEffect(() => {
     Chart.register({
-      id: 'custom_canvas_background_color',
+      // Give every chart a white background color for export reasons
+      // https://stackoverflow.com/questions/69357233/background-color-of-the-chart-area-in-chartjs-not-workin
+      id: 'lor-chartjs-white-background-for-export',
       beforeDraw: (chart: any) => {
         const ctx = chart.canvas.getContext('2d');
         ctx.save();
@@ -53,6 +38,28 @@ export function App() {
         ctx.fillStyle = 'white';
         ctx.fillRect(0, 0, chart.width, chart.height);
         ctx.restore();
+      },
+    });
+  }, []);
+
+  useEffect(() => {
+    Chart.register({
+      id: 'lor-chartjs-logo-watermark-plugin', // can be turned off by setting to false in a given chart
+      afterDraw: (chart: any) => {
+        const image = new Image();
+        // need to set to anonymous in order to export
+        image.crossOrigin = 'anonymous';
+        image.src =
+          'https://raw.githubusercontent.com/Left-on-Read/leftonread/main/web/public/favicon-60.png';
+        if (image.complete) {
+          const ctx = chart.canvas.getContext('2d');
+          const { top, left, width, height } = chart.chartArea;
+          const x = left + width - image.width;
+          const y = top + height - image.height;
+          ctx.drawImage(image, x, y);
+        } else {
+          image.onload = () => chart.draw();
+        }
       },
     });
   }, []);

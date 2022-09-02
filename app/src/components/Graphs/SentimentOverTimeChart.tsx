@@ -131,7 +131,7 @@ export function SentimentOverTimeChart({
           },
         },
       }
-    : {};
+    : { 'lor-chartjs-logo-watermark-plugin': false };
 
   const options = {
     scales: {

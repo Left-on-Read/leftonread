@@ -86,6 +86,7 @@ export function TopFriendsChart({
 
   const sharingLabel = isShareOpen
     ? {
+        'lor-chartjs-logo-watermark-plugin': true,
         title: {
           display: true,
           text: `My ${title}`,
@@ -104,7 +105,7 @@ export function TopFriendsChart({
           },
         },
       }
-    : {};
+    : { 'lor-chartjs-logo-watermark-plugin': false };
 
   const options = {
     scales: {

@@ -80,7 +80,7 @@ export function WordOrEmojiCountChart({
           },
         },
       }
-    : {};
+    : { 'lor-chartjs-logo-watermark-plugin': false };
 
   const data = {
     labels: words,
