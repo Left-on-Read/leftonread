@@ -16,6 +16,11 @@ import { BarChartLoading } from './Loaders/BarChartLoading';
 import { InitializingTextSlider } from './Loaders/InitializingTextSlider';
 import { EmailModal } from './Support/EmailModal';
 
+function randomIntFromInterval(min: number, max: number) {
+  // min and max included
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
 export function Initializer({
   isInitializing,
   onUpdateIsInitializing,
@@ -25,6 +30,7 @@ export function Initializer({
 }) {
   const navigate = useNavigate();
 
+  const [progressNumber, setProgressNumber] = useState<number>(0);
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const {
@@ -33,6 +39,22 @@ export function Initializer({
     onClose: onEmailModalClose,
   } = useDisclosure();
 
+  useEffect(() => {
+    const id = setTimeout(() => {
+      let proposedProgressNumber =
+        randomIntFromInterval(3, 15) + progressNumber;
+      if (proposedProgressNumber > 99) {
+        proposedProgressNumber = 99;
+        setProgressNumber(99);
+      } else {
+        setProgressNumber(randomIntFromInterval(3, 15) + progressNumber);
+      }
+    }, randomIntFromInterval(1000, 4000));
+    return () => {
+      clearInterval(id); // removes React warning when gets unmounted
+    };
+  }, [progressNumber]);
+
   const initializeTables = useCallback(async () => {
     setError(null);
     setIsRunning(true);
@@ -40,6 +62,7 @@ export function Initializer({
       navigate('/start');
       await ipcRenderer.invoke('initialize-tables');
       await ipcRenderer.invoke('set-last-updated-version', APP_VERSION);
+      setProgressNumber(99);
 
       navigate('/dashboard');
     } catch (e: unknown) {
@@ -202,7 +225,23 @@ export function Initializer({
                       </div>
                     </div>
                   ) : (
-                    <InitializingTextSlider />
+                    <>
+                      <InitializingTextSlider />
+                      <motion.div
+                        layout
+                        key={progressNumber}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                      >
+                        <Text
+                          style={{ color: 'white', marginTop: 16 }}
+                          fontSize="2xl"
+                        >
+                          {progressNumber}%
+                        </Text>
+                      </motion.div>
+                    </>
                   )}
                 </div>
               </motion.div>
