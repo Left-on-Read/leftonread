@@ -7,6 +7,7 @@ import {
   theme as defaultTheme,
 } from '@chakra-ui/react';
 import { RespondRemindersResult } from 'analysis/queries/RespondReminders';
+import { useGlobalContext } from 'components/Dashboard/GlobalContext';
 import electron, { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
@@ -32,6 +33,8 @@ function scoreReminder(reminder: RespondRemindersResult) {
 }
 
 export function RespondReminders() {
+  const { isPremium } = useGlobalContext();
+
   const [reminders, setReminders] = useState<RespondRemindersResult[]>([]);
   const [error, setError] = useState<null | string>(null);
 
@@ -98,6 +101,8 @@ export function RespondReminders() {
           <Text style={{ marginTop: 8 }}>{reminder.message}</Text>
           <Box style={{ marginTop: 24 }}>
             <Button
+              tabIndex={-1}
+              disabled={isPremium}
               colorScheme="blue"
               size="sm"
               onClick={async () => {
