@@ -187,6 +187,14 @@ export function PremiumModal({
                   >
                     {`Don't have a license key? Get one here.`}
                   </Button>
+                  <Text
+                    color="gray.400"
+                    fontSize={14}
+                    fontWeight="medium"
+                    style={{ marginTop: 6 }}
+                  >
+                    Purchased a key? Check your email.
+                  </Text>
                 </div>
               </ModalBody>
               <ModalFooter>

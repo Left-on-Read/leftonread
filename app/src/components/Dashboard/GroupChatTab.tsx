@@ -2,8 +2,8 @@ import { Text } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
-import { FiUsers } from 'react-icons/fi';
-import Select, { GroupBase, OptionsOrGroups } from 'react-select';
+import { FiCompass, FiFeather } from 'react-icons/fi';
+import Select from 'react-select';
 
 import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFilters';
 import { GroupChatByFriends } from '../../analysis/queries/GroupChatByFriendsQuery';
@@ -11,11 +11,17 @@ import { GroupChatActivityOverTimeChart } from '../Graphs/GroupChats/GroupChatAc
 import { GroupChatByFriendsChart } from '../Graphs/GroupChats/GroupChatByFriendsChart';
 
 export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
-  const [groupChatToFilterBy, setGroupChatToFilterBy] = useState<string>('');
-
   const [groupChatNames, setGroupChatNames] = useState<
     { value: string; label: string }[]
   >([]);
+
+  const [selectedGroupChat, setSelectedGroupChat] = useState<{
+    value: string;
+    label: string;
+  }>({
+    value: '',
+    label: '',
+  });
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<null | string>(null);
@@ -42,7 +48,7 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
 
         setGroupChatNames(gct);
         if (gct.length > 0) {
-          setGroupChatToFilterBy(gct[0].value);
+          setSelectedGroupChat({ value: gct[0].value, label: gct[0].value });
         }
       } catch (err: unknown) {
         if (err instanceof Error) {
@@ -59,41 +65,38 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
   // Use async select to load options in
   return (
     <>
-      <Text fontSize="sm" fontWeight={600}>
-        Select a group chat:
-      </Text>
-      <Select
-        value={groupChatToFilterBy}
-        onChange={(selected) => {
-          if (selected) {
-            // Literally don't know why this React Select is so bonkers with its types.
-            // @ts-ignore. Label does exist.
-            setGroupChatToFilterBy(selected.value);
-          }
-        }}
-        options={
-          groupChatNames as unknown as
-            | OptionsOrGroups<string, GroupBase<string>>
-            | undefined
-        }
-      />
+      <div style={{ padding: '0px 48px', marginBottom: '48px' }}>
+        <Text fontSize="md" fontWeight={600} style={{ marginBottom: '6px' }}>
+          Select a Group Chat
+        </Text>
+        <Select
+          value={selectedGroupChat}
+          onChange={(newValue) => {
+            if (newValue) {
+              setSelectedGroupChat(newValue);
+            }
+          }}
+          options={groupChatNames}
+        />
+      </div>
+
       {/* NOTE(Danilowicz): Not proud of the .replace here... */}
       <GroupChatActivityOverTimeChart
-        title={`Group Chat Activity in ${groupChatToFilterBy.replace(
+        title={`Group Chat Activity in ${selectedGroupChat.label.replace(
           ',',
           ', '
         )}`}
         description=""
-        icon={FiUsers}
-        filters={{ ...filters, groupChatName: groupChatToFilterBy }}
+        icon={FiCompass}
+        filters={{ ...filters, groupChatName: selectedGroupChat.label }}
       />
       <GroupChatByFriendsChart
-        title={`Who Texts the Most in ${groupChatToFilterBy.replace(
+        title={`Who Texts the Most in ${selectedGroupChat.label.replace(
           ',',
           ', '
         )}`}
-        icon={FiUsers}
-        filters={{ ...filters, groupChatName: groupChatToFilterBy }}
+        icon={FiFeather}
+        filters={{ ...filters, groupChatName: selectedGroupChat.label }}
       />
     </>
   );

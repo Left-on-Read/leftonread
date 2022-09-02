@@ -10,6 +10,14 @@ import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFi
 import { TimeOfDayResults } from '../../analysis/queries/TimeOfDayQuery';
 import { GraphContainer } from './GraphContainer';
 
+const assertTwoDigits = (num: number) => {
+  if (num < 10) {
+    return `0${num}`;
+  }
+
+  return `${num}`;
+};
+
 function TimeOfDayVisualizer({
   sentData,
   receivedData,
@@ -151,10 +159,40 @@ export function TimeOfDayChart({
       setIsLoading(true);
       setError(null);
       try {
-        const [timeOfDayReceived, timeOfDaySent] = await Promise.all([
+        let [timeOfDayReceived, timeOfDaySent]: [
+          TimeOfDayResults,
+          TimeOfDayResults
+        ] = await Promise.all([
           ipcRenderer.invoke('query-time-of-day-received', filters),
           ipcRenderer.invoke('query-time-of-day-sent', filters),
         ]);
+
+        if (!timeOfDayReceived || timeOfDayReceived.length === 0) {
+          timeOfDayReceived = DEFAULT_DATA;
+        }
+
+        if (!timeOfDaySent || timeOfDaySent.length === 0) {
+          timeOfDaySent = DEFAULT_DATA;
+        }
+
+        // Assert that all hours are covered...
+        for (let i = 0; i < 24; i += 1) {
+          if (`${timeOfDayReceived[i].hour}` !== assertTwoDigits(i)) {
+            timeOfDayReceived.splice(i, 0, {
+              hour: i,
+              is_from_me: 0,
+              count: 0,
+            });
+          }
+
+          if (`${timeOfDaySent[i].hour}` !== assertTwoDigits(i)) {
+            timeOfDaySent.splice(i, 0, {
+              hour: i,
+              is_from_me: 0,
+              count: 0,
+            });
+          }
+        }
 
         setSent(timeOfDaySent);
         setReceived(timeOfDayReceived);
