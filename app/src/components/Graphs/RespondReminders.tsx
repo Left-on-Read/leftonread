@@ -102,7 +102,7 @@ export function RespondReminders() {
           <Box style={{ marginTop: 24 }}>
             <Button
               tabIndex={-1}
-              disabled={isPremium}
+              disabled={!isPremium}
               colorScheme="blue"
               size="sm"
               onClick={async () => {

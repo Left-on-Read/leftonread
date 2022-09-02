@@ -7,6 +7,7 @@ import { Bar } from 'react-chartjs-2';
 import { IconType } from 'react-icons';
 
 import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFilters';
+import { ShareModal } from '../Sharing/ShareModal';
 import { GraphContainer } from './GraphContainer';
 
 export function TopSentimentFriendsChart({
@@ -20,6 +21,8 @@ export function TopSentimentFriendsChart({
   icon: IconType;
   filters: SharedQueryFilters;
 }) {
+  const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
+
   const [friends, setFriends] = useState<string[]>([]);
   const [received, setReceived] = useState<number[]>([]);
   const [sent, setSent] = useState<number[]>([]);
@@ -70,6 +73,28 @@ export function TopSentimentFriendsChart({
     ],
   };
 
+  const sharingLabel = isShareOpen
+    ? {
+        title: {
+          display: true,
+          text: `My ${title}`,
+          font: {
+            size: 18,
+          },
+        },
+        subtitle: {
+          display: true,
+          text: 'Analyzed with https://leftonread.me/',
+          font: {
+            size: 12,
+          },
+          padding: {
+            bottom: 10,
+          },
+        },
+      }
+    : {};
+
   const options = {
     scales: {
       yAxis: {
@@ -83,17 +108,19 @@ export function TopSentimentFriendsChart({
         },
       },
     },
+    plugins: {
+      // Disable ability to click on legend
+      legend: {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        onClick: (_e: any) => null,
+      },
+      ...sharingLabel,
+    },
   };
 
   const graphRefToShare = useRef(null);
-  return (
-    <GraphContainer
-      title={title}
-      description={description}
-      icon={icon}
-      graphRefToShare={graphRefToShare}
-      isPremiumGraph
-    >
+  const body = (
+    <>
       {error ? (
         <div
           style={{
@@ -130,6 +157,26 @@ export function TopSentimentFriendsChart({
           <Bar data={data} options={options} ref={graphRefToShare} />
         </div>
       )}
-    </GraphContainer>
+    </>
+  );
+  return (
+    <>
+      <GraphContainer
+        title={title}
+        description={description}
+        icon={icon}
+        setIsShareOpen={setIsShareOpen}
+        isPremiumGraph
+      >
+        {body}
+      </GraphContainer>
+      <ShareModal
+        isOpen={isShareOpen}
+        onClose={() => setIsShareOpen(false)}
+        graphRefToShare={graphRefToShare}
+      >
+        {body}
+      </ShareModal>
+    </>
   );
 }

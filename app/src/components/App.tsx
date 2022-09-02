@@ -26,6 +26,21 @@ Chart.register(...(registerables ?? []));
 export function App() {
   const [isInitializing, setIsInitializing] = useState<boolean>(false);
 
+  // const image = new Image();
+  // image.src = 'https://www.chartjs.org/img/chartjs-logo.svg';
+  // id: 'customImage',
+  // beforeDraw: (chart: any) => {
+  //   if (image.complete) {
+  //     const { ctx } = chart;
+  //     const { top, left, width, height } = chart.chartArea;
+  //     const x = left + width - image.width;
+  //     const y = top + height - image.height;
+  //     ctx.drawImage(image, x, y);
+  //   } else {
+  //     image.onload = () => chart.draw();
+  //   }
+  // },
+
   // Give every chart a white background color for export reasons
   // https://stackoverflow.com/questions/69357233/background-color-of-the-chart-area-in-chartjs-not-working
   useEffect(() => {

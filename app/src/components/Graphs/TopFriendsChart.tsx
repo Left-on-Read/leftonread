@@ -15,6 +15,7 @@ import { FiInfo } from 'react-icons/fi';
 import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFilters';
 import { TTopFriendsResults } from '../../analysis/queries/TopFriendsQuery';
 import { GroupChatFilters } from '../../constants/filters';
+import { ShareModal } from '../Sharing/ShareModal';
 import { GraphContainer } from './GraphContainer';
 
 export function TopFriendsChart({
@@ -30,6 +31,8 @@ export function TopFriendsChart({
   filters: SharedQueryFilters;
   loadingOverride?: boolean;
 }) {
+  const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
+
   const [friends, setFriends] = useState<string[]>([]);
   const [received, setReceived] = useState<number[]>([]);
   const [sent, setSent] = useState<number[]>([]);
@@ -81,6 +84,28 @@ export function TopFriendsChart({
     ],
   };
 
+  const sharingLabel = isShareOpen
+    ? {
+        title: {
+          display: true,
+          text: `My ${title}`,
+          font: {
+            size: 18,
+          },
+        },
+        subtitle: {
+          display: true,
+          text: 'Analyzed with https://leftonread.me/',
+          font: {
+            size: 12,
+          },
+          padding: {
+            bottom: 10,
+          },
+        },
+      }
+    : {};
+
   const options = {
     scales: {
       yAxis: {
@@ -100,31 +125,16 @@ export function TopFriendsChart({
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         onClick: (_e: any) => null,
       },
+      ...sharingLabel,
     },
   };
 
   const showLoading = loadingOverride || isLoading;
 
   const graphRefToShare = useRef(null);
-  return (
-    <GraphContainer
-      graphRefToShare={graphRefToShare}
-      title={title}
-      description={description}
-      icon={icon}
-      tooltip={
-        filters.groupChat === GroupChatFilters.BOTH ? (
-          <Tooltip
-            label="When including group chats, Left on Read attributes your sent messages to the group itself, and does not spread the count across the individuals of the group."
-            fontSize="md"
-          >
-            <span>
-              <Icon as={FiInfo} color="gray.500" />
-            </span>
-          </Tooltip>
-        ) : null
-      }
-    >
+
+  const body = (
+    <>
       {error ? (
         <div
           style={{
@@ -161,6 +171,38 @@ export function TopFriendsChart({
           <Bar data={data} options={options} ref={graphRefToShare} />
         </div>
       )}
-    </GraphContainer>
+    </>
+  );
+
+  return (
+    <>
+      <GraphContainer
+        setIsShareOpen={setIsShareOpen}
+        title={title}
+        description={description}
+        icon={icon}
+        tooltip={
+          filters.groupChat === GroupChatFilters.BOTH ? (
+            <Tooltip
+              label="When including group chats, Left on Read attributes your sent messages to the group itself, and does not spread the count across the individuals of the group."
+              fontSize="md"
+            >
+              <span>
+                <Icon as={FiInfo} color="gray.500" />
+              </span>
+            </Tooltip>
+          ) : null
+        }
+      >
+        {body}
+      </GraphContainer>
+      <ShareModal
+        isOpen={isShareOpen}
+        onClose={() => setIsShareOpen(false)}
+        graphRefToShare={graphRefToShare}
+      >
+        {body}
+      </ShareModal>
+    </>
   );
 }

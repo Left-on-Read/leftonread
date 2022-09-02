@@ -7,6 +7,7 @@ import { Bar } from 'react-chartjs-2';
 import { IconType } from 'react-icons';
 
 import { TWordOrEmojiResults } from '../../analysis/queries/WordOrEmojiQuery';
+import { ShareModal } from '../Sharing/ShareModal';
 import { GraphContainer } from './GraphContainer';
 
 export function WordOrEmojiCountChart({
@@ -28,6 +29,8 @@ export function WordOrEmojiCountChart({
   isFromMe: boolean;
   isPremiumGraph?: boolean;
 }) {
+  const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
+
   const [words, setWords] = useState<string[]>([]);
   const [count, setCount] = useState<number[]>([]);
 
@@ -57,6 +60,28 @@ export function WordOrEmojiCountChart({
     fetchWordData();
   }, [filters, title, isEmoji, isFromMe]);
 
+  const sharingLabel = isShareOpen
+    ? {
+        title: {
+          display: true,
+          text: `My ${title}`,
+          font: {
+            size: 18,
+          },
+        },
+        subtitle: {
+          display: true,
+          text: 'Analyzed with https://leftonread.me/',
+          font: {
+            size: 12,
+          },
+          padding: {
+            bottom: 10,
+          },
+        },
+      }
+    : {};
+
   const data = {
     labels: words,
     datasets: [
@@ -84,33 +109,13 @@ export function WordOrEmojiCountChart({
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         onClick: (_e: any) => null,
       },
-      // TODO(Danilowicz): Only show this if rendered in share modal
-      // title: {
-      //   display: true,
-      //   text: `My ${title}`,
-      //   font: {
-      //     size: 18,
-      //   },
-      // },
-      // subtitle: {
-      //   display: true,
-      //   text: "Check out https://leftonread.me/ it's awesome!",
-      //   font: {
-      //     size: 12,
-      //   },
-      // },
+      ...sharingLabel,
     },
   };
 
   const graphRefToShare = useRef(null);
-  return (
-    <GraphContainer
-      title={title}
-      description={description}
-      icon={icon}
-      graphRefToShare={graphRefToShare}
-      isPremiumGraph={!!isPremiumGraph}
-    >
+  const body = (
+    <>
       {error ? (
         <div
           style={{
@@ -147,6 +152,27 @@ export function WordOrEmojiCountChart({
           <Bar data={data} options={options} ref={graphRefToShare} />
         </div>
       )}
-    </GraphContainer>
+    </>
+  );
+
+  return (
+    <>
+      <GraphContainer
+        title={title}
+        description={description}
+        icon={icon}
+        isPremiumGraph={!!isPremiumGraph}
+        setIsShareOpen={setIsShareOpen}
+      >
+        {body}
+      </GraphContainer>
+      <ShareModal
+        isOpen={isShareOpen}
+        onClose={() => setIsShareOpen(false)}
+        graphRefToShare={graphRefToShare}
+      >
+        {body}
+      </ShareModal>
+    </>
   );
 }

@@ -7,7 +7,7 @@ import { IconType } from 'react-icons';
 
 import { SharedGroupChatTabQueryFilters } from '../../../analysis/queries/filters/sharedGroupChatTabFilters';
 import { GroupChatByFriends } from '../../../analysis/queries/GroupChatByFriendsQuery';
-import { useGlobalContext } from '../../Dashboard/GlobalContext';
+import { ShareModal } from '../../Sharing/ShareModal';
 import { GraphContainer } from '../GraphContainer';
 
 export function GroupChatByFriendsChart({
@@ -21,13 +21,13 @@ export function GroupChatByFriendsChart({
   filters: SharedGroupChatTabQueryFilters;
   loadingOverride?: boolean;
 }) {
+  const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
+
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<null | string>(null);
 
   const [count, setCount] = useState<number[]>([]);
   const [contactNames, setContactNames] = useState<string[]>([]);
-
-  const { dateRange } = useGlobalContext();
 
   useEffect(() => {
     async function fetchGroupChatByFriends() {
@@ -67,6 +67,28 @@ export function GroupChatByFriendsChart({
     ],
   };
 
+  const sharingLabel = isShareOpen
+    ? {
+        title: {
+          display: true,
+          text: `${title}`,
+          font: {
+            size: 18,
+          },
+        },
+        subtitle: {
+          display: true,
+          text: 'Analyzed with https://leftonread.me/',
+          font: {
+            size: 12,
+          },
+          padding: {
+            bottom: 10,
+          },
+        },
+      }
+    : {};
+
   const options = {
     scales: {
       yAxis: {
@@ -87,71 +109,78 @@ export function GroupChatByFriendsChart({
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         onClick: (_e: any) => null,
       },
+      ...sharingLabel,
     },
   };
 
   const showLoading = loadingOverride || isLoading;
 
   const graphRefToShare = useRef(null);
+
+  const body = (
+    <>
+      {error ? (
+        <div
+          style={{
+            position: 'relative',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <div style={{ position: 'absolute' }}>
+            <Text color="red.400">Uh oh! Something went wrong... </Text>
+          </div>
+          <Bar data={{ labels: [], datasets: [] }} />
+        </div>
+      ) : (
+        <div style={{ position: 'relative' }}>
+          {showLoading && (
+            <div
+              style={{
+                position: 'absolute',
+                height: '100%',
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                top: 0,
+                left: 0,
+                backgroundColor: 'rgba(255, 255, 255, 0.7)',
+              }}
+            >
+              <Spinner color="purple.400" size="xl" />
+            </div>
+          )}
+          <Bar data={data} options={options} ref={graphRefToShare} />
+        </div>
+      )}
+    </>
+  );
+  const mostTalkativePerson = contactNames[0];
+  const description =
+    contactNames.length > 0
+      ? `${mostTalkativePerson} ${
+          mostTalkativePerson === 'you' ? 'take' : 'takes'
+        } the cake 🏆`
+      : '';
   return (
     <>
       <GraphContainer
-        graphRefToShare={graphRefToShare}
+        setIsShareOpen={setIsShareOpen}
         title={title}
-        description={
-          contactNames.length > 0
-            ? `${
-                contactNames[0]
-              } takes the cake as the most talkative between ${
-                filters.timeRange?.startDate
-                  ? filters.timeRange?.startDate.toLocaleDateString()
-                  : dateRange.earliestDate.toLocaleDateString()
-              } and ${
-                filters.timeRange?.endDate
-                  ? filters.timeRange?.endDate.toLocaleDateString()
-                  : dateRange.latestDate.toLocaleDateString()
-              } 🏆`
-            : ''
-        }
+        description={description}
         icon={icon}
       >
-        {error ? (
-          <div
-            style={{
-              position: 'relative',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <div style={{ position: 'absolute' }}>
-              <Text color="red.400">Uh oh! Something went wrong... </Text>
-            </div>
-            <Bar data={{ labels: [], datasets: [] }} />
-          </div>
-        ) : (
-          <div style={{ position: 'relative' }}>
-            {showLoading && (
-              <div
-                style={{
-                  position: 'absolute',
-                  height: '100%',
-                  width: '100%',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  top: 0,
-                  left: 0,
-                  backgroundColor: 'rgba(255, 255, 255, 0.7)',
-                }}
-              >
-                <Spinner color="purple.400" size="xl" />
-              </div>
-            )}
-            <Bar data={data} options={options} ref={graphRefToShare} />
-          </div>
-        )}
+        {body}
       </GraphContainer>
+      <ShareModal
+        isOpen={isShareOpen}
+        onClose={() => setIsShareOpen(false)}
+        graphRefToShare={graphRefToShare}
+      >
+        {body}
+      </ShareModal>
     </>
   );
 }

@@ -8,6 +8,7 @@ import { IconType } from 'react-icons';
 import { SharedGroupChatTabQueryFilters } from '../../../analysis/queries/filters/sharedGroupChatTabFilters';
 import { GroupActivityOverTimeResult } from '../../../analysis/queries/GroupChats/GroupChatActivityOverTimeQuery';
 import { generateSampledPoints } from '../../../utils/overTimeHelpers';
+import { ShareModal } from '../../Sharing/ShareModal';
 import { GraphContainer } from '../GraphContainer';
 
 export function GroupChatActivityOverTimeChart({
@@ -21,6 +22,7 @@ export function GroupChatActivityOverTimeChart({
   icon: IconType;
   filters: SharedGroupChatTabQueryFilters;
 }) {
+  const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
   const [data, setData] = useState<GroupActivityOverTimeResult[]>([]);
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -79,6 +81,28 @@ export function GroupChatActivityOverTimeChart({
     ],
   };
 
+  const sharingLabel = isShareOpen
+    ? {
+        title: {
+          display: true,
+          text: `${title}`,
+          font: {
+            size: 18,
+          },
+        },
+        subtitle: {
+          display: true,
+          text: 'Analyzed with https://leftonread.me/',
+          padding: {
+            bottom: 10,
+          },
+          font: {
+            size: 12,
+          },
+        },
+      }
+    : {};
+
   const options = {
     scales: {
       yAxis: {
@@ -110,17 +134,13 @@ export function GroupChatActivityOverTimeChart({
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         onClick: (_e: any) => null,
       },
+      ...sharingLabel,
     },
   };
 
   const graphRefToShare = useRef(null);
-  return (
-    <GraphContainer
-      title={title}
-      description={description}
-      icon={icon}
-      graphRefToShare={graphRefToShare}
-    >
+  const body = (
+    <>
       {error ? (
         <div
           style={{
@@ -157,6 +177,25 @@ export function GroupChatActivityOverTimeChart({
           <Line data={chartData} options={options} ref={graphRefToShare} />
         </div>
       )}
-    </GraphContainer>
+    </>
+  );
+  return (
+    <>
+      <GraphContainer
+        title={title}
+        description={description}
+        icon={icon}
+        setIsShareOpen={setIsShareOpen}
+      >
+        {body}
+      </GraphContainer>
+      <ShareModal
+        isOpen={isShareOpen}
+        onClose={() => setIsShareOpen(false)}
+        graphRefToShare={graphRefToShare}
+      >
+        {body}
+      </ShareModal>
+    </>
   );
 }
