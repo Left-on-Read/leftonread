@@ -12,9 +12,10 @@ import {
   theme as defaultTheme,
 } from '@chakra-ui/react';
 import { EngagementResult } from 'analysis/queries/EngagementQueries';
-import { useGlobalContext } from 'components/Dashboard/GlobalContext';
 import { motion } from 'framer-motion';
 import React, { useState } from 'react';
+
+import { useGlobalContext } from '../../Dashboard/GlobalContext';
 
 type CardType = 'DOUBLE_TEXTS' | 'AVG_LENGTH' | 'LEFT_ON_READ' | 'AVG_DELAY';
 

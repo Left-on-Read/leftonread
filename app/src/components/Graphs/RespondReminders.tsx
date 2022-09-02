@@ -7,13 +7,13 @@ import {
   theme as defaultTheme,
 } from '@chakra-ui/react';
 import { RespondRemindersResult } from 'analysis/queries/RespondReminders';
-import { useGlobalContext } from 'components/Dashboard/GlobalContext';
 import electron, { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
 import { FiVoicemail } from 'react-icons/fi';
 
 import { logEvent } from '../../utils/analytics';
+import { useGlobalContext } from '../Dashboard/GlobalContext';
 import { GraphContainer } from './GraphContainer';
 
 function hasNumber(myString: string) {
