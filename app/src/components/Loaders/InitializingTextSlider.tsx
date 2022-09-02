@@ -12,16 +12,15 @@ const PHRASES_IN_ORDER = [
 
 const PHRASES_SCRAMBLED = [
   'Discovering the meaning to life...',
-  'Sifting through 🍆...',
-  'Analzying reactions...',
+  'Analyzing reactions...',
   'Determining emoji usage...',
-  '👀...',
+  '👀 ...',
   'Loading group chat analysis...',
   'Creating filtering capabilites...',
   'Using sentiment analysis algorithm...',
-  'Powering bar chart with 🍑...',
-  'Powering line charts with ⛽...',
-  'Powering pie charts with 🍩...',
+  'Powering bar chart with 🍑 ...',
+  'Powering line charts with ⛽ ...',
+  'Powering pie charts with 🍩 ...',
   'Launching machine learning model...',
   'Almost done...',
   'Making it pop 🎉',
@@ -44,9 +43,9 @@ export function InitializingTextSlider() {
       }
 
       setCurrentItemIndex(proposedCurrentIndex);
-    }, 4500);
+    }, 5000);
     return () => {
-      clearInterval(id); // removes React warning when gets unmounted
+      clearInterval(id);
     };
   }, [currentItemIndex]);
 

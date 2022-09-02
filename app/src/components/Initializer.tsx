@@ -17,7 +17,6 @@ import { InitializingTextSlider } from './Loaders/InitializingTextSlider';
 import { EmailModal } from './Support/EmailModal';
 
 function randomIntFromInterval(min: number, max: number) {
-  // min and max included
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
@@ -51,7 +50,7 @@ export function Initializer({
       }
     }, randomIntFromInterval(1000, 4000));
     return () => {
-      clearInterval(id); // removes React warning when gets unmounted
+      clearInterval(id);
     };
   }, [progressNumber]);
 

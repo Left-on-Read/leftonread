@@ -27,10 +27,9 @@ import { Navbar } from './Navbar';
 const store = new Store();
 
 export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
-  // const [isPremium, setIsPremium] = useState<boolean>(
-  //   store.get('license') !== ''
-  // );
-  const [isPremium, setIsPremium] = useState<boolean>(true);
+  const [isPremium, setIsPremium] = useState<boolean>(
+    store.get('license') !== ''
+  );
 
   const [filters, setFilters] = useState<SharedQueryFilters>(
     DEFAULT_QUERY_FILTERS
