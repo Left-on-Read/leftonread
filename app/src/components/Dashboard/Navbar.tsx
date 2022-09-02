@@ -172,22 +172,6 @@ export function Navbar({
                   </Text>
                 </MenuItem>
               )}
-              {isPremium && process.env.NODE_ENV === 'development' && (
-                <MenuItem
-                  onClick={() => {
-                    ipcRenderer.invoke('deactivate-license');
-                  }}
-                >
-                  <Icon
-                    as={FiLock}
-                    style={{ marginRight: 12 }}
-                    color="yellow.500"
-                  />
-                  <Text size="sm" fontWeight={500} color="yellow.500">
-                    Deactivate License
-                  </Text>
-                </MenuItem>
-              )}
               <MenuItem
                 onClick={() => {
                   onRefresh();
@@ -232,6 +216,40 @@ export function Navbar({
                   Reset Application
                 </Text>
               </MenuItem>
+              {!isPremium && process.env.NODE_ENV === 'development' && (
+                <MenuItem
+                  onClick={() => {
+                    ipcRenderer.invoke('dev-activate-license');
+                    window.location.reload();
+                  }}
+                >
+                  <Icon
+                    as={FiLock}
+                    style={{ marginRight: 12 }}
+                    color="red.500"
+                  />
+                  <Text size="sm" fontWeight={800} color="red.500">
+                    Dev: Auto 🥇
+                  </Text>
+                </MenuItem>
+              )}
+              {isPremium && process.env.NODE_ENV === 'development' && (
+                <MenuItem
+                  onClick={() => {
+                    ipcRenderer.invoke('deactivate-license');
+                    window.location.reload();
+                  }}
+                >
+                  <Icon
+                    as={FiLock}
+                    style={{ marginRight: 12 }}
+                    color="red.500"
+                  />
+                  <Text size="sm" fontWeight={800} color="red.500">
+                    Dev: Deactivate License
+                  </Text>
+                </MenuItem>
+              )}
               <div
                 style={{
                   padding: '0px 16px',

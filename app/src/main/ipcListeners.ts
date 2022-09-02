@@ -328,4 +328,11 @@ export function attachIpcListeners() {
       return queryGroupChatActivityOverTime(db, filters);
     }
   );
+
+  // DO NOT USE IN PRODUCTION
+  ipcMain.handle('dev-activate-license', async () => {
+    if (process.env.NODE_ENV !== 'production') {
+      activateLicense('123');
+    }
+  });
 }

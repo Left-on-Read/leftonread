@@ -15,6 +15,8 @@ import { EngagementResult } from 'analysis/queries/EngagementQueries';
 import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 
+import { useGlobalContext } from '../../Dashboard/GlobalContext';
+
 type CardType = 'DOUBLE_TEXTS' | 'AVG_LENGTH' | 'LEFT_ON_READ' | 'AVG_DELAY';
 
 const formatSeconds = (seconds: number) => {
@@ -186,6 +188,8 @@ export function ESCards({
   avgDelayResults: EngagementResult[];
   error: string | null;
 }) {
+  const { isPremium } = useGlobalContext();
+
   const [cards, setCards] = useState<CardType[]>(CARD_TYPES);
 
   const moveToEnd = (index: number) => {
@@ -210,6 +214,8 @@ export function ESCards({
         icon={<ChevronLeftIcon />}
         aria-label="Left"
         onClick={() => moveToFront(cards.length - 1)}
+        tabIndex={-1}
+        disabled={isPremium}
       />
       <div
         style={{
@@ -278,6 +284,8 @@ export function ESCards({
         icon={<ChevronRightIcon />}
         aria-label="Right"
         onClick={() => moveToEnd(0)}
+        tabIndex={-1}
+        disabled={isPremium}
       />
     </div>
   );

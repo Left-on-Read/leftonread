@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import { FiVoicemail } from 'react-icons/fi';
 
 import { logEvent } from '../../utils/analytics';
+import { useGlobalContext } from '../Dashboard/GlobalContext';
 import { GraphContainer } from './GraphContainer';
 
 function hasNumber(myString: string) {
@@ -32,6 +33,8 @@ function scoreReminder(reminder: RespondRemindersResult) {
 }
 
 export function RespondReminders() {
+  const { isPremium } = useGlobalContext();
+
   const [reminders, setReminders] = useState<RespondRemindersResult[]>([]);
   const [error, setError] = useState<null | string>(null);
 
@@ -98,6 +101,8 @@ export function RespondReminders() {
           <Text style={{ marginTop: 8 }}>{reminder.message}</Text>
           <Box style={{ marginTop: 24 }}>
             <Button
+              tabIndex={-1}
+              disabled={isPremium}
               colorScheme="blue"
               size="sm"
               onClick={async () => {
