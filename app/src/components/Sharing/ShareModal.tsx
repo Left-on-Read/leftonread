@@ -70,10 +70,11 @@ export function ShareModal({
               style={{
                 display: 'flex',
                 alignItems: 'center',
+                padding: '10px',
               }}
             >
-              Share this graph with your friends
-              <Text style={{ margin: '10px' }}>🙌</Text>
+              <Text color="gray.800"> Share this graph with your friends</Text>
+              {/* <Text style={{ margin: '10px' }}>🙌</Text> */}
             </div>
             <Button
               disabled={copied}
@@ -95,7 +96,7 @@ export function ShareModal({
               </span>
             </Button>
           </div>
-          <Divider />
+          <Divider style={{ marginBottom: '10px' }} />
         </ModalHeader>
         {/* <ModalCloseButton /> */}
         <ModalBody>

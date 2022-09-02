@@ -64,14 +64,16 @@ export function WordOrEmojiCountChart({
     ? {
         title: {
           display: true,
-          text: `My ${title}`,
+          text: `My ${title} ${isEmoji ? words[0] : ''}`,
           font: {
             size: 18,
+            family: 'Montserrat',
+            fontWeight: 'light',
           },
         },
         subtitle: {
-          display: true,
-          text: 'Analyzed with https://leftonread.me/',
+          display: !isEmoji,
+          text: `"${words[0].replace(' ', '')}" wins first 🥇`,
           font: {
             size: 12,
           },
@@ -95,6 +97,14 @@ export function WordOrEmojiCountChart({
   };
 
   const options = {
+    layout: {
+      padding: {
+        bottom: 45,
+        left: 25,
+        right: 25,
+        top: 25,
+      },
+    },
     scales: {
       yAxis: {
         ticks: {

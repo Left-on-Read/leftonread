@@ -14,6 +14,7 @@ import { Chart, registerables } from 'chart.js';
 import { useEffect, useState } from 'react';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 
+import LogoWithTextFromGraphExport from '../../assets/LogoWithTextForGraphExport.svg';
 import { theme } from '../theme';
 import { Dashboard } from './Dashboard/Dashboard';
 import { ErrorBoundary } from './ErrorBoundary';
@@ -47,16 +48,27 @@ export function App() {
       id: 'lor-chartjs-logo-watermark-plugin', // can be turned off by setting to false in a given chart
       afterDraw: (chart: any) => {
         const image = new Image();
-        // need to set to anonymous in order to export
-        image.crossOrigin = 'anonymous';
-        image.src =
-          'https://raw.githubusercontent.com/Left-on-Read/leftonread/main/web/public/favicon-60.png';
+        image.crossOrigin = 'anonymous'; // need to set to anonymous in order to export
+        image.src = LogoWithTextFromGraphExport;
         if (image.complete) {
-          const ctx = chart.canvas.getContext('2d');
-          const { top, left, width, height } = chart.chartArea;
-          const x = left + width - image.width;
-          const y = top + height - image.height;
-          ctx.drawImage(image, x, y);
+          // CanvasRenderingContext2D
+          console.log(chart);
+          const { ctx, scales, chartArea } = chart;
+          const { xAxis, yAxis } = scales;
+          // ctx.save();
+
+          // console.log(xAxis, yAxis);
+          // const x = left + width - image.width;
+          // const y = top + height - image.height;
+          // ctx.drawImage(image, x, y);
+          // ctx.height += 200;
+          ctx.drawImage(
+            image,
+            chartArea.right - image.width - 15,
+            yAxis.bottom + 35
+          );
+          ctx.save();
+          // ctx.restore();
         } else {
           image.onload = () => chart.draw();
         }
