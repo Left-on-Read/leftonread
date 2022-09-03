@@ -64,9 +64,9 @@ export function WordOrEmojiCountChart({
     ? {
         title: {
           display: true,
-          text: `My ${title} ${isEmoji ? words[0] : ''}`,
+          text: `${title}`,
           font: {
-            size: 18,
+            size: 20,
             family: 'Montserrat',
             fontWeight: 'light',
           },
@@ -97,6 +97,7 @@ export function WordOrEmojiCountChart({
   };
 
   const options = {
+    // maintainAspectRatio: false,
     layout: {
       padding: {
         bottom: 45,
@@ -107,6 +108,17 @@ export function WordOrEmojiCountChart({
     },
     scales: {
       yAxis: {
+        grid: {
+          display: false,
+        },
+        ticks: {
+          precision: 0,
+        },
+      },
+      xAxis: {
+        grid: {
+          display: false,
+        },
         ticks: {
           precision: 0,
         },
@@ -159,7 +171,13 @@ export function WordOrEmojiCountChart({
               <Spinner color="purple.400" size="xl" />
             </div>
           )}
-          <Bar data={data} options={options} ref={graphRefToShare} />
+          <Bar
+            // height={360}
+            // width={480}
+            data={data}
+            options={options}
+            ref={graphRefToShare}
+          />
         </div>
       )}
     </>

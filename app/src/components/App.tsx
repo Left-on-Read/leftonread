@@ -62,11 +62,14 @@ export function App() {
           // const y = top + height - image.height;
           // ctx.drawImage(image, x, y);
           // ctx.height += 200;
-          ctx.drawImage(
-            image,
-            chartArea.right - image.width - 15,
-            yAxis.bottom + 35
+          ctx.font = '13px montserrat';
+
+          ctx.fillText(
+            'leftonread.me/download',
+            chartArea.right - 200,
+            yAxis.bottom + 55
           );
+          ctx.drawImage(image, 15, yAxis.bottom + 35);
           ctx.save();
           // ctx.restore();
         } else {
