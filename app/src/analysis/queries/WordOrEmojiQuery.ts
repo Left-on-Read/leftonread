@@ -160,8 +160,7 @@ export async function queryEmojiOrWordCounts(
     WHERE LENGTH(${ChatTableColumns.WORD}) >= 1
     GROUP BY ${ChatTableColumns.WORD}
     ORDER BY ${OutputColumns.COUNT} DESC
-    LIMIT 5
+    LIMIT ${limit}
   `;
-  // log.info(q)
   return sqlite3Wrapper.allP(db, q);
 }

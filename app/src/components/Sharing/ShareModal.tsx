@@ -74,7 +74,6 @@ export function ShareModal({
               }}
             >
               <Text color="gray.800"> Share this graph with your friends</Text>
-              {/* <Text style={{ margin: '10px' }}>🙌</Text> */}
             </div>
             <Button
               disabled={copied}

@@ -76,16 +76,16 @@ export function GroupChatByFriendsChart({
             size: 18,
           },
         },
-        subtitle: {
-          display: true,
-          text: 'Analyzed with https://leftonread.me/',
-          font: {
-            size: 12,
-          },
-          padding: {
-            bottom: 10,
-          },
-        },
+        // subtitle: {
+        //   display: true,
+        //   text: 'Analyzed with https://leftonread.me/',
+        //   font: {
+        //     size: 12,
+        //   },
+        //   padding: {
+        //     bottom: 10,
+        //   },
+        // },
       }
     : { 'lor-chartjs-logo-watermark-plugin': false };
 

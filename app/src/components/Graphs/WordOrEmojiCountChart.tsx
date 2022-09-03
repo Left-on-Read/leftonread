@@ -44,7 +44,7 @@ export function WordOrEmojiCountChart({
       try {
         const data: TWordOrEmojiResults = await ipcRenderer.invoke(
           'query-word-emoji',
-          { isEmoji, isFromMe, ...filters }
+          { isEmoji, isFromMe, limit: isShareOpen ? 10 : 5, ...filters }
         );
         setWords(data.map((obj) => obj.word));
         setCount(data.map((obj) => obj.count));
@@ -58,7 +58,7 @@ export function WordOrEmojiCountChart({
       }
     }
     fetchWordData();
-  }, [filters, title, isEmoji, isFromMe]);
+  }, [filters, title, isEmoji, isFromMe, isShareOpen]);
 
   const sharingLabel = isShareOpen
     ? {
@@ -97,33 +97,49 @@ export function WordOrEmojiCountChart({
   };
 
   const options = {
-    // maintainAspectRatio: false,
-    layout: {
-      padding: {
-        bottom: 45,
-        left: 25,
-        right: 25,
-        top: 25,
-      },
-    },
-    scales: {
-      yAxis: {
-        grid: {
-          display: false,
+    // These numbers are specific to each chart
+    // TODO(Danilowicz): add these to each chart
+    layout: isShareOpen
+      ? {
+          padding: {
+            bottom: 45,
+            left: 25,
+            right: 25,
+            top: 25,
+          },
+        }
+      : {},
+    scales: isShareOpen
+      ? {
+          yAxis: {
+            grid: {
+              display: false,
+            },
+            ticks: {
+              precision: 0,
+            },
+          },
+          xAxis: {
+            grid: {
+              display: false,
+            },
+            ticks: {
+              precision: 0,
+            },
+          },
+        }
+      : {
+          yAxis: {
+            ticks: {
+              precision: 0,
+            },
+          },
+          xAxis: {
+            ticks: {
+              precision: 0,
+            },
+          },
         },
-        ticks: {
-          precision: 0,
-        },
-      },
-      xAxis: {
-        grid: {
-          display: false,
-        },
-        ticks: {
-          precision: 0,
-        },
-      },
-    },
     plugins: {
       legend: {
         // Disable ability to click on legend
@@ -171,13 +187,7 @@ export function WordOrEmojiCountChart({
               <Spinner color="purple.400" size="xl" />
             </div>
           )}
-          <Bar
-            // height={360}
-            // width={480}
-            data={data}
-            options={options}
-            ref={graphRefToShare}
-          />
+          <Bar data={data} options={options} ref={graphRefToShare} />
         </div>
       )}
     </>

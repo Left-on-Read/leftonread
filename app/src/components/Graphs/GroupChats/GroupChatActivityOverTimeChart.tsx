@@ -90,16 +90,16 @@ export function GroupChatActivityOverTimeChart({
             size: 18,
           },
         },
-        subtitle: {
-          display: true,
-          text: 'Analyzed with https://leftonread.me/',
-          padding: {
-            bottom: 10,
-          },
-          font: {
-            size: 12,
-          },
-        },
+        // subtitle: {
+        //   display: true,
+        //   text: 'Analyzed with https://leftonread.me/',
+        //   padding: {
+        //     bottom: 10,
+        //   },
+        //   font: {
+        //     size: 12,
+        //   },
+        // },
       }
     : { 'lor-chartjs-logo-watermark-plugin': false };
 

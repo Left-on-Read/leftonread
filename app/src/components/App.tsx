@@ -51,27 +51,18 @@ export function App() {
         image.crossOrigin = 'anonymous'; // need to set to anonymous in order to export
         image.src = LogoWithTextFromGraphExport;
         if (image.complete) {
-          // CanvasRenderingContext2D
-          console.log(chart);
+          // ctx is a CanvasRenderingContext2D
           const { ctx, scales, chartArea } = chart;
-          const { xAxis, yAxis } = scales;
-          // ctx.save();
-
-          // console.log(xAxis, yAxis);
-          // const x = left + width - image.width;
-          // const y = top + height - image.height;
-          // ctx.drawImage(image, x, y);
-          // ctx.height += 200;
+          const { yAxis } = scales;
           ctx.font = '13px montserrat';
-
+          // TODO(Danilowicz): These need to be slightly adjusted to line up with the chart
           ctx.fillText(
             'leftonread.me/download',
             chartArea.right - 200,
             yAxis.bottom + 55
           );
           ctx.drawImage(image, 15, yAxis.bottom + 35);
-          ctx.save();
-          // ctx.restore();
+          ctx.save(); // not sure if this .save() is even needed
         } else {
           image.onload = () => chart.draw();
         }
