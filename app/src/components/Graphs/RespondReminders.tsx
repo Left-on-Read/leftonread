@@ -11,9 +11,9 @@ import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
 import { FiVoicemail } from 'react-icons/fi';
-import { typeMessageToPhoneNumber } from 'utils/appleScriptCommands';
 
 import { logEvent } from '../../utils/analytics';
+import { typeMessageToPhoneNumber } from '../../utils/appleScriptCommands';
 import { useGlobalContext } from '../Dashboard/GlobalContext';
 import { GraphContainer } from './GraphContainer';
 
