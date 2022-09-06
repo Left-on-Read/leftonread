@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Icon,
   IconButton,
   Text,
@@ -87,9 +88,20 @@ export function GraphContainer({
               </div>
             </div>
             {!isLocked && setIsShareOpen && (
-              <IconButton
-                icon={<Icon as={FiShare} />}
-                aria-label="Share"
+              // <IconButton
+              //   icon={<Icon as={FiShare} />}
+              //   aria-label="Share"
+              //   onClick={() => {
+              //     setIsShareOpen(true);
+              //     logEvent({
+              //       eventName: 'SHARE_GRAPH',
+              //       properties: {
+              //         graph: title[0],
+              //       },
+              //     });
+              //   }}
+              // />
+              <Button
                 onClick={() => {
                   setIsShareOpen(true);
                   logEvent({
@@ -99,7 +111,10 @@ export function GraphContainer({
                     },
                   });
                 }}
-              />
+                rightIcon={<Icon as={FiShare} />}
+              >
+                Share
+              </Button>
             )}
           </div>
         </div>

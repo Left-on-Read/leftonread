@@ -1,6 +1,7 @@
 import {
   Button,
   Divider,
+  Icon,
   Modal,
   ModalBody,
   // ModalCloseButton,
@@ -12,6 +13,8 @@ import {
 } from '@chakra-ui/react';
 import electron from 'electron';
 import { useEffect, useState } from 'react';
+import { IconContext } from 'react-icons';
+import { FiStar } from 'react-icons/fi';
 
 import { logEvent } from '../../utils/analytics';
 
@@ -91,7 +94,7 @@ export function ShareModal({
               }}
             >
               <span className="primary">
-                {copied ? <>Copied!</> : <>Copy image to clipboard</>}
+                {copied ? <>Copied!</> : <>Copy to clipboard</>}
               </span>
             </Button>
           </div>

@@ -14,7 +14,7 @@ export function Footer() {
     <>
       <div
         style={{
-          padding: '12px 24px',
+          padding: '18px 24px',
           display: 'flex',
           justifyContent: 'space-around',
         }}
