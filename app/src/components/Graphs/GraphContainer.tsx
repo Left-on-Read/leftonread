@@ -22,7 +22,7 @@ export function GraphContainer({
   isPremiumGraph,
   setIsShareOpen,
 }: {
-  title: string;
+  title: string[];
   description?: string;
   icon: IconType;
   children: React.ReactNode;
@@ -95,7 +95,7 @@ export function GraphContainer({
                   logEvent({
                     eventName: 'SHARE_GRAPH',
                     properties: {
-                      graph: title,
+                      graph: title[0],
                     },
                   });
                 }}

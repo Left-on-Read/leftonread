@@ -1,6 +1,5 @@
 import { Spinner, Text, theme } from '@chakra-ui/react';
 import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useRef, useState } from 'react';
@@ -20,7 +19,7 @@ function WordOrEmojiCountBody({
   isSharingVersion,
   setIsShareOpen,
 }: {
-  title: string;
+  title: string[];
   labelText: string;
   filters: SharedQueryFilters;
   isEmoji: boolean;
@@ -97,7 +96,7 @@ function WordOrEmojiCountBody({
         borderRadius: 8,
         gradient: {
           backgroundColor: {
-            axis: 'y',
+            axis: 'y' as const,
             colors: {
               0: theme.colors.blue[400],
               50: theme.colors.purple[400],
@@ -214,7 +213,7 @@ function WordOrEmojiCountBody({
               data={data}
               options={options}
               ref={graphRefToShare}
-              id={title}
+              id={title.join(' ')}
             />
           </div>
         </>
@@ -246,7 +245,7 @@ export function WordOrEmojiCountChart({
   isFromMe,
   isPremiumGraph,
 }: {
-  title: string;
+  title: string[];
   description: string;
   icon: IconType;
   labelText: string;

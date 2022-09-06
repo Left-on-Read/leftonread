@@ -17,7 +17,7 @@ export function SentimentOverTimeChart({
   icon,
   filters,
 }: {
-  title: string;
+  title: string[];
   description?: string;
   icon: IconType;
   filters: SharedQueryFilters;
