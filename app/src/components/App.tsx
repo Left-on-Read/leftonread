@@ -55,13 +55,12 @@ export function App() {
           const { ctx, scales, chartArea } = chart;
           const { yAxis } = scales;
           ctx.font = '13px montserrat';
-          // TODO(Danilowicz): These need to be slightly adjusted to line up with the chart
           ctx.fillText(
             'leftonread.me/download',
-            chartArea.right - 200,
+            chartArea.right - 165,
             yAxis.bottom + 55
           );
-          ctx.drawImage(image, 15, yAxis.bottom + 35);
+          ctx.drawImage(image, 45, yAxis.bottom + 35);
           ctx.save(); // not sure if this .save() is even needed
         } else {
           image.onload = () => chart.draw();

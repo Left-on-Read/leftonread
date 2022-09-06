@@ -10,33 +10,30 @@ import { TWordOrEmojiResults } from '../../analysis/queries/WordOrEmojiQuery';
 import { ShareModal } from '../Sharing/ShareModal';
 import { GraphContainer } from './GraphContainer';
 
-export function WordOrEmojiCountChart({
+function WordOrEmojiCountBody({
   title,
-  description,
-  icon,
   labelText,
   filters,
   isEmoji,
   isFromMe,
-  isPremiumGraph,
+  isSharingVersion,
+  setIsShareOpen,
 }: {
   title: string;
-  description: string;
-  icon: IconType;
   labelText: string;
   filters: SharedQueryFilters;
   isEmoji: boolean;
   isFromMe: boolean;
-  isPremiumGraph?: boolean;
+  isSharingVersion: boolean;
+  setIsShareOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
-
   const [words, setWords] = useState<string[]>([]);
   const [count, setCount] = useState<number[]>([]);
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<null | string>(null);
 
+  // TODO(Danilowicz): Instead of running the query twice, we could move this out into the Parent and slice the data
   useEffect(() => {
     async function fetchWordData() {
       setIsLoading(true);
@@ -44,7 +41,7 @@ export function WordOrEmojiCountChart({
       try {
         const data: TWordOrEmojiResults = await ipcRenderer.invoke(
           'query-word-emoji',
-          { isEmoji, isFromMe, limit: isShareOpen ? 10 : 5, ...filters }
+          { ...filters, isEmoji, isFromMe, limit: isSharingVersion ? 5 : 10 }
         );
         setWords(data.map((obj) => obj.word));
         setCount(data.map((obj) => obj.count));
@@ -58,9 +55,9 @@ export function WordOrEmojiCountChart({
       }
     }
     fetchWordData();
-  }, [filters, title, isEmoji, isFromMe, isShareOpen]);
+  }, [filters, title, isEmoji, isFromMe, isSharingVersion]);
 
-  const sharingLabel = isShareOpen
+  const sharingLabel = isSharingVersion
     ? {
         title: {
           display: true,
@@ -69,16 +66,6 @@ export function WordOrEmojiCountChart({
             size: 20,
             family: 'Montserrat',
             fontWeight: 'light',
-          },
-        },
-        subtitle: {
-          display: !isEmoji,
-          text: `"${words[0].replace(' ', '')}" wins first 🥇`,
-          font: {
-            size: 12,
-          },
-          padding: {
-            bottom: 10,
           },
         },
       }
@@ -98,8 +85,7 @@ export function WordOrEmojiCountChart({
 
   const options = {
     // These numbers are specific to each chart
-    // TODO(Danilowicz): add these to each chart
-    layout: isShareOpen
+    layout: isSharingVersion
       ? {
           padding: {
             bottom: 45,
@@ -109,7 +95,7 @@ export function WordOrEmojiCountChart({
           },
         }
       : {},
-    scales: isShareOpen
+    scales: isSharingVersion
       ? {
           yAxis: {
             grid: {
@@ -193,24 +179,73 @@ export function WordOrEmojiCountChart({
     </>
   );
 
-  return (
-    <>
-      <GraphContainer
-        title={title}
-        description={description}
-        icon={icon}
-        isPremiumGraph={!!isPremiumGraph}
-        setIsShareOpen={setIsShareOpen}
-      >
-        {body}
-      </GraphContainer>
+  if (isSharingVersion) {
+    return (
       <ShareModal
-        isOpen={isShareOpen}
+        isOpen={isSharingVersion}
         onClose={() => setIsShareOpen(false)}
         graphRefToShare={graphRefToShare}
       >
         {body}
       </ShareModal>
-    </>
+    );
+  }
+  return body;
+}
+
+export function WordOrEmojiCountChart({
+  title,
+  description,
+  icon,
+  labelText,
+  filters,
+  isEmoji,
+  isFromMe,
+  isPremiumGraph,
+}: {
+  title: string;
+  description: string;
+  icon: IconType;
+  labelText: string;
+  filters: SharedQueryFilters;
+  isEmoji: boolean;
+  isFromMe: boolean;
+  isPremiumGraph?: boolean;
+}) {
+  const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
+
+  // If the sharing modal is open, only return the body (which incldues the modal itself)
+  if (isShareOpen) {
+    return (
+      <WordOrEmojiCountBody
+        title={title}
+        labelText={labelText}
+        filters={filters}
+        isEmoji={isEmoji}
+        isFromMe={isFromMe}
+        isSharingVersion
+        setIsShareOpen={setIsShareOpen}
+      />
+    );
+  }
+  // If the sharing modal is not open, return the container + body
+  return (
+    <GraphContainer
+      title={title}
+      description={description}
+      icon={icon}
+      isPremiumGraph={!!isPremiumGraph}
+      setIsShareOpen={setIsShareOpen}
+    >
+      <WordOrEmojiCountBody
+        title={title}
+        labelText={labelText}
+        filters={filters}
+        isEmoji={isEmoji}
+        isFromMe={isFromMe}
+        isSharingVersion={false}
+        setIsShareOpen={setIsShareOpen}
+      />
+    </GraphContainer>
   );
 }

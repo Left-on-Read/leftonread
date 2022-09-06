@@ -88,6 +88,7 @@ export function attachIpcListeners() {
     'query-word-emoji',
     async (event, filters: IWordOrEmojiFilters) => {
       const db = getDb();
+      console.log(filters);
       return queryEmojiOrWordCounts(db, filters);
     }
   );
