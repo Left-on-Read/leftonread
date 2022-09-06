@@ -83,8 +83,12 @@ function WordOrEmojiCountBody({
     ],
   };
 
+  const chartStyle: React.CSSProperties = isSharingVersion
+    ? { width: '400px', height: '500px' }
+    : {};
   const options = {
-    // These numbers are specific to each chart
+    maintainAspectRatio: isSharingVersion ? false : undefined,
+    // The padding numbers are specific to each chart
     layout: isSharingVersion
       ? {
           padding: {
@@ -155,26 +159,30 @@ function WordOrEmojiCountBody({
           <Bar data={{ labels: [], datasets: [] }} />
         </div>
       ) : (
-        <div style={{ position: 'relative' }}>
+        <>
           {isLoading && (
-            <div
-              style={{
-                position: 'absolute',
-                height: '100%',
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                top: 0,
-                left: 0,
-                backgroundColor: 'rgba(255, 255, 255, 0.7)',
-              }}
-            >
-              <Spinner color="purple.400" size="xl" />
+            <div style={{ position: 'relative' }}>
+              <div
+                style={{
+                  position: 'absolute',
+                  height: '100%',
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  top: 0,
+                  left: 0,
+                  backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                }}
+              >
+                <Spinner color="purple.400" size="xl" />
+              </div>
             </div>
           )}
-          <Bar data={data} options={options} ref={graphRefToShare} />
-        </div>
+          <div style={chartStyle}>
+            <Bar data={data} options={options} ref={graphRefToShare} />
+          </div>
+        </>
       )}
     </>
   );

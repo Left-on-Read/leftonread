@@ -55,7 +55,7 @@ export function ShareModal({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} isCentered size="6xl">
+    <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
       <ModalContent style={{ width: '80vw' }}>
         <ModalHeader>
@@ -73,7 +73,7 @@ export function ShareModal({
                 padding: '10px',
               }}
             >
-              <Text color="gray.800"> Share this graph with your friends</Text>
+              <Text color="gray.800"> Share this graph</Text>
             </div>
             <Button
               disabled={copied}

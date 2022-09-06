@@ -58,9 +58,9 @@ export function App() {
           ctx.fillText(
             'leftonread.me/download',
             chartArea.right - 165,
-            yAxis.bottom + 55
+            yAxis.bottom + 60
           );
-          ctx.drawImage(image, 45, yAxis.bottom + 35);
+          ctx.drawImage(image, 45, yAxis.bottom + 45);
           ctx.save(); // not sure if this .save() is even needed
         } else {
           image.onload = () => chart.draw();
