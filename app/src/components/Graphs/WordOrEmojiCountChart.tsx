@@ -95,6 +95,15 @@ function WordOrEmojiCountBody({
         data: count,
         backgroundColor: theme.colors.blue['200'],
         borderRadius: 8,
+        gradient: {
+          backgroundColor: {
+            axis: 'y',
+            colors: {
+              0: theme.colors.blue[400],
+              50: theme.colors.purple[400],
+            },
+          },
+        },
       },
     ],
   };
@@ -201,7 +210,12 @@ function WordOrEmojiCountBody({
             </div>
           )}
           <div style={chartStyle}>
-            <Bar data={data} options={options} ref={graphRefToShare} />
+            <Bar
+              data={data}
+              options={options}
+              ref={graphRefToShare}
+              id={title}
+            />
           </div>
         </>
       )}
@@ -243,38 +257,36 @@ export function WordOrEmojiCountChart({
 }) {
   const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
 
-  // If the sharing modal is open, only return the body (which incldues the modal itself)
-  if (isShareOpen) {
-    return (
-      <WordOrEmojiCountBody
-        title={title}
-        labelText={labelText}
-        filters={filters}
-        isEmoji={isEmoji}
-        isFromMe={isFromMe}
-        isSharingVersion
-        setIsShareOpen={setIsShareOpen}
-      />
-    );
-  }
-  // If the sharing modal is not open, return the container + body
   return (
-    <GraphContainer
-      title={title}
-      description={description}
-      icon={icon}
-      isPremiumGraph={!!isPremiumGraph}
-      setIsShareOpen={setIsShareOpen}
-    >
-      <WordOrEmojiCountBody
+    <>
+      {isShareOpen && (
+        <WordOrEmojiCountBody
+          title={title}
+          labelText={labelText}
+          filters={filters}
+          isEmoji={isEmoji}
+          isFromMe={isFromMe}
+          isSharingVersion
+          setIsShareOpen={setIsShareOpen}
+        />
+      )}
+      <GraphContainer
         title={title}
-        labelText={labelText}
-        filters={filters}
-        isEmoji={isEmoji}
-        isFromMe={isFromMe}
-        isSharingVersion={false}
+        description={description}
+        icon={icon}
+        isPremiumGraph={!!isPremiumGraph}
         setIsShareOpen={setIsShareOpen}
-      />
-    </GraphContainer>
+      >
+        <WordOrEmojiCountBody
+          title={title}
+          labelText={labelText}
+          filters={filters}
+          isEmoji={isEmoji}
+          isFromMe={isFromMe}
+          isSharingVersion={false}
+          setIsShareOpen={setIsShareOpen}
+        />
+      </GraphContainer>
+    </>
   );
 }

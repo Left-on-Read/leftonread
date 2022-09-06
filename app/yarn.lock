@@ -3447,6 +3447,11 @@ chartjs-plugin-datalabels@^2.1.0:
   resolved "https://registry.yarnpkg.com/chartjs-plugin-datalabels/-/chartjs-plugin-datalabels-2.1.0.tgz#d42f05a0481831b2d79fb8c0521f8fa56e1e6db1"
   integrity sha512-WA6R4saSlY6mnyX78SkbSo2gGc+cj87lFi5zBrsjjYxE76JgXyxHa1OTodVCzRPoqeYJqSEOffeJ/897kRHR6w==
 
+chartjs-plugin-gradient@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/chartjs-plugin-gradient/-/chartjs-plugin-gradient-0.5.1.tgz#ac7ce246bcafb749ec7b64fe0668d518c75c9475"
+  integrity sha512-vhwlYGZWan4MGZZ4Wj64Y4aIql1uCPCU1JcggLWn3cgYEv4G7pXp1YgM4XH5ugmyn6BVCgQqAhiJ2h6hppzHmQ==
+
 "chokidar@>=3.0.0 <4.0.0", chokidar@^3.5.3:
   version "3.5.3"
   resolved "https://registry.npmjs.org/chokidar/-/chokidar-3.5.3.tgz"

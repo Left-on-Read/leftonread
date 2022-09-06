@@ -12,6 +12,7 @@ import './App.css';
 import { ChakraProvider } from '@chakra-ui/react';
 import { Chart, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import gradient from 'chartjs-plugin-gradient';
 import { useEffect, useState } from 'react';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 
@@ -26,6 +27,8 @@ import { Initializer } from './Initializer';
 Chart.register(...(registerables ?? []));
 
 Chart.register(ChartDataLabels);
+
+Chart.register(gradient);
 
 export function App() {
   const [isInitializing, setIsInitializing] = useState<boolean>(false);
