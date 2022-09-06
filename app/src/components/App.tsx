@@ -30,6 +30,8 @@ Chart.register(ChartDataLabels);
 
 Chart.register(gradient);
 
+// TODO(Danilowicz): set default font and weight here
+
 export function App() {
   const [isInitializing, setIsInitializing] = useState<boolean>(false);
 
@@ -52,7 +54,11 @@ export function App() {
   useEffect(() => {
     Chart.register({
       id: 'lor-chartjs-logo-watermark-plugin', // can be turned off by setting to false in a given chart
-      afterDraw: (chart: any) => {
+      afterDraw: (
+        chart: any,
+        _args: any,
+        options: { yPaddingText: number; yPaddingLogo: number }
+      ) => {
         const image = new Image();
         image.crossOrigin = 'anonymous'; // need to set to anonymous in order to export
         image.src = LogoWithTextFromGraphExport;
@@ -61,12 +67,13 @@ export function App() {
           const { ctx, scales, chartArea } = chart;
           const { yAxis } = scales;
           ctx.font = '13px montserrat';
+          ctx.fillStyle = 'gray';
           ctx.fillText(
             'leftonread.me/download',
             chartArea.right - 155,
-            yAxis.bottom + 40
+            yAxis.bottom + options.yPaddingText
           );
-          ctx.drawImage(image, 45, yAxis.bottom + 25);
+          ctx.drawImage(image, 45, yAxis.bottom + options.yPaddingLogo);
           ctx.save(); // not sure if this .save() is even needed
         } else {
           image.onload = () => chart.draw();

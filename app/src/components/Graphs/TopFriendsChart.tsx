@@ -3,6 +3,7 @@ import {
   Spinner,
   Text,
   theme as defaultTheme,
+  theme,
   Tooltip,
 } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
@@ -18,21 +19,19 @@ import { GroupChatFilters } from '../../constants/filters';
 import { ShareModal } from '../Sharing/ShareModal';
 import { GraphContainer } from './GraphContainer';
 
-export function TopFriendsChart({
+function TopFriendsBody({
   title,
-  description,
-  icon,
   filters,
+  isSharingVersion,
   loadingOverride,
+  setIsShareOpen,
 }: {
   title: string[];
-  description: string;
-  icon: IconType;
   filters: SharedQueryFilters;
+  isSharingVersion: boolean;
   loadingOverride?: boolean;
+  setIsShareOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
-
   const [friends, setFriends] = useState<string[]>([]);
   const [received, setReceived] = useState<number[]>([]);
   const [sent, setSent] = useState<number[]>([]);
@@ -47,7 +46,7 @@ export function TopFriendsChart({
       try {
         const topFriendsDataList: TTopFriendsResults = await ipcRenderer.invoke(
           'query-top-friends',
-          filters
+          { ...filters, limit: isSharingVersion ? 5 : 10 }
         );
         setFriends(topFriendsDataList.map((obj) => obj.friend));
         setSent(topFriendsDataList.map((obj) => obj.sent));
@@ -62,7 +61,7 @@ export function TopFriendsChart({
       }
     }
     fetchTopFriends();
-  }, [filters, title]);
+  }, [filters, title, isSharingVersion]);
 
   const data = {
     labels: friends,
@@ -77,63 +76,124 @@ export function TopFriendsChart({
       {
         label: 'Received',
         data: received,
-        backgroundColor: defaultTheme.colors.gray['200'],
-        borderColor: defaultTheme.colors.gray['500'],
+        backgroundColor: defaultTheme.colors.purple['200'],
+        borderColor: defaultTheme.colors.purple['400'],
         borderRadius: 5,
       },
     ],
   };
 
-  const sharingLabel = isShareOpen
-    ? {
-        'lor-chartjs-logo-watermark-plugin': true,
-        title: {
-          display: true,
-          text: `${title}`,
-          font: {
-            size: 18,
-          },
-        },
-        // subtitle: {
-        //   display: true,
-        //   text: 'Analyzed with https://leftonread.me/',
-        //   font: {
-        //     size: 12,
-        //   },
-        //   padding: {
-        //     bottom: 10,
-        //   },
-        // },
-      }
-    : { 'lor-chartjs-logo-watermark-plugin': false };
-
-  const options = {
-    scales: {
-      yAxis: {
-        ticks: {
-          precision: 0,
-        },
-      },
-      xAxis: {
-        ticks: {
-          precision: 0,
-        },
+  const plugins = {
+    title: {
+      display: isSharingVersion,
+      text: title,
+      font: {
+        size: 20,
+        family: 'Montserrat',
+        fontWeight: 'light',
       },
     },
+    datalabels: {
+      font: {
+        size: isSharingVersion ? 12 : 12,
+        family: 'Montserrat',
+        fontWeight: 'light',
+      },
+      anchor: 'end' as const,
+      align: 'end' as const,
+      formatter(value: any) {
+        return `${value}`;
+      },
+    },
+    'lor-chartjs-logo-watermark-plugin': isSharingVersion
+      ? {
+          yPaddingText: filters.contact ? 55 : 122,
+          yPaddingLogo: filters.contact ? 45 : 110,
+        }
+      : false,
+  };
+
+  const chartStyle: React.CSSProperties = isSharingVersion
+    ? { width: '400px', height: '500px' }
+    : {};
+
+  const options = {
+    maintainAspectRatio: isSharingVersion ? false : undefined,
+    layout: isSharingVersion
+      ? {
+          padding: {
+            bottom: 65,
+            left: 35,
+            right: 35,
+            top: 25,
+          },
+        }
+      : {},
+    scales: isSharingVersion
+      ? {
+          yAxis: {
+            grid: {
+              display: false,
+            },
+            ticks: {
+              precision: 0,
+              font: { size: 0 },
+            },
+          },
+          xAxis: {
+            grid: {
+              display: true,
+            },
+            ticks: {
+              font: {
+                size: 14,
+                family: 'Montserrat',
+                fontWeight: 'light',
+              },
+              precision: 0,
+            },
+          },
+        }
+      : {
+          yAxis: {
+            ticks: {
+              precision: 0,
+              font: {
+                family: 'Montserrat',
+                fontWeight: 'light',
+              },
+            },
+          },
+          xAxis: {
+            ticks: {
+              precision: 0,
+              font: {
+                size: filters.contact ? 14 : 10,
+                family: 'Montserrat',
+                fontWeight: 'light',
+              },
+            },
+          },
+        },
     plugins: {
       // Disable ability to click on legend
       legend: {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         onClick: (_e: any) => null,
+        labels: {
+          font: {
+            family: 'Montserrat',
+            fontWeight: 'light',
+            size: 14,
+          },
+        },
       },
-      ...sharingLabel,
+      ...plugins,
     },
   };
 
   const showLoading = loadingOverride || isLoading;
-
   const graphRefToShare = useRef(null);
-
   const body = (
     <>
       {error ? (
@@ -151,37 +211,79 @@ export function TopFriendsChart({
           <Bar data={{ labels: [], datasets: [] }} />
         </div>
       ) : (
-        <div style={{ position: 'relative' }}>
+        <>
           {showLoading && (
-            <div
-              style={{
-                position: 'absolute',
-                height: '100%',
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                top: 0,
-                left: 0,
-                backgroundColor: 'rgba(255, 255, 255, 0.7)',
-              }}
-            >
-              <Spinner color="purple.400" size="xl" />
+            <div style={{ position: 'relative' }}>
+              <div
+                style={{
+                  position: 'absolute',
+                  height: '100%',
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  top: 0,
+                  left: 0,
+                  backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                }}
+              >
+                <Spinner color="purple.400" size="xl" />
+              </div>
             </div>
           )}
-          <Bar data={data} options={options} ref={graphRefToShare} />
-        </div>
+          <div style={chartStyle}>
+            <Bar data={data} options={options} ref={graphRefToShare} />
+          </div>
+        </>
       )}
     </>
   );
 
+  if (isSharingVersion) {
+    return (
+      <ShareModal
+        isOpen={isSharingVersion}
+        onClose={() => setIsShareOpen(false)}
+        graphRefToShare={graphRefToShare}
+      >
+        {body}
+      </ShareModal>
+    );
+  }
+  return body;
+}
+
+export function TopFriendsChart({
+  title,
+  description,
+  icon,
+  filters,
+  loadingOverride,
+}: {
+  title: string[];
+  description: string;
+  icon: IconType;
+  filters: SharedQueryFilters;
+  loadingOverride?: boolean;
+}) {
+  const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
+
   return (
     <>
+      {isShareOpen && (
+        <TopFriendsBody
+          title={title}
+          filters={filters}
+          isSharingVersion
+          setIsShareOpen={setIsShareOpen}
+          loadingOverride={loadingOverride}
+        />
+      )}
       <GraphContainer
-        setIsShareOpen={setIsShareOpen}
         title={title}
         description={description}
         icon={icon}
+        setIsShareOpen={setIsShareOpen}
         tooltip={
           filters.groupChat === GroupChatFilters.BOTH ? (
             <Tooltip
@@ -195,15 +297,14 @@ export function TopFriendsChart({
           ) : null
         }
       >
-        {body}
+        <TopFriendsBody
+          title={title}
+          filters={filters}
+          isSharingVersion={false}
+          setIsShareOpen={setIsShareOpen}
+          loadingOverride={loadingOverride}
+        />
       </GraphContainer>
-      <ShareModal
-        isOpen={isShareOpen}
-        onClose={() => setIsShareOpen(false)}
-        graphRefToShare={graphRefToShare}
-      >
-        {body}
-      </ShareModal>
     </>
   );
 }

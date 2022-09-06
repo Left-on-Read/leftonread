@@ -33,7 +33,6 @@ function WordOrEmojiCountBody({
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<null | string>(null);
 
-  // TODO(Danilowicz): Instead of running the query twice, we could move this out into the Parent and slice the data
   useEffect(() => {
     async function fetchWordData() {
       setIsLoading(true);
@@ -57,42 +56,13 @@ function WordOrEmojiCountBody({
     fetchWordData();
   }, [filters, title, isEmoji, isFromMe, isSharingVersion]);
 
-  const plugins = isSharingVersion
-    ? {
-        title: {
-          display: true,
-          text: title,
-          font: {
-            size: 20,
-            family: 'Montserrat',
-            fontWeight: 'light',
-          },
-        },
-        datalabels: {
-          color: 'black',
-          font: {
-            size: 18,
-            family: 'Montserrat',
-            fontWeight: 'light',
-          },
-          anchor: 'end' as const,
-          align: 'end' as const,
-          formatter(value: any, context: any) {
-            return `(${value})`;
-          },
-        },
-      }
-    : {
-        'lor-chartjs-logo-watermark-plugin': false,
-        datalabels: { display: false },
-      };
   const data = {
     labels: words,
     datasets: [
       {
         label: labelText,
         data: count,
-        backgroundColor: theme.colors.blue['200'],
+        // backgroundColor: theme.colors.blue['200'],
         borderRadius: 8,
         gradient: {
           backgroundColor: {
@@ -107,19 +77,47 @@ function WordOrEmojiCountBody({
     ],
   };
 
+  const plugins = {
+    title: {
+      display: isSharingVersion,
+      text: title,
+      font: {
+        size: 20,
+        family: 'Montserrat',
+        fontWeight: 'light',
+      },
+    },
+    datalabels: {
+      display: isSharingVersion,
+      color: 'black',
+      font: {
+        size: 18,
+        family: 'Montserrat',
+        fontWeight: 'light',
+      },
+      anchor: 'end' as const,
+      align: 'end' as const,
+      formatter(value: any) {
+        return `(${value})`;
+      },
+    },
+    'lor-chartjs-logo-watermark-plugin': isSharingVersion
+      ? { yPaddingLogo: 25, yPaddingText: 40 }
+      : false,
+  };
+
   const chartStyle: React.CSSProperties = isSharingVersion
     ? { width: '400px', height: '500px' }
     : {};
   const options = {
     indexAxis: isSharingVersion ? ('y' as const) : undefined,
     maintainAspectRatio: isSharingVersion ? false : undefined,
-    // The padding numbers are specific to each chart
     layout: isSharingVersion
       ? {
           padding: {
             bottom: 65,
-            left: 35,
-            right: 35,
+            left: 40,
+            right: 40,
             top: 25,
           },
         }
@@ -134,6 +132,8 @@ function WordOrEmojiCountBody({
               precision: 0,
               font: {
                 size: 20,
+                family: 'Montserrat',
+                fontWeight: 'light',
               },
             },
           },
@@ -151,11 +151,20 @@ function WordOrEmojiCountBody({
           yAxis: {
             ticks: {
               precision: 0,
+              font: {
+                size: 16,
+                family: 'Montserrat',
+                fontWeight: 'light',
+              },
             },
           },
           xAxis: {
             ticks: {
               precision: 0,
+              font: {
+                family: 'Montserrat',
+                fontWeight: 'light',
+              },
             },
           },
         },
@@ -209,12 +218,7 @@ function WordOrEmojiCountBody({
             </div>
           )}
           <div style={chartStyle}>
-            <Bar
-              data={data}
-              options={options}
-              ref={graphRefToShare}
-              id={title.join(' ')}
-            />
+            <Bar data={data} options={options} ref={graphRefToShare} />
           </div>
         </>
       )}
