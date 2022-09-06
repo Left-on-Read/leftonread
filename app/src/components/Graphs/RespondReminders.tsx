@@ -7,10 +7,11 @@ import {
   theme as defaultTheme,
 } from '@chakra-ui/react';
 import { RespondRemindersResult } from 'analysis/queries/RespondReminders';
-import electron, { ipcRenderer } from 'electron';
+import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
 import { FiVoicemail } from 'react-icons/fi';
+import { typeMessageToPhoneNumber } from 'utils/appleScriptCommands';
 
 import { logEvent } from '../../utils/analytics';
 import { useGlobalContext } from '../Dashboard/GlobalContext';
@@ -33,6 +34,10 @@ function scoreReminder(reminder: RespondRemindersResult) {
 }
 
 export function RespondReminders() {
+  const NUMBER_OF_REMINDERS = 4;
+  const [isLoadingReminderArray, setIsLoadingReminderArray] = useState<
+    boolean[]
+  >(Array(NUMBER_OF_REMINDERS).fill(false));
   const { isPremium } = useGlobalContext();
 
   const [reminders, setReminders] = useState<RespondRemindersResult[]>([]);
@@ -63,15 +68,14 @@ export function RespondReminders() {
   const sortedReminders = reminders.sort(
     (a, b) => scoreReminder(b) - scoreReminder(a)
   );
-
   const reminderContent = isLoading ? (
     <>
-      <Skeleton height={40} />
-      <Skeleton height={40} />
-      <Skeleton height={40} />
+      {isLoadingReminderArray.map(() => (
+        <Skeleton height={40} />
+      ))}
     </>
   ) : (
-    sortedReminders.slice(0, 3).map((reminder) => {
+    sortedReminders.slice(0, NUMBER_OF_REMINDERS).map((reminder, i) => {
       return (
         <Box
           key={reminder.friend}
@@ -101,21 +105,26 @@ export function RespondReminders() {
           <Text style={{ marginTop: 8 }}>{reminder.message}</Text>
           <Box style={{ marginTop: 24 }}>
             <Button
+              isLoading={isLoadingReminderArray[i]}
+              loadingText="Opening iMessage..."
               tabIndex={-1}
-              disabled={isPremium}
+              disabled={!isPremium}
               colorScheme="blue"
               size="sm"
               onClick={async () => {
-                const api = new Proxy(electron, {
-                  get: (target: any, property: any) =>
-                    target[property] ||
-                    (target.remote ? target.remote[property] : undefined),
+                const temp = [...isLoadingReminderArray];
+                temp[i] = true;
+                setIsLoadingReminderArray(temp);
+                await typeMessageToPhoneNumber({
+                  message: 'Hey, meant to follow up on this earlier!',
+                  // NOTE(Danilowicz): if we get reports of this not working,
+                  // we should use the phone number here, which might have a
+                  // a higher success rate
+                  phoneNumber: reminder.friend,
                 });
-
-                if (process.platform === 'darwin') {
-                  await api.shell.openPath(`/System/Applications/Messages.app`);
-                }
-
+                const temp2 = [...isLoadingReminderArray];
+                temp2[i] = false;
+                setIsLoadingReminderArray(temp2);
                 logEvent({
                   eventName: 'RESPOND_TO_REMINDER',
                 });
