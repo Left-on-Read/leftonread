@@ -57,7 +57,7 @@ function WordOrEmojiCountBody({
     fetchWordData();
   }, [filters, title, isEmoji, isFromMe, isSharingVersion]);
 
-  const sharingLabel = isSharingVersion
+  const plugins = isSharingVersion
     ? {
         title: {
           display: true,
@@ -70,7 +70,6 @@ function WordOrEmojiCountBody({
         },
       }
     : { 'lor-chartjs-logo-watermark-plugin': false };
-
   const data = {
     labels: words,
     datasets: [
@@ -87,12 +86,13 @@ function WordOrEmojiCountBody({
     ? { width: '400px', height: '500px' }
     : {};
   const options = {
+    indexAxis: isSharingVersion ? 'y' : undefined,
     maintainAspectRatio: isSharingVersion ? false : undefined,
     // The padding numbers are specific to each chart
     layout: isSharingVersion
       ? {
           padding: {
-            bottom: 45,
+            bottom: 65,
             left: 25,
             right: 25,
             top: 25,
@@ -107,6 +107,9 @@ function WordOrEmojiCountBody({
             },
             ticks: {
               precision: 0,
+              font: {
+                size: 20,
+              },
             },
           },
           xAxis: {
@@ -115,6 +118,7 @@ function WordOrEmojiCountBody({
             },
             ticks: {
               precision: 0,
+              font: { size: 0 },
             },
           },
         }
@@ -137,7 +141,7 @@ function WordOrEmojiCountBody({
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         onClick: (_e: any) => null,
       },
-      ...sharingLabel,
+      ...plugins,
     },
   };
 
