@@ -44,11 +44,11 @@ export const titleFormatter = ({
   titleName: string;
   filters: SharedQueryFilters;
 }) => {
-  let title = titleName;
+  const title = [titleName];
   const { contact } = filters;
   if (contact?.length === 1) {
     const word = titleName.toLowerCase().includes('sent') ? 'to' : 'from';
-    title += ` ${word} ${contact[0].label}`;
+    title.push(` ${word} ${contact[0].label}`);
   }
   // TODO(Danilowicz): add who is excluded here.
   // As I think most people will exclude their S.O.

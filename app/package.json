@@ -126,6 +126,7 @@
     "@fontsource/montserrat": "^4.5.11",
     "axios": "^0.27.2",
     "chart.js": "^3.8.2",
+    "chartjs-plugin-datalabels": "^2.1.0",
     "color-interpolate": "^1.0.5",
     "electron-debug": "^3.2.0",
     "electron-log": "^4.4.7",

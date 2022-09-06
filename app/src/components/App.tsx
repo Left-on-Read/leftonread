@@ -11,6 +11,7 @@ import './App.css';
 
 import { ChakraProvider } from '@chakra-ui/react';
 import { Chart, registerables } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { useEffect, useState } from 'react';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 
@@ -23,6 +24,8 @@ import { Redirecter } from './Home/Redirecter';
 import { Initializer } from './Initializer';
 
 Chart.register(...(registerables ?? []));
+
+Chart.register(ChartDataLabels);
 
 export function App() {
   const [isInitializing, setIsInitializing] = useState<boolean>(false);
@@ -57,10 +60,10 @@ export function App() {
           ctx.font = '13px montserrat';
           ctx.fillText(
             'leftonread.me/download',
-            chartArea.right - 165,
-            yAxis.bottom + 60
+            chartArea.right - 155,
+            yAxis.bottom + 40
           );
-          ctx.drawImage(image, 45, yAxis.bottom + 45);
+          ctx.drawImage(image, 45, yAxis.bottom + 25);
           ctx.save(); // not sure if this .save() is even needed
         } else {
           image.onload = () => chart.draw();

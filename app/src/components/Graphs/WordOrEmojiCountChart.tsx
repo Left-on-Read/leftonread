@@ -1,5 +1,6 @@
 import { Spinner, Text, theme } from '@chakra-ui/react';
 import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useRef, useState } from 'react';
@@ -61,15 +62,31 @@ function WordOrEmojiCountBody({
     ? {
         title: {
           display: true,
-          text: `${title}`,
+          text: title,
           font: {
             size: 20,
             family: 'Montserrat',
             fontWeight: 'light',
           },
         },
+        datalabels: {
+          color: 'black',
+          font: {
+            size: 18,
+            family: 'Montserrat',
+            fontWeight: 'light',
+          },
+          anchor: 'end' as const,
+          align: 'end' as const,
+          formatter(value: any, context: any) {
+            return `(${value})`;
+          },
+        },
       }
-    : { 'lor-chartjs-logo-watermark-plugin': false };
+    : {
+        'lor-chartjs-logo-watermark-plugin': false,
+        datalabels: { display: false },
+      };
   const data = {
     labels: words,
     datasets: [
@@ -86,15 +103,15 @@ function WordOrEmojiCountBody({
     ? { width: '400px', height: '500px' }
     : {};
   const options = {
-    indexAxis: isSharingVersion ? 'y' : undefined,
+    indexAxis: isSharingVersion ? ('y' as const) : undefined,
     maintainAspectRatio: isSharingVersion ? false : undefined,
     // The padding numbers are specific to each chart
     layout: isSharingVersion
       ? {
           padding: {
             bottom: 65,
-            left: 25,
-            right: 25,
+            left: 35,
+            right: 35,
             top: 25,
           },
         }
