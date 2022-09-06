@@ -1,5 +1,6 @@
 import {
   Box,
+  Icon,
   Spinner,
   Stat,
   StatGroup,
@@ -15,6 +16,7 @@ import log from 'electron-log';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { IconType } from 'react-icons';
+import { FiInfo } from 'react-icons/fi';
 
 import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFilters';
 import { GraphContainer } from './GraphContainer';
@@ -163,7 +165,21 @@ export function TotalSentimentChart({
   }, [filters, title]);
 
   return (
-    <GraphContainer title={title} description={description} icon={icon}>
+    <GraphContainer
+      title={title}
+      description={description}
+      icon={icon}
+      tooltip={
+        <Tooltip
+          label="Positivity is calculated by comparing words and emojis against the AFINN Sentiment Lexicon"
+          fontSize="md"
+        >
+          <span>
+            <Icon as={FiInfo} color="gray.500" />
+          </span>
+        </Tooltip>
+      }
+    >
       {error ? (
         <Text color="red.400">Uh oh! Something went wrong.</Text>
       ) : (
