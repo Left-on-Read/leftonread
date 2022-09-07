@@ -7,26 +7,25 @@ import { Bar } from 'react-chartjs-2';
 import { IconType } from 'react-icons';
 
 import { TWordOrEmojiResults } from '../../analysis/queries/WordOrEmojiQuery';
+import { ShareModal } from '../Sharing/ShareModal';
 import { GraphContainer } from './GraphContainer';
 
-export function WordOrEmojiCountChart({
+function WordOrEmojiCountBody({
   title,
-  description,
-  icon,
   labelText,
   filters,
   isEmoji,
   isFromMe,
-  isPremiumGraph,
+  isSharingVersion,
+  setIsShareOpen,
 }: {
-  title: string;
-  description: string;
-  icon: IconType;
+  title: string[];
   labelText: string;
   filters: SharedQueryFilters;
   isEmoji: boolean;
   isFromMe: boolean;
-  isPremiumGraph?: boolean;
+  isSharingVersion: boolean;
+  setIsShareOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [words, setWords] = useState<string[]>([]);
   const [count, setCount] = useState<number[]>([]);
@@ -41,7 +40,7 @@ export function WordOrEmojiCountChart({
       try {
         const data: TWordOrEmojiResults = await ipcRenderer.invoke(
           'query-word-emoji',
-          { isEmoji, isFromMe, ...filters }
+          { ...filters, isEmoji, isFromMe, limit: isSharingVersion ? 5 : 10 }
         );
         setWords(data.map((obj) => obj.word));
         setCount(data.map((obj) => obj.count));
@@ -55,7 +54,7 @@ export function WordOrEmojiCountChart({
       }
     }
     fetchWordData();
-  }, [filters, title, isEmoji, isFromMe]);
+  }, [filters, title, isEmoji, isFromMe, isSharingVersion]);
 
   const data = {
     labels: words,
@@ -63,20 +62,112 @@ export function WordOrEmojiCountChart({
       {
         label: labelText,
         data: count,
-        backgroundColor: theme.colors.blue['200'],
         borderRadius: 8,
+        gradient: {
+          backgroundColor: {
+            axis: 'y' as const,
+            colors: {
+              0: theme.colors.blue[400],
+              50: theme.colors.purple[400],
+            },
+          },
+        },
       },
     ],
   };
 
-  const options = {
-    scales: {
-      yAxis: {
-        ticks: {
-          precision: 0,
-        },
+  const plugins = {
+    title: {
+      display: isSharingVersion,
+      text: title,
+      font: {
+        size: 20,
+        family: 'Montserrat',
+        fontWeight: 'light',
       },
     },
+    datalabels: {
+      display: isSharingVersion,
+      font: {
+        size: 18,
+        family: 'Montserrat',
+        fontWeight: 'light',
+      },
+      anchor: 'end' as const,
+      align: 'end' as const,
+      formatter(value: any) {
+        return `(${value})`;
+      },
+    },
+    'lor-chartjs-logo-watermark-plugin': isSharingVersion
+      ? { yPaddingLogo: 25, yPaddingText: 40 }
+      : false,
+  };
+
+  const chartStyle: React.CSSProperties = isSharingVersion
+    ? { width: '400px', height: '500px' }
+    : {};
+
+  const options = {
+    indexAxis: isSharingVersion ? ('y' as const) : undefined,
+    maintainAspectRatio: isSharingVersion ? false : undefined,
+    layout: isSharingVersion
+      ? {
+          padding: {
+            bottom: 65,
+            left: 40,
+            right: 40,
+            top: 25,
+          },
+        }
+      : {},
+    scales: isSharingVersion
+      ? {
+          yAxis: {
+            grid: {
+              display: false,
+            },
+            ticks: {
+              precision: 0,
+              font: {
+                size: 20,
+                family: 'Montserrat',
+                fontWeight: 'light',
+              },
+            },
+          },
+          xAxis: {
+            grid: {
+              display: false,
+            },
+            ticks: {
+              precision: 0,
+              font: { size: 0 },
+            },
+          },
+        }
+      : {
+          yAxis: {
+            ticks: {
+              precision: 0,
+              font: {
+                size: 16,
+                family: 'Montserrat',
+                fontWeight: 'light',
+              },
+            },
+          },
+          xAxis: {
+            ticks: {
+              precision: 0,
+              font: {
+                size: isEmoji ? 20 : 16,
+                family: 'Montserrat',
+                fontWeight: 'light',
+              },
+            },
+          },
+        },
     plugins: {
       legend: {
         // Disable ability to click on legend
@@ -84,33 +175,13 @@ export function WordOrEmojiCountChart({
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         onClick: (_e: any) => null,
       },
-      // TODO(Danilowicz): Only show this if rendered in share modal
-      // title: {
-      //   display: true,
-      //   text: `My ${title}`,
-      //   font: {
-      //     size: 18,
-      //   },
-      // },
-      // subtitle: {
-      //   display: true,
-      //   text: "Check out https://leftonread.me/ it's awesome!",
-      //   font: {
-      //     size: 12,
-      //   },
-      // },
+      ...plugins,
     },
   };
 
   const graphRefToShare = useRef(null);
-  return (
-    <GraphContainer
-      title={title}
-      description={description}
-      icon={icon}
-      graphRefToShare={graphRefToShare}
-      isPremiumGraph={!!isPremiumGraph}
-    >
+  const body = (
+    <>
       {error ? (
         <div
           style={{
@@ -126,27 +197,99 @@ export function WordOrEmojiCountChart({
           <Bar data={{ labels: [], datasets: [] }} />
         </div>
       ) : (
-        <div style={{ position: 'relative' }}>
+        <>
           {isLoading && (
-            <div
-              style={{
-                position: 'absolute',
-                height: '100%',
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                top: 0,
-                left: 0,
-                backgroundColor: 'rgba(255, 255, 255, 0.7)',
-              }}
-            >
-              <Spinner color="purple.400" size="xl" />
+            <div style={{ position: 'relative' }}>
+              <div
+                style={{
+                  position: 'absolute',
+                  height: '100%',
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  top: 0,
+                  left: 0,
+                  backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                }}
+              >
+                <Spinner color="purple.400" size="xl" />
+              </div>
             </div>
           )}
-          <Bar data={data} options={options} ref={graphRefToShare} />
-        </div>
+          <div style={chartStyle}>
+            <Bar data={data} options={options} ref={graphRefToShare} />
+          </div>
+        </>
       )}
-    </GraphContainer>
+    </>
+  );
+
+  if (isSharingVersion) {
+    return (
+      <ShareModal
+        isOpen={isSharingVersion}
+        onClose={() => setIsShareOpen(false)}
+        graphRefToShare={graphRefToShare}
+      >
+        {body}
+      </ShareModal>
+    );
+  }
+  return body;
+}
+
+export function WordOrEmojiCountChart({
+  title,
+  description,
+  icon,
+  labelText,
+  filters,
+  isEmoji,
+  isFromMe,
+  isPremiumGraph,
+}: {
+  title: string[];
+  description: string;
+  icon: IconType;
+  labelText: string;
+  filters: SharedQueryFilters;
+  isEmoji: boolean;
+  isFromMe: boolean;
+  isPremiumGraph?: boolean;
+}) {
+  const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
+
+  return (
+    <>
+      {isShareOpen && (
+        <WordOrEmojiCountBody
+          title={title}
+          labelText={labelText}
+          filters={filters}
+          isEmoji={isEmoji}
+          isFromMe={isFromMe}
+          isSharingVersion
+          setIsShareOpen={setIsShareOpen}
+        />
+      )}
+      <GraphContainer
+        title={title}
+        description={description}
+        icon={icon}
+        isPremiumGraph={!!isPremiumGraph}
+        setIsShareOpen={setIsShareOpen}
+      >
+        <WordOrEmojiCountBody
+          title={title}
+          labelText={labelText}
+          filters={filters}
+          isEmoji={isEmoji}
+          isFromMe={isFromMe}
+          isSharingVersion={false}
+          setIsShareOpen={setIsShareOpen}
+        />
+      </GraphContainer>
+    </>
   );
 }

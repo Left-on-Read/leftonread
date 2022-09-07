@@ -285,7 +285,7 @@ export function ESCards({
         aria-label="Right"
         onClick={() => moveToEnd(0)}
         tabIndex={-1}
-        disabled={isPremium}
+        disabled={!isPremium}
       />
     </div>
   );

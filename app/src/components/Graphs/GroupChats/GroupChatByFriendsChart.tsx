@@ -1,4 +1,4 @@
-import { Spinner, Text, theme as defaultTheme } from '@chakra-ui/react';
+import { Spinner, Text, theme as defaultTheme, theme } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useRef, useState } from 'react';
@@ -7,18 +7,20 @@ import { IconType } from 'react-icons';
 
 import { SharedGroupChatTabQueryFilters } from '../../../analysis/queries/filters/sharedGroupChatTabFilters';
 import { GroupChatByFriends } from '../../../analysis/queries/GroupChatByFriendsQuery';
-import { useGlobalContext } from '../../Dashboard/GlobalContext';
+import { ShareModal } from '../../Sharing/ShareModal';
 import { GraphContainer } from '../GraphContainer';
 
-export function GroupChatByFriendsChart({
+function GroupChatByFriendsBody({
   title,
-  icon,
   filters,
+  isSharingVersion,
+  setIsShareOpen,
   loadingOverride,
 }: {
-  title: string;
-  icon: IconType;
+  title: string[];
   filters: SharedGroupChatTabQueryFilters;
+  isSharingVersion: boolean;
+  setIsShareOpen: React.Dispatch<React.SetStateAction<boolean>>;
   loadingOverride?: boolean;
 }) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -26,8 +28,6 @@ export function GroupChatByFriendsChart({
 
   const [count, setCount] = useState<number[]>([]);
   const [contactNames, setContactNames] = useState<string[]>([]);
-
-  const { dateRange } = useGlobalContext();
 
   useEffect(() => {
     async function fetchGroupChatByFriends() {
@@ -37,7 +37,13 @@ export function GroupChatByFriendsChart({
         const groupChatByFriendsDataList: GroupChatByFriends[] =
           await ipcRenderer.invoke('query-group-chat-by-friends', filters);
 
-        const cn = groupChatByFriendsDataList.map((obj) => obj.contact_name);
+        const MAX_LABEL_LENGTH = 18;
+        const cn = groupChatByFriendsDataList.map((obj) => {
+          if (obj.contact_name.length > MAX_LABEL_LENGTH) {
+            return `${obj.contact_name.substring(0, MAX_LABEL_LENGTH)}...`;
+          }
+          return obj.contact_name;
+        });
         const ct = groupChatByFriendsDataList.map((obj) => obj.count);
 
         setContactNames(cn);
@@ -60,23 +66,105 @@ export function GroupChatByFriendsChart({
       {
         label: 'Count',
         data: count,
-        backgroundColor: defaultTheme.colors.blue['200'],
-        borderColor: defaultTheme.colors.blue['400'],
         borderRadius: 5,
+        gradient: {
+          backgroundColor: {
+            axis: 'y' as const,
+            colors: {
+              0: theme.colors.blue[400],
+              50: theme.colors.purple[400],
+            },
+          },
+        },
       },
     ],
   };
 
+  let longContactName = '';
+  if (contactNames.length > 0) {
+    const proposedLongContactName = contactNames.reduce((a, b) =>
+      a.length > b.length ? a : b
+    );
+    if (proposedLongContactName.length > 10) {
+      longContactName = proposedLongContactName;
+    }
+  }
+
+  const plugins = {
+    title: {
+      display: isSharingVersion,
+      text: title,
+      font: {
+        size: 20,
+        family: 'Montserrat',
+        fontWeight: 'light',
+      },
+    },
+    datalabels: {
+      font: {
+        size: isSharingVersion ? 12 : 16,
+        family: 'Montserrat',
+        fontWeight: 'light',
+      },
+      anchor: 'end' as const,
+      align: 'end' as const,
+      formatter(value: any) {
+        if (isSharingVersion) {
+          return `(${value})`;
+        }
+        return `${value}`;
+      },
+    },
+    'lor-chartjs-logo-watermark-plugin': isSharingVersion
+      ? {
+          yPaddingText: 80 + longContactName.length * 4,
+          yPaddingLogo: 65 + longContactName.length * 4,
+        }
+      : false,
+  };
+
+  const chartStyle: React.CSSProperties = isSharingVersion
+    ? { width: '400px', height: '500px' }
+    : {};
+
   const options = {
+    maintainAspectRatio: isSharingVersion ? false : undefined,
+    layout: isSharingVersion
+      ? {
+          padding: {
+            bottom: 65,
+            left: 35,
+            right: 35,
+            top: 25,
+          },
+        }
+      : {},
     scales: {
       yAxis: {
+        grid: {
+          display: !isSharingVersion,
+        },
         ticks: {
+          display: !isSharingVersion,
           precision: 0,
+          font: {
+            size: 14,
+            family: 'Montserrat',
+            fontWeight: 'light',
+          },
         },
       },
       xAxis: {
+        grid: {
+          display: !isSharingVersion,
+        },
         ticks: {
           precision: 0,
+          font: {
+            size: 14,
+            family: 'Montserrat',
+            fontWeight: 'light',
+          },
         },
       },
     },
@@ -87,51 +175,32 @@ export function GroupChatByFriendsChart({
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         onClick: (_e: any) => null,
       },
+      ...plugins,
     },
   };
 
   const showLoading = loadingOverride || isLoading;
-
   const graphRefToShare = useRef(null);
-  return (
+  const body = (
     <>
-      <GraphContainer
-        graphRefToShare={graphRefToShare}
-        title={title}
-        description={
-          contactNames.length > 0
-            ? `${
-                contactNames[0]
-              } takes the cake as the most talkative between ${
-                filters.timeRange?.startDate
-                  ? filters.timeRange?.startDate.toLocaleDateString()
-                  : dateRange.earliestDate.toLocaleDateString()
-              } and ${
-                filters.timeRange?.endDate
-                  ? filters.timeRange?.endDate.toLocaleDateString()
-                  : dateRange.latestDate.toLocaleDateString()
-              } 🏆`
-            : ''
-        }
-        icon={icon}
-      >
-        {error ? (
-          <div
-            style={{
-              position: 'relative',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <div style={{ position: 'absolute' }}>
-              <Text color="red.400">Uh oh! Something went wrong... </Text>
-            </div>
-            <Bar data={{ labels: [], datasets: [] }} />
+      {error ? (
+        <div
+          style={{
+            position: 'relative',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <div style={{ position: 'absolute' }}>
+            <Text color="red.400">Uh oh! Something went wrong... </Text>
           </div>
-        ) : (
-          <div style={{ position: 'relative' }}>
-            {showLoading && (
+          <Bar data={{ labels: [], datasets: [] }} />
+        </div>
+      ) : (
+        <>
+          {showLoading && (
+            <div style={{ position: 'relative' }}>
               <div
                 style={{
                   position: 'absolute',
@@ -147,10 +216,62 @@ export function GroupChatByFriendsChart({
               >
                 <Spinner color="purple.400" size="xl" />
               </div>
-            )}
+            </div>
+          )}
+          <div style={chartStyle}>
             <Bar data={data} options={options} ref={graphRefToShare} />
           </div>
-        )}
+        </>
+      )}
+    </>
+  );
+
+  if (isSharingVersion) {
+    return (
+      <ShareModal
+        isOpen={isSharingVersion}
+        onClose={() => setIsShareOpen(false)}
+        graphRefToShare={graphRefToShare}
+      >
+        {body}
+      </ShareModal>
+    );
+  }
+  return body;
+}
+
+export function GroupChatByFriendsChart({
+  title,
+  icon,
+  filters,
+  loadingOverride,
+}: {
+  title: string[];
+  icon: IconType;
+  filters: SharedGroupChatTabQueryFilters;
+  loadingOverride?: boolean;
+}) {
+  const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
+
+  return (
+    <>
+      {isShareOpen && (
+        <GroupChatByFriendsBody
+          title={title}
+          filters={filters}
+          isSharingVersion
+          setIsShareOpen={setIsShareOpen}
+          loadingOverride={loadingOverride}
+        />
+      )}
+      <GraphContainer title={title} icon={icon} setIsShareOpen={setIsShareOpen}>
+        <GroupChatByFriendsBody
+          title={title}
+          filters={filters}
+          isSharingVersion={false}
+          setIsShareOpen={setIsShareOpen}
+          loadingOverride={loadingOverride}
+        />
       </GraphContainer>
     </>
   );

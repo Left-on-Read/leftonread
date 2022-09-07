@@ -140,7 +140,7 @@ export function RespondReminders() {
 
   return (
     <GraphContainer
-      title="Reminders"
+      title={['Reminders']}
       description="Did you forget to respond to these messages?"
       icon={FiVoicemail}
       isPremiumGraph
