@@ -10,19 +10,17 @@ import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFi
 import { ShareModal } from '../Sharing/ShareModal';
 import { GraphContainer } from './GraphContainer';
 
-export function TopSentimentFriendsChart({
+function TopSentimentFriendsBody({
   title,
-  description,
-  icon,
   filters,
+  isSharingVersion,
+  setIsShareOpen,
 }: {
   title: string[];
-  description?: string;
-  icon: IconType;
   filters: SharedQueryFilters;
+  isSharingVersion: boolean;
+  setIsShareOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
-
   const [friends, setFriends] = useState<string[]>([]);
   const [received, setReceived] = useState<number[]>([]);
   const [sent, setSent] = useState<number[]>([]);
@@ -36,7 +34,10 @@ export function TopSentimentFriendsChart({
       setIsLoading(true);
       try {
         const topFriendsDataList: TopSentimentFriendsResult[] =
-          await ipcRenderer.invoke('query-top-sentiment-friends', filters);
+          await ipcRenderer.invoke('query-top-sentiment-friends', {
+            ...filters,
+            limit: isSharingVersion ? 5 : 10,
+          });
 
         setFriends(topFriendsDataList.map((obj) => obj.friend));
         setSent(topFriendsDataList.map((obj) => obj.sentPct));
@@ -51,7 +52,7 @@ export function TopSentimentFriendsChart({
       }
     }
     fetchTopFriends();
-  }, [filters, title]);
+  }, [filters, title, isSharingVersion]);
 
   const data = {
     labels: friends,
@@ -73,38 +74,59 @@ export function TopSentimentFriendsChart({
     ],
   };
 
-  const sharingLabel = isShareOpen
-    ? {
-        title: {
-          display: true,
-          text: `${title}`,
-          font: {
-            size: 18,
-          },
-        },
-        // subtitle: {
-        //   display: true,
-        //   text: 'Analyzed with https://leftonread.me/',
-        //   font: {
-        //     size: 12,
-        //   },
-        //   padding: {
-        //     bottom: 10,
-        //   },
-        // },
-      }
-    : { 'lor-chartjs-logo-watermark-plugin': false };
+  const plugins = {
+    title: {
+      display: isSharingVersion,
+      text: title,
+      font: {
+        size: 20,
+        family: 'Montserrat',
+        fontWeight: 'light',
+      },
+    },
+    datalabels: { display: false },
+    'lor-chartjs-logo-watermark-plugin': isSharingVersion
+      ? {
+          yPaddingText: 97,
+          yPaddingLogo: 85,
+        }
+      : false,
+  };
+
+  const chartStyle: React.CSSProperties = isSharingVersion
+    ? { width: '400px', height: '500px' }
+    : {};
 
   const options = {
+    maintainAspectRatio: isSharingVersion ? false : undefined,
+    layout: isSharingVersion
+      ? {
+          padding: {
+            bottom: 65,
+            left: 35,
+            right: 35,
+            top: 25,
+          },
+        }
+      : {},
     scales: {
       yAxis: {
         ticks: {
           precision: 0,
+          font: {
+            family: 'Montserrat',
+            fontWeight: 'light',
+          },
         },
       },
       xAxis: {
         ticks: {
           precision: 0,
+          font: {
+            family: 'Montserrat',
+            fontWeight: 'light',
+            size: 14,
+          },
         },
       },
     },
@@ -113,8 +135,15 @@ export function TopSentimentFriendsChart({
       legend: {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         onClick: (_e: any) => null,
+        labels: {
+          font: {
+            family: 'Montserrat',
+            fontWeight: 'light',
+            size: 14,
+          },
+        },
       },
-      ...sharingLabel,
+      ...plugins,
     },
   };
 
@@ -136,47 +165,84 @@ export function TopSentimentFriendsChart({
           <Bar data={{ labels: [], datasets: [] }} />
         </div>
       ) : (
-        <div style={{ position: 'relative' }}>
+        <>
           {isLoading && (
-            <div
-              style={{
-                position: 'absolute',
-                height: '100%',
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                top: 0,
-                left: 0,
-                backgroundColor: 'rgba(255, 255, 255, 0.7)',
-              }}
-            >
-              <Spinner color="purple.400" size="xl" />
+            <div style={{ position: 'relative' }}>
+              <div
+                style={{
+                  position: 'absolute',
+                  height: '100%',
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  top: 0,
+                  left: 0,
+                  backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                }}
+              >
+                <Spinner color="purple.400" size="xl" />
+              </div>
             </div>
           )}
-          <Bar data={data} options={options} ref={graphRefToShare} />
-        </div>
+          <div style={chartStyle}>
+            <Bar data={data} options={options} ref={graphRefToShare} />
+          </div>
+        </>
       )}
     </>
   );
-  return (
-    <>
-      <GraphContainer
-        title={title}
-        description={description}
-        icon={icon}
-        setIsShareOpen={setIsShareOpen}
-        isPremiumGraph
-      >
-        {body}
-      </GraphContainer>
+
+  if (isSharingVersion) {
+    return (
       <ShareModal
-        isOpen={isShareOpen}
+        isOpen={isSharingVersion}
         onClose={() => setIsShareOpen(false)}
         graphRefToShare={graphRefToShare}
       >
         {body}
       </ShareModal>
+    );
+  }
+  return body;
+}
+
+export function TopSentimentFriendsChart({
+  title,
+  description,
+  icon,
+  filters,
+}: {
+  title: string[];
+  description?: string;
+  icon: IconType;
+  filters: SharedQueryFilters;
+}) {
+  const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
+
+  return (
+    <>
+      {isShareOpen && (
+        <TopSentimentFriendsBody
+          title={title}
+          filters={filters}
+          isSharingVersion
+          setIsShareOpen={setIsShareOpen}
+        />
+      )}
+      <GraphContainer
+        title={title}
+        description={description}
+        icon={icon}
+        setIsShareOpen={setIsShareOpen}
+      >
+        <TopSentimentFriendsBody
+          title={title}
+          filters={filters}
+          isSharingVersion={false}
+          setIsShareOpen={setIsShareOpen}
+        />
+      </GraphContainer>
     </>
   );
 }

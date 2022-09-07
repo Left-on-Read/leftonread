@@ -3,7 +3,6 @@ import {
   Spinner,
   Text,
   theme as defaultTheme,
-  theme,
   Tooltip,
 } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
