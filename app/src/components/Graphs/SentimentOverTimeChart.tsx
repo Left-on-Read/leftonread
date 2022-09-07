@@ -281,6 +281,7 @@ export function SentimentOverTimeChart({
         description={description}
         icon={icon}
         setIsShareOpen={setIsShareOpen}
+        isPremiumGraph
       >
         <SentimentOverTimeBody
           title={title}
