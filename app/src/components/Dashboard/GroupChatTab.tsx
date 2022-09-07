@@ -43,7 +43,7 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
         ];
 
         const gct = setGct.map((name) => {
-          return { value: name, label: name.replace(',', ', ') };
+          return { value: name, label: name };
         });
 
         setGroupChatNames(gct);
@@ -62,11 +62,14 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
     fetchGroupChatByFriends();
   }, [filters]);
 
-  // Use async select to load options in
+  // TODO(Daniowicz): Use async select to load options in
+  // Also this Group Chat Selector UI should be totally redone and moved into the filter panel
   return (
     <>
-      <div style={{ padding: '0px 48px', marginBottom: '48px' }}>
-        <Text fontSize="md" fontWeight={600} style={{ marginBottom: '6px' }}>
+      <div
+        style={{ padding: '0px 48px', marginBottom: '48px', maxWidth: '450px' }}
+      >
+        <Text fontSize="xl" fontWeight={600} style={{ marginBottom: '6px' }}>
           Select a Group Chat
         </Text>
         <Select
@@ -80,21 +83,21 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
         />
       </div>
 
-      {/* NOTE(Danilowicz): Not proud of the .replace here... */}
+      {/* NOTE(Danilowicz): Not proud of the replace all here... */}
       <GroupChatActivityOverTimeChart
-        title={`Group Chat Activity in ${selectedGroupChat.label.replace(
-          ',',
-          ', '
-        )}`}
+        title={[
+          'Group Chat Activity in ',
+          ...selectedGroupChat.label.replaceAll(',', ', ;').split(';'),
+        ]}
         description=""
         icon={FiCompass}
         filters={{ ...filters, groupChatName: selectedGroupChat.label }}
       />
       <GroupChatByFriendsChart
-        title={`Who Texts the Most in ${selectedGroupChat.label.replace(
-          ',',
-          ', '
-        )}`}
+        title={[
+          'Who Texts the Most in ',
+          ...selectedGroupChat.label.replaceAll(',', ', ;').split(';'),
+        ]}
         icon={FiFeather}
         filters={{ ...filters, groupChatName: selectedGroupChat.label }}
       />

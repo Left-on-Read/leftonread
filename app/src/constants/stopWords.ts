@@ -246,6 +246,15 @@ const stopWordsList = [
   "there's",
   'look',
   'gotta',
+  'maybe',
+  'next',
+  '$',
+  'new',
+  'hey',
+  'pm',
+  'am',
+  'sure',
+  'probably',
   '”', // very weird quote, not sure what this is
 ];
 export const stopWords = delimList(lowerCaseList(stopWordsList));

@@ -11,9 +11,12 @@ import './App.css';
 
 import { ChakraProvider } from '@chakra-ui/react';
 import { Chart, registerables } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import gradient from 'chartjs-plugin-gradient';
 import { useEffect, useState } from 'react';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 
+import LogoWithTextFromGraphExport from '../../assets/LogoWithTextForGraphExport.svg';
 import { theme } from '../theme';
 import { Dashboard } from './Dashboard/Dashboard';
 import { ErrorBoundary } from './ErrorBoundary';
@@ -22,15 +25,17 @@ import { Redirecter } from './Home/Redirecter';
 import { Initializer } from './Initializer';
 
 Chart.register(...(registerables ?? []));
+Chart.register(ChartDataLabels);
+Chart.register(gradient);
 
 export function App() {
   const [isInitializing, setIsInitializing] = useState<boolean>(false);
 
-  // Give every chart a white background color for export reasons
-  // https://stackoverflow.com/questions/69357233/background-color-of-the-chart-area-in-chartjs-not-working
   useEffect(() => {
     Chart.register({
-      id: 'custom_canvas_background_color',
+      // Give every chart a white background color for export reasons
+      // https://stackoverflow.com/questions/69357233/background-color-of-the-chart-area-in-chartjs-not-workin
+      id: 'lor-chartjs-white-background-for-export',
       beforeDraw: (chart: any) => {
         const ctx = chart.canvas.getContext('2d');
         ctx.save();
@@ -38,6 +43,36 @@ export function App() {
         ctx.fillStyle = 'white';
         ctx.fillRect(0, 0, chart.width, chart.height);
         ctx.restore();
+      },
+    });
+  }, []);
+
+  useEffect(() => {
+    Chart.register({
+      id: 'lor-chartjs-logo-watermark-plugin',
+      afterDraw: (
+        chart: any,
+        _args: any,
+        options: { yPaddingText: number; yPaddingLogo: number }
+      ) => {
+        const image = new Image();
+        image.crossOrigin = 'anonymous'; // need to set to anonymous in order to export
+        image.src = LogoWithTextFromGraphExport;
+        if (image.complete) {
+          const { ctx, scales, chartArea } = chart;
+          const { yAxis } = scales;
+          ctx.font = '13px montserrat';
+          ctx.fillStyle = 'gray';
+          ctx.fillText(
+            'leftonread.me/download',
+            chartArea.right - 155,
+            yAxis.bottom + options.yPaddingText
+          );
+          ctx.drawImage(image, 45, yAxis.bottom + options.yPaddingLogo);
+          ctx.save(); // not sure if this .save() is even needed
+        } else {
+          image.onload = () => chart.draw();
+        }
       },
     });
   }, []);

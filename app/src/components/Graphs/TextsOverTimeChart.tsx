@@ -8,18 +8,19 @@ import { IconType } from 'react-icons';
 import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFilters';
 import { TextOverTimeResults } from '../../analysis/queries/TextsOverTimeQuery';
 import { generateSampledPoints } from '../../utils/overTimeHelpers';
+import { ShareModal } from '../Sharing/ShareModal';
 import { GraphContainer } from './GraphContainer';
 
-export function TextsOverTimeChart({
+function TextsOverTimeBody({
   title,
-  description,
-  icon,
   filters,
+  isSharingVersion,
+  setIsShareOpen,
 }: {
-  title: string;
-  description: string;
-  icon: IconType;
+  title: string[];
   filters: SharedQueryFilters;
+  isSharingVersion: boolean;
+  setIsShareOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [sent, setSent] = useState<TextOverTimeResults>([]);
   const [received, setReceived] = useState<TextOverTimeResults>([]);
@@ -70,7 +71,6 @@ export function TextsOverTimeChart({
   });
 
   // Batch by week
-
   const MAX_POINTS = 30;
   const minLength = Math.max(sentData.length, receivedData.length);
   let batchSize = 1;
@@ -80,7 +80,7 @@ export function TextsOverTimeChart({
   const sampledSentData = generateSampledPoints(sentData, batchSize);
   const sampledReceivedData = generateSampledPoints(receivedData, batchSize);
 
-  const chartData = {
+  const data = {
     labels,
     datasets: [
       {
@@ -100,11 +100,52 @@ export function TextsOverTimeChart({
     ],
   };
 
+  const plugins = {
+    title: {
+      display: isSharingVersion,
+      text: title,
+      font: {
+        size: 20,
+        family: 'Montserrat',
+        fontWeight: 'light',
+      },
+    },
+    datalabels: {
+      display: false,
+    },
+    'lor-chartjs-logo-watermark-plugin': isSharingVersion
+      ? {
+          yPaddingText: 122,
+          yPaddingLogo: 110,
+        }
+      : false,
+  };
+
+  const chartStyle: React.CSSProperties = isSharingVersion
+    ? { width: '400px', height: '500px' }
+    : {};
+
   const options = {
+    maintainAspectRatio: isSharingVersion ? false : undefined,
+    layout: isSharingVersion
+      ? {
+          padding: {
+            bottom: 65,
+            left: 35,
+            right: 35,
+            top: 25,
+          },
+        }
+      : {},
     scales: {
       yAxis: {
         ticks: {
           precision: 0,
+          font: {
+            size: 14,
+            family: 'Montserrat',
+            fontWeight: 'light',
+          },
         },
       },
       xAxis: {
@@ -112,6 +153,11 @@ export function TextsOverTimeChart({
           // value is of type number but Line props doesn't like that...
           callback: (value: any) => {
             return new Date(labels[value]).toLocaleDateString();
+          },
+          font: {
+            size: 14,
+            family: 'Montserrat',
+            fontWeight: 'light',
           },
           maxTicksLimit: 12,
         },
@@ -129,18 +175,21 @@ export function TextsOverTimeChart({
       legend: {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         onClick: (_e: any) => null,
+        labels: {
+          font: {
+            family: 'Montserrat',
+            fontWeight: 'light',
+            size: 14,
+          },
+        },
       },
+      ...plugins,
     },
   };
 
   const graphRefToShare = useRef(null);
-  return (
-    <GraphContainer
-      title={title}
-      description={description}
-      icon={icon}
-      graphRefToShare={graphRefToShare}
-    >
+  const body = (
+    <>
       {error ? (
         <div
           style={{
@@ -156,27 +205,84 @@ export function TextsOverTimeChart({
           <Line data={{ labels: [], datasets: [] }} options={options} />
         </div>
       ) : (
-        <div style={{ position: 'relative' }}>
+        <>
           {isLoading && (
-            <div
-              style={{
-                position: 'absolute',
-                height: '100%',
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                top: 0,
-                left: 0,
-                backgroundColor: 'rgba(255, 255, 255, 0.7)',
-              }}
-            >
-              <Spinner color="purple.400" size="xl" />
+            <div style={{ position: 'relative' }}>
+              <div
+                style={{
+                  position: 'absolute',
+                  height: '100%',
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  top: 0,
+                  left: 0,
+                  backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                }}
+              >
+                <Spinner color="purple.400" size="xl" />
+              </div>
             </div>
           )}
-          <Line data={chartData} options={options} ref={graphRefToShare} />
-        </div>
+          <div style={chartStyle}>
+            <Line data={data} options={options} ref={graphRefToShare} />
+          </div>
+        </>
       )}
-    </GraphContainer>
+    </>
+  );
+
+  if (isSharingVersion) {
+    return (
+      <ShareModal
+        isOpen={isSharingVersion}
+        onClose={() => setIsShareOpen(false)}
+        graphRefToShare={graphRefToShare}
+      >
+        {body}
+      </ShareModal>
+    );
+  }
+  return body;
+}
+
+export function TextsOverTimeChart({
+  title,
+  description,
+  icon,
+  filters,
+}: {
+  title: string[];
+  description: string;
+  icon: IconType;
+  filters: SharedQueryFilters;
+}) {
+  const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
+
+  return (
+    <>
+      {isShareOpen && (
+        <TextsOverTimeBody
+          title={title}
+          filters={filters}
+          isSharingVersion
+          setIsShareOpen={setIsShareOpen}
+        />
+      )}
+      <GraphContainer
+        title={title}
+        description={description}
+        icon={icon}
+        setIsShareOpen={setIsShareOpen}
+      >
+        <TextsOverTimeBody
+          title={title}
+          filters={filters}
+          isSharingVersion={false}
+          setIsShareOpen={setIsShareOpen}
+        />
+      </GraphContainer>
+    </>
   );
 }

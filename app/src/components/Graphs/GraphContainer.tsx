@@ -1,50 +1,41 @@
 import {
   Box,
+  Button,
   Icon,
-  IconButton,
   Text,
   theme as defaultTheme,
 } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React from 'react';
 import { IconType } from 'react-icons';
 import { FiShare } from 'react-icons/fi';
 
 import { logEvent } from '../../utils/analytics';
 import { useGlobalContext } from '../Dashboard/GlobalContext';
 import { UnlockPremiumButton } from '../Premium/UnlockPremiumButton';
-import { ShareModal } from '../Sharing/ShareModal';
 
 export function GraphContainer({
   title,
   description,
   icon,
   children,
-  graphRefToShare,
   tooltip,
   isPremiumGraph,
+  setIsShareOpen,
 }: {
-  title: string;
+  title: string[];
   description?: string;
   icon: IconType;
   children: React.ReactNode;
-  graphRefToShare?: React.MutableRefObject<null>;
   tooltip?: React.ReactNode;
   isPremiumGraph?: boolean;
+  setIsShareOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const { isPremium } = useGlobalContext();
-  const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
 
   const isLocked = isPremiumGraph && !isPremium;
 
   return (
     <>
-      <ShareModal
-        isOpen={isShareOpen}
-        onClose={() => setIsShareOpen(false)}
-        graphRefToShare={graphRefToShare}
-      >
-        {children}
-      </ShareModal>
       <div style={{ margin: '12px 0' }}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Box
@@ -95,20 +86,34 @@ export function GraphContainer({
                 <span style={{ marginLeft: '10px' }}>{tooltip}</span>
               </div>
             </div>
-            {graphRefToShare && !isLocked && (
-              <IconButton
-                icon={<Icon as={FiShare} />}
-                aria-label="Share"
+            {!isLocked && setIsShareOpen && (
+              // <IconButton
+              //   icon={<Icon as={FiShare} />}
+              //   aria-label="Share"
+              //   onClick={() => {
+              //     setIsShareOpen(true);
+              //     logEvent({
+              //       eventName: 'SHARE_GRAPH',
+              //       properties: {
+              //         graph: title[0],
+              //       },
+              //     });
+              //   }}
+              // />
+              <Button
                 onClick={() => {
                   setIsShareOpen(true);
                   logEvent({
                     eventName: 'SHARE_GRAPH',
                     properties: {
-                      graph: title,
+                      graph: title[0],
                     },
                   });
                 }}
-              />
+                rightIcon={<Icon as={FiShare} />}
+              >
+                Share
+              </Button>
             )}
           </div>
         </div>

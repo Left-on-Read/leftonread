@@ -8,18 +8,19 @@ import { IconType } from 'react-icons';
 import { SharedGroupChatTabQueryFilters } from '../../../analysis/queries/filters/sharedGroupChatTabFilters';
 import { GroupActivityOverTimeResult } from '../../../analysis/queries/GroupChats/GroupChatActivityOverTimeQuery';
 import { generateSampledPoints } from '../../../utils/overTimeHelpers';
+import { ShareModal } from '../../Sharing/ShareModal';
 import { GraphContainer } from '../GraphContainer';
 
-export function GroupChatActivityOverTimeChart({
+function GroupChatActivityOverTimeBody({
   title,
-  description,
-  icon,
   filters,
+  isSharingVersion,
+  setIsShareOpen,
 }: {
-  title: string;
-  description: string;
-  icon: IconType;
+  title: string[];
   filters: SharedGroupChatTabQueryFilters;
+  isSharingVersion: boolean;
+  setIsShareOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [data, setData] = useState<GroupActivityOverTimeResult[]>([]);
 
@@ -79,11 +80,52 @@ export function GroupChatActivityOverTimeChart({
     ],
   };
 
+  const plugins = {
+    title: {
+      display: isSharingVersion,
+      text: title,
+      font: {
+        size: 20,
+        family: 'Montserrat',
+        fontWeight: 'light',
+      },
+    },
+    datalabels: {
+      display: false,
+    },
+    'lor-chartjs-logo-watermark-plugin': isSharingVersion
+      ? {
+          yPaddingText: 90,
+          yPaddingLogo: 75,
+        }
+      : false,
+  };
+
+  const chartStyle: React.CSSProperties = isSharingVersion
+    ? { width: '400px', height: '500px' }
+    : {};
+
   const options = {
+    maintainAspectRatio: isSharingVersion ? false : undefined,
+    layout: isSharingVersion
+      ? {
+          padding: {
+            bottom: 65,
+            left: 35,
+            right: 35,
+            top: 25,
+          },
+        }
+      : {},
     scales: {
       yAxis: {
         ticks: {
           precision: 0,
+          font: {
+            size: 14,
+            family: 'Montserrat',
+            fontWeight: 'light',
+          },
         },
       },
       xAxis: {
@@ -91,6 +133,11 @@ export function GroupChatActivityOverTimeChart({
           // value is of type number but Line props doesn't like that...
           callback: (value: any) => {
             return new Date(labels[value]).toLocaleDateString();
+          },
+          font: {
+            size: 14,
+            family: 'Montserrat',
+            fontWeight: 'light',
           },
           maxTicksLimit: 12,
         },
@@ -109,18 +156,21 @@ export function GroupChatActivityOverTimeChart({
         // Disable ability to click on legend
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         onClick: (_e: any) => null,
+        labels: {
+          font: {
+            family: 'Montserrat',
+            fontWeight: 'light',
+            size: 14,
+          },
+        },
       },
+      ...plugins,
     },
   };
 
   const graphRefToShare = useRef(null);
-  return (
-    <GraphContainer
-      title={title}
-      description={description}
-      icon={icon}
-      graphRefToShare={graphRefToShare}
-    >
+  const body = (
+    <>
       {error ? (
         <div
           style={{
@@ -136,27 +186,83 @@ export function GroupChatActivityOverTimeChart({
           <Line data={{ labels: [], datasets: [] }} options={options} />
         </div>
       ) : (
-        <div style={{ position: 'relative' }}>
+        <>
           {isLoading && (
-            <div
-              style={{
-                position: 'absolute',
-                height: '100%',
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                top: 0,
-                left: 0,
-                backgroundColor: 'rgba(255, 255, 255, 0.7)',
-              }}
-            >
-              <Spinner color="purple.400" size="xl" />
+            <div style={{ position: 'relative' }}>
+              <div
+                style={{
+                  position: 'absolute',
+                  height: '100%',
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  top: 0,
+                  left: 0,
+                  backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                }}
+              >
+                <Spinner color="purple.400" size="xl" />
+              </div>
             </div>
           )}
-          <Line data={chartData} options={options} ref={graphRefToShare} />
-        </div>
+          <div style={chartStyle}>
+            <Line data={chartData} options={options} ref={graphRefToShare} />
+          </div>
+        </>
       )}
-    </GraphContainer>
+    </>
+  );
+  if (isSharingVersion) {
+    return (
+      <ShareModal
+        isOpen={isSharingVersion}
+        onClose={() => setIsShareOpen(false)}
+        graphRefToShare={graphRefToShare}
+      >
+        {body}
+      </ShareModal>
+    );
+  }
+  return body;
+}
+
+export function GroupChatActivityOverTimeChart({
+  title,
+  description,
+  icon,
+  filters,
+}: {
+  title: string[];
+  description: string;
+  icon: IconType;
+  filters: SharedGroupChatTabQueryFilters;
+}) {
+  const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
+
+  return (
+    <>
+      {isShareOpen && (
+        <GroupChatActivityOverTimeBody
+          title={title}
+          filters={filters}
+          isSharingVersion
+          setIsShareOpen={setIsShareOpen}
+        />
+      )}
+      <GraphContainer
+        title={title}
+        description={description}
+        icon={icon}
+        setIsShareOpen={setIsShareOpen}
+      >
+        <GroupChatActivityOverTimeBody
+          title={title}
+          filters={filters}
+          isSharingVersion={false}
+          setIsShareOpen={setIsShareOpen}
+        />
+      </GraphContainer>
+    </>
   );
 }
