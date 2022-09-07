@@ -62,7 +62,7 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
     fetchGroupChatByFriends();
   }, [filters]);
 
-  // Use async select to load options in
+  // TODO(Daniowicz): Use async select to load options in
   return (
     <>
       <div style={{ padding: '0px 48px', marginBottom: '48px' }}>
@@ -80,12 +80,12 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
         />
       </div>
 
-      {/* NOTE(Danilowicz): Not proud of the .replace here... */}
+      {/* NOTE(Danilowicz): Not proud of the replace all here... */}
       <GroupChatActivityOverTimeChart
-        title={`Group Chat Activity in ${selectedGroupChat.label.replaceAll(
-          ',',
-          ', '
-        )}`}
+        title={[
+          'Group Chat Activity in ',
+          ...selectedGroupChat.label.replaceAll(',', ', ;').split(';'),
+        ]}
         description=""
         icon={FiCompass}
         filters={{ ...filters, groupChatName: selectedGroupChat.label }}

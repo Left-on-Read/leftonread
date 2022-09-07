@@ -17,7 +17,7 @@ export function GroupChatActivityOverTimeChart({
   icon,
   filters,
 }: {
-  title: string;
+  title: string[];
   description: string;
   icon: IconType;
   filters: SharedGroupChatTabQueryFilters;
@@ -85,7 +85,7 @@ export function GroupChatActivityOverTimeChart({
     ? {
         title: {
           display: true,
-          text: `${title}`,
+          text: title,
           font: {
             size: 18,
           },
