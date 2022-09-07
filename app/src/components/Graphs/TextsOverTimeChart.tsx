@@ -71,7 +71,6 @@ function TextsOverTimeBody({
   });
 
   // Batch by week
-
   const MAX_POINTS = 30;
   const minLength = Math.max(sentData.length, receivedData.length);
   let batchSize = 1;
