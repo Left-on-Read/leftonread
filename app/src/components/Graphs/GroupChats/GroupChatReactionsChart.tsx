@@ -1,5 +1,5 @@
-import { Spinner, Text, theme as defaultTheme } from '@chakra-ui/react';
-import { GroupChatReactions } from 'analysis/queries/GroupChats/GroupChatReactionsQuery';
+/* eslint-disable @typescript-eslint/naming-convention */
+import { Spinner, Text } from '@chakra-ui/react';
 import { Context } from 'chartjs-plugin-datalabels';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
@@ -8,6 +8,7 @@ import { Bar } from 'react-chartjs-2';
 import { IconType } from 'react-icons';
 
 import { SharedGroupChatTabQueryFilters } from '../../../analysis/queries/filters/sharedGroupChatTabFilters';
+import { GroupChatReactions } from '../../../analysis/queries/GroupChats/GroupChatReactionsQuery';
 import { ShareModal } from '../../Sharing/ShareModal';
 import { GraphContainer } from '../GraphContainer';
 
@@ -17,22 +18,30 @@ function GroupChatReactionsBody({
   isSharingVersion,
   setIsShareOpen,
   loadingOverride,
+  mode,
+  colorByContactName,
 }: {
   title: string[];
   filters: SharedGroupChatTabQueryFilters;
   isSharingVersion: boolean;
   setIsShareOpen: React.Dispatch<React.SetStateAction<boolean>>;
   loadingOverride?: boolean;
+  mode: 'GIVES' | 'GETS';
+  colorByContactName: Record<string, string>;
 }) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<null | string>(null);
 
-  //   const [count, setCount] = useState<number[]>([]);
-  //   const [contactNames, setContactNames] = useState<string[]>([]);
-
   const [chartData, setChartData] = useState<GroupChatReactions[]>([]);
   const [reactionsSet, setReactionsSet] = useState(
-    new Set(['Love', 'Like', 'Dislike', 'Haha', 'Questioned', 'Emphasized'])
+    new Set([
+      'Loved',
+      'Liked',
+      'Disliked',
+      'Laughed',
+      'Questioned',
+      'Emphasized',
+    ])
   );
 
   useEffect(() => {
@@ -45,30 +54,23 @@ function GroupChatReactionsBody({
 
         // NOTE(Danilowicz): Lot of potiential here.
         // Could show who gives who the most reactions, who gives the most, etc
+        // We can and should move this filtering entirely to SQL
         const groupChatReactionsDataList =
-          groupChatReactionsDataListUnfiltered.filter((o) =>
-            parseInt(o.is_giving_reaction, 10)
-          );
+          groupChatReactionsDataListUnfiltered.filter((o) => {
+            if (mode === 'GIVES') {
+              return parseInt(o.is_giving_reaction, 10) === 1;
+            }
+            return parseInt(o.is_giving_reaction, 10) === 0;
+          });
 
         setChartData(groupChatReactionsDataList);
 
         const setOfReactions = new Set<string>();
+        // might be faster to run a SQL distinct here
         groupChatReactionsDataList.forEach((obj) => {
           setOfReactions.add(obj.reaction);
         });
         setReactionsSet(setOfReactions);
-
-        // const MAX_LABEL_LENGTH = 18;
-        // const cn = groupChatReactionsDataList.map((obj) => {
-        //   if (obj.contact_name.length > MAX_LABEL_LENGTH) {
-        //     return `${obj.contact_name.substring(0, MAX_LABEL_LENGTH)}...`;
-        //   }
-        //   return obj.contact_name;
-        // });
-        // const ct = groupChatReactionsDataList.map((obj) => obj.count);
-
-        // setContactNames(cn);
-        // setCount(ct);
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err.message);
@@ -79,50 +81,54 @@ function GroupChatReactionsBody({
       }
     }
     fetchGroupChatReactions();
-  }, [filters, title]);
+  }, [filters, title, mode]);
+
+  const datasetByContactName: Record<
+    string,
+    {
+      label: string;
+      data: (number | null)[];
+      borderRadius: number;
+      backgroundColor: string;
+      borderColor: string;
+    }
+  > = {};
+  chartData.forEach((obj) => {
+    const { contact_name } = obj;
+
+    if (!(contact_name in datasetByContactName)) {
+      const contactArray = chartData.filter(
+        (d) => d.contact_name === contact_name
+      );
+
+      const orderedDataArray: (number | null)[] = [];
+      Array.from(reactionsSet).forEach((r) => {
+        const foundValue = contactArray.find((cData) => cData.reaction === r);
+        orderedDataArray.push(foundValue?.count ?? null);
+      });
+
+      datasetByContactName[contact_name] = {
+        label: contact_name,
+        // we rely on the fact that the output is already sorted by reaction due to SQL's ORDER BY
+        data: orderedDataArray,
+        borderRadius: 5,
+        backgroundColor: colorByContactName[contact_name],
+        borderColor: colorByContactName[contact_name],
+      };
+    }
+  });
 
   const data = {
-    labels: Array.from(reactionsSet),
-    // TODO(Danilowicz):
-    // 1) create object of datasetByContactName
-    // 2) that object must have ordered number of reactions
-    // ^- mark as null if needed
-    // 3) Give each person a different color
-    datasets: [
-      {
-        label: 'Teddy',
-        data: [null, 6, 7, 8],
-        borderRadius: 5,
-        backgroundColor: defaultTheme.colors.purple['200'],
-        borderColor: defaultTheme.colors.purple['400'],
-      },
-      {
-        label: 'Jackie',
-        data: [5, 10, 7, 8],
-        borderRadius: 5,
-        backgroundColor: defaultTheme.colors.blue['200'],
-        borderColor: defaultTheme.colors.blue['400'],
-      },
-      {
-        label: 'Brian',
-        data: [9, 4, 7, 8],
-        borderRadius: 5,
-        backgroundColor: defaultTheme.colors.green['200'],
-        borderColor: defaultTheme.colors.green['400'],
-      },
-      {
-        label: 'You',
-        data: [5, 6, 7, 8],
-        borderRadius: 5,
-        backgroundColor: defaultTheme.colors.pink['200'],
-        borderColor: defaultTheme.colors.pink['400'],
-      },
-      {
-        label: 'Andrew',
-        data: [2, null, 7, 8],
-        borderRadius: 5,
-      },
-    ],
+    labels: Array.from(reactionsSet).map((r) => {
+      if (mode === 'GETS') {
+        if (r === 'Laughed') {
+          return 'Laughs';
+        }
+        return r.replace('d', 's');
+      }
+      return r;
+    }),
+    datasets: Object.values(datasetByContactName),
   };
 
   const plugins = {
@@ -146,9 +152,6 @@ function GroupChatReactionsBody({
           anchor: 'start' as const,
           align: 'start' as const,
           rotation: 320,
-          //   padding: {
-          //     bottom: 45,
-          //   },
           formatter(value: any, context: Context) {
             const MAX_LABEL_LENGTH = 18;
             if (
@@ -211,7 +214,7 @@ function GroupChatReactionsBody({
         },
         ticks: {
           precision: 0,
-          padding: !isSharingVersion ? 45 : 0,
+          padding: !isSharingVersion ? 65 : 0,
           font: {
             size: 14,
             family: 'Montserrat',
@@ -304,11 +307,15 @@ export function GroupChatReactionsChart({
   icon,
   filters,
   loadingOverride,
+  mode,
+  colorByContactName,
 }: {
   title: string[];
   icon: IconType;
   filters: SharedGroupChatTabQueryFilters;
   loadingOverride?: boolean;
+  mode: 'GIVES' | 'GETS';
+  colorByContactName: Record<string, string>;
 }) {
   const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
 
@@ -321,6 +328,8 @@ export function GroupChatReactionsChart({
           isSharingVersion
           setIsShareOpen={setIsShareOpen}
           loadingOverride={loadingOverride}
+          mode={mode}
+          colorByContactName={colorByContactName}
         />
       )}
       <GraphContainer title={title} icon={icon} setIsShareOpen={setIsShareOpen}>
@@ -330,6 +339,8 @@ export function GroupChatReactionsChart({
           isSharingVersion={false}
           setIsShareOpen={setIsShareOpen}
           loadingOverride={loadingOverride}
+          mode={mode}
+          colorByContactName={colorByContactName}
         />
       </GraphContainer>
     </>

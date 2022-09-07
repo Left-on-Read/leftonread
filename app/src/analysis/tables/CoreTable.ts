@@ -76,8 +76,7 @@ export class CoreMainTable extends Table {
 
     JOIN DATE_TIME_TABLE
       ON m.guid = datetimetable_guid 
-    -- TODO(Danilowicz) ADD BACK FLUFF FILTER AT QUERY LEVEL
-    -- WHERE ${fluffFilter()}
+    WHERE ${fluffFilter()}
 
     -- remove duplicate messages from group chats
     GROUP BY guid 

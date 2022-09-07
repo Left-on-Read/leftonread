@@ -16,12 +16,14 @@ function GroupChatByFriendsBody({
   isSharingVersion,
   setIsShareOpen,
   loadingOverride,
+  colorByContactName,
 }: {
   title: string[];
   filters: SharedGroupChatTabQueryFilters;
   isSharingVersion: boolean;
   setIsShareOpen: React.Dispatch<React.SetStateAction<boolean>>;
   loadingOverride?: boolean;
+  colorByContactName: Record<string, string>;
 }) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<null | string>(null);
@@ -67,17 +69,8 @@ function GroupChatByFriendsBody({
         label: 'Count',
         data: count,
         borderRadius: 5,
-        // backgroundColor: defaultTheme.colors.blue['200'],
-        // borderColor: defaultTheme.colors.blue['400'],
-        gradient: {
-          backgroundColor: {
-            axis: 'y' as const,
-            colors: {
-              0: defaultTheme.colors.blue[200],
-              50: defaultTheme.colors.blue[300],
-            },
-          },
-        },
+        backgroundColor: contactNames.map((c) => colorByContactName[c]),
+        borderColor: contactNames.map((c) => colorByContactName[c]),
       },
     ],
   };
@@ -247,11 +240,13 @@ export function GroupChatByFriendsChart({
   icon,
   filters,
   loadingOverride,
+  colorByContactName,
 }: {
   title: string[];
   icon: IconType;
   filters: SharedGroupChatTabQueryFilters;
   loadingOverride?: boolean;
+  colorByContactName: Record<string, string>;
 }) {
   const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
 
@@ -264,6 +259,7 @@ export function GroupChatByFriendsChart({
           isSharingVersion
           setIsShareOpen={setIsShareOpen}
           loadingOverride={loadingOverride}
+          colorByContactName={colorByContactName}
         />
       )}
       <GraphContainer title={title} icon={icon} setIsShareOpen={setIsShareOpen}>
@@ -273,6 +269,7 @@ export function GroupChatByFriendsChart({
           isSharingVersion={false}
           setIsShareOpen={setIsShareOpen}
           loadingOverride={loadingOverride}
+          colorByContactName={colorByContactName}
         />
       </GraphContainer>
     </>
