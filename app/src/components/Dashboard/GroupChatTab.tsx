@@ -63,10 +63,13 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
   }, [filters]);
 
   // TODO(Daniowicz): Use async select to load options in
+  // Also this Group Chat Selector UI should be totally redone and moved into the filter panel
   return (
     <>
-      <div style={{ padding: '0px 48px', marginBottom: '48px' }}>
-        <Text fontSize="md" fontWeight={600} style={{ marginBottom: '6px' }}>
+      <div
+        style={{ padding: '0px 48px', marginBottom: '48px', maxWidth: '450px' }}
+      >
+        <Text fontSize="xl" fontWeight={600} style={{ marginBottom: '6px' }}>
           Select a Group Chat
         </Text>
         <Select
