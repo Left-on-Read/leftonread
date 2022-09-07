@@ -1,5 +1,7 @@
 import { ChakraProvider } from '@chakra-ui/react'
 import { css, Global } from '@emotion/react'
+import { Chart, registerables } from 'chart.js'
+import gradient from 'chartjs-plugin-gradient'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -8,6 +10,10 @@ import * as React from 'react'
 import { chakraTheme } from '../theme/index'
 import { initFirestore } from '../utils/firestore'
 import * as gtag from '../utils/gtag'
+
+Chart.register(...(registerables ?? []))
+Chart.register(gradient)
+
 function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
 

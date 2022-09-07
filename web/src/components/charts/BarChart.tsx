@@ -16,44 +16,61 @@ export default function BarChart({
       {
         label: title,
         data,
-        backgroundColor: defaultTheme.colors.blue['100'],
-        borderColor: defaultTheme.colors.blue['400'],
+        // backgroundColor: defaultTheme.colors.blue['100'],
+        // borderColor: defaultTheme.colors.blue['400'],
         borderWidth: 1,
         borderRadius: 8,
+        gradient: {
+          backgroundColor: {
+            axis: 'y' as const,
+            colors: {
+              0: defaultTheme.colors.blue[400],
+              50: defaultTheme.colors.blue[200],
+            },
+          },
+        },
       },
     ],
   }
 
   const options = {
-    legend: {
-      labels: {
-        fontSize: 16,
+    plugins: {
+      legend: {
+        display: false,
+      },
+      title: {
+        display: true,
+        text: 'Top Received Words',
+        font: {
+          size: 18,
+          family: 'Roboto',
+          weight: 'light',
+        },
       },
     },
     scales: {
-      yAxes: [
-        {
-          // gridLines: {
-          //   color: 'rgba(0, 0, 0, 0)',
-          // },
-          ticks: {
-            beginAtZero: true,
-            precision: 0,
-            fontSize: 16,
+      yAxis: {
+        ticks: {
+          beginAtZero: true,
+          precision: 0,
+          font: {
+            size: 16,
+            family: 'Roboto',
           },
         },
-      ],
-      xAxes: [
-        {
-          // gridLines: {
-          //   color: 'rgba(0, 0, 0, 0)',
-          // },
-          ticks: {
-            precision: 0,
-            fontSize: 16,
+      },
+      xAxis: {
+        grid: {
+          display: false,
+        },
+        ticks: {
+          precision: 0,
+          font: {
+            size: 16,
+            family: 'Roboto',
           },
         },
-      ],
+      },
     },
     responsive: true,
   }
