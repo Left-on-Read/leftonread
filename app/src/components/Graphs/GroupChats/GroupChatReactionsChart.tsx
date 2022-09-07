@@ -210,7 +210,7 @@ function GroupChatReactionsBody({
       xAxis: {
         // stacked: true,
         grid: {
-          display: !isSharingVersion,
+          display: true,
         },
         ticks: {
           precision: 0,
