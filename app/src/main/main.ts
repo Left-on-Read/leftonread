@@ -8,13 +8,14 @@
  * When running `npm run build` or `npm run build:main`, this file is compiled to
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
-import { app, BrowserWindow, shell } from 'electron';
+import { app, BrowserWindow, Menu, nativeImage, shell, Tray } from 'electron';
 import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 import path from 'path';
 
 import { attachIpcListeners } from './ipcListeners';
 import MenuBuilder from './menu';
+import { NotificationsManager } from './notifications';
 import { resolveHtmlPath } from './util';
 
 class AppUpdater {
@@ -30,8 +31,6 @@ class AppUpdater {
 }
 
 let mainWindow: BrowserWindow | null = null;
-
-attachIpcListeners();
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -58,18 +57,22 @@ const installExtensions = async () => {
     .catch(console.log);
 };
 
+const RESOURCES_PATH = app.isPackaged
+  ? path.join(process.resourcesPath, 'assets')
+  : path.join(__dirname, '../../assets');
+
+const getAssetPath = (...paths: string[]): string => {
+  return path.join(RESOURCES_PATH, ...paths);
+};
+
+attachIpcListeners();
+const notificationsManager = new NotificationsManager({ getAssetPath });
+notificationsManager.registerNotifications();
+
 const createWindow = async () => {
   if (isDebug) {
     await installExtensions();
   }
-
-  const RESOURCES_PATH = app.isPackaged
-    ? path.join(process.resourcesPath, 'assets')
-    : path.join(__dirname, '../../assets');
-
-  const getAssetPath = (...paths: string[]): string => {
-    return path.join(RESOURCES_PATH, ...paths);
-  };
 
   mainWindow = new BrowserWindow({
     show: false,
@@ -115,6 +118,32 @@ const createWindow = async () => {
   new AppUpdater();
 };
 
+function createTray() {
+  const icon = nativeImage.createFromPath(getAssetPath('icons/tray_icon.png'));
+
+  const tray = new Tray(icon.resize({ width: 16 }));
+  tray.setIgnoreDoubleClickEvents(true);
+
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: 'Open',
+      click: () => {
+        if (!mainWindow) {
+          createWindow();
+        }
+      },
+    },
+    {
+      label: 'Quit',
+      click: () => {
+        app.quit();
+      },
+    },
+  ]);
+
+  tray.setContextMenu(contextMenu);
+}
+
 /**
  * Add event listeners...
  */
@@ -124,6 +153,10 @@ app.on('window-all-closed', () => {
   // after all windows have been closed
   if (process.platform !== 'darwin') {
     app.quit();
+  }
+
+  if (process.platform === 'darwin') {
+    app.dock.hide();
   }
 });
 
@@ -143,6 +176,8 @@ app
   .whenReady()
   .then(() => {
     createWindow();
+    createTray();
+
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the
       // dock icon is clicked and there are no other windows open.

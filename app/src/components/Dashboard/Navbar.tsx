@@ -21,6 +21,7 @@ import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters'
 import { ipcRenderer } from 'electron';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
+  FiBell,
   FiGitPullRequest,
   FiLock,
   FiRefreshCw,
@@ -37,6 +38,7 @@ import { FilterPanel } from '../Filters/FilterPanel';
 import { PremiumModal } from '../Premium/PremiumModal';
 import { EmailModal } from '../Support/EmailModal';
 import { useGlobalContext } from './GlobalContext';
+import { NotificationSettingsModal } from './NotificationSettingsModal';
 
 export function Navbar({
   onRefresh,
@@ -59,6 +61,12 @@ export function Navbar({
     isOpen: isPremiumModalOpen,
     onOpen: onPremiumModalOpen,
     onClose: onPremiumModalClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isNotificationsSettingsModalOpen,
+    onOpen: onNotificationsSettingsModalOpen,
+    onClose: onNotificationsSettingsModalOnClose,
   } = useDisclosure();
 
   let activeFilterCount = 0;
@@ -174,6 +182,16 @@ export function Navbar({
               )}
               <MenuItem
                 onClick={() => {
+                  onNotificationsSettingsModalOpen();
+                }}
+              >
+                <Icon as={FiBell} style={{ marginRight: 12 }} />
+                <Text size="sm" fontWeight={300}>
+                  Notification Settings
+                </Text>
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
                   onRefresh();
                   logEvent({ eventName: 'REFRESH_DATA' });
                 }}
@@ -269,6 +287,10 @@ export function Navbar({
       </div>
       <EmailModal isOpen={isEmailModalOpen} onClose={onEmailModalClose} />
       <PremiumModal isOpen={isPremiumModalOpen} onClose={onPremiumModalClose} />
+      <NotificationSettingsModal
+        isOpen={isNotificationsSettingsModalOpen}
+        onClose={onNotificationsSettingsModalOnClose}
+      />
     </div>
   );
 }

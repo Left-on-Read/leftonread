@@ -10,6 +10,22 @@ export type RespondRemindersResult = {
   date: string;
 };
 
+function hasNumber(myString: string) {
+  return /\d/.test(myString);
+}
+
+function scoreReminder(reminder: RespondRemindersResult) {
+  // Longer is good
+  // Includes ? is good
+  // Contact is legit is good
+  return (
+    reminder.message.length +
+    300 *
+      (reminder.message.includes('?') ? 2 : 1) *
+      (hasNumber(reminder.friend) ? 1 : 10)
+  );
+}
+
 export async function queryRespondReminders(
   db: sqlite3.Database
 ): Promise<RespondRemindersResult[]> {
@@ -40,5 +56,11 @@ export async function queryRespondReminders(
     WHERE m.is_from_me = 0
   `;
 
-  return sqlite3Wrapper.allP(db, q);
+  const results: RespondRemindersResult[] = await sqlite3Wrapper.allP(db, q);
+
+  const sortedReminders = results.sort(
+    (a, b) => scoreReminder(b) - scoreReminder(a)
+  );
+
+  return sortedReminders;
 }

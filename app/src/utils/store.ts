@@ -3,9 +3,16 @@ import Store from 'electron-store';
 import semver from 'semver';
 import { v4 as uuidv4 } from 'uuid';
 
+import { NotificationSettings } from '../constants/types';
+
 const migrations = {
   '0.1.1': (store: any) => store.set('requiredUpdateVersion', '0.1.1'),
   '>=0.2.2': (store: any) => store.set('license', ''),
+  '>=1.0.0': (store: any) => {
+    store.set('notificationSettings', {
+      responseRemindersEnabled: true,
+    });
+  },
 };
 
 const schema = {
@@ -26,6 +33,26 @@ const schema = {
   license: {
     type: 'string',
     default: '',
+  },
+  lastSentNotificationTimestamp: {
+    type: 'string',
+    default: '',
+  },
+  lastReminderNotificationMessages: {
+    type: 'array',
+    default: [],
+    items: {
+      type: 'string',
+    },
+  },
+  notificationSettings: {
+    type: 'object',
+    properties: {
+      responseRemindersEnabled: { type: 'boolean', default: true },
+    },
+    default: {
+      responseRemindersEnabled: true,
+    },
   },
 } as const;
 
@@ -58,4 +85,37 @@ export function activateLicense(licenseKey: string) {
 
 export function deactivateLicense() {
   store.set('license', '');
+}
+
+export function setLastNotificationTimestamp(date: Date) {
+  store.set('lastSentNotificationTimestamp', date.toISOString());
+}
+
+export function getLastNotificationTimestamp() {
+  return store.get('lastSentNotificationTimestamp') as string;
+}
+
+export function setLastReminderNotificationMessages(messages: string[]) {
+  store.set('lastReminderNotificationMessages', messages);
+}
+
+export function getLastReminderNotificationMessages() {
+  return (store.get('lastReminderNotificationMessages') ?? []) as string[];
+}
+
+export function getNotificationSettings() {
+  return store.get('notificationSettings') as NotificationSettings;
+}
+
+export function updateNotificationSetting(
+  setting: keyof NotificationSettings,
+  value: boolean
+) {
+  const currentSettings = { ...getNotificationSettings() };
+  currentSettings[setting] = value;
+  store.set('notificationSettings', currentSettings);
+}
+
+export function setNotificationSettings(newSettings: NotificationSettings) {
+  return store.set('notificationSettings', newSettings);
 }
