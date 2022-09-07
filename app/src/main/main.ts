@@ -15,7 +15,7 @@ import path from 'path';
 
 import { attachIpcListeners } from './ipcListeners';
 import MenuBuilder from './menu';
-import { TrayBuilder } from './tray';
+import { NotificationsManager } from './notifications';
 import { resolveHtmlPath } from './util';
 
 class AppUpdater {
@@ -31,8 +31,6 @@ class AppUpdater {
 }
 
 let mainWindow: BrowserWindow | null = null;
-
-attachIpcListeners();
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -66,6 +64,10 @@ const RESOURCES_PATH = app.isPackaged
 const getAssetPath = (...paths: string[]): string => {
   return path.join(RESOURCES_PATH, ...paths);
 };
+
+attachIpcListeners();
+const notificationsManager = new NotificationsManager({ getAssetPath });
+notificationsManager.registerNotifications();
 
 const createWindow = async () => {
   if (isDebug) {

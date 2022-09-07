@@ -13,6 +13,7 @@ module.exports = {
     'react/destructuring-assignment': 'off',
     'no-new': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    'class-methods-use-this': 'off',
   },
   parserOptions: {
     ecmaVersion: 2020,
