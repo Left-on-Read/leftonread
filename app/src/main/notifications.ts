@@ -102,7 +102,7 @@ export class NotificationsManager {
 
       const reminderNotif = new Notification({
         title: `Forget to respond to ${reminderToSend.friend}?`,
-        body: `You never responded to "${reminderToSend.message}"`,
+        body: `They sent "${reminderToSend.message}"`,
         timeoutType: 'never',
         closeButtonText: 'Dismiss',
         actions: [
