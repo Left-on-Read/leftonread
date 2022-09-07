@@ -1,4 +1,4 @@
-import { Spinner, Text, theme as defaultTheme, theme } from '@chakra-ui/react';
+import { Spinner, Text, theme } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useRef, useState } from 'react';
@@ -6,7 +6,7 @@ import { Bar } from 'react-chartjs-2';
 import { IconType } from 'react-icons';
 
 import { SharedGroupChatTabQueryFilters } from '../../../analysis/queries/filters/sharedGroupChatTabFilters';
-import { GroupChatByFriends } from '../../../analysis/queries/GroupChatByFriendsQuery';
+import { GroupChatByFriends } from '../../../analysis/queries/GroupChats/GroupChatByFriendsQuery';
 import { ShareModal } from '../../Sharing/ShareModal';
 import { GraphContainer } from '../GraphContainer';
 

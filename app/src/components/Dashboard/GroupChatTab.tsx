@@ -6,7 +6,7 @@ import { FiCompass, FiFeather } from 'react-icons/fi';
 import Select from 'react-select';
 
 import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFilters';
-import { GroupChatByFriends } from '../../analysis/queries/GroupChatByFriendsQuery';
+import { GroupChatByFriends } from '../../analysis/queries/GroupChats/GroupChatByFriendsQuery';
 import { GroupChatActivityOverTimeChart } from '../Graphs/GroupChats/GroupChatActivityOverTimeChart';
 import { GroupChatByFriendsChart } from '../Graphs/GroupChats/GroupChatByFriendsChart';
 

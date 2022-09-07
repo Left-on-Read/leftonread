@@ -22,8 +22,8 @@ import {
 } from '../analysis/queries/EngagementQueries';
 import { SharedGroupChatTabQueryFilters } from '../analysis/queries/filters/sharedGroupChatTabFilters';
 import { SharedQueryFilters } from '../analysis/queries/filters/sharedQueryFilters';
-import { queryGroupChatByFriends } from '../analysis/queries/GroupChatByFriendsQuery';
 import { queryGroupChatActivityOverTime } from '../analysis/queries/GroupChats/GroupChatActivityOverTimeQuery';
+import { queryGroupChatByFriends } from '../analysis/queries/GroupChats/GroupChatByFriendsQuery';
 import { queryRespondReminders } from '../analysis/queries/RespondReminders';
 import {
   querySentimentOverTimeReceived,

@@ -1,10 +1,10 @@
 import * as sqlite3 from 'sqlite3';
 
-import * as sqlite3Wrapper from '../../utils/sqliteWrapper';
+import * as sqlite3Wrapper from '../../../utils/sqliteWrapper';
 import {
   getAllGroupChatTabFilters,
   SharedGroupChatTabQueryFilters,
-} from './filters/sharedGroupChatTabFilters';
+} from '../filters/sharedGroupChatTabFilters';
 
 export type GroupChatByFriends = {
   count: number;
