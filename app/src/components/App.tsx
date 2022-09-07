@@ -25,12 +25,8 @@ import { Redirecter } from './Home/Redirecter';
 import { Initializer } from './Initializer';
 
 Chart.register(...(registerables ?? []));
-
 Chart.register(ChartDataLabels);
-
 Chart.register(gradient);
-
-// TODO(Danilowicz): set default font and weight here
 
 export function App() {
   const [isInitializing, setIsInitializing] = useState<boolean>(false);
@@ -53,7 +49,7 @@ export function App() {
 
   useEffect(() => {
     Chart.register({
-      id: 'lor-chartjs-logo-watermark-plugin', // can be turned off by setting to false in a given chart
+      id: 'lor-chartjs-logo-watermark-plugin',
       afterDraw: (
         chart: any,
         _args: any,
@@ -63,7 +59,6 @@ export function App() {
         image.crossOrigin = 'anonymous'; // need to set to anonymous in order to export
         image.src = LogoWithTextFromGraphExport;
         if (image.complete) {
-          // ctx is a CanvasRenderingContext2D
           const { ctx, scales, chartArea } = chart;
           const { yAxis } = scales;
           ctx.font = '13px montserrat';

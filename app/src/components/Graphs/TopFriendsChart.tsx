@@ -167,7 +167,7 @@ function TopFriendsBody({
             ticks: {
               precision: 0,
               font: {
-                size: filters.contact ? 14 : 10,
+                size: filters.contact ? 14 : 13,
                 family: 'Montserrat',
                 fontWeight: 'light',
               },

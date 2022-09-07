@@ -95,8 +95,8 @@ function GroupChatActivityOverTimeBody({
     },
     'lor-chartjs-logo-watermark-plugin': isSharingVersion
       ? {
-          yPaddingText: 125,
-          yPaddingLogo: 110,
+          yPaddingText: 90,
+          yPaddingLogo: 75,
         }
       : false,
   };
