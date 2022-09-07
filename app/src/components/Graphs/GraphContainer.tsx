@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   Icon,
-  IconButton,
   Text,
   theme as defaultTheme,
 } from '@chakra-ui/react';
