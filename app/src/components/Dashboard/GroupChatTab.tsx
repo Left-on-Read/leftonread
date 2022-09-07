@@ -9,6 +9,7 @@ import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFi
 import { GroupChatByFriends } from '../../analysis/queries/GroupChats/GroupChatByFriendsQuery';
 import { GroupChatActivityOverTimeChart } from '../Graphs/GroupChats/GroupChatActivityOverTimeChart';
 import { GroupChatByFriendsChart } from '../Graphs/GroupChats/GroupChatByFriendsChart';
+import { GroupChatReactionsChart } from '../Graphs/GroupChats/GroupChatReactionsChart';
 
 export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
   const [groupChatNames, setGroupChatNames] = useState<
@@ -84,6 +85,15 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
       </div>
 
       {/* NOTE(Danilowicz): Not proud of the replace all here... */}
+      <GroupChatReactionsChart
+        title={[
+          'Who Gives the Most Reactions in ',
+          ...selectedGroupChat.label.replaceAll(',', ', ;').split(';'),
+        ]}
+        icon={FiCompass}
+        filters={{ ...filters, groupChatName: selectedGroupChat.label }}
+      />
+
       <GroupChatActivityOverTimeChart
         title={[
           'Group Chat Activity in ',
