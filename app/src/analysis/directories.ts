@@ -18,3 +18,21 @@ export const chatPaths = {
 export const dirPairings = [addressBookPaths, chatPaths];
 
 export const addressBookBackUpFolderPath = `${addressBookPaths.app}/Sources`;
+
+export const appDirectoryLivePath = `${process.env.HOME}/.leftonread/live`;
+
+export const liveAddressBookPaths = {
+  original: `${process.env.HOME}/Library/Application Support/AddressBook`,
+  app: `${appDirectoryLivePath}/AddressBookFolder`,
+};
+
+export const liveChatPaths = {
+  original: process.env.DEBUG
+    ? `./src/__tests__/chat.db`
+    : `${process.env.HOME}/Library/Messages/chat.db`,
+  app: `${appDirectoryLivePath}/chat.db`,
+};
+
+export const liveDirPairings = [liveAddressBookPaths, liveChatPaths];
+
+export const liveAddBookBackUpFolderPath = `${liveAddressBookPaths.app}/Sources`;

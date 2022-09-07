@@ -47,14 +47,16 @@ import {
   queryEmojiOrWordCounts,
 } from '../analysis/queries/WordOrEmojiQuery';
 import { API_BASE_URL } from '../constants/api';
+import { NotificationSettings } from '../constants/types';
 import { APP_VERSION } from '../constants/versions';
-import { AmplitudeClient } from '../utils/amplitudeClient';
+import { logEventMain } from '../utils/amplitudeClient';
 import {
   activateLicense,
   checkRequiresRefresh,
   deactivateLicense,
-  getUuid,
+  getNotificationSettings,
   setLastUpdatedVersion,
+  setNotificationSettings,
 } from '../utils/store';
 
 function getDb() {
@@ -262,19 +264,7 @@ export function attachIpcListeners() {
       eventName: string,
       properties: Record<string, string | number> | undefined
     ) => {
-      const uuid = getUuid();
-
-      try {
-        AmplitudeClient.logEvent(
-          {
-            user_id: uuid,
-            event_type: eventName,
-          },
-          properties
-        );
-      } catch (e) {
-        log.error(e);
-      }
+      logEventMain({ eventName, properties });
     }
   );
 
@@ -335,6 +325,17 @@ export function attachIpcListeners() {
     async (event, filters: SharedGroupChatTabQueryFilters) => {
       const db = getDb();
       return queryGroupChatActivityOverTime(db, filters);
+    }
+  );
+
+  ipcMain.handle('get-notification-settings', async () => {
+    return getNotificationSettings();
+  });
+
+  ipcMain.handle(
+    'set-notification-settings',
+    async (event, newSettings: NotificationSettings) => {
+      return setNotificationSettings(newSettings);
     }
   );
 

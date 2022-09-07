@@ -1,5 +1,8 @@
+import * as fs from 'fs';
 import path from 'path';
 import { URL } from 'url';
+
+import { appDirectoryPath } from '../analysis/directories';
 
 // eslint-disable-next-line import/no-mutable-exports
 export let resolveHtmlPath: (htmlFileName: string) => string;
@@ -27,4 +30,8 @@ export function shuffleArray(array: string[]) {
     const j = Math.floor(Math.random() * (i + 1));
     [array[i], array[j]] = [array[j], array[i]];
   }
+}
+
+export function checkIsInitialized() {
+  return !!fs.existsSync(appDirectoryPath);
 }

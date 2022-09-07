@@ -17,22 +17,6 @@ import { typeMessageToPhoneNumber } from '../../utils/appleScriptCommands';
 import { useGlobalContext } from '../Dashboard/GlobalContext';
 import { GraphContainer } from './GraphContainer';
 
-function hasNumber(myString: string) {
-  return /\d/.test(myString);
-}
-
-function scoreReminder(reminder: RespondRemindersResult) {
-  // Longer is good
-  // Includes ? is good
-  // Contact is legit is good
-  return (
-    reminder.message.length +
-    100 *
-      (reminder.message.includes('?') ? 2 : 1) *
-      (hasNumber(reminder.friend) ? 1 : 3)
-  );
-}
-
 export function RespondReminders() {
   const NUMBER_OF_REMINDERS = 4;
   const [isLoadingReminderArray, setIsLoadingReminderArray] = useState<
@@ -65,9 +49,6 @@ export function RespondReminders() {
     fetchRespondReminders();
   }, []);
 
-  const sortedReminders = reminders.sort(
-    (a, b) => scoreReminder(b) - scoreReminder(a)
-  );
   const reminderContent = isLoading ? (
     <>
       {isLoadingReminderArray.map(() => (
@@ -75,7 +56,7 @@ export function RespondReminders() {
       ))}
     </>
   ) : (
-    sortedReminders.slice(0, NUMBER_OF_REMINDERS).map((reminder, i) => {
+    reminders.slice(0, NUMBER_OF_REMINDERS).map((reminder, i) => {
       return (
         <Box
           key={reminder.friend}

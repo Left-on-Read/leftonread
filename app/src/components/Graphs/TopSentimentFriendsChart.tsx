@@ -235,6 +235,7 @@ export function TopSentimentFriendsChart({
         description={description}
         icon={icon}
         setIsShareOpen={setIsShareOpen}
+        isPremiumGraph
       >
         <TopSentimentFriendsBody
           title={title}

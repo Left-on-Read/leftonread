@@ -21,6 +21,7 @@ export async function typeMessageToPhoneNumber({
           keystroke "${phoneNumber}"  -- input the phone number
           delay 0.25 -- this is super critical, it seems without the delay it wont work
           key code 36 —- enter
+          delay 0.25 -- this is super critical, it seems without the delay it wont work
           key code 48 -- tab
           delay 0.25 -- this is super critical, it seems without the delay it wont work
           keystroke "${message}"  -- input the message
