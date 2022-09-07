@@ -22,14 +22,14 @@ function TopFriendsBody({
   title,
   filters,
   isSharingVersion,
-  loadingOverride,
   setIsShareOpen,
+  loadingOverride,
 }: {
   title: string[];
   filters: SharedQueryFilters;
   isSharingVersion: boolean;
-  loadingOverride?: boolean;
   setIsShareOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  loadingOverride?: boolean;
 }) {
   const [friends, setFriends] = useState<string[]>([]);
   const [received, setReceived] = useState<number[]>([]);

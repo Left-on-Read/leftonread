@@ -62,7 +62,6 @@ function WordOrEmojiCountBody({
       {
         label: labelText,
         data: count,
-        // backgroundColor: theme.colors.blue['200'],
         borderRadius: 8,
         gradient: {
           backgroundColor: {
@@ -89,7 +88,6 @@ function WordOrEmojiCountBody({
     },
     datalabels: {
       display: isSharingVersion,
-      color: 'black',
       font: {
         size: 18,
         family: 'Montserrat',
@@ -109,6 +107,7 @@ function WordOrEmojiCountBody({
   const chartStyle: React.CSSProperties = isSharingVersion
     ? { width: '400px', height: '500px' }
     : {};
+
   const options = {
     indexAxis: isSharingVersion ? ('y' as const) : undefined,
     maintainAspectRatio: isSharingVersion ? false : undefined,
@@ -162,6 +161,7 @@ function WordOrEmojiCountBody({
             ticks: {
               precision: 0,
               font: {
+                size: isEmoji ? 20 : 16,
                 family: 'Montserrat',
                 fontWeight: 'light',
               },

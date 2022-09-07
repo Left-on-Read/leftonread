@@ -43,7 +43,7 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
         ];
 
         const gct = setGct.map((name) => {
-          return { value: name, label: name.replace(',', ', ') };
+          return { value: name, label: name };
         });
 
         setGroupChatNames(gct);
@@ -82,7 +82,7 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
 
       {/* NOTE(Danilowicz): Not proud of the .replace here... */}
       <GroupChatActivityOverTimeChart
-        title={`Group Chat Activity in ${selectedGroupChat.label.replace(
+        title={`Group Chat Activity in ${selectedGroupChat.label.replaceAll(
           ',',
           ', '
         )}`}
@@ -91,10 +91,10 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
         filters={{ ...filters, groupChatName: selectedGroupChat.label }}
       />
       <GroupChatByFriendsChart
-        title={`Who Texts the Most in ${selectedGroupChat.label.replace(
-          ',',
-          ', '
-        )}`}
+        title={[
+          'Who Texts the Most in ',
+          ...selectedGroupChat.label.replaceAll(',', ', ;').split(';'),
+        ]}
         icon={FiFeather}
         filters={{ ...filters, groupChatName: selectedGroupChat.label }}
       />
