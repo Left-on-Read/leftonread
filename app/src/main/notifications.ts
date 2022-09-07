@@ -1,6 +1,8 @@
 import { Notification } from 'electron';
 import log from 'electron-log';
 
+import { logEventMain } from '../utils/amplitudeClient';
+import { typeMessageToPhoneNumber } from '../utils/appleScriptCommands';
 import {
   getLastNotificationTimestamp,
   getLastReminderNotificationMessages,
@@ -11,11 +13,11 @@ import {
 import { getLiveRespondReminders } from './LiveDb/getRespondReminders';
 import { checkIsInitialized } from './util';
 
-// const CHECK_NOTIFICATIONS_INTERVAL = 1000 * 60 * 60 * 4; // 4 hours
-// const RESPOND_REMINDER_DELAY = 1000 * 60 * 60 * 24; // One day
+const CHECK_NOTIFICATIONS_INTERVAL = 1000 * 60 * 60 * 4; // 4 hours
+const RESPOND_REMINDER_DELAY = 1000 * 60 * 60 * 24; // One day
 
-const CHECK_NOTIFICATIONS_INTERVAL = 1000 * 60; // 1 minute
-const RESPOND_REMINDER_DELAY = 1000 * 60 * 3; // 3 minutes
+// const CHECK_NOTIFICATIONS_INTERVAL = 1000 * 60; // 1 minute
+// const RESPOND_REMINDER_DELAY = 1000 * 60 * 3; // 3 minutes
 
 export class NotificationsManager {
   reminderInterval: NodeJS.Timer | null = null;
@@ -111,14 +113,36 @@ export class NotificationsManager {
         ],
       });
 
-      reminderNotif.on('click', () => {});
+      reminderNotif.on('click', () => {
+        logEventMain({
+          eventName: 'RESPOND_TO_REMINDER_NOTIFICATION',
+          properties: { method: 'CLICK' },
+        });
+        typeMessageToPhoneNumber({
+          message: '',
+          phoneNumber: reminderToSend.friend,
+        });
+      });
 
-      new Notification({
-        title: `Forget to respond to ${reminderToSend.friend}?`,
-        body: `You never responded to "${reminderToSend.message}"`,
-        timeoutType: 'never',
-        closeButtonText: 'Dismiss',
-      }).show();
+      reminderNotif.on('action', () => {
+        logEventMain({
+          eventName: 'RESPOND_TO_REMINDER_NOTIFICATION',
+          properties: { method: 'ACTION' },
+        });
+
+        typeMessageToPhoneNumber({
+          message: '',
+          phoneNumber: reminderToSend.friend,
+        });
+      });
+
+      reminderNotif.on('close', () => {
+        logEventMain({
+          eventName: 'RESPOND_TO_REMINDER_NOTIFICATION_CLOSE',
+        });
+      });
+
+      reminderNotif.show();
       setLastNotificationTimestamp(new Date());
     }
   }

@@ -1,3 +1,4 @@
+// Helper function for the renderer
 import { ipcRenderer } from 'electron';
 
 export function logEvent({
