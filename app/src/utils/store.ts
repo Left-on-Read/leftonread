@@ -3,7 +3,7 @@ import Store from 'electron-store';
 import semver from 'semver';
 import { v4 as uuidv4 } from 'uuid';
 
-import { NotificationSettings } from '../constants/types';
+import { NotificationSettings, ScheduledMessage } from '../constants/types';
 
 const migrations = {
   '0.1.1': (store: any) => store.set('requiredUpdateVersion', '0.1.1'),
@@ -53,6 +53,27 @@ const schema = {
     default: {
       responseRemindersEnabled: true,
     },
+  },
+  scheduledMessages: {
+    type: 'array',
+    items: {
+      type: 'object',
+      properties: {
+        id: { type: 'string' },
+        message: { type: 'string' },
+        phoneNumber: { type: 'string' },
+        contactName: { type: 'string' },
+        sendDate: { type: 'string' },
+      },
+    },
+    default: [],
+  },
+  completedOnboardings: {
+    type: 'array',
+    items: {
+      type: 'string',
+    },
+    default: [],
   },
 } as const;
 
@@ -118,4 +139,46 @@ export function updateNotificationSetting(
 
 export function setNotificationSettings(newSettings: NotificationSettings) {
   return store.set('notificationSettings', newSettings);
+}
+
+export function addScheduledMessage(scheduledMessage: ScheduledMessage) {
+  const newScheduledMessages = [...(store.get('scheduledMessages') as any[])];
+
+  newScheduledMessages.push({
+    ...scheduledMessage,
+    sendDate: scheduledMessage.sendDate.toISOString(),
+  });
+
+  store.set('scheduledMessages', newScheduledMessages);
+}
+
+export function clearScheduledMessage(scheduledMessageId: string) {
+  const currentScheduledMessages = [
+    ...(store.get('scheduledMessages') as ScheduledMessage[]),
+  ];
+
+  const newScheduledMessages = currentScheduledMessages.filter(
+    (msg) => msg.id !== scheduledMessageId
+  );
+
+  store.set('scheduledMessages', newScheduledMessages);
+}
+
+export function getScheduledMessages(): ScheduledMessage[] {
+  const messages: ScheduledMessage[] = (
+    store.get('scheduledMessages') as any[]
+  ).map((msg) => ({ ...msg, sendDate: new Date(msg.sendDate) }));
+  return messages;
+}
+
+export function getCompletedOnboardings() {
+  return store.get('completedOnboardings') as string[];
+}
+
+export function addCompletedOnboarding(cob: string) {
+  const currentCompletedOnboardings = getCompletedOnboardings();
+
+  const updatedCompletedOnboardings = [cob, ...currentCompletedOnboardings];
+
+  store.set('completedOnboardings', updatedCompletedOnboardings);
 }

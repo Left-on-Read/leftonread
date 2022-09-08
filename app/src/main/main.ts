@@ -15,6 +15,7 @@ import path from 'path';
 
 import { attachIpcListeners } from './ipcListeners';
 import MenuBuilder from './menu';
+import { initMessageScheduler } from './messageScheduler';
 import { NotificationsManager } from './notifications';
 import { resolveHtmlPath } from './util';
 
@@ -68,6 +69,8 @@ const getAssetPath = (...paths: string[]): string => {
 attachIpcListeners();
 const notificationsManager = new NotificationsManager({ getAssetPath });
 notificationsManager.registerNotifications();
+
+initMessageScheduler();
 
 const createWindow = async () => {
   if (isDebug) {

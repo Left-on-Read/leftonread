@@ -7,7 +7,7 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import { IconType } from 'react-icons';
-import { FiShare } from 'react-icons/fi';
+import { FiPlus, FiRefreshCw, FiShare } from 'react-icons/fi';
 
 import { logEvent } from '../../utils/analytics';
 import { useGlobalContext } from '../Dashboard/GlobalContext';
@@ -20,6 +20,8 @@ export function GraphContainer({
   children,
   tooltip,
   isPremiumGraph,
+  onClickMessageScheduler,
+  onClickMessageSchedulerRefresh,
   setIsShareOpen,
 }: {
   title: string[];
@@ -28,6 +30,8 @@ export function GraphContainer({
   children: React.ReactNode;
   tooltip?: React.ReactNode;
   isPremiumGraph?: boolean;
+  onClickMessageScheduler?: () => void;
+  onClickMessageSchedulerRefresh?: () => void;
   setIsShareOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const { isPremium } = useGlobalContext();
@@ -110,11 +114,34 @@ export function GraphContainer({
                     },
                   });
                 }}
-                rightIcon={<Icon as={FiShare} />}
+                leftIcon={<Icon as={FiShare} />}
               >
                 Share
               </Button>
             )}
+            <div>
+              {onClickMessageScheduler && (
+                <Button
+                  colorScheme="blue"
+                  onClick={() => {
+                    onClickMessageScheduler();
+                  }}
+                  leftIcon={<Icon as={FiPlus} />}
+                >
+                  Schedule New Message
+                </Button>
+              )}
+              {onClickMessageSchedulerRefresh && (
+                <Button
+                  style={{ marginLeft: 20 }}
+                  onClick={() => {
+                    onClickMessageSchedulerRefresh();
+                  }}
+                >
+                  <Icon as={FiRefreshCw} />
+                </Button>
+              )}
+            </div>
           </div>
         </div>
         <div
