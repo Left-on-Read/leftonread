@@ -28,7 +28,9 @@ export class ErrorBoundary extends Component<Props, State> {
 
   public render() {
     if (this.state.hasError) {
-      return <ErrorPage />;
+      return (
+        <ErrorPage onClearError={() => this.setState({ hasError: false })} />
+      );
     }
 
     return this.props.children;

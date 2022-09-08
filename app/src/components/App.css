@@ -9,3 +9,19 @@
 .negative-bar:hover {
   border: 2px solid var(--chakra-colors-gray-300);
 }
+
+.date-time-picker {
+  border-radius: 8px;
+  border-color: var(--chakra-colors-gray-100);
+}
+
+.react-datetime-picker__wrapper {
+  border-radius: 8px;
+  border-color: var(--chakra-colors-gray-200) !important;
+  padding: 8px 20px;
+}
+
+.react-datetime-picker__wrapper input {
+  margin-left: 2px;
+  margin-right: 2px;
+}
