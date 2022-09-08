@@ -6,7 +6,6 @@ import {
   TabPanels,
   Tabs,
 } from '@chakra-ui/react';
-import { MessageScheduler } from 'components/Productivity/MessageScheduler';
 import {
   FiArrowUpCircle,
   FiAward,
@@ -35,6 +34,7 @@ import { TopFriendsChart } from '../Graphs/TopFriendsChart';
 import { TopSentimentFriendsChart } from '../Graphs/TopSentimentFriendsChart';
 import { TotalSentimentChart } from '../Graphs/TotalSentimentChart';
 import { WordOrEmojiCountChart } from '../Graphs/WordOrEmojiCountChart';
+import { MessageScheduler } from '../Productivity/MessageScheduler';
 import { useGlobalContext } from './GlobalContext';
 import { GroupChatTab } from './GroupChatTab';
 

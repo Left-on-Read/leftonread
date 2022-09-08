@@ -8,13 +8,13 @@ import {
   Tooltip,
   useDisclosure,
 } from '@chakra-ui/react';
-import { GraphContainer } from 'components/Graphs/GraphContainer';
 import { ipcRenderer } from 'electron';
 import { useEffect, useState } from 'react';
 import { FiAlertTriangle, FiWatch } from 'react-icons/fi';
 
 import { ScheduledMessage } from '../../constants/types';
 import { logEvent } from '../../utils/analytics';
+import { GraphContainer } from '../Graphs/GraphContainer';
 import { MessageSchedulerModal } from './MessageSchedulerModal';
 
 function MessageCard({

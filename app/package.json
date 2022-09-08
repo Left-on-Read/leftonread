@@ -114,7 +114,7 @@
       "\\.(ts|tsx|js|jsx)$": "ts-jest"
     },
     "transformIgnorePatterns": [
-      "/node_modules/(?!(somePkg)|your-package-here)"
+      "/node_modules/(?!(uuid)|your-package-here)"
     ]
   },
   "dependencies": {
