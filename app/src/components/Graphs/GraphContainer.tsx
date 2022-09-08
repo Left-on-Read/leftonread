@@ -119,8 +119,8 @@ export function GraphContainer({
                 Share
               </Button>
             )}
-            <div>
-              {onClickMessageScheduler && (
+            {onClickMessageScheduler && onClickMessageSchedulerRefresh && (
+              <div>
                 <Button
                   colorScheme="blue"
                   onClick={() => {
@@ -130,8 +130,6 @@ export function GraphContainer({
                 >
                   Schedule New Message
                 </Button>
-              )}
-              {onClickMessageSchedulerRefresh && (
                 <Button
                   style={{ marginLeft: 20 }}
                   onClick={() => {
@@ -140,8 +138,8 @@ export function GraphContainer({
                 >
                   <Icon as={FiRefreshCw} />
                 </Button>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
         <div
