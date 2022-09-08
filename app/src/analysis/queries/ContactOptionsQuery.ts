@@ -15,6 +15,7 @@ export interface ContactOptionsQueryResult {
   value: string;
   label: string;
   mycount: number;
+  phoneNumber: string;
 }
 
 export async function queryContactOptions(
@@ -24,6 +25,7 @@ export async function queryContactOptions(
       SELECT
           COALESCE(contact_name, h.id) as ${Columns.VALUE},
           COALESCE(contact_name, h.id) as ${Columns.LABEL},
+          h.id as phoneNumber,
           COUNT(*) as ${Columns.COUNT}
         FROM handle h
           -- NOTE: for some reason a direct join to messages

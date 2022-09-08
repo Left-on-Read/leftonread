@@ -5,7 +5,7 @@ import FixingBugs from '../../../assets/illustrations/fixing_bugs.svg';
 import { Float } from '../Float';
 import { EmailModal } from './EmailModal';
 
-export function ErrorPage() {
+export function ErrorPage({ onClearError }: { onClearError: () => void }) {
   const {
     isOpen: isEmailModalOpen,
     onOpen: onEmailModalOpen,
@@ -51,7 +51,13 @@ export function ErrorPage() {
             >
               Report Bug
             </Button>
-            <Button variant="link" onClick={() => navigate('/')}>
+            <Button
+              variant="link"
+              onClick={() => {
+                onClearError();
+                navigate('/');
+              }}
+            >
               Return Home
             </Button>
           </div>

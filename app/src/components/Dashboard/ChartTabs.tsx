@@ -34,6 +34,7 @@ import { TopFriendsChart } from '../Graphs/TopFriendsChart';
 import { TopSentimentFriendsChart } from '../Graphs/TopSentimentFriendsChart';
 import { TotalSentimentChart } from '../Graphs/TotalSentimentChart';
 import { WordOrEmojiCountChart } from '../Graphs/WordOrEmojiCountChart';
+import { MessageScheduler } from '../Productivity/MessageScheduler';
 import { useGlobalContext } from './GlobalContext';
 import { GroupChatTab } from './GroupChatTab';
 
@@ -93,6 +94,7 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
     ? filters.timeRange?.endDate
     : dateRange.latestDate;
   const daysAgoDescription = `between ${earlyDate.toLocaleDateString()} and ${lateDate.toLocaleDateString()}`;
+
   return (
     <div>
       <Tabs
@@ -292,6 +294,8 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
           </TabPanel>
           <TabPanel>
             <Stack direction="column" spacing={40}>
+              <RespondReminders />
+              <MessageScheduler />
               <EngagementScoreChart
                 title={titleFormatter({
                   titleName: 'Engagement Score ™',
@@ -304,7 +308,6 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
                 icon={FiRadio}
                 filters={filters}
               />
-              <RespondReminders />
             </Stack>
           </TabPanel>
           <TabPanel>

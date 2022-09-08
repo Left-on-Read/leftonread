@@ -33,3 +33,22 @@ export async function typeMessageToPhoneNumber({
     alert('Oops! Something went wrong. Open iMessage yourself to respond!');
   }
 }
+
+export async function typeAndSendMessageToPhoneNumber({
+  message,
+  phoneNumber,
+}: {
+  phoneNumber: string;
+  message: string;
+}) {
+  await exec(
+    `osascript -e '
+      tell application "Messages"
+        set targetBuddy to "${phoneNumber}"
+        set targetService to id of 1st service whose service type = iMessage
+        set textMessage to "${message}"
+        set theBuddy to buddy targetBuddy of service id targetService
+        send textMessage to theBuddy
+      end tell'`
+  );
+}

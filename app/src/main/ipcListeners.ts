@@ -52,8 +52,10 @@ import { APP_VERSION } from '../constants/versions';
 import { logEventMain } from '../utils/amplitudeClient';
 import {
   activateLicense,
+  addCompletedOnboarding,
   checkRequiresRefresh,
   deactivateLicense,
+  getCompletedOnboardings,
   getNotificationSettings,
   setLastUpdatedVersion,
   setNotificationSettings,
@@ -338,6 +340,14 @@ export function attachIpcListeners() {
       return setNotificationSettings(newSettings);
     }
   );
+
+  ipcMain.handle('get-completed-onboardings', () => {
+    return getCompletedOnboardings();
+  });
+
+  ipcMain.handle('add-completed-onboarding', (event, cob: string) => {
+    addCompletedOnboarding(cob);
+  });
 
   // DO NOT USE IN PRODUCTION
   ipcMain.handle('dev-activate-license', async () => {

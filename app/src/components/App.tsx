@@ -78,9 +78,9 @@ export function App() {
   }, []);
 
   return (
-    <ErrorBoundary>
-      <ChakraProvider theme={theme}>
-        <HashRouter>
+    <ChakraProvider theme={theme}>
+      <HashRouter>
+        <ErrorBoundary>
           <Routes>
             <Route path="/" element={<Redirecter />} />
             <Route
@@ -96,8 +96,8 @@ export function App() {
             isInitializing={isInitializing}
             onUpdateIsInitializing={setIsInitializing}
           />
-        </HashRouter>
-      </ChakraProvider>
-    </ErrorBoundary>
+        </ErrorBoundary>
+      </HashRouter>
+    </ChakraProvider>
   );
 }

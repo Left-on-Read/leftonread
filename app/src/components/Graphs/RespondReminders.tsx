@@ -14,15 +14,13 @@ import { FiVoicemail } from 'react-icons/fi';
 
 import { logEvent } from '../../utils/analytics';
 import { typeMessageToPhoneNumber } from '../../utils/appleScriptCommands';
-import { useGlobalContext } from '../Dashboard/GlobalContext';
 import { GraphContainer } from './GraphContainer';
 
 export function RespondReminders() {
-  const NUMBER_OF_REMINDERS = 4;
+  const NUMBER_OF_REMINDERS = 3;
   const [isLoadingReminderArray, setIsLoadingReminderArray] = useState<
     boolean[]
   >(Array(NUMBER_OF_REMINDERS).fill(false));
-  const { isPremium } = useGlobalContext();
 
   const [reminders, setReminders] = useState<RespondRemindersResult[]>([]);
   const [error, setError] = useState<null | string>(null);
@@ -89,7 +87,6 @@ export function RespondReminders() {
               isLoading={isLoadingReminderArray[i]}
               loadingText="Opening iMessage..."
               tabIndex={-1}
-              disabled={!isPremium}
               colorScheme="blue"
               size="sm"
               onClick={async () => {
@@ -124,12 +121,11 @@ export function RespondReminders() {
       title={['Reminders']}
       description="Did you forget to respond to these messages?"
       icon={FiVoicemail}
-      isPremiumGraph
     >
       <Stack spacing={8}>
         {error && <Text color="red.400">Uh oh! Something went wrong... </Text>}
         {!error && reminderContent}
-        {reminders.length === 0 && !error && (
+        {reminders.length === 0 && !error && !isLoading && (
           <div
             style={{
               width: '100%',
