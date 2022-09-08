@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/node'
 import { Request, Response } from 'express'
 import { GoogleSpreadsheet } from 'google-spreadsheet'
 import { StatusCodes } from 'http-status-codes'
@@ -43,6 +44,7 @@ export const handleStripeWebhookEvent = async (req: Request, res: Response) => {
     )
   } catch (err: unknown) {
     if (err instanceof Error) {
+      Sentry.captureException(err)
       console.log(`❌ Error message: ${err.message}`)
     }
     return res.status(StatusCodes.BAD_REQUEST).send(`Webhook Error: ${err}`)
@@ -79,12 +81,13 @@ export const handleStripeWebhookEvent = async (req: Request, res: Response) => {
       from: process.env.EMAIL, // TODO: Perhaps update this email?
       to: customerEmail,
       subject: `Left on Read: Gold Unlocked!`,
-      html: getEmailTemplate(licenseKey), // TODO: Update this content...
+      html: getEmailTemplate(licenseKey),
     }
 
     // Send the email
-    await transporter.sendMail(mailOptions, function (err) {
+    transporter.sendMail(mailOptions, function (err) {
       if (err) {
+        Sentry.captureException(err)
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(err)
       }
     })
