@@ -50,50 +50,127 @@ export const handleStripeWebhookEvent = async (req: Request, res: Response) => {
     return res.status(StatusCodes.BAD_REQUEST).send(`Webhook Error: ${err}`)
   }
 
+  // Handling one-time payments
   if (event.type === 'payment_intent.succeeded') {
     const stripeObject: Stripe.PaymentIntent = event.data
       .object as Stripe.PaymentIntent
 
-    const customerEmail = stripeObject.charges?.data[0].billing_details.email
-    if (!customerEmail) {
+    const invoice = stripeObject.charges?.data[0].invoice
+
+    // Only send a new license key on 'payment_intent.succeeded' if there's no associated invoice
+    if (!invoice) {
+      const customerEmail =
+        stripeObject.charges?.data[0].billing_details.email ??
+        'help.leftonread@gmail.com'
+      if (
+        customerEmail === 'help.leftonread@gmail.com' &&
+        process.env.NODE_ENV === 'production'
+      ) {
+        throw new Error('Missing customer email')
+      }
+
+      const licenseKey = await createLicenseKey({
+        periodEnd: '',
+        customerEmail,
+      })
+      void sendLicenseKey({ licenseKey, customerEmail })
+    }
+    return res.status(StatusCodes.OK).send()
+  }
+
+  // Handling subscription payments
+  if (event.type === 'invoice.payment_succeeded') {
+    const stripeObject: Stripe.Invoice = event.data.object as Stripe.Invoice
+    const { customer_email, period_end, billing_reason } = stripeObject
+    const customerEmail = customer_email ?? 'help.leftonread@gmail.com'
+    if (
+      customerEmail === 'help.leftonread@gmail.com' &&
+      process.env.NODE_ENV === 'production'
+    ) {
       throw new Error('Missing customer email')
     }
 
-    //  Generate license key,
-    const licenseKey = `LOR-${uuidv4()}`
-
-    // Insert license key into database
-    const gsheet = await getSheet()
-    await gsheet.addRow({
-      licenseKey,
-    })
-
-    // Compose email with License Key
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.EMAIL || '',
-        pass: process.env.EMAIL_PASSWORD || '',
-      },
-    })
-
-    const mailOptions = {
-      from: process.env.EMAIL, // TODO: Perhaps update this email?
-      to: customerEmail,
-      subject: `Left on Read: Gold Unlocked!`,
-      html: getEmailTemplate(licenseKey),
+    // Only send a license key if this is a new subscription (or manual for testing purposes)
+    if (
+      billing_reason === 'subscription_create' ||
+      billing_reason === 'manual'
+    ) {
+      const periodEnd = new Date(period_end * 1000).toUTCString()
+      const licenseKey = await createLicenseKey({
+        periodEnd,
+        customerEmail,
+      })
+      void sendLicenseKey({ licenseKey, customerEmail })
     }
 
-    // Send the email
-    transporter.sendMail(mailOptions, function (err) {
-      if (err) {
-        Sentry.captureException(err)
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(err)
-      }
-    })
+    return res.status(StatusCodes.OK).send()
+  }
+}
+
+function sendLicenseKey({
+  customerEmail,
+  licenseKey,
+}: {
+  customerEmail: string
+  licenseKey: string
+}) {
+  // Compose email with License Key
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL || '',
+      pass: process.env.EMAIL_PASSWORD || '',
+    },
+  })
+
+  const mailOptions = {
+    from: process.env.EMAIL, // TODO: Perhaps update this email?
+    to: customerEmail,
+    subject: `Left on Read: Gold Unlocked!`,
+    html: getEmailTemplate(licenseKey),
   }
 
-  return res.status(StatusCodes.OK).send()
+  // Send the email
+  transporter.sendMail(mailOptions, function (err) {
+    if (err) {
+      throw err
+    }
+  })
+}
+
+async function createLicenseKey({
+  periodEnd,
+  customerEmail,
+}: {
+  periodEnd: string
+  customerEmail: string
+}) {
+  if (!customerEmail) {
+    throw new Error('Missing customer email')
+  }
+  const emoji = [
+    'joy',
+    'unicorn',
+    'heart-emoji',
+    'eggplant',
+    'peach',
+    'party-popper',
+    'eyes-emoji',
+  ]
+  //  Generate license key
+  const licenseKey = `LOR-${
+    emoji[Math.floor(Math.random() * emoji.length)]
+  }-${uuidv4().slice(0, 27)}`
+
+  // Insert metadata into database
+  const gsheet = await getSheet()
+  await gsheet.addRow({
+    licenseKey,
+    customerEmail,
+    periodEnd,
+  })
+
+  return licenseKey
 }
 
 export const verifyLicenseKey = async (req: Request, res: Response) => {
