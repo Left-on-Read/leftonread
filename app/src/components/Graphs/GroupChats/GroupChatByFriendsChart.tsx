@@ -94,26 +94,28 @@ function GroupChatByFriendsBody({
         family: 'Montserrat',
         fontWeight: 'light',
       },
+      padding: {
+        bottom: 45,
+      },
     },
     datalabels: {
+      display: isSharingVersion,
       font: {
-        size: isSharingVersion ? 12 : 16,
+        size: 14,
         family: 'Montserrat',
         fontWeight: 'light',
       },
       anchor: 'end' as const,
       align: 'end' as const,
       formatter(value: any) {
-        if (isSharingVersion) {
-          return `(${value})`;
-        }
         return `${value}`;
       },
     },
     'lor-chartjs-logo-watermark-plugin': isSharingVersion
       ? {
-          yPaddingText: 80 + longContactName.length * 4,
-          yPaddingLogo: 65 + longContactName.length * 4,
+          // This algorithm sucks and needs to be reworked
+          yPaddingText: 80 + longContactName.length * 2,
+          yPaddingLogo: 65 + longContactName.length * 2,
         }
       : false,
   };
@@ -181,7 +183,6 @@ function GroupChatByFriendsBody({
       {error ? (
         <div
           style={{
-            position: 'relative',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
@@ -195,22 +196,20 @@ function GroupChatByFriendsBody({
       ) : (
         <>
           {showLoading && (
-            <div style={{ position: 'relative' }}>
-              <div
-                style={{
-                  position: 'absolute',
-                  height: '100%',
-                  width: '100%',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  top: 0,
-                  left: 0,
-                  backgroundColor: 'rgba(255, 255, 255, 0.7)',
-                }}
-              >
-                <Spinner color="purple.400" size="xl" />
-              </div>
+            <div
+              style={{
+                position: 'absolute',
+                height: '100%',
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                top: 0,
+                left: 0,
+                backgroundColor: 'rgba(255, 255, 255, 0.7)',
+              }}
+            >
+              <Spinner color="purple.400" size="xl" />
             </div>
           )}
           <div style={chartStyle}>

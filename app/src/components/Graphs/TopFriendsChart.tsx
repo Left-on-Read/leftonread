@@ -68,15 +68,15 @@ function TopFriendsBody({
       {
         label: 'Sent',
         data: sent,
-        backgroundColor: defaultTheme.colors.blue['200'],
-        borderColor: defaultTheme.colors.blue['400'],
+        backgroundColor: defaultTheme.colors.blue['300'],
+        borderColor: defaultTheme.colors.blue['500'],
         borderRadius: 5,
       },
       {
         label: 'Received',
         data: received,
-        backgroundColor: defaultTheme.colors.purple['200'],
-        borderColor: defaultTheme.colors.purple['400'],
+        backgroundColor: defaultTheme.colors.gray['300'],
+        borderColor: defaultTheme.colors.gray['500'],
         borderRadius: 5,
       },
     ],
@@ -92,17 +92,20 @@ function TopFriendsBody({
         fontWeight: 'light',
       },
     },
+    // datalabels: {
+    //   font: {
+    //     size: isSharingVersion ? 12 : 12,
+    //     family: 'Montserrat',
+    //     fontWeight: 'light',
+    //   },
+    //   anchor: 'end' as const,
+    //   align: 'end' as const,
+    //   formatter(value: any) {
+    //     return `${value}`;
+    //   },
+    // },
     datalabels: {
-      font: {
-        size: isSharingVersion ? 12 : 12,
-        family: 'Montserrat',
-        fontWeight: 'light',
-      },
-      anchor: 'end' as const,
-      align: 'end' as const,
-      formatter(value: any) {
-        return `${value}`;
-      },
+      display: false,
     },
     'lor-chartjs-logo-watermark-plugin': isSharingVersion
       ? {
@@ -198,7 +201,6 @@ function TopFriendsBody({
       {error ? (
         <div
           style={{
-            position: 'relative',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
@@ -212,22 +214,20 @@ function TopFriendsBody({
       ) : (
         <>
           {showLoading && (
-            <div style={{ position: 'relative' }}>
-              <div
-                style={{
-                  position: 'absolute',
-                  height: '100%',
-                  width: '100%',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  top: 0,
-                  left: 0,
-                  backgroundColor: 'rgba(255, 255, 255, 0.7)',
-                }}
-              >
-                <Spinner color="purple.400" size="xl" />
-              </div>
+            <div
+              style={{
+                position: 'absolute',
+                height: '100%',
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                top: 0,
+                left: 0,
+                backgroundColor: 'rgba(255, 255, 255, 0.7)',
+              }}
+            >
+              <Spinner color="purple.400" size="xl" />
             </div>
           )}
           <div style={chartStyle}>

@@ -91,19 +91,6 @@ export function GraphContainer({
               </div>
             </div>
             {!isLocked && setIsShareOpen && (
-              // <IconButton
-              //   icon={<Icon as={FiShare} />}
-              //   aria-label="Share"
-              //   onClick={() => {
-              //     setIsShareOpen(true);
-              //     logEvent({
-              //       eventName: 'SHARE_GRAPH',
-              //       properties: {
-              //         graph: title[0],
-              //       },
-              //     });
-              //   }}
-              // />
               <Button
                 onClick={() => {
                   setIsShareOpen(true);
@@ -119,8 +106,8 @@ export function GraphContainer({
                 Share
               </Button>
             )}
-            <div>
-              {onClickMessageScheduler && (
+            {onClickMessageScheduler && onClickMessageSchedulerRefresh && (
+              <div>
                 <Button
                   colorScheme="blue"
                   onClick={() => {
@@ -130,8 +117,6 @@ export function GraphContainer({
                 >
                   Schedule New Message
                 </Button>
-              )}
-              {onClickMessageSchedulerRefresh && (
                 <Button
                   style={{ marginLeft: 20 }}
                   onClick={() => {
@@ -140,8 +125,8 @@ export function GraphContainer({
                 >
                   <Icon as={FiRefreshCw} />
                 </Button>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
         <div

@@ -37,30 +37,14 @@ export function checkIsInitialized() {
   return !!fs.existsSync(appDirectoryPath);
 }
 
-const POSSIBLE_COLORS: (
-  | 'gray'
-  | 'red'
-  | 'orange'
-  | 'yellow'
-  | 'green'
-  | 'teal'
-  | 'blue'
-  | 'cyan'
-  | 'purple'
-  | 'pink'
-)[] = [
+const POSSIBLE_COLORS: ('gray' | 'green' | 'blue' | 'purple' | 'pink')[] = [
   'gray',
-  'red',
-  'orange',
-  'yellow',
   'green',
-  'teal',
   'blue',
-  'cyan',
   'purple',
   'pink',
 ];
-const POSSIBLE_WEIGHTS: (50 | 200 | 400 | 600)[] = [200, 400];
+const POSSIBLE_WEIGHTS: (200 | 300)[] = [200, 300];
 export function getRandomColorFromTheme() {
   const proposedColor =
     POSSIBLE_COLORS[Math.floor(Math.random() * POSSIBLE_COLORS.length)];

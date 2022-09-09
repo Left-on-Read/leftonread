@@ -124,6 +124,12 @@ function GroupChatReactionsBody({
         if (r === 'Laughed') {
           return 'Laughs';
         }
+        if (r === 'Emphasized' || r === 'Emphasised') {
+          return 'Emphasis';
+        }
+        if (r === 'Questioned') {
+          return 'Questions';
+        }
         return r.replace('d', 's');
       }
       return r;
@@ -144,7 +150,7 @@ function GroupChatReactionsBody({
     datalabels: !isSharingVersion
       ? {
           font: {
-            size: isSharingVersion ? 12 : 12,
+            size: 12,
             family: 'Montserrat',
             fontWeight: 'light',
           },
@@ -153,7 +159,10 @@ function GroupChatReactionsBody({
           align: 'start' as const,
           rotation: 320,
           formatter(value: any, context: Context) {
-            const MAX_LABEL_LENGTH = 18;
+            if (!value) {
+              return '';
+            }
+            const MAX_LABEL_LENGTH = 10;
             if (
               context.dataset.label &&
               context.dataset.label.length > MAX_LABEL_LENGTH
