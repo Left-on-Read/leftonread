@@ -35,7 +35,7 @@ export function Download({
             flexDirection: 'column',
             alignItems: 'center',
             width: '100%',
-            marginBottom: 80,
+            marginTop: 40,
           }}
         >
           <Box style={{ display: 'flex', alignItems: 'center', marginTop: 80 }}>
@@ -44,7 +44,7 @@ export function Download({
               fontSize={{
                 base: '4xl',
                 md: '5xl',
-                lg: '6xl',
+                lg: '7xl',
               }}
               fontWeight="extrabold"
               bgGradient="linear(to-r, blue.400, purple.400)"
@@ -59,13 +59,14 @@ export function Download({
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
+              marginBottom: 60,
             }}
           >
             <Text
               fontSize={{
-                base: 'md',
-                md: 'lg',
-                lg: 'xl',
+                base: 'lg',
+                md: 'xl',
+                lg: '2xl',
               }}
               textAlign={{
                 base: 'center',
@@ -85,6 +86,78 @@ export function Download({
               >
                 Download for Mac
               </Button>
+            </Box>
+          </Box>
+          <Box
+            style={{
+              backgroundColor: 'white',
+              padding: '5%',
+              borderRadius: 32,
+              display: 'flex',
+              justifyContent: 'space-between',
+              marginBottom: 120,
+            }}
+            margin={{
+              base: '0',
+              lg: '8%',
+            }}
+            bgGradient="linear(to-br, yellow.500, yellow.700)"
+            flexDirection={{
+              base: 'column',
+              lg: 'row',
+            }}
+          >
+            <Box width={{ base: '100%' }}>
+              <Box
+                style={{
+                  lineHeight: 1.3,
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                <Box>
+                  <Text
+                    color="white"
+                    fontSize={{
+                      base: '2xl',
+                      md: '3xl',
+                      lg: '4xl',
+                    }}
+                    fontWeight="extrabold"
+                  >
+                    Left on Read Gold 🌟
+                  </Text>
+                  <Text
+                    color="white"
+                    fontSize={{
+                      base: 'md',
+                      lg: 'xl',
+                    }}
+                    marginTop={{
+                      base: 4,
+                      lg: 8,
+                    }}
+                  >
+                    Left on Read is free to try! To unlock more advanced
+                    analytics and features, we offer Left on Read Gold for
+                    $2.99/month.
+                  </Text>
+                  <Text
+                    color="white"
+                    fontSize={{
+                      base: 'md',
+                      lg: 'xl',
+                    }}
+                    marginTop={{
+                      base: 4,
+                      lg: 8,
+                    }}
+                  >
+                    This helps us keep Left on Read running, and continue to
+                    work on bringing exciting new features to you!
+                  </Text>
+                </Box>
+              </Box>
             </Box>
           </Box>
         </Box>
