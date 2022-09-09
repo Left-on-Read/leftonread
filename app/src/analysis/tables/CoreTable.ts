@@ -85,20 +85,6 @@ export class CoreMainTable extends Table {
     await sqlite3Wrapper.runP(this.db, q);
     log.info(`INFO: created ${this.name}`);
 
-    // NOTE(teddy): Delete duplicate message_Id rows... not sure how they get in tehre...
-    // THIS DOES NOT WORk. I DONT KNOW WHY.
-    const deleteDupsQ = `
-      DELETE FROM ${this.name} 
-      WHERE ROWID NOT IN 
-      (
-        SELECT min(ROWID)
-        FROM ${this.name}
-        GROUP BY ROWID
-      )
-    `;
-    await sqlite3Wrapper.runP(this.db, deleteDupsQ);
-    log.info(`INFO: cleared any duplicates from ${this.name}`);
-
     return this.name;
   }
 }

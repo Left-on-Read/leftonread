@@ -1,4 +1,4 @@
-import { Spinner, Text, theme as defaultTheme, theme } from '@chakra-ui/react';
+import { Spinner, Text, theme as defaultTheme } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useRef, useState } from 'react';
@@ -6,7 +6,7 @@ import { Bar } from 'react-chartjs-2';
 import { IconType } from 'react-icons';
 
 import { SharedGroupChatTabQueryFilters } from '../../../analysis/queries/filters/sharedGroupChatTabFilters';
-import { GroupChatByFriends } from '../../../analysis/queries/GroupChatByFriendsQuery';
+import { GroupChatByFriends } from '../../../analysis/queries/GroupChats/GroupChatByFriendsQuery';
 import { ShareModal } from '../../Sharing/ShareModal';
 import { GraphContainer } from '../GraphContainer';
 
@@ -16,12 +16,14 @@ function GroupChatByFriendsBody({
   isSharingVersion,
   setIsShareOpen,
   loadingOverride,
+  colorByContactName,
 }: {
   title: string[];
   filters: SharedGroupChatTabQueryFilters;
   isSharingVersion: boolean;
   setIsShareOpen: React.Dispatch<React.SetStateAction<boolean>>;
   loadingOverride?: boolean;
+  colorByContactName: Record<string, string>;
 }) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<null | string>(null);
@@ -67,15 +69,8 @@ function GroupChatByFriendsBody({
         label: 'Count',
         data: count,
         borderRadius: 5,
-        gradient: {
-          backgroundColor: {
-            axis: 'y' as const,
-            colors: {
-              0: theme.colors.blue[300],
-              [count[0]]: theme.colors.purple[400],
-            },
-          },
-        },
+        backgroundColor: contactNames.map((c) => colorByContactName[c]),
+        borderColor: contactNames.map((c) => colorByContactName[c]),
       },
     ],
   };
@@ -99,26 +94,28 @@ function GroupChatByFriendsBody({
         family: 'Montserrat',
         fontWeight: 'light',
       },
+      padding: {
+        bottom: 45,
+      },
     },
     datalabels: {
+      display: isSharingVersion,
       font: {
-        size: isSharingVersion ? 12 : 16,
+        size: 14,
         family: 'Montserrat',
         fontWeight: 'light',
       },
       anchor: 'end' as const,
       align: 'end' as const,
       formatter(value: any) {
-        if (isSharingVersion) {
-          return `(${value})`;
-        }
         return `${value}`;
       },
     },
     'lor-chartjs-logo-watermark-plugin': isSharingVersion
       ? {
-          yPaddingText: 80 + longContactName.length * 4,
-          yPaddingLogo: 65 + longContactName.length * 4,
+          // This algorithm sucks and needs to be reworked
+          yPaddingText: 80 + longContactName.length * 2,
+          yPaddingLogo: 65 + longContactName.length * 2,
         }
       : false,
   };
@@ -242,11 +239,13 @@ export function GroupChatByFriendsChart({
   icon,
   filters,
   loadingOverride,
+  colorByContactName,
 }: {
   title: string[];
   icon: IconType;
   filters: SharedGroupChatTabQueryFilters;
   loadingOverride?: boolean;
+  colorByContactName: Record<string, string>;
 }) {
   const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
 
@@ -259,6 +258,7 @@ export function GroupChatByFriendsChart({
           isSharingVersion
           setIsShareOpen={setIsShareOpen}
           loadingOverride={loadingOverride}
+          colorByContactName={colorByContactName}
         />
       )}
       <GraphContainer title={title} icon={icon} setIsShareOpen={setIsShareOpen}>
@@ -268,6 +268,7 @@ export function GroupChatByFriendsChart({
           isSharingVersion={false}
           setIsShareOpen={setIsShareOpen}
           loadingOverride={loadingOverride}
+          colorByContactName={colorByContactName}
         />
       </GraphContainer>
     </>

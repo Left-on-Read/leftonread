@@ -1,3 +1,4 @@
+import { theme } from '@chakra-ui/react';
 import * as fs from 'fs';
 import path from 'path';
 import { URL } from 'url';
@@ -34,4 +35,20 @@ export function shuffleArray(array: string[]) {
 
 export function checkIsInitialized() {
   return !!fs.existsSync(appDirectoryPath);
+}
+
+const POSSIBLE_COLORS: ('gray' | 'green' | 'blue' | 'purple' | 'pink')[] = [
+  'gray',
+  'green',
+  'blue',
+  'purple',
+  'pink',
+];
+const POSSIBLE_WEIGHTS: (200 | 300)[] = [200, 300];
+export function getRandomColorFromTheme() {
+  const proposedColor =
+    POSSIBLE_COLORS[Math.floor(Math.random() * POSSIBLE_COLORS.length)];
+  return theme.colors[proposedColor][
+    POSSIBLE_WEIGHTS[Math.floor(Math.random() * POSSIBLE_WEIGHTS.length)]
+  ];
 }

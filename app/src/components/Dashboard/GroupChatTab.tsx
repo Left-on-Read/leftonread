@@ -1,4 +1,4 @@
-import { Text } from '@chakra-ui/react';
+import { Skeleton, Text } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
@@ -6,9 +6,11 @@ import { FiCompass, FiFeather } from 'react-icons/fi';
 import Select from 'react-select';
 
 import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFilters';
-import { GroupChatByFriends } from '../../analysis/queries/GroupChatByFriendsQuery';
+import { GroupChatByFriends } from '../../analysis/queries/GroupChats/GroupChatByFriendsQuery';
+import { getRandomColorFromTheme } from '../../main/util';
 import { GroupChatActivityOverTimeChart } from '../Graphs/GroupChats/GroupChatActivityOverTimeChart';
 import { GroupChatByFriendsChart } from '../Graphs/GroupChats/GroupChatByFriendsChart';
+import { GroupChatReactionsChart } from '../Graphs/GroupChats/GroupChatReactionsChart';
 
 export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
   const [groupChatNames, setGroupChatNames] = useState<
@@ -25,6 +27,10 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<null | string>(null);
+
+  const [colorByContactName, setColorByContactName] = useState<
+    Record<string, string>
+  >({});
 
   useEffect(() => {
     async function fetchGroupChatByFriends() {
@@ -50,6 +56,16 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
         if (gct.length > 0) {
           setSelectedGroupChat({ value: gct[0].value, label: gct[0].value });
         }
+
+        const tmpColorByContactName: Record<string, string> = {};
+        groupChatByFriendsDataList.forEach((o) => {
+          if (!(o.contact_name in tmpColorByContactName)) {
+            // eslint-disable-next-line prefer-destructuring
+            tmpColorByContactName[o.contact_name] = getRandomColorFromTheme();
+          }
+        });
+
+        setColorByContactName(tmpColorByContactName);
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err.message);
@@ -61,6 +77,53 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
     }
     fetchGroupChatByFriends();
   }, [filters]);
+
+  const body = (
+    <>
+      {/* NOTE(Danilowicz): Not proud of the replace all here... */}
+      <GroupChatByFriendsChart
+        title={[
+          'Who Texts the Most in ',
+          ...selectedGroupChat.label.replaceAll(',', ', ;').split(';'),
+        ]}
+        icon={FiFeather}
+        filters={{ ...filters, groupChatName: selectedGroupChat.label }}
+        colorByContactName={colorByContactName}
+      />
+
+      <GroupChatReactionsChart
+        title={[
+          'Who Gives the Most Reactions in ',
+          ...selectedGroupChat.label.replaceAll(',', ', ;').split(';'),
+        ]}
+        icon={FiCompass}
+        filters={{ ...filters, groupChatName: selectedGroupChat.label }}
+        mode="GIVES"
+        colorByContactName={colorByContactName}
+      />
+
+      <GroupChatReactionsChart
+        title={[
+          'Who Gets the Most Reactions in ',
+          ...selectedGroupChat.label.replaceAll(',', ', ;').split(';'),
+        ]}
+        icon={FiCompass}
+        filters={{ ...filters, groupChatName: selectedGroupChat.label }}
+        mode="GETS"
+        colorByContactName={colorByContactName}
+      />
+
+      <GroupChatActivityOverTimeChart
+        title={[
+          'Group Chat Activity in ',
+          ...selectedGroupChat.label.replaceAll(',', ', ;').split(';'),
+        ]}
+        description=""
+        icon={FiCompass}
+        filters={{ ...filters, groupChatName: selectedGroupChat.label }}
+      />
+    </>
+  );
 
   // TODO(Daniowicz): Use async select to load options in
   // Also this Group Chat Selector UI should be totally redone and moved into the filter panel
@@ -82,25 +145,7 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
           options={groupChatNames}
         />
       </div>
-
-      {/* NOTE(Danilowicz): Not proud of the replace all here... */}
-      <GroupChatActivityOverTimeChart
-        title={[
-          'Group Chat Activity in ',
-          ...selectedGroupChat.label.replaceAll(',', ', ;').split(';'),
-        ]}
-        description=""
-        icon={FiCompass}
-        filters={{ ...filters, groupChatName: selectedGroupChat.label }}
-      />
-      <GroupChatByFriendsChart
-        title={[
-          'Who Texts the Most in ',
-          ...selectedGroupChat.label.replaceAll(',', ', ;').split(';'),
-        ]}
-        icon={FiFeather}
-        filters={{ ...filters, groupChatName: selectedGroupChat.label }}
-      />
+      {isLoading ? <Skeleton height={8} width={180} /> : body}
     </>
   );
 }

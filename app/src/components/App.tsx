@@ -33,6 +33,36 @@ export function App() {
 
   useEffect(() => {
     Chart.register({
+      id: 'lor-chartjs-no-data-to-display message',
+      afterDraw(chart) {
+        const { datasets } = chart.data;
+        const hasData = datasets.find(
+          (d) => d.data.length > 0 && d.data.some((item) => item !== 0)
+        );
+
+        if (!hasData) {
+          const {
+            chartArea: { left, top, right, bottom },
+            ctx,
+          } = chart;
+          const centerX = (left + right) / 2;
+          const centerY = (top + bottom) / 2;
+
+          chart.clear();
+          ctx.save();
+          ctx.font = '24px montserrat';
+          ctx.fillStyle = 'gray';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('No data to display.', centerX, centerY);
+          ctx.restore();
+        }
+      },
+    });
+  }, []);
+
+  useEffect(() => {
+    Chart.register({
       // Give every chart a white background color for export reasons
       // https://stackoverflow.com/questions/69357233/background-color-of-the-chart-area-in-chartjs-not-workin
       id: 'lor-chartjs-white-background-for-export',

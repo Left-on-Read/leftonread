@@ -15,10 +15,13 @@ export function groupChatNameFilter(filter: SharedGroupChatTabQueryFilters) {
 }
 
 export function getAllGroupChatTabFilters(
-  filters: SharedGroupChatTabQueryFilters
+  filters: SharedGroupChatTabQueryFilters,
+  defaultFilters?: string
 ) {
   const timeRange = timeRangeFilter(filters);
   const groupChatName = groupChatNameFilter(filters);
-  const filtersArray = [timeRange, groupChatName].filter((filter) => !!filter);
+  const filtersArray = [timeRange, groupChatName, defaultFilters].filter(
+    (filter) => !!filter
+  );
   return filtersArray.length > 0 ? `WHERE ${filtersArray.join(' AND ')}` : '';
 }

@@ -22,8 +22,9 @@ import {
 } from '../analysis/queries/EngagementQueries';
 import { SharedGroupChatTabQueryFilters } from '../analysis/queries/filters/sharedGroupChatTabFilters';
 import { SharedQueryFilters } from '../analysis/queries/filters/sharedQueryFilters';
-import { queryGroupChatByFriends } from '../analysis/queries/GroupChatByFriendsQuery';
 import { queryGroupChatActivityOverTime } from '../analysis/queries/GroupChats/GroupChatActivityOverTimeQuery';
+import { queryGroupChatByFriends } from '../analysis/queries/GroupChats/GroupChatByFriendsQuery';
+import { queryGroupChatReactionsQuery } from '../analysis/queries/GroupChats/GroupChatReactionsQuery';
 import { queryRespondReminders } from '../analysis/queries/RespondReminders';
 import {
   querySentimentOverTimeReceived,
@@ -282,6 +283,14 @@ export function attachIpcListeners() {
     async (event, filters: SharedGroupChatTabQueryFilters) => {
       const db = getDb();
       return queryGroupChatByFriends(db, filters);
+    }
+  );
+
+  ipcMain.handle(
+    'query-group-chat-reactions',
+    async (event, filters: SharedGroupChatTabQueryFilters) => {
+      const db = getDb();
+      return queryGroupChatReactionsQuery(db, filters);
     }
   );
 

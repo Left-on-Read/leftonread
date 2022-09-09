@@ -44,6 +44,7 @@ export async function queryGroupChatActivityOverTime(
     FROM core_main_table cm
     JOIN GROUP_CHAT_NAMES gcm
     on cm.chat_id  = gcm.chat_id),
+    
     LOR_TEXTS_OVER_TIME AS (
         SELECT
             DATE(human_readable_date) as date,
