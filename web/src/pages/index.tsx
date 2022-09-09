@@ -17,7 +17,6 @@ export default function Landing() {
       <Infographic />
       <Security />
       <Download ctaRef={ctaRef} />
-      {/* <GetNotified ctaRef={ctaRef} /> */}
       <Footer />
     </>
   )

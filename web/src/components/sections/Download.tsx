@@ -42,9 +42,9 @@ export function Download({
             {/* <Image src={'/ICON.png'} height={70} width={70} /> */}
             <Text
               fontSize={{
-                base: '4xl',
-                md: '5xl',
-                lg: '6xl',
+                base: '5xl',
+                md: '6xl',
+                lg: '7xl',
               }}
               fontWeight="extrabold"
               bgGradient="linear(to-r, blue.400, purple.400)"
