@@ -4,6 +4,7 @@ import Link from 'next/link'
 import React from 'react'
 import { FiLayers, FiMap, FiUser } from 'react-icons/fi'
 
+import { GetNotified } from '../components/sections/GetNotified'
 import { DefaultContentContainer } from './DefaultContentContainer'
 
 export function Footer() {
@@ -42,52 +43,88 @@ export function Footer() {
                 San Francisco, US
               </Box>
               <Box>© Left on Read 2022</Box>
+
+              <Box>
+                <div style={{ marginBottom: '5px' }}>Stay in touch</div>
+                <GetNotified />
+              </Box>
+            </Stack>
+            <Stack style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Stack fontSize="md">
+                <Text
+                  fontWeight="medium"
+                  fontSize="lg"
+                  style={{ display: 'flex', alignItems: 'center' }}
+                  marginTop={{
+                    base: '0px',
+                    md: '32px',
+                  }}
+                >
+                  <Icon as={FiLayers} style={{ marginRight: 8 }} />
+                  Product
+                </Text>
+                <Link href="/">Download</Link>
+                <Link href="/privacy">Privacy Policy</Link>
+                <Link href="/terms">Terms & Conditions</Link>
+              </Stack>
               <a
-                data-testid="footer-anchor-vercel"
-                href="https://vercel.com/?utm_source=leftonread&utm_campaign=oss"
+                rel="noreferrer"
+                href="https://www.producthunt.com/posts/left-on-read?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-left&#0045;on&#0045;read"
+                target="_blank"
               >
                 <img
-                  data-testid="footer-img-vercel"
-                  src={
-                    'https://raw.githubusercontent.com/Left-on-Read/leftonread/main/assets/documentation/powered-by-vercel.svg'
-                  }
+                  src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=358899&theme=neutral"
+                  alt="Left&#0032;on&#0032;Read - iMessages&#0032;supercharged | Product Hunt"
+                  width="200"
+                  height="40"
+                  style={{
+                    minHeight: '34px',
+                    minWidth: '194px',
+                    maxHeight: '42px',
+                    maxWidth: '200px',
+                  }}
                 />
               </a>
             </Stack>
-            <Stack fontSize="md">
-              <Text
-                fontWeight="medium"
-                fontSize="lg"
-                style={{ display: 'flex', alignItems: 'center' }}
-                marginTop={{
-                  base: '0px',
-                  md: '32px',
-                }}
-              >
-                <Icon as={FiLayers} style={{ marginRight: 8 }} />
-                Product
-              </Text>
-              <Link href="/">Download</Link>
-              <Link href="/privacy">Privacy Policy</Link>
-              <Link href="/terms">Terms & Conditions</Link>
-            </Stack>
-            <Stack>
-              <Text
-                fontWeight="medium"
-                fontSize="lg"
-                style={{ display: 'flex', alignItems: 'center' }}
-                marginTop={{
-                  base: '0px',
-                  md: '32px',
-                }}
-              >
-                <Icon as={FiUser} style={{ marginRight: 8 }} />
-                Contact
-              </Text>
-              <Link href="https://github.com/Left-on-Read/leftonread">
-                Github
-              </Link>
-              <Link href="mailto:help.leftonread@gmail.com">Email</Link>
+
+            <Stack style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Stack>
+                <Text
+                  fontWeight="medium"
+                  fontSize="lg"
+                  style={{ display: 'flex', alignItems: 'center' }}
+                  marginTop={{
+                    base: '0px',
+                    md: '32px',
+                  }}
+                >
+                  <Icon as={FiUser} style={{ marginRight: 8 }} />
+                  Contact
+                </Text>
+                <Link href="mailto:help.leftonread@gmail.com">Support</Link>
+                <Link href="https://github.com/Left-on-Read/leftonread">
+                  Github
+                </Link>
+              </Stack>
+              <Box>
+                <a
+                  data-testid="footer-anchor-vercel"
+                  href="https://vercel.com/?utm_source=leftonread&utm_campaign=oss"
+                >
+                  <img
+                    data-testid="footer-img-vercel"
+                    src={
+                      'https://raw.githubusercontent.com/Left-on-Read/leftonread/main/assets/documentation/powered-by-vercel.svg'
+                    }
+                    style={{
+                      minHeight: '34px',
+                      minWidth: '194px',
+                      maxHeight: '42px',
+                      maxWidth: '200px',
+                    }}
+                  />
+                </a>
+              </Box>
             </Stack>
           </Stack>
         </Box>
