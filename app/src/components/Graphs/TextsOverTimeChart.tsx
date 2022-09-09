@@ -84,16 +84,16 @@ function TextsOverTimeBody({
     labels,
     datasets: [
       {
-        backgroundColor: theme.colors.blue['200'],
+        backgroundColor: theme.colors.blue['300'],
         label: 'Sent Texts',
-        borderColor: theme.colors.blue['400'],
+        borderColor: theme.colors.blue['500'],
         borderWidth: 0.8,
         data: sampledSentData,
       },
       {
-        backgroundColor: theme.colors.gray['200'],
+        backgroundColor: theme.colors.gray['300'],
         label: 'Received Texts',
-        borderColor: theme.colors.gray['400'],
+        borderColor: theme.colors.gray['500'],
         borderWidth: 0.8,
         data: sampledReceivedData,
       },
@@ -193,7 +193,6 @@ function TextsOverTimeBody({
       {error ? (
         <div
           style={{
-            position: 'relative',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
@@ -207,22 +206,20 @@ function TextsOverTimeBody({
       ) : (
         <>
           {isLoading && (
-            <div style={{ position: 'relative' }}>
-              <div
-                style={{
-                  position: 'absolute',
-                  height: '100%',
-                  width: '100%',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  top: 0,
-                  left: 0,
-                  backgroundColor: 'rgba(255, 255, 255, 0.7)',
-                }}
-              >
-                <Spinner color="purple.400" size="xl" />
-              </div>
+            <div
+              style={{
+                position: 'absolute',
+                height: '100%',
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                top: 0,
+                left: 0,
+                backgroundColor: 'rgba(255, 255, 255, 0.7)',
+              }}
+            >
+              <Spinner color="purple.400" size="xl" />
             </div>
           )}
           <div style={chartStyle}>

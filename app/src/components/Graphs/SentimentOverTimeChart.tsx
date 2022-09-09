@@ -201,7 +201,6 @@ function SentimentOverTimeBody({
       {error ? (
         <div
           style={{
-            position: 'relative',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
@@ -215,22 +214,20 @@ function SentimentOverTimeBody({
       ) : (
         <>
           {isLoading && (
-            <div style={{ position: 'relative' }}>
-              <div
-                style={{
-                  position: 'absolute',
-                  height: '100%',
-                  width: '100%',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  top: 0,
-                  left: 0,
-                  backgroundColor: 'rgba(255, 255, 255, 0.7)',
-                }}
-              >
-                <Spinner color="purple.400" size="xl" />
-              </div>
+            <div
+              style={{
+                position: 'absolute',
+                height: '100%',
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                top: 0,
+                left: 0,
+                backgroundColor: 'rgba(255, 255, 255, 0.7)',
+              }}
+            >
+              <Spinner color="purple.400" size="xl" />
             </div>
           )}
           <div style={chartStyle}>
