@@ -22,6 +22,7 @@ import { ipcRenderer } from 'electron';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   FiBell,
+  FiFolder,
   FiGitPullRequest,
   FiLock,
   FiRefreshCw,
@@ -177,6 +178,20 @@ export function Navbar({
                   />
                   <Text size="sm" fontWeight={500} color="yellow.500">
                     Unlock Gold
+                  </Text>
+                </MenuItem>
+              )}
+              {isPremium && (
+                <MenuItem
+                  onClick={() => {
+                    window.open(
+                      'https://billing.stripe.com/p/login/eVabK06mUcNG2oE6oo'
+                    );
+                  }}
+                >
+                  <Icon as={FiFolder} style={{ marginRight: 12 }} />
+                  <Text size="sm" fontWeight={300}>
+                    Manage Subscription
                   </Text>
                 </MenuItem>
               )}
