@@ -2,7 +2,7 @@
 	<img src="https://raw.githubusercontent.com/Left-on-Read/leftonread/main/web/src/assets/ICON_TEXT_LOGO.svg" />
 </h2>
 
-A text message analyzer built with Electron, React, SQLite, Typescript, and ❤️.
+iMessages supercharged! Built with Electron, React, SQLite, Typescript, and ❤️.
 
 ## Download Left on Read for Mac
 
@@ -16,7 +16,7 @@ A text message analyzer built with Electron, React, SQLite, Typescript, and ❤�
 
 **Secure**: Just like your private photos and important documents, your text messages are only accessible to you and never seen by us.
 
-**Fun**: The first iteration was a [web application](https://www.reddit.com/r/dataisbeautiful/comments/biou3e/4_years_of_texts_between_me_and_my_long_distance/), but now we have rebuilt Left on Read as a Desktop app for even more fun!
+**Productive and Fun**: The first iteration was a [web application](https://www.reddit.com/r/dataisbeautiful/comments/biou3e/4_years_of_texts_between_me_and_my_long_distance/), but now we have rebuilt Left on Read as a Desktop app to feature fun productivity tools, such as scheduled messages and reminders.
 
 ## Contributing
 
@@ -36,6 +36,8 @@ Thank you to Vercel for sponsoring this project!
 
 [![Vercel](./assets/documentation/powered-by-vercel.svg)](https://vercel.com/?utm_source=leftonread&utm_campaign=oss)
 
-## Donate
+## Support
 
 <a href="https://www.buymeacoffee.com/leftonread" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+
+<a href="https://www.producthunt.com/posts/left-on-read?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-left&#0045;on&#0045;read" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=358899&theme=light" alt="Left&#0032;on&#0032;Read - iMessages&#0032;supercharged | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
