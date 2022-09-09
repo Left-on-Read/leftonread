@@ -71,8 +71,8 @@ function GroupChatByFriendsBody({
           backgroundColor: {
             axis: 'y' as const,
             colors: {
-              0: theme.colors.blue[400],
-              50: theme.colors.purple[400],
+              0: theme.colors.blue[300],
+              [count[0]]: theme.colors.purple[400],
             },
           },
         },

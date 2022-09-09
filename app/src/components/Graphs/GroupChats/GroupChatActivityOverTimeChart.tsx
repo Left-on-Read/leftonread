@@ -71,9 +71,9 @@ function GroupChatActivityOverTimeBody({
     labels,
     datasets: [
       {
-        backgroundColor: theme.colors.blue['200'],
+        backgroundColor: theme.colors.blue['300'],
         label: 'Texts',
-        borderColor: theme.colors.blue['400'],
+        borderColor: theme.colors.blue['500'],
         borderWidth: 0.8,
         data: sampledData,
       },
