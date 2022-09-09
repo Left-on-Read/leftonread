@@ -148,15 +148,7 @@ async function createLicenseKey({
   if (!customerEmail) {
     throw new Error('Missing customer email')
   }
-  const emoji = [
-    'joy',
-    'unicorn',
-    'heart-emoji',
-    'eggplant',
-    'peach',
-    'party-popper',
-    'eyes-emoji',
-  ]
+  const emoji = ['joy', 'heart-emoji', 'peach', 'party-popper', 'eyes-emoji']
   //  Generate license key
   const licenseKey = `LOR-${
     emoji[Math.floor(Math.random() * emoji.length)]
