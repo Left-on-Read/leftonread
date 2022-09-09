@@ -16,10 +16,14 @@ export function Security() {
         <Box
           style={{
             backgroundColor: 'white',
-            padding: '5%',
             borderRadius: 32,
             display: 'flex',
             justifyContent: 'space-between',
+          }}
+          padding={{
+            base: '10%',
+            md: '5%',
+            lg: '5%',
           }}
           margin={{
             base: '0',

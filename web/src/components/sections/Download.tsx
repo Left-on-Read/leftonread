@@ -35,15 +35,15 @@ export function Download({
             flexDirection: 'column',
             alignItems: 'center',
             width: '100%',
-            marginTop: 40,
+            marginTop: 80,
           }}
         >
-          <Box style={{ display: 'flex', alignItems: 'center', marginTop: 80 }}>
+          <Box style={{ display: 'flex', alignItems: 'center' }}>
             {/* <Image src={'/ICON.png'} height={70} width={70} /> */}
             <Text
               fontSize={{
-                base: '5xl',
-                md: '6xl',
+                base: '4xl',
+                md: '5xl',
                 lg: '7xl',
               }}
               fontWeight="extrabold"
@@ -59,7 +59,7 @@ export function Download({
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              marginBottom: 60,
+              marginBottom: 80,
             }}
           >
             <Text
@@ -91,7 +91,6 @@ export function Download({
           <Box
             style={{
               backgroundColor: 'white',
-              padding: '5%',
               borderRadius: 32,
               display: 'flex',
               justifyContent: 'space-between',
@@ -100,6 +99,11 @@ export function Download({
             margin={{
               base: '0',
               lg: '8%',
+            }}
+            padding={{
+              base: '10%',
+              md: '5%',
+              lg: '5%',
             }}
             bgGradient="linear(to-br, yellow.500, yellow.700)"
             flexDirection={{
