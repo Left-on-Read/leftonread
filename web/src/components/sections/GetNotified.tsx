@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  FormControl,
-  Icon,
-  Input,
-  Spinner,
-} from '@chakra-ui/react'
+import { Box, Button, FormControl, Icon, Input } from '@chakra-ui/react'
 import * as React from 'react'
 import { FiCheckCircle } from 'react-icons/fi'
 
@@ -15,26 +8,26 @@ import { StatusLoaderState } from '../StatusLoader'
 
 export function GetNotified({}) {
   const [email, setEmail] = React.useState<string>('')
-  const [message, setMessage] = React.useState<string | undefined>(undefined)
+  // const [message, setMessage] = React.useState<string | undefined>(undefined)
   const [state, setState] = React.useState<StatusLoaderState | null>(null)
 
   const signUpEmail = async (submittedEmail: string) => {
     if (!isValidEmail(submittedEmail)) {
       setState('error')
-      setMessage('Please enter a valid email.')
+      // setMessage('Please enter a valid email.')
       return
     }
 
     setState('loading')
-    setMessage(undefined)
+    // setMessage(undefined)
 
     try {
       await writeEmailToFirestore(submittedEmail)
       setState('success')
-      setMessage('Successfully signed up!')
+      // setMessage('Successfully signed up!')
     } catch (e) {
       setState('error')
-      setMessage('Uh oh, something went wrong.')
+      // setMessage('Uh oh, something went wrong.')
     }
   }
 
