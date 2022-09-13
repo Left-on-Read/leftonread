@@ -9,13 +9,13 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Select,
   Text,
   Textarea,
 } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
 import { useEffect, useState } from 'react';
 import DateTimePicker from 'react-datetime-picker';
+import Select from 'react-select';
 import { v4 as uuidv4 } from 'uuid';
 
 import SeasonChange from '../../../assets/illustrations/season_change.svg';
@@ -43,9 +43,18 @@ export function MessageSchedulerModal({
 
   const [dateTime, setDateTime] = useState<Date>(getDefaultDate());
   const [message, setMessage] = useState<string>('');
-  const [selectedPhoneNumber, setSelectedPhoneNumber] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
   const [showOnboarding, setShowOnboarding] = useState<boolean>(false);
+
+  const [selectedContact, setSelectedContact] = useState<{
+    value: string;
+    label: string;
+  }>({
+    value: '',
+    label: '',
+  });
+
+  const selectedPhoneNumber = selectedContact.value;
 
   const scheduleMessage = async () => {
     // Find matching contact
@@ -108,9 +117,14 @@ export function MessageSchedulerModal({
     if (!isOpen) {
       setDateTime(getDefaultDate());
       setMessage('');
-      setSelectedPhoneNumber('');
+      setSelectedContact({ value: '', label: '' });
     }
   }, [isOpen]);
+
+  const contactOptions = contacts.map((contact) => ({
+    value: contact.phoneNumber,
+    label: contact.label,
+  }));
 
   let content = (
     <>
@@ -119,7 +133,7 @@ export function MessageSchedulerModal({
       <ModalBody>
         <FormControl>
           <FormLabel>Contact</FormLabel>
-          <Select
+          {/* <Select
             placeholder="Select a contact"
             value={selectedPhoneNumber}
             onChange={(event) => {
@@ -129,7 +143,16 @@ export function MessageSchedulerModal({
             {contacts.map((contact) => (
               <option value={contact.phoneNumber}>{`${contact.label}`}</option>
             ))}
-          </Select>
+          </Select> */}
+          <Select
+            value={selectedContact}
+            onChange={(newValue) => {
+              if (newValue) {
+                setSelectedContact(newValue);
+              }
+            }}
+            options={contactOptions}
+          />
         </FormControl>
         <FormControl style={{ marginTop: 16 }}>
           <FormLabel>Message</FormLabel>
