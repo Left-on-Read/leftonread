@@ -88,7 +88,7 @@ export function Download({
               </Button>
             </Box>
           </Box>
-          <Box
+          {/* <Box
             style={{
               backgroundColor: 'white',
               borderRadius: 32,
@@ -163,7 +163,7 @@ export function Download({
                 </Box>
               </Box>
             </Box>
-          </Box>
+          </Box> */}
         </Box>
       </DefaultContentContainer>
     </Box>
