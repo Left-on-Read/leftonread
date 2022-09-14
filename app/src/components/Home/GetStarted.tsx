@@ -71,12 +71,12 @@ export function GetStarted({ onNext }: { onNext: (arg0: boolean) => void }) {
       <BulletPoint
         icon={FiLock}
         title="Your Device Only"
-        description="Just like your private photos and documents, your messages will remain accessible only by you. The data will never even leave your computer."
+        description="Just like your private photos and documents, your messages will remain accessible only by you. The data will never leave your computer."
         color="blue.400"
       />
       <BulletPoint
         icon={FiGlobe}
-        title="Open Source"
+        title="Open-Source"
         description="Security is our #1 priority, which is why this software is publicly available for anyone to audit."
         color="blue.400"
       />
