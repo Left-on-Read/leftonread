@@ -20,9 +20,9 @@ export const LIST_OF_TEXTS: Array<IText> = [
   {
     key: 2,
     name: 'Alexander',
-    text: 'also should i double text isabel? she hasnt responded yet bro',
+    text: 'also should i double text lupita? she hasnt responded yet bro',
     length: DEFAULT_LENGTH,
-    words: ['double', 'text', 'isabel', 'hasnt', 'responded', 'bro'],
+    words: ['double', 'text', 'lupita', 'hasnt', 'responded', 'bro'],
     avatar: {
       source: '/alexander.png',
       color: defaultTheme.colors.yellow['200'],
@@ -160,7 +160,7 @@ export const LIST_OF_TEXTS: Array<IText> = [
   },
   {
     key: 12,
-    name: 'Isabel',
+    name: 'Lupita',
     text:
       'did nate invite you to the bike ride? i need to go to sports basement...',
     length: DEFAULT_LENGTH,
@@ -173,9 +173,9 @@ export const LIST_OF_TEXTS: Array<IText> = [
   {
     key: 13,
     name: 'Alexander',
-    text: 'man, i have a huge crush on isabel. should i tell her?',
+    text: 'man, i have a huge crush on lupita. should i tell her?',
     length: DEFAULT_LENGTH,
-    words: ['man', 'huge', 'crush', 'isabel', 'should', 'tell', 'her'],
+    words: ['man', 'huge', 'crush', 'lupita', 'should', 'tell', 'her'],
     avatar: {
       source: '/alexander.png',
       color: defaultTheme.colors.yellow['200'],
@@ -183,7 +183,7 @@ export const LIST_OF_TEXTS: Array<IText> = [
   },
   {
     key: 14,
-    name: 'Isabel',
+    name: 'Lupita',
     text: 'alex keeps texting me for some reason, i think he likes me 🤗',
     length: DEFAULT_LENGTH,
     words: ['alex', 'texting', 'some', 'reason', 'likes', 'me'],
