@@ -76,9 +76,8 @@ export function Infographic() {
                 }}
                 style={{ marginTop: 32 }}
               >
-                {`Left on Read renders graphs about your text messages, so you can feel
-                better about your relationship with your phone. We promise
-                you've never seen analytics like these before.`}
+                {`Left on Read provides powerful analytics and productivity tools to help you manage your conversations. We promise
+                you've never seen your texts like this before.`}
               </Text>
             </div>
             <Box

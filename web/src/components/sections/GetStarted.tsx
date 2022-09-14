@@ -1,5 +1,6 @@
 import { ArrowForwardIcon } from '@chakra-ui/icons'
-import { Box, Button, Text } from '@chakra-ui/react'
+import { Box, Button, Show, Text } from '@chakra-ui/react'
+import { Hide } from '@chakra-ui/react'
 import Image from 'next/image'
 
 import { logEvent } from '../../utils/gtag'
@@ -71,8 +72,9 @@ export function GetStarted({
             style={{ marginTop: 16, lineHeight: 1.4 }}
             color="gray"
           >
-            Learn about your friends and your texting habits with Left on Read,
-            a secure iMessage analyzer made with ❤️
+            Get the most out of iMessage
+            <Show breakpoint="(max-width: 400px)">.</Show>
+            <Hide breakpoint="(max-width: 400px)"> with Left on Read.</Hide>
           </Text>
           <Button
             colorScheme="purple"
