@@ -64,7 +64,8 @@ export function Security() {
             >
               Just like your private photos and important documents, your text
               messages are only accessible to you and never seen by us. Privacy
-              and security comes first: our software is open-source.
+              and security comes first, so {`we're`} open-source. Nothing leaves
+              your computer.
             </Text>
           </Box>
           <Box
@@ -90,7 +91,7 @@ export function Security() {
               bgClip="text"
               style={{ marginBottom: 16 }}
             >
-              Open Source
+              Open-Source
             </Text>
             <Text
               style={{ marginBottom: 16 }}

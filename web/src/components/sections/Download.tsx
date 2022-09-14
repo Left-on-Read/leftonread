@@ -73,7 +73,7 @@ export function Download({
                 lg: 'start',
               }}
             >
-              Currently available on Mac OS and coming soon to other platforms.
+              Secure, open-source, and free to try. Download on Mac OS today.
             </Text>
             <Box shadow="xl">
               <Button
