@@ -13,8 +13,6 @@ import { IconType } from 'react-icons';
 
 import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFilters';
 import { TotalSentVsReceivedResults } from '../../analysis/queries/TotalSentVsReceivedQuery';
-import { daysAgo } from '../../main/util';
-import { useGlobalContext } from '../Dashboard/GlobalContext';
 import { GraphContainer } from './GraphContainer';
 
 export function SentVsReceivedChart({
@@ -30,8 +28,6 @@ export function SentVsReceivedChart({
   filters: SharedQueryFilters;
   loadingOverride?: boolean;
 }) {
-  const { dateRange } = useGlobalContext();
-
   const [received, setReceived] = useState<number>();
   const [sent, setSent] = useState<number>();
 
@@ -69,13 +65,6 @@ export function SentVsReceivedChart({
 
   const showLoading = loadingOverride || isLoading;
 
-  const earlyDate = filters.timeRange?.startDate
-    ? filters.timeRange.startDate
-    : dateRange.earliestDate;
-  const lateDate = filters.timeRange?.endDate
-    ? filters.timeRange?.endDate
-    : dateRange.latestDate;
-  const daysAgoNumber = daysAgo(earlyDate, lateDate);
   return (
     <GraphContainer title={title} description={description} icon={icon}>
       {error ? (
