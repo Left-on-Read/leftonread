@@ -2,7 +2,7 @@ import { Box, Button, FormControl, Icon, Input } from '@chakra-ui/react'
 import * as React from 'react'
 import { FiCheckCircle } from 'react-icons/fi'
 
-import { writeEmailToFirestore } from '../../utils/firestore'
+import { addContact } from '../../utils/addContact'
 import { isValidEmail } from '../../utils/validation'
 import { StatusLoaderState } from '../StatusLoader'
 
@@ -22,10 +22,15 @@ export function GetNotified({}) {
     // setMessage(undefined)
 
     try {
-      await writeEmailToFirestore(submittedEmail)
+      // await writeEmailToFirestore(submittedEmail)
+      await addContact({
+        email: submittedEmail,
+        type: 'GENERAL',
+      })
       setState('success')
       // setMessage('Successfully signed up!')
     } catch (e) {
+      console.error(e)
       setState('error')
       // setMessage('Uh oh, something went wrong.')
     }
@@ -60,6 +65,7 @@ export function GetNotified({}) {
               disabled={state === 'loading' || state === 'success'}
               focusBorderColor={'gray.200'}
               isInvalid={state === 'error'}
+              style={{ borderRadius: 8 }}
             />
           </FormControl>
           <Button
@@ -80,7 +86,7 @@ export function GetNotified({}) {
             }
           >
             <span className="primary">
-              {state === 'success' ? <>Success</> : <>Enter</>}
+              {state === 'success' ? <>Success</> : <>Join</>}
             </span>
           </Button>
         </div>
