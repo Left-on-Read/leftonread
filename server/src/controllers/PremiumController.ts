@@ -1,3 +1,4 @@
+import * as amplitude from '@amplitude/analytics-node'
 import * as Sentry from '@sentry/node'
 import { Request, Response } from 'express'
 import { GoogleSpreadsheet } from 'google-spreadsheet'
@@ -7,6 +8,12 @@ import Stripe from 'stripe'
 import { v4 as uuidv4 } from 'uuid'
 
 import { getEmailTemplate } from '../emailTemplate'
+
+amplitude.init(
+  process.env.NODE_ENV === 'production'
+    ? process.env.AMPLITUDE_API_KEY ?? ''
+    : ''
+)
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? '', {
   apiVersion: '2022-08-01',
@@ -105,6 +112,70 @@ export const handleStripeWebhookEvent = async (req: Request, res: Response) => {
 
     return res.status(StatusCodes.OK).send()
   }
+
+  const checkIsTest = () => {
+    const subObj: Stripe.Subscription = event.data.object as Stripe.Subscription
+
+    if (subObj.discount?.coupon.name === process.env.TEST_COUPON) {
+      return true
+    }
+
+    return false
+  }
+
+  // Some logging stuff
+  if (event.type === 'customer.subscription.created') {
+    if (checkIsTest() || event.id === 'evt_1LiAxRCOCv5gqga3OjlbDRPy') {
+      return res.status(StatusCodes.OK).send()
+    }
+
+    await amplitude.track('SUBSCRIPTION_CREATED', undefined, {
+      device_id: 'server',
+    })
+
+    return res.status(StatusCodes.OK).send()
+  }
+
+  if (event.type === 'customer.subscription.updated') {
+    if (
+      checkIsTest() ||
+      event.id === 'evt_1LiAzqCOCv5gqga31fdlcrx0' ||
+      event.id === 'evt_1LiAzyCOCv5gqga3h0VrH4na'
+    ) {
+      return res.status(StatusCodes.OK).send()
+    }
+    const stripeObject: Stripe.Subscription = event.data
+      .object as Stripe.Subscription
+
+    const previousAttributes = event.data
+      .previous_attributes as Stripe.Subscription
+
+    const isCancelled =
+      stripeObject.cancel_at ||
+      stripeObject.cancel_at_period_end ||
+      stripeObject.canceled_at
+
+    const wasCancelled =
+      previousAttributes?.cancel_at ||
+      stripeObject?.cancel_at_period_end ||
+      stripeObject?.canceled_at
+
+    if (isCancelled && !wasCancelled) {
+      await amplitude.track('SUBSCRIPTION_CANCELLED', undefined, {
+        device_id: 'server',
+      })
+    }
+
+    if (!isCancelled && wasCancelled) {
+      await amplitude.track('SUBSCRIPTION_RENEWED', undefined, {
+        device_id: 'server',
+      })
+    }
+
+    return res.status(StatusCodes.OK).send()
+  }
+
+  return res.status(StatusCodes.OK).send()
 }
 
 function sendLicenseKey({
