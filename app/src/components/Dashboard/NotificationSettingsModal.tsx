@@ -52,6 +52,7 @@ export function NotificationSettingsModal({
               });
             }}
             disabled={isLoading}
+            defaultChecked={notifSettings?.responseRemindersEnabled}
           >
             Response Reminders
           </Checkbox>
