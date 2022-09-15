@@ -211,7 +211,7 @@ export function Download({
                       lg: 4,
                     }}
                   >
-                    Sign up here to be notified for early access!
+                    Sign up here to get notified for early access!
                   </Text>
                   <Box style={{ marginTop: 22, width: '80%' }}>
                     <form onSubmit={handleSubmitNotify}>
