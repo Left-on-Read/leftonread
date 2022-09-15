@@ -22,6 +22,7 @@ import {
 } from './tables/ContactTable';
 import { CoreMainTable } from './tables/CoreTable';
 import { EngagementTable } from './tables/EngagementTable';
+import { GroupChatCoreTable } from './tables/GroupChatCoreTable';
 import { SentimentTable } from './tables/SentimentTable';
 import {
   AddressBookTableNames,
@@ -29,6 +30,7 @@ import {
   ChatTableNames,
   CoreTableNames,
   EngagementTableNames,
+  GroupChatTableNames,
   SentimentTableNames,
 } from './tables/types';
 
@@ -61,6 +63,7 @@ async function dropAllTables(db: sqlite3.Database) {
     ...Object.values(CalendarTableNames),
     ...Object.values(SentimentTableNames),
     ...Object.values(EngagementTableNames),
+    ...Object.values(GroupChatTableNames),
   ].map(async (tableName) =>
     sqlite3Wrapper.runP(db, `DROP TABLE IF EXISTS ${tableName}`)
   );
@@ -149,7 +152,19 @@ export async function initializeCoreDb(): Promise<sqlite3.Database> {
     .create()
     .catch((e) => log.error(e));
 
-  await Promise.all([chatCountTable, sentimentTable, engagementTable]);
+  const groupChatCoreTable = new GroupChatCoreTable(
+    lorDB,
+    GroupChatTableNames.GROUP_CHAT_CORE_TABLE
+  )
+    .create()
+    .catch((e) => log.error(e));
+
+  await Promise.all([
+    chatCountTable,
+    sentimentTable,
+    engagementTable,
+    groupChatCoreTable,
+  ]);
 
   // NOTE(Danilowicz): im not entirely sure we want to clear here
   // } catch (e) {

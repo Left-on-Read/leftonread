@@ -26,40 +26,10 @@ export async function queryGroupChatReactionsQuery(
 ): Promise<GroupChatReactions[]> {
   const allFilters = getAllGroupChatTabFilters(
     filters,
-    // TP
     'associated_text IS NOT NULL'
   );
-  // TODO(Danilowicz): Create a CORE_GROUP_CHAT_TABLE
   const q = `
-  WITH GROUP_CHAT_NAMES AS (select
-    group_concat(distinct coalesced_contact_name) as participants,
-    display_name,
-    cmj.chat_id
-    from
-        chat c
-        join chat_message_join cmj on cmj.chat_id = c."ROWID"
-        join core_main_table m on m. "ROWID" = cmj.message_id
-    group by
-        c."ROWID"
-    having
-        count(distinct coalesced_contact_name) > 1),
-
-    -- texts in a group chat
-    CORE_GROUP_CHAT_TABLE AS (
-    SELECT 
-    text,
-    display_name,
-    human_readable_date,
-    coalesce(coalesced_contact_name, "you") as contact_name, 
-    participants, is_from_me, 
-    associated_message_type,
-    CASE WHEN display_name = "" THEN participants ELSE display_name END as group_chat_name ,
-    REPLACE(REPLACE(associated_message_guid, "p:0/", ""), "p:1/", "")as associated_guid
-    FROM core_main_table cm
-    JOIN GROUP_CHAT_NAMES gcm
-    on cm.chat_id  = gcm.chat_id),
-
-    GROUP_CHAT_REACTIONS AS (
+    WITH GROUP_CHAT_REACTIONS AS (
 
     SELECT
     gct.text as reaction_text,
@@ -76,7 +46,7 @@ export async function queryGroupChatReactionsQuery(
     WHEN gct.associated_message_type  = 2004 THEN "Emphasized"
     WHEN gct.associated_message_type  = 2005 THEN "Questioned"
     END AS reaction
-    FROM CORE_GROUP_CHAT_TABLE  gct
+    FROM group_chat_core_table  gct
     LEFT JOIN core_main_table cmt
     ON cmt.guid = gct.associated_guid
     WHERE gct.associated_message_type BETWEEN 2000 AND 2005

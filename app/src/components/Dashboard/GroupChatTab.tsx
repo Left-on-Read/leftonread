@@ -146,7 +146,6 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
           options={groupChatNames}
         />
       </div>
-      {error ? <Text color="red.400">Uh oh! Something went wrong.</Text> : null}
       {isLoading ? <GraphContainerLoading /> : body}
     </>
   );

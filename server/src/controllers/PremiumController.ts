@@ -30,7 +30,6 @@ const getSheet = async () => {
   })
 
   await doc.loadInfo()
-
   return doc.sheetsByIndex[0]
 }
 
