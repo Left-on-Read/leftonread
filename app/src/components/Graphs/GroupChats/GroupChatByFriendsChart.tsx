@@ -1,4 +1,4 @@
-import { Spinner, Text, theme as defaultTheme } from '@chakra-ui/react';
+import { Spinner, Text } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useRef, useState } from 'react';
@@ -62,6 +62,12 @@ function GroupChatByFriendsBody({
     fetchGroupChatByFriends();
   }, [filters, title]);
 
+  // now, we need to get colors in order of labels
+  const colorsArray: string[] = [];
+  contactNames.forEach((v) => {
+    colorsArray.push(colorByContactName[v]);
+  });
+
   const data = {
     labels: contactNames,
     datasets: [
@@ -69,8 +75,7 @@ function GroupChatByFriendsBody({
         label: 'Count',
         data: count,
         borderRadius: 5,
-        backgroundColor: contactNames.map((c) => colorByContactName[c]),
-        borderColor: contactNames.map((c) => colorByContactName[c]),
+        backgroundColor: colorsArray,
       },
     ],
   };

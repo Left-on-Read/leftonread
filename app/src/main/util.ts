@@ -37,18 +37,42 @@ export function checkIsInitialized() {
   return !!fs.existsSync(appDirectoryPath);
 }
 
-const POSSIBLE_COLORS: ('gray' | 'green' | 'blue' | 'purple' | 'pink')[] = [
-  'gray',
-  'green',
-  'blue',
+const POSSIBLE_COLORS: (
+  | 'red'
+  | 'orange'
+  | 'yellow'
+  | 'green'
+  | 'teal'
+  | 'blue'
+  | 'purple'
+  | 'pink'
+  | 'gray'
+)[] = [
   'purple',
+  'blue',
+  'green',
+  'red',
+  'yellow',
+  'orange',
   'pink',
+  'teal',
+  'gray',
 ];
-const POSSIBLE_WEIGHTS: (200 | 300)[] = [200, 300];
-export function getRandomColorFromTheme() {
-  const proposedColor =
-    POSSIBLE_COLORS[Math.floor(Math.random() * POSSIBLE_COLORS.length)];
-  return theme.colors[proposedColor][
-    POSSIBLE_WEIGHTS[Math.floor(Math.random() * POSSIBLE_WEIGHTS.length)]
-  ];
+
+export function createColorByContact(contactNames: string[]) {
+  const contactByColor: Record<string, string> = {};
+
+  // first get all the contactNames as set
+  const set = new Set(contactNames);
+  // then, sort that set
+  const sortedNames = Array.from(set).sort();
+  // now, assign a name to a color
+  sortedNames.forEach((n, i) => {
+    const index = (i + 1) % POSSIBLE_COLORS.length;
+    const proposedColor = POSSIBLE_COLORS[index];
+    // eslint-disable-next-line prefer-destructuring
+    contactByColor[n] = theme.colors[proposedColor][300];
+  });
+
+  return contactByColor;
 }

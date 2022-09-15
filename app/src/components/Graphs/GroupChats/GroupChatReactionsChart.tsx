@@ -90,7 +90,6 @@ function GroupChatReactionsBody({
       data: (number | null)[];
       borderRadius: number;
       backgroundColor: string;
-      borderColor: string;
     }
   > = {};
   chartData.forEach((obj) => {
@@ -109,11 +108,9 @@ function GroupChatReactionsBody({
 
       datasetByContactName[contact_name] = {
         label: contact_name,
-        // we rely on the fact that the output is already sorted by reaction due to SQL's ORDER BY
         data: orderedDataArray,
         borderRadius: 5,
         backgroundColor: colorByContactName[contact_name],
-        borderColor: colorByContactName[contact_name],
       };
     }
   });
