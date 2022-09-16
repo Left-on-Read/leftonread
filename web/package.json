@@ -26,6 +26,7 @@
     "@emotion/babel-preset-css-prop": "^11.2.0",
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
+    "axios": "^0.27.2",
     "chart.js": "^3.8.2",
     "chartjs-plugin-gradient": "^0.5.1",
     "emotion": "^10.0.27",

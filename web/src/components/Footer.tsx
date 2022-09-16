@@ -42,14 +42,6 @@ export function Footer() {
                 San Francisco, US
               </Box>
               <Box>© Left on Read 2022</Box>
-              <iframe
-                src="https://ghbtns.com/github-btn.html?user=Left-on-Read&repo=leftonread&type=star&count=true&size=large"
-                frameBorder="0"
-                scrolling="0"
-                width="170"
-                height="30"
-                title="GitHub"
-              ></iframe>
             </Stack>
             <Stack style={{ display: 'flex', justifyContent: 'space-between' }}>
               <Stack fontSize="md">
@@ -69,22 +61,14 @@ export function Footer() {
                 <Link href="/privacy">Privacy Policy</Link>
                 <Link href="/terms">Terms & Conditions</Link>
               </Stack>
-              <a
-                rel="noreferrer"
-                href="https://www.producthunt.com/posts/left-on-read?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-left&#0045;on&#0045;read"
-                target="_blank"
-              >
-                <img
-                  src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=358899&theme=light"
-                  alt="Left&#0032;on&#0032;Read - iMessages&#0032;supercharged | Product Hunt"
-                  style={{
-                    minHeight: '34px',
-                    minWidth: '194px',
-                    maxHeight: '42px',
-                    maxWidth: '200px',
-                  }}
-                />
-              </a>
+              <iframe
+                src="https://ghbtns.com/github-btn.html?user=Left-on-Read&repo=leftonread&type=star&count=true&size=large"
+                frameBorder="0"
+                scrolling="0"
+                width="170"
+                height="30"
+                title="GitHub"
+              ></iframe>
             </Stack>
 
             <Stack style={{ display: 'flex', justifyContent: 'space-between' }}>
