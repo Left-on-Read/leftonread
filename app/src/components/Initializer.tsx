@@ -8,7 +8,7 @@ import {
 import { ipcRenderer } from 'electron';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useCallback, useEffect, useState } from 'react';
-import { FiLifeBuoy, FiRepeat } from 'react-icons/fi';
+import { FiLifeBuoy, FiRepeat, FiSkipBack } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 
 import { APP_VERSION } from '../constants/versions';
@@ -60,11 +60,9 @@ export function Initializer({
       navigate('/start');
       await ipcRenderer.invoke('initialize-tables');
       await ipcRenderer.invoke('set-last-updated-version', APP_VERSION);
-      setProgressNumber(100);
-
+      setProgressNumber(99);
       navigate('/dashboard');
     } catch (e: unknown) {
-      navigate('/start');
       if (e instanceof Error) {
         setError(e.message);
       }
@@ -181,7 +179,9 @@ export function Initializer({
                         alignItems: 'center',
                       }}
                     >
-                      <Text fontSize="2xl">Uh oh! Something went wrong...</Text>
+                      <Text fontSize="2xl">
+                        Uh oh! Something went wrong... 😥
+                      </Text>
                       <Text
                         style={{ marginTop: 16 }}
                         fontSize="lg"
@@ -214,8 +214,23 @@ export function Initializer({
                           shadow="xl"
                           leftIcon={<Icon as={FiLifeBuoy} />}
                           onClick={() => onEmailModalOpen()}
+                          style={{ marginRight: 32 }}
                         >
                           Contact Support
+                        </Button>
+                        <Button
+                          colorScheme="gray"
+                          shadow="xl"
+                          leftIcon={<Icon as={FiSkipBack} />}
+                          onClick={() => {
+                            setError(null);
+                            setIsRunning(false);
+                            setProgressNumber(0);
+                            onUpdateIsInitializing(false);
+                            navigate('/start');
+                          }}
+                        >
+                          Go Home
                         </Button>
                       </div>
                     </div>
