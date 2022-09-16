@@ -1,13 +1,13 @@
 import { Text } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
-import { createColorByContact } from 'main/util';
 import { useEffect, useState } from 'react';
 import { FiCompass, FiFeather } from 'react-icons/fi';
 import Select from 'react-select';
 
 import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFilters';
 import { GroupChatByFriends } from '../../analysis/queries/GroupChats/GroupChatByFriendsQuery';
+import { createColorByContact } from '../../main/util';
 import { GroupChatActivityOverTimeChart } from '../Graphs/GroupChats/GroupChatActivityOverTimeChart';
 import { GroupChatByFriendsChart } from '../Graphs/GroupChats/GroupChatByFriendsChart';
 import { GroupChatReactionsChart } from '../Graphs/GroupChats/GroupChatReactionsChart';
