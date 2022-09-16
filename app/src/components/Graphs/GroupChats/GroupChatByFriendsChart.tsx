@@ -1,66 +1,32 @@
 import { Spinner, Text } from '@chakra-ui/react';
-import { ipcRenderer } from 'electron';
-import log from 'electron-log';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { IconType } from 'react-icons';
 
-import { SharedGroupChatTabQueryFilters } from '../../../analysis/queries/filters/sharedGroupChatTabFilters';
 import { GroupChatByFriends } from '../../../analysis/queries/GroupChats/GroupChatByFriendsQuery';
 import { ShareModal } from '../../Sharing/ShareModal';
 import { GraphContainer } from '../GraphContainer';
 
 function GroupChatByFriendsBody({
   title,
-  filters,
   isSharingVersion,
   setIsShareOpen,
-  loadingOverride,
+  isLoading,
+  isError,
   colorByContactName,
+  groupChatByFriendsDataList,
 }: {
   title: string[];
-  filters: SharedGroupChatTabQueryFilters;
   isSharingVersion: boolean;
   setIsShareOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  loadingOverride?: boolean;
+  isLoading: boolean;
+  isError: boolean;
   colorByContactName: Record<string, string>;
+  groupChatByFriendsDataList: GroupChatByFriends[];
 }) {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<null | string>(null);
-
-  const [count, setCount] = useState<number[]>([]);
-  const [contactNames, setContactNames] = useState<string[]>([]);
-
-  useEffect(() => {
-    async function fetchGroupChatByFriends() {
-      setError(null);
-      setIsLoading(true);
-      try {
-        const groupChatByFriendsDataList: GroupChatByFriends[] =
-          await ipcRenderer.invoke('query-group-chat-by-friends', filters);
-
-        const MAX_LABEL_LENGTH = 18;
-        const cn = groupChatByFriendsDataList.map((obj) => {
-          if (obj.contact_name.length > MAX_LABEL_LENGTH) {
-            return `${obj.contact_name.substring(0, MAX_LABEL_LENGTH)}...`;
-          }
-          return obj.contact_name;
-        });
-        const ct = groupChatByFriendsDataList.map((obj) => obj.count);
-
-        setContactNames(cn);
-        setCount(ct);
-      } catch (err: unknown) {
-        if (err instanceof Error) {
-          setError(err.message);
-        }
-        log.error(`ERROR: fetching for ${title}`, err);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    fetchGroupChatByFriends();
-  }, [filters, title]);
+  const contactNames = groupChatByFriendsDataList.map(
+    (obj) => obj.contact_name
+  );
 
   // now, we need to get colors in order of labels
   const colorsArray: string[] = [];
@@ -68,12 +34,18 @@ function GroupChatByFriendsBody({
     colorsArray.push(colorByContactName[v]);
   });
 
+  const MAX_LABEL_LENGTH = 18;
   const data = {
-    labels: contactNames,
+    labels: groupChatByFriendsDataList.map((obj) => {
+      if (obj.contact_name.length > MAX_LABEL_LENGTH) {
+        return `${obj.contact_name.substring(0, MAX_LABEL_LENGTH)}...`;
+      }
+      return obj.contact_name;
+    }),
     datasets: [
       {
         label: 'Count',
-        data: count,
+        data: groupChatByFriendsDataList.map((obj) => obj.count),
         borderRadius: 5,
         backgroundColor: colorsArray,
       },
@@ -181,11 +153,10 @@ function GroupChatByFriendsBody({
     },
   };
 
-  const showLoading = loadingOverride || isLoading;
   const graphRefToShare = useRef(null);
   const body = (
     <>
-      {error ? (
+      {isError ? (
         <div
           style={{
             display: 'flex',
@@ -200,7 +171,7 @@ function GroupChatByFriendsBody({
         </div>
       ) : (
         <>
-          {showLoading && (
+          {isLoading && (
             <div
               style={{
                 position: 'absolute',
@@ -242,15 +213,17 @@ function GroupChatByFriendsBody({
 export function GroupChatByFriendsChart({
   title,
   icon,
-  filters,
-  loadingOverride,
+  isLoading,
+  isError,
   colorByContactName,
+  groupChatByFriendsDataList,
 }: {
   title: string[];
   icon: IconType;
-  filters: SharedGroupChatTabQueryFilters;
-  loadingOverride?: boolean;
+  isLoading: boolean;
+  isError: boolean;
   colorByContactName: Record<string, string>;
+  groupChatByFriendsDataList: GroupChatByFriends[];
 }) {
   const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
 
@@ -259,21 +232,23 @@ export function GroupChatByFriendsChart({
       {isShareOpen && (
         <GroupChatByFriendsBody
           title={title}
-          filters={filters}
           isSharingVersion
           setIsShareOpen={setIsShareOpen}
-          loadingOverride={loadingOverride}
+          isLoading={isLoading}
+          isError={isError}
           colorByContactName={colorByContactName}
+          groupChatByFriendsDataList={groupChatByFriendsDataList}
         />
       )}
       <GraphContainer title={title} icon={icon} setIsShareOpen={setIsShareOpen}>
         <GroupChatByFriendsBody
           title={title}
-          filters={filters}
           isSharingVersion={false}
           setIsShareOpen={setIsShareOpen}
-          loadingOverride={loadingOverride}
+          isLoading={isLoading}
+          isError={isError}
           colorByContactName={colorByContactName}
+          groupChatByFriendsDataList={groupChatByFriendsDataList}
         />
       </GraphContainer>
     </>

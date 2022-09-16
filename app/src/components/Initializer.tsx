@@ -40,13 +40,12 @@ export function Initializer({
 
   useEffect(() => {
     const id = setTimeout(() => {
-      let proposedProgressNumber =
-        randomIntFromInterval(3, 15) + progressNumber;
+      let proposedProgressNumber = randomIntFromInterval(1, 3) + progressNumber;
       if (proposedProgressNumber > 99) {
         proposedProgressNumber = 99;
         setProgressNumber(99);
       } else {
-        setProgressNumber(randomIntFromInterval(3, 15) + progressNumber);
+        setProgressNumber(proposedProgressNumber);
       }
     }, randomIntFromInterval(1000, 4000));
     return () => {
@@ -61,7 +60,7 @@ export function Initializer({
       navigate('/start');
       await ipcRenderer.invoke('initialize-tables');
       await ipcRenderer.invoke('set-last-updated-version', APP_VERSION);
-      setProgressNumber(99);
+      setProgressNumber(100);
 
       navigate('/dashboard');
     } catch (e: unknown) {
@@ -170,10 +169,7 @@ export function Initializer({
                     alignItems: 'center',
                   }}
                 >
-                  <BarChartLoading
-                    pause={!!error}
-                    // colorOverride={defaultTheme.colors.red['300']}
-                  />
+                  <BarChartLoading pause={!!error} />
                   {error ? (
                     <div
                       style={{

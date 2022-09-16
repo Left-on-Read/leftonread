@@ -1,5 +1,4 @@
 import { Text } from '@chakra-ui/react';
-import { GraphContainerLoading } from 'components/Loaders/GraphContainerLoading';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { createColorByContact } from 'main/util';
@@ -26,14 +25,15 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
     label: '',
   });
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<null | string>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [colorByContactName, setColorByContactName] = useState<
     Record<string, string>
   >({});
 
   const [data, setData] = useState<GroupChatByFriends[]>([]);
+
+  const [isError, setIsError] = useState<boolean>(false);
 
   const handleGroupChatSelection = (
     fullDataSet: GroupChatByFriends[],
@@ -52,11 +52,8 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
 
   useEffect(() => {
     async function fetchGroupChatByFriends() {
-      setError(null);
       setIsLoading(true);
       try {
-        // TODO: Seperate, fastest query to get all group chat names
-        // Order by most texted and those with display names
         const groupChatByFriendsDataList: GroupChatByFriends[] =
           await ipcRenderer.invoke('query-group-chat-by-friends', filters);
 
@@ -82,7 +79,7 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
       } catch (err: unknown) {
         if (err instanceof Error) {
           setIsLoading(false);
-          setError(err.message);
+          setIsError(true);
         }
         log.error(`ERROR: fetching group chat names`, err);
       } finally {
@@ -100,7 +97,11 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
         title={['Who Texts the Most in ', selectedGroupChat.label]}
         colorByContactName={colorByContactName}
         icon={FiFeather}
-        filters={{ ...filters, groupChatName: selectedGroupChat.value }}
+        groupChatByFriendsDataList={data.filter(
+          (v) => v.group_chat_name === selectedGroupChat.value
+        )}
+        isLoading={isLoading}
+        isError={isError}
       />
 
       <GroupChatReactionsChart
@@ -146,7 +147,20 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
           options={groupChatNames}
         />
       </div>
-      {isLoading ? <GraphContainerLoading /> : body}
+      {isLoading ? (
+        <GroupChatByFriendsChart
+          title={['Who Texts the Most in ', selectedGroupChat.label]}
+          colorByContactName={colorByContactName}
+          icon={FiFeather}
+          groupChatByFriendsDataList={data.filter(
+            (v) => v.group_chat_name === selectedGroupChat.value
+          )}
+          isLoading={isLoading}
+          isError={isError}
+        />
+      ) : (
+        body
+      )}
     </>
   );
 }
