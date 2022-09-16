@@ -4,7 +4,6 @@ import Link from 'next/link'
 import React from 'react'
 import { FiLayers, FiMap, FiUser } from 'react-icons/fi'
 
-import { GetNotified } from '../components/sections/GetNotified'
 import { DefaultContentContainer } from './DefaultContentContainer'
 
 export function Footer() {
@@ -43,11 +42,6 @@ export function Footer() {
                 San Francisco, US
               </Box>
               <Box>© Left on Read 2022</Box>
-
-              <Box>
-                <div style={{ marginBottom: '5px' }}>Stay in touch</div>
-                <GetNotified />
-              </Box>
             </Stack>
             <Stack style={{ display: 'flex', justifyContent: 'space-between' }}>
               <Stack fontSize="md">

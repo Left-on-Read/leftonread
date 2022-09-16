@@ -5,9 +5,11 @@ import { useEffect, useState } from 'react';
 import { shuffleArray } from '../../main/util';
 
 const PHRASES_IN_ORDER = [
-  'Initializing tables...',
+  'Loading Left on Read analysis...',
+  'This may take a few seconds...',
+  'Thanks for your patience 🙏',
   'Labeling contacts...',
-  'Coloring graphs...',
+  'Coloring graphs 🌈 ...',
 ];
 
 const PHRASES_SCRAMBLED = [
@@ -18,12 +20,13 @@ const PHRASES_SCRAMBLED = [
   'Loading group chat analysis...',
   'Creating filtering capabilites...',
   'Using sentiment analysis algorithm...',
-  'Powering bar chart with 🍑 ...',
-  'Powering line charts with ⛽ ...',
+  'Preparing bar charts 📊',
+  'Drawing line charts 🖍️',
   'Powering pie charts with 🍩 ...',
   'Launching machine learning model...',
-  'Almost done...',
   'Making it pop 🎉',
+  '🤤',
+  'Almost done...',
 ];
 
 shuffleArray(PHRASES_SCRAMBLED);

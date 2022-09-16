@@ -13,8 +13,6 @@ import { IconType } from 'react-icons';
 
 import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFilters';
 import { TotalSentVsReceivedResults } from '../../analysis/queries/TotalSentVsReceivedQuery';
-import { daysAgo } from '../../main/util';
-import { useGlobalContext } from '../Dashboard/GlobalContext';
 import { GraphContainer } from './GraphContainer';
 
 export function SentVsReceivedChart({
@@ -30,8 +28,6 @@ export function SentVsReceivedChart({
   filters: SharedQueryFilters;
   loadingOverride?: boolean;
 }) {
-  const { dateRange } = useGlobalContext();
-
   const [received, setReceived] = useState<number>();
   const [sent, setSent] = useState<number>();
 
@@ -69,13 +65,6 @@ export function SentVsReceivedChart({
 
   const showLoading = loadingOverride || isLoading;
 
-  const earlyDate = filters.timeRange?.startDate
-    ? filters.timeRange.startDate
-    : dateRange.earliestDate;
-  const lateDate = filters.timeRange?.endDate
-    ? filters.timeRange?.endDate
-    : dateRange.latestDate;
-  const daysAgoNumber = daysAgo(earlyDate, lateDate);
   return (
     <GraphContainer title={title} description={description} icon={icon}>
       {error ? (
@@ -141,78 +130,6 @@ export function SentVsReceivedChart({
                     fontWeight="extrabold"
                   >
                     {received?.toLocaleString()}
-                  </Text>
-                )}
-              </StatNumber>
-            </Stat>
-          </StatGroup>
-
-          <StatGroup style={{ marginBottom: 30 }}>
-            <Stat>
-              <StatNumber>
-                <div style={{ height: 50 }}>
-                  {showLoading ? (
-                    <div style={{ paddingRight: 48 }}>
-                      <Skeleton height={35} width={130} />
-                    </div>
-                  ) : (
-                    <Text
-                      bgGradient="linear(to-r, blue.400, green.400)"
-                      bgClip="text"
-                      fontSize="sm"
-                      fontWeight="extrabold"
-                    >
-                      {' '}
-                      {Math.round(
-                        ((received ?? 0) + (sent ?? 0)) / daysAgoNumber
-                      ).toLocaleString()}{' '}
-                      per day
-                    </Text>
-                  )}
-                </div>
-              </StatNumber>
-            </Stat>
-            <Stat>
-              <StatNumber>
-                <div style={{ height: 50 }}>
-                  {showLoading ? (
-                    <div style={{ paddingRight: 48 }}>
-                      <Skeleton height={35} />
-                    </div>
-                  ) : (
-                    <Text
-                      bgGradient="linear(to-r, green.400, purple.400)"
-                      bgClip="text"
-                      fontSize="sm"
-                      fontWeight="bold"
-                    >
-                      {Math.round(
-                        (sent ?? 0) / daysAgoNumber
-                      )?.toLocaleString()}{' '}
-                      per day
-                    </Text>
-                  )}
-                </div>
-              </StatNumber>
-            </Stat>
-
-            <Stat>
-              <StatNumber>
-                {showLoading ? (
-                  <div style={{ paddingRight: 48 }}>
-                    <Skeleton height={35} />
-                  </div>
-                ) : (
-                  <Text
-                    bgGradient="linear(to-r, purple.400, red.400)"
-                    bgClip="text"
-                    fontSize="sm"
-                    fontWeight="extrabold"
-                  >
-                    {Math.round(
-                      (received ?? 0) / daysAgoNumber
-                    )?.toLocaleString()}{' '}
-                    per day
                   </Text>
                 )}
               </StatNumber>

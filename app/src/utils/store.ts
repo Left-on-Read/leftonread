@@ -13,6 +13,7 @@ const migrations = {
       responseRemindersEnabled: true,
     });
   },
+  '1.2.3': (store: any) => store.set('requiredUpdateVersion', '1.2.3'),
 };
 
 const schema = {

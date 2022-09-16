@@ -25,13 +25,18 @@ export enum EngagementTableNames {
   ENGAGEMENT_TABLE = 'engagement_table',
 }
 
+export enum GroupChatTableNames {
+  GROUP_CHAT_CORE_TABLE = 'group_chat_core_table',
+}
+
 export type TableNames =
   | ChatTableNames
   | AddressBookTableNames
   | CoreTableNames
   | CalendarTableNames
   | SentimentTableNames
-  | EngagementTableNames;
+  | EngagementTableNames
+  | GroupChatTableNames;
 
 export class Table {
   name: TableNames;
