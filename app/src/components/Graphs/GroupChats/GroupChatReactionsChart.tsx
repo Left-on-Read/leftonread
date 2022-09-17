@@ -154,12 +154,12 @@ function GroupChatReactionsBody({
           clamp: true,
           anchor: 'start' as const,
           align: 'start' as const,
-          rotation: 320,
+          rotation: Object.keys(colorByContactName).length < 5 ? 320 : 270,
           formatter(value: any, context: Context) {
             if (!value) {
               return '';
             }
-            const MAX_LABEL_LENGTH = 10;
+            const MAX_LABEL_LENGTH = 8;
             if (
               context.dataset.label &&
               context.dataset.label.length > MAX_LABEL_LENGTH
