@@ -109,8 +109,8 @@ function TopFriendsBody({
     },
     'lor-chartjs-logo-watermark-plugin': isSharingVersion
       ? {
-          yPaddingText: filters.contact ? 55 : 122,
-          yPaddingLogo: filters.contact ? 45 : 110,
+          yPaddingText: filters.contact?.length === 1 ? 55 : 112,
+          yPaddingLogo: filters.contact?.length === 1 ? 45 : 100,
         }
       : false,
   };
@@ -286,7 +286,7 @@ export function TopFriendsChart({
         tooltip={
           filters.groupChat === GroupChatFilters.BOTH ? (
             <Tooltip
-              label="When including group chats, Left on Read attributes your sent messages to the group itself, and does not spread the count across the individuals of the group."
+              label="When including group chats, Left on Read attributes your sent messages to the group itself. It does not spread the sent count across the individuals of the group."
               fontSize="md"
             >
               <span>

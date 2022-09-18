@@ -150,6 +150,7 @@
     "react-multi-select-component": "^4.3.3",
     "react-router-dom": "^6.3.0",
     "react-select": "^5.4.0",
+    "react-social-icons": "^5.14.0",
     "recursive-copy": "^2.0.14",
     "semver": "^7.3.7",
     "sentiment": "^5.0.2",

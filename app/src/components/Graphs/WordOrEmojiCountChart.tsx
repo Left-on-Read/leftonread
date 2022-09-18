@@ -96,7 +96,7 @@ function WordOrEmojiCountBody({
       anchor: 'end' as const,
       align: 'end' as const,
       formatter(value: any) {
-        return `(${value})`;
+        return `${value}`;
       },
     },
     'lor-chartjs-logo-watermark-plugin': isSharingVersion

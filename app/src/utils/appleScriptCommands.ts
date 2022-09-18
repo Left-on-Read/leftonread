@@ -2,6 +2,11 @@ import util from 'util';
 
 const exec = util.promisify(require('child_process').exec);
 
+export async function openIMessage() {
+  // TODO: Use the open command when I have internet access and can google it
+  await exec(`osascript -e 'activate application "Messages"'`);
+}
+
 export async function typeMessageToPhoneNumber({
   message,
   phoneNumber,
