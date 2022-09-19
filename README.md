@@ -1,5 +1,5 @@
 <h2 align="center">
-	<img src="https://raw.githubusercontent.com/Left-on-Read/leftonread/main/web/src/assets/ICON_TEXT_LOGO.svg" />
+	<img src="https://raw.githubusercontent.com/Left-on-Read/leftonread/main/app/assets/LogoWithText.svg" />
 </h2>
 
 iMessages supercharged! Built with Electron, React, SQLite, Typescript, and ❤️.
