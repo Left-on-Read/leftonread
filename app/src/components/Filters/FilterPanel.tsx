@@ -65,7 +65,7 @@ export function FilterPanel({
             alignItems: 'center',
           }}
         >
-          <UnlockPremiumButton />
+          <UnlockPremiumButton context="Filter Panel" />
         </div>
       )}
       <div style={{ ...(!isPremium && { filter: 'blur(2px)', opacity: 0.2 }) }}>

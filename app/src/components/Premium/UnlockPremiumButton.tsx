@@ -5,7 +5,7 @@ import { logEvent } from '../../utils/analytics';
 import { STRIPE_LINK } from './constants';
 import { PremiumModal } from './PremiumModal';
 
-export function UnlockPremiumButton() {
+export function UnlockPremiumButton({ context }: { context: string }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -18,6 +18,9 @@ export function UnlockPremiumButton() {
           onClick={() => {
             logEvent({
               eventName: 'UNLOCK_GOLD',
+              properties: {
+                context,
+              },
             });
             window.open(STRIPE_LINK);
             onOpen();
