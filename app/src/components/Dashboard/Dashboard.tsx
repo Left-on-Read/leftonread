@@ -14,7 +14,6 @@ import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters'
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import Store from 'electron-store';
-import { autoUpdater } from 'electron-updater';
 import { useEffect, useRef, useState } from 'react';
 import { FiAlertCircle } from 'react-icons/fi';
 
