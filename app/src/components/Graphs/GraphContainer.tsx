@@ -147,7 +147,7 @@ export function GraphContainer({
                 alignItems: 'center',
               }}
             >
-              <UnlockPremiumButton />
+              <UnlockPremiumButton context={title[0]} />
             </div>
           )}
           <div
