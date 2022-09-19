@@ -8,7 +8,15 @@
  * When running `npm run build` or `npm run build:main`, this file is compiled to
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
-import { app, BrowserWindow, Menu, nativeImage, shell, Tray } from 'electron';
+import {
+  app,
+  BrowserWindow,
+  ipcMain,
+  Menu,
+  nativeImage,
+  shell,
+  Tray,
+} from 'electron';
 import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 import path from 'path';
@@ -19,19 +27,34 @@ import { initMessageScheduler } from './messageScheduler';
 import { NotificationsManager } from './notifications';
 import { resolveHtmlPath } from './util';
 
+const ONE_DAY_IN_MS = 1000 * 60 * 60 * 24;
+
+let mainWindow: BrowserWindow | null = null;
+
 class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
     autoUpdater.logger = log;
-    autoUpdater.checkForUpdatesAndNotify();
 
-    autoUpdater.on('update-downloaded', () => {
-      log.info('Update successfully downloaded...');
+    const checkForUpdates = () => {
+      autoUpdater.checkForUpdates();
+
+      setTimeout(checkForUpdates, ONE_DAY_IN_MS);
+    };
+
+    checkForUpdates();
+
+    ipcMain.on('listen-to-updates', (event) => {
+      autoUpdater.on('update-downloaded', () => {
+        log.info('Update successfully downloaded.');
+
+        event.sender.send('update-available');
+      });
+
+      // event.sender.send('update-available');
     });
   }
 }
-
-let mainWindow: BrowserWindow | null = null;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
