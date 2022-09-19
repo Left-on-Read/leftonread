@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { ipcMain } from 'electron';
 import log from 'electron-log';
+import { autoUpdater } from 'electron-updater';
 import FormData from 'form-data';
 import * as fs from 'fs';
 import { machineId } from 'node-machine-id';
@@ -347,6 +348,11 @@ export function attachIpcListeners() {
 
   ipcMain.handle('add-completed-onboarding', (event, cob: string) => {
     addCompletedOnboarding(cob);
+  });
+
+  ipcMain.handle('quit-and-install', () => {
+    log.info('Quitting and installing...');
+    autoUpdater.quitAndInstall();
   });
 
   // DO NOT USE IN PRODUCTION
