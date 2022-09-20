@@ -40,8 +40,8 @@ function TopSentimentFriendsBody({
           });
 
         setFriends(topFriendsDataList.map((obj) => obj.friend));
-        setSent(topFriendsDataList.map((obj) => obj.sentPct));
-        setReceived(topFriendsDataList.map((obj) => obj.receivedPct));
+        setSent(topFriendsDataList.map((obj) => obj.sentPct * 100));
+        setReceived(topFriendsDataList.map((obj) => obj.receivedPct * 100));
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err.message);
