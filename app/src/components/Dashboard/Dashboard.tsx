@@ -121,11 +121,11 @@ export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
           activatePremium: () => setIsPremium(true),
         }}
       >
-        <Navbar
+        {/* <Navbar
           onRefresh={onRefresh}
           filters={filters}
           onUpdateFilters={setFilters}
-        />
+        /> */}
 
         <div style={{ padding: 48, paddingTop: 90 }}>
           <ChartTabs filters={filters} />
