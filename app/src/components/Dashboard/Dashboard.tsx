@@ -44,6 +44,9 @@ export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
   });
 
   const [doesRequireRefresh, setDoesRequireRefresh] = useState<boolean>(false);
+  const [showUpdateAvailable, setShowUpdateAvailable] =
+    useState<boolean>(false);
+
   const cancelRef = useRef<any>();
 
   useEffect(() => {
@@ -101,6 +104,14 @@ export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
     });
   }, []);
 
+  useEffect(() => {
+    ipcRenderer.send('listen-to-updates');
+
+    ipcRenderer.on('update-available', () => {
+      setShowUpdateAvailable(true);
+    });
+  }, []);
+
   return (
     <div>
       <GlobalContext.Provider
@@ -121,7 +132,7 @@ export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
         </div>
         <Footer />
         <AlertDialog
-          isOpen={doesRequireRefresh}
+          isOpen={doesRequireRefresh && !showUpdateAvailable}
           onClose={() => {}}
           leastDestructiveRef={cancelRef}
         >
@@ -149,6 +160,48 @@ export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
                 }}
               >
                 Refresh
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+        <AlertDialog
+          isOpen={showUpdateAvailable}
+          onClose={() => {}}
+          leastDestructiveRef={cancelRef}
+        >
+          <AlertDialogOverlay />
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <Icon
+                  as={FiAlertCircle}
+                  style={{ marginRight: 8 }}
+                  color="red.400"
+                />{' '}
+                Update Available
+              </div>
+            </AlertDialogHeader>
+            <AlertDialogBody>
+              Restart to install new features, stability improvements, and
+              overall updates.
+            </AlertDialogBody>
+            <AlertDialogFooter>
+              <Button
+                colorScheme="purple"
+                onClick={() => {
+                  ipcRenderer.invoke('quit-and-install');
+                }}
+                style={{ marginRight: 16 }}
+              >
+                Restart
+              </Button>
+              <Button
+                onClick={() => {
+                  setDoesRequireRefresh(false);
+                  onRefresh();
+                }}
+              >
+                Dismiss
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>
