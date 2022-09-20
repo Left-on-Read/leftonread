@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   Divider,
-  Icon,
   Modal,
   ModalBody,
   ModalContent,
@@ -12,11 +11,43 @@ import {
 } from '@chakra-ui/react';
 import electron from 'electron';
 import { useEffect, useState } from 'react';
-import { FiFacebook, FiLinkedin, FiTwitter } from 'react-icons/fi';
 import { SocialIcon } from 'react-social-icons';
 
 import { logEvent } from '../../utils/analytics';
-import { openIMessage } from '../../utils/appleScriptCommands';
+import { openIMessageAndPasteImage } from '../../utils/appleScriptCommands';
+
+function LeftOnReadSocialIcon({
+  network,
+  onClick,
+}: {
+  network: string;
+  onClick: () => void;
+}) {
+  const size = 35;
+  return (
+    <SocialIcon
+      style={{ width: size, height: size, cursor: 'pointer' }}
+      onClick={() => {
+        logEvent({
+          eventName: 'CLICKED_SHARE_SOCIAL_ICON',
+          properties: {
+            media: network,
+          },
+        });
+        onClick();
+      }}
+      network={network}
+    />
+  );
+}
+
+function externalWindowOpen(exteriorLink: string) {
+  window.open(
+    exteriorLink,
+    '_blank',
+    'top=500,left=200,frame=false,nodeIntegration=no'
+  );
+}
 
 export function ShareModal({
   isOpen,
@@ -64,7 +95,7 @@ export function ShareModal({
         <ModalHeader>
           <Box
             style={{
-              padding: '10px',
+              padding: '15px',
             }}
           >
             <Box
@@ -72,7 +103,7 @@ export function ShareModal({
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                marginBottom: '20px',
+                marginBottom: '30px',
               }}
             >
               <Box
@@ -111,112 +142,50 @@ export function ShareModal({
                 marginBottom: '10px',
               }}
             >
-              <SocialIcon
-                onClick={() => {
-                  logEvent({
-                    eventName: 'CLICKED_SHARE_SOCIAL_ICON',
-                    properties: {
-                      media: 'Instagram',
-                    },
-                  });
-                  window.open(
-                    'https://www.instagram.com/accounts/login/',
-                    '_blank',
-                    'top=500,left=200,frame=false,nodeIntegration=no'
-                  );
-                }}
-                network="instagram"
-              />
-              <SocialIcon
-                onClick={() => {
-                  logEvent({
-                    eventName: 'CLICKED_SHARE_SOCIAL_ICON',
-                    properties: {
-                      media: 'Facebook',
-                    },
-                  });
-                  window.open(
-                    'https://www.facebook.com/',
-                    '_blank',
-                    'top=500,left=200,frame=false,nodeIntegration=no'
-                  );
-                }}
-                network="facebook"
-              />
-              <SocialIcon
-                onClick={() => {
-                  logEvent({
-                    eventName: 'CLICKED_SHARE_SOCIAL_ICON',
-                    properties: {
-                      media: 'Twitter',
-                    },
-                  });
-                  window.open(
-                    'https://twitter.com/',
-                    '_blank',
-                    'top=500,left=200,frame=false,nodeIntegration=no'
-                  );
-                }}
+              <LeftOnReadSocialIcon
                 network="twitter"
+                onClick={() => {
+                  externalWindowOpen('https://www.twitter.com');
+                }}
               />
-              {/* <SocialIcon
+
+              <LeftOnReadSocialIcon
+                network="instagram"
                 onClick={() => {
-                  logEvent({
-                    eventName: 'CLICKED_SHARE_SOCIAL_ICON',
-                    properties: {
-                      media: 'Tik Tok',
-                    },
-                  });
-                  window.open(
-                    'https://www.tiktok.com/',
-                    '_blank',
-                    'top=500,left=200,frame=false,nodeIntegration=no'
-                  );
+                  externalWindowOpen('https://www.instagram.com');
                 }}
-                network="Tiktok"
-              /> */}
-              {/* <Icon
-                as={FiFacebook}
-                attributeName="iMessage"
+              />
+
+              {/** Todo: tik tok logo */}
+              <LeftOnReadSocialIcon
+                network="twitch"
                 onClick={() => {
-                  logEvent({
-                    eventName: 'CLICKED_SHARE_SOCIAL_ICON',
-                    properties: {
-                      media: 'iMessage',
-                    },
-                  });
-                  openIMessage();
+                  externalWindowOpen('https://www.twitch.tv');
                 }}
-              /> */}
-              <SocialIcon
+              />
+
+              {/** Todo:imessage logo */}
+              <LeftOnReadSocialIcon
+                network="whatsapp"
                 onClick={() => {
-                  logEvent({
-                    eventName: 'CLICKED_SHARE_SOCIAL_ICON',
-                    properties: {
-                      media: 'LinkedIn',
-                    },
-                  });
-                  window.open(
-                    'https://www.linkedin.com/feed/',
-                    '_blank',
-                    'top=500,left=200,frame=false,nodeIntegration=no'
-                  );
+                  openIMessageAndPasteImage();
                 }}
+              />
+
+              {/** Todo add reddit logo */}
+              <LeftOnReadSocialIcon
+                network="snapchat"
+                onClick={() => {
+                  externalWindowOpen('https://www.snapchat.com');
+                }}
+              />
+
+              <LeftOnReadSocialIcon
                 network="linkedin"
-              />
-              {/* <Icon
-                as={FiLinkedin}
-                attributeName="Reddit"
                 onClick={() => {
-                  logEvent({
-                    eventName: 'CLICKED_SHARE_SOCIAL_ICON',
-                    properties: {
-                      media: 'Reddit',
-                    },
-                  });
-                  window.open('www.reddit.com');
+                  externalWindowOpen('https://www.linkedin.com');
                 }}
-              /> */}
+              />
             </Box>
           </Box>
           <Divider />
