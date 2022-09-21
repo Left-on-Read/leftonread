@@ -18,8 +18,8 @@ import { HashRouter, Route, Routes } from 'react-router-dom';
 
 import LogoWithTextFromGraphExport from '../../assets/LogoWithTextForGraphExport.svg';
 import { theme } from '../theme';
-import { Dashboard } from './Dashboard/Dashboard';
-import { DashboardV2 } from './Dashboard/DashboardV2';
+import { Dashboard } from './Dashboard/AnalyticsPage';
+import { DashboardV2 } from './Dashboard/Dashboard';
 import { ErrorBoundary } from './ErrorBoundary';
 import { Home } from './Home/Home';
 import { Redirecter } from './Home/Redirecter';

@@ -13,7 +13,10 @@ import { FiBarChart, FiClipboard, FiCoffee } from 'react-icons/fi';
 import LogoWithText from '../../../assets/LogoWithText.svg';
 import { APP_VERSION } from '../../constants/versions';
 
-const Pages = ['Productivity', 'Analytics', 'Reports'] as const;
+const Pages = ['Analytics'] as const;
+
+// TODO(ALEX): PRODUCTIVITY
+// const Pages = ['Productivity', 'Analytics'] as const;
 
 export type TPages = typeof Pages[number];
 

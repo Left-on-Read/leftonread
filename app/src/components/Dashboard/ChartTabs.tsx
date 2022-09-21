@@ -96,9 +96,9 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
   const daysAgoDescription = `between ${earlyDate.toLocaleDateString()} and ${lateDate.toLocaleDateString()}`;
 
   return (
-    <div>
+    <div style={{ padding: 36, overflow: 'hidden', position: 'relative' }}>
       <Tabs
-        variant="soft-rounded"
+        variant="enclosed"
         colorScheme="purple"
         size="md"
         onChange={(index) => {
@@ -124,13 +124,12 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
       >
         <TabList
           style={{
-            position: 'fixed',
             backgroundColor: 'white',
-            paddingBottom: 24,
             width: '100%',
-            background:
-              'linear-gradient(0deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 25%, rgba(255,255,255,1) 100%)',
+            // background:
+            //   'linear-gradient(0deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 25%, rgba(255,255,255,1) 100%)',
             zIndex: 6,
+            position: 'fixed',
           }}
         >
           {/* IF YOU CHANGE THE TABS - PLEASE CHANGE LOGGING ABOVE */}
@@ -147,10 +146,10 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
             <span style={{ marginRight: 10 }}>⚡ </span>Engagement
           </Tab>
           <Tab style={{ marginRight: 32 }}>
-            <span style={{ marginRight: 10 }}>👨‍👩‍👦</span>Group Chats
+            <span style={{ marginRight: 10 }}>👨‍👩‍👦</span>Groups
           </Tab>
         </TabList>
-        <TabPanels style={{ paddingTop: 60 }}>
+        <TabPanels style={{ paddingTop: 24 }}>
           <TabPanel>
             <Stack direction="column" spacing={40}>
               <SentVsReceivedChart
