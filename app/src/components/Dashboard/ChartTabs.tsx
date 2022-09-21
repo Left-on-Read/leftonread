@@ -153,7 +153,7 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
             <span style={{ marginRight: 10 }}>👨‍👩‍👦</span>Groups
           </Tab>
         </TabList>
-        <TabPanels style={{ padding: '120px 36px 36px 36px' }}>
+        <TabPanels style={{ padding: '70px 36px 36px 36px' }}>
           <TabPanel>
             <Stack direction="column" spacing={40}>
               <SentVsReceivedChart
