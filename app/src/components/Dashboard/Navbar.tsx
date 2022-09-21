@@ -40,6 +40,7 @@ import { PremiumModal } from '../Premium/PremiumModal';
 import { EmailModal } from '../Support/EmailModal';
 import { useGlobalContext } from './GlobalContext';
 import { NotificationSettingsModal } from './NotificationSettingsModal';
+import { SIDEBAR_WIDTH } from './SideNavbar';
 
 export function Navbar({
   onRefresh,
@@ -84,23 +85,23 @@ export function Navbar({
   return (
     <div
       style={{
-        padding: '24px 48px',
+        padding: `24px ${SIDEBAR_WIDTH + 66}px 24px 36px`,
         height: '90px',
         position: 'fixed',
-        width: '100%',
         backgroundColor: 'white',
         zIndex: 8,
+        width: '100%',
       }}
     >
       <div
         style={{
           display: 'flex',
+          flexDirection: 'row-reverse',
           justifyContent: 'space-between',
           alignItems: 'center',
           height: '100%',
         }}
       >
-        <img src={LogoWithText} alt="Left on Read" style={{ height: '100%' }} />
         <div>
           <Popover size="xl">
             <PopoverTrigger>
@@ -161,7 +162,16 @@ export function Navbar({
             </PopoverContent>
           </Popover>
 
-          <Menu>
+          <Button
+            leftIcon={<Icon as={FiRefreshCw} />}
+            onClick={() => {
+              onRefresh();
+              logEvent({ eventName: 'REFRESH_DATA' });
+            }}
+          >
+            Refresh Data
+          </Button>
+          {/* <Menu>
             <MenuButton as={IconButton} icon={<SettingsIcon />} size="md" />
             <MenuList>
               {!isPremium && (
@@ -217,16 +227,6 @@ export function Navbar({
                 </Text>
               </MenuItem>
               <MenuDivider />
-              {/* <MenuItem
-                onClick={() => {
-                  onEmailModalOpen();
-                }}
-              >
-                <Icon as={FiLifeBuoy} style={{ marginRight: 12 }} />
-                <Text size="sm" fontWeight={300}>
-                  Contact Support
-                </Text>
-              </MenuItem> */}
               <MenuItem
                 onClick={() => {
                   onEmailModalOpen();
@@ -297,7 +297,7 @@ export function Navbar({
                 </Text>
               </div>
             </MenuList>
-          </Menu>
+          </Menu> */}
         </div>
       </div>
       <EmailModal isOpen={isEmailModalOpen} onClose={onEmailModalClose} />

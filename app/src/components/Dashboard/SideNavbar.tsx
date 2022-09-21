@@ -18,6 +18,8 @@ const Pages = ['Analytics'] as const;
 // TODO(ALEX): PRODUCTIVITY
 // const Pages = ['Productivity', 'Analytics'] as const;
 
+export const SIDEBAR_WIDTH = 200;
+
 export type TPages = typeof Pages[number];
 
 function SidebarMainLink({
@@ -74,13 +76,11 @@ export function SideNavbar({
   return (
     <div
       style={{
-        width: 200,
         height: '100vh',
         borderRight: '1px solid gray',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        position: 'fixed',
       }}
     >
       <div>

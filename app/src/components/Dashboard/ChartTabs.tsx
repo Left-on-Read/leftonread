@@ -37,6 +37,7 @@ import { WordOrEmojiCountChart } from '../Graphs/WordOrEmojiCountChart';
 import { MessageScheduler } from '../Productivity/MessageScheduler';
 import { useGlobalContext } from './GlobalContext';
 import { GroupChatTab } from './GroupChatTab';
+import { SIDEBAR_WIDTH } from './SideNavbar';
 
 export const titleFormatter = ({
   titleName,
@@ -130,7 +131,9 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
               'linear-gradient(0deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 25%, rgba(255,255,255,1) 100%)',
             zIndex: 6,
             position: 'fixed',
-            padding: 36,
+            padding: `12px ${SIDEBAR_WIDTH + 36}px 12px 36px`,
+            display: 'flex',
+            justifyContent: 'space-around',
           }}
         >
           {/* IF YOU CHANGE THE TABS - PLEASE CHANGE LOGGING ABOVE */}

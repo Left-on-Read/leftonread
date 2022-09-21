@@ -113,7 +113,7 @@ export function AnalyticsPage({ onRefresh }: { onRefresh: () => void }) {
   }, []);
 
   return (
-    <div>
+    <div style={{ position: 'relative', width: '100%' }}>
       <GlobalContext.Provider
         value={{
           ...globalData,
@@ -121,14 +121,16 @@ export function AnalyticsPage({ onRefresh }: { onRefresh: () => void }) {
           activatePremium: () => setIsPremium(true),
         }}
       >
-        {/* <Navbar
-          onRefresh={onRefresh}
-          filters={filters}
-          onUpdateFilters={setFilters}
-        /> */}
+        <div style={{ width: 'inherit' }}>
+          <Navbar
+            onRefresh={onRefresh}
+            filters={filters}
+            onUpdateFilters={setFilters}
+          />
 
-        <div>
-          <ChartTabs filters={filters} />
+          <div style={{ paddingTop: 90 }}>
+            <ChartTabs filters={filters} />
+          </div>
         </div>
         <Footer />
         <AlertDialog
