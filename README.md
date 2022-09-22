@@ -38,7 +38,7 @@ Thank you to Vercel for sponsoring this project!
 
 Thank you to 3 Minute Journal for sponsoring this project!
 
-[![3-minute-journal](https://ph-files.imgix.net/7eed76e3-d582-46b7-aab4-fa1c3d6a4a1e.png?auto=format&auto=compress&codec=mozjpeg&cs=strip&w=72&h=72&fit=crop&bg=0fff&dpr=2)](https://www.producthunt.com/posts/3-minute-journal)
+[![3-minute-journal](https://ph-files.imgix.net/7eed76e3-d582-46b7-aab4-fa1c3d6a4a1e.png?auto=format&auto=compress&codec=mozjpeg&cs=strip&w=72&h=72&fit=crop&bg=0fff&dpr=2)](https://apps.apple.com/us/app/3-minute-journal/id1621951579)
 
 
 ## Support
