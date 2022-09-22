@@ -351,6 +351,16 @@ export function GroupChatReactionsChart({
         icon={icon}
         setIsShareOpen={setIsShareOpen}
         showGroupChatShareButton
+        // tooltip={
+        //   <Tooltip
+        //     label="Reactions where added in iOS 10 in September 2016. If nothing is showing, your group chat may be too old!"
+        //     fontSize="md"
+        //   >
+        //     <span>
+        //       <Icon as={FiInfo} color="gray.500" />
+        //     </span>
+        //   </Tooltip>
+        // }
       >
         <GroupChatReactionsBody
           title={title}
