@@ -13,7 +13,6 @@ import { EarliestAndLatestDateResults } from 'analysis/queries/EarliestAndLatest
 import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
-import Store from 'electron-store';
 import { useEffect, useRef, useState } from 'react';
 import { FiAlertCircle } from 'react-icons/fi';
 
@@ -24,13 +23,7 @@ import { ChartTabs } from './ChartTabs';
 import { GlobalContext, TGlobalContext } from './GlobalContext';
 import { Navbar } from './Navbar';
 
-const store = new Store();
-
 export function AnalyticsPage({ onRefresh }: { onRefresh: () => void }) {
-  const [isPremium, setIsPremium] = useState<boolean>(
-    store.get('license') !== ''
-  );
-
   const [filters, setFilters] = useState<SharedQueryFilters>(
     DEFAULT_QUERY_FILTERS
   );

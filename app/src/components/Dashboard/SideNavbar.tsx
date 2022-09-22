@@ -8,10 +8,8 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
-import { useState } from 'react';
 import { IconType } from 'react-icons';
 import { BsLightningCharge } from 'react-icons/bs';
-import { FiBarChart, FiClipboard, FiCoffee } from 'react-icons/fi';
 
 import LogoWithText from '../../../assets/LogoWithText.svg';
 import { APP_VERSION } from '../../constants/versions';
