@@ -107,11 +107,11 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
           if (index === 1) {
             activeTab = 'Words & Emojis';
           } else if (index === 2) {
-            activeTab = 'Sentiment';
-          } else if (index === 3) {
-            activeTab = 'Engagement';
-          } else if (index === 4) {
             activeTab = 'Group Chats';
+          } else if (index === 3) {
+            activeTab = 'Sentiment';
+          } else if (index === 4) {
+            activeTab = 'Engagement';
           }
 
           logEvent({
@@ -144,13 +144,13 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
             <span style={{ marginRight: 10 }}>😃</span>Words & Emojis
           </Tab>
           <Tab style={{ marginRight: 32 }}>
+            <span style={{ marginRight: 10 }}>👨‍👩‍👦</span>Groups
+          </Tab>
+          <Tab style={{ marginRight: 32 }}>
             <span style={{ marginRight: 10 }}>❤️</span>Sentiment
           </Tab>
           <Tab style={{ marginRight: 32 }}>
             <span style={{ marginRight: 10 }}>⚡ </span>Engagement
-          </Tab>
-          <Tab style={{ marginRight: 32 }}>
-            <span style={{ marginRight: 10 }}>👨‍👩‍👦</span>Groups
           </Tab>
         </TabList>
         <TabPanels style={{ padding: '70px 36px 36px 36px' }}>
@@ -259,6 +259,9 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
             </Stack>
           </TabPanel>
           <TabPanel>
+            <GroupChatTab filters={filters} />
+          </TabPanel>
+          <TabPanel>
             <Stack direction="column" spacing={40}>
               <TotalSentimentChart
                 title={titleFormatter({
@@ -312,9 +315,6 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
                 filters={filters}
               />
             </Stack>
-          </TabPanel>
-          <TabPanel>
-            <GroupChatTab filters={filters} />
           </TabPanel>
         </TabPanels>
       </Tabs>
