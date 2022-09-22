@@ -163,11 +163,11 @@ export function EmailModal({
                   >
                     <Checkbox colorScheme="purple" defaultChecked>
                       <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <div>Include logs</div>
+                        <div>Attach logs</div>
                       </div>
                     </Checkbox>
                     <Tooltip
-                      label="Logs help us identify what went wrong. They do not contain any messages or personally identifiying information."
+                      label="Troubleshooting logs help us identify what went wrong with Left on Read on your computer. They do not contain any text messages, contact names, or other personal identifiying information."
                       fontSize="md"
                     >
                       <QuestionOutlineIcon style={{ marginLeft: 8 }} />
