@@ -66,7 +66,6 @@ function Application() {
   return (
     <Box>
       <Button
-        colorScheme="red"
         onClick={async () => {
           logEvent({ eventName: 'RESET_APPLICATION_DATA ' });
           await ipcRenderer.invoke('reset-application-data');
