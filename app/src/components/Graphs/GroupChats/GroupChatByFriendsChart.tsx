@@ -62,10 +62,17 @@ function GroupChatByFriendsBody({
     }
   }
 
+  // You want to go off of the group chat name, and not the number of contacts
+  // because you want to use the group chat name if it exists
+  let titleLabel = title;
+  if (title && title.length > 1 && title[1].length > 25) {
+    titleLabel = [title[0], ...title[1].split(', ')];
+  }
+
   const plugins = {
     title: {
       display: isSharingVersion,
-      text: title,
+      text: titleLabel,
       font: {
         size: 20,
         family: 'Montserrat',
@@ -98,7 +105,7 @@ function GroupChatByFriendsBody({
   };
 
   const chartStyle: React.CSSProperties = isSharingVersion
-    ? { width: '400px', height: '500px' }
+    ? { width: '500px', height: '600px' }
     : {};
 
   const options = {
@@ -199,9 +206,11 @@ function GroupChatByFriendsBody({
   if (isSharingVersion) {
     return (
       <ShareModal
+        title="Group Chat by Friends"
         isOpen={isSharingVersion}
         onClose={() => setIsShareOpen(false)}
         graphRefToShare={graphRefToShare}
+        contacts={contactNames}
       >
         {body}
       </ShareModal>
@@ -240,7 +249,12 @@ export function GroupChatByFriendsChart({
           groupChatByFriendsDataList={groupChatByFriendsDataList}
         />
       )}
-      <GraphContainer title={title} icon={icon} setIsShareOpen={setIsShareOpen}>
+      <GraphContainer
+        title={title}
+        icon={icon}
+        setIsShareOpen={setIsShareOpen}
+        showGroupChatShareButton
+      >
         <GroupChatByFriendsBody
           title={title}
           isSharingVersion={false}

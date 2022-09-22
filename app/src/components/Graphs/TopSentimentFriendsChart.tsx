@@ -94,7 +94,7 @@ function TopSentimentFriendsBody({
   };
 
   const chartStyle: React.CSSProperties = isSharingVersion
-    ? { width: '400px', height: '500px' }
+    ? { width: '500px', height: '600px' }
     : {};
 
   const options = {
@@ -193,6 +193,7 @@ function TopSentimentFriendsBody({
   if (isSharingVersion) {
     return (
       <ShareModal
+        title="Top Friends Sentiment"
         isOpen={isSharingVersion}
         onClose={() => setIsShareOpen(false)}
         graphRefToShare={graphRefToShare}

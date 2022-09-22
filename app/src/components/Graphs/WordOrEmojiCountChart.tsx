@@ -96,7 +96,7 @@ function WordOrEmojiCountBody({
       anchor: 'end' as const,
       align: 'end' as const,
       formatter(value: any) {
-        return `(${value})`;
+        return `${value}`;
       },
     },
     'lor-chartjs-logo-watermark-plugin': isSharingVersion
@@ -105,7 +105,7 @@ function WordOrEmojiCountBody({
   };
 
   const chartStyle: React.CSSProperties = isSharingVersion
-    ? { width: '400px', height: '500px' }
+    ? { width: '500px', height: '600px' }
     : {};
 
   const options = {
@@ -228,6 +228,7 @@ function WordOrEmojiCountBody({
         isOpen={isSharingVersion}
         onClose={() => setIsShareOpen(false)}
         graphRefToShare={graphRefToShare}
+        title={title.join(', ')}
       >
         {body}
       </ShareModal>

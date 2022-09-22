@@ -54,6 +54,7 @@ export function Initializer({
   }, [progressNumber]);
 
   const initializeTables = useCallback(async () => {
+    setProgressNumber(0);
     setError(null);
     setIsRunning(true);
     try {

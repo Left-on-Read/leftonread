@@ -61,9 +61,10 @@ function SentimentOverTimeBody({
   const sentData = sent.map((d) => {
     return {
       y:
-        d.positiveScore === 0 && d.negativeScore === 0
+        (d.positiveScore === 0 && d.negativeScore === 0
           ? 0.5
-          : d.positiveScore / (d.positiveScore + Math.abs(d.negativeScore)),
+          : d.positiveScore / (d.positiveScore + Math.abs(d.negativeScore))) *
+        100,
       x: new Date(d.day).toLocaleDateString(),
       is_from_me: d.is_from_me,
     };
@@ -71,9 +72,10 @@ function SentimentOverTimeBody({
   const receivedData = received.map((d) => {
     return {
       y:
-        d.positiveScore === 0 && d.negativeScore === 0
+        (d.positiveScore === 0 && d.negativeScore === 0
           ? 0.5
-          : d.positiveScore / (d.positiveScore + Math.abs(d.negativeScore)),
+          : d.positiveScore / (d.positiveScore + Math.abs(d.negativeScore))) *
+        100,
       x: new Date(d.day).toLocaleDateString(),
       is_from_me: d.is_from_me,
     };
@@ -243,6 +245,7 @@ function SentimentOverTimeBody({
         isOpen={isSharingVersion}
         onClose={() => setIsShareOpen(false)}
         graphRefToShare={graphRefToShare}
+        title="Sentiment Over Time"
       >
         {body}
       </ShareModal>
