@@ -40,20 +40,7 @@ function SidebarMainLink({
   return (
     <Box
       as="button"
-      className="sidebar-link"
-      style={{
-        padding: '12px 26px',
-        cursor: 'pointer',
-        width: '100%',
-        display: 'flex',
-        alignItems: 'center',
-
-        ...(isActive && {
-          borderLeft: `5px solid ${defaultTheme.colors.purple['400']}`,
-          backgroundColor: defaultTheme.colors.purple['100'],
-          padding: '12px 16px 12px 21px',
-        }),
-      }}
+      className={`sidebar-link ${isActive ? 'sidebar-link-active' : ''}`}
       onClick={() => {
         onSelect();
       }}
