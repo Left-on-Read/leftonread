@@ -18,10 +18,10 @@ import Confetti from 'react-confetti';
 
 import Celebration from '../../../assets/illustrations/celebration.svg';
 import { logEvent } from '../../utils/analytics';
-import { useGlobalContext } from '../Dashboard/GlobalContext';
 import { Float } from '../Float';
 import { EmailModal } from '../Support/EmailModal';
 import { STRIPE_LINK } from './constants';
+import { useGoldContext } from './GoldContext';
 
 export function PremiumModal({
   isOpen,
@@ -30,7 +30,7 @@ export function PremiumModal({
   isOpen: boolean;
   onClose: () => void;
 }) {
-  const { activatePremium } = useGlobalContext();
+  const { setPremium } = useGoldContext();
 
   const {
     isOpen: isEmailModalOpen,
@@ -90,7 +90,7 @@ export function PremiumModal({
 
   const closeHandler = () => {
     if (isActivationSuccessful) {
-      activatePremium();
+      setPremium(true);
     }
 
     onClose();

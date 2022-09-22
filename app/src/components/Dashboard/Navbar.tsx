@@ -1,13 +1,6 @@
-import { SettingsIcon } from '@chakra-ui/icons';
 import {
   Button,
   Icon,
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuDivider,
-  MenuItem,
-  MenuList,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -15,31 +8,15 @@ import {
   PopoverTrigger,
   Text,
   theme as defaultTheme,
-  useDisclosure,
 } from '@chakra-ui/react';
 import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
-import { ipcRenderer } from 'electron';
 import { AnimatePresence, motion } from 'framer-motion';
-import {
-  FiBell,
-  FiFolder,
-  FiGitPullRequest,
-  FiLock,
-  FiRefreshCw,
-  FiSlash,
-  FiSliders,
-} from 'react-icons/fi';
-import { useNavigate } from 'react-router-dom';
+import { FiRefreshCw, FiSliders } from 'react-icons/fi';
 
-import LogoWithText from '../../../assets/LogoWithText.svg';
 import { GroupChatFilters } from '../../constants/filters';
-import { APP_VERSION } from '../../constants/versions';
 import { logEvent } from '../../utils/analytics';
 import { FilterPanel } from '../Filters/FilterPanel';
-import { PremiumModal } from '../Premium/PremiumModal';
-import { EmailModal } from '../Support/EmailModal';
 import { useGlobalContext } from './GlobalContext';
-import { NotificationSettingsModal } from './NotificationSettingsModal';
 import { SIDEBAR_WIDTH } from './SideNavbar';
 
 export function Navbar({
@@ -51,25 +28,7 @@ export function Navbar({
   filters: SharedQueryFilters;
   onUpdateFilters: (arg0: SharedQueryFilters) => void;
 }) {
-  const { isLoading: isGlobalContextLoading, isPremium } = useGlobalContext();
-  const navigate = useNavigate();
-  const {
-    isOpen: isEmailModalOpen,
-    onOpen: onEmailModalOpen,
-    onClose: onEmailModalClose,
-  } = useDisclosure();
-
-  const {
-    isOpen: isPremiumModalOpen,
-    onOpen: onPremiumModalOpen,
-    onClose: onPremiumModalClose,
-  } = useDisclosure();
-
-  const {
-    isOpen: isNotificationsSettingsModalOpen,
-    onOpen: onNotificationsSettingsModalOpen,
-    onClose: onNotificationsSettingsModalOnClose,
-  } = useDisclosure();
+  const { isLoading: isGlobalContextLoading } = useGlobalContext();
 
   let activeFilterCount = 0;
   if (filters.contact) {
@@ -171,141 +130,8 @@ export function Navbar({
           >
             Refresh Data
           </Button>
-          {/* <Menu>
-            <MenuButton as={IconButton} icon={<SettingsIcon />} size="md" />
-            <MenuList>
-              {!isPremium && (
-                <MenuItem
-                  onClick={() => {
-                    onPremiumModalOpen();
-                    logEvent({ eventName: 'UNLOCK_GOLD_NAVBAR' });
-                  }}
-                >
-                  <Icon
-                    as={FiLock}
-                    style={{ marginRight: 12 }}
-                    color="yellow.500"
-                  />
-                  <Text size="sm" fontWeight={500} color="yellow.500">
-                    Unlock Gold
-                  </Text>
-                </MenuItem>
-              )}
-              {isPremium && (
-                <MenuItem
-                  onClick={() => {
-                    window.open(
-                      'https://billing.stripe.com/p/login/eVabK06mUcNG2oE6oo'
-                    );
-                  }}
-                >
-                  <Icon as={FiFolder} style={{ marginRight: 12 }} />
-                  <Text size="sm" fontWeight={300}>
-                    Manage Subscription
-                  </Text>
-                </MenuItem>
-              )}
-              <MenuItem
-                onClick={() => {
-                  onNotificationsSettingsModalOpen();
-                }}
-              >
-                <Icon as={FiBell} style={{ marginRight: 12 }} />
-                <Text size="sm" fontWeight={300}>
-                  Notification Settings
-                </Text>
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  onRefresh();
-                  logEvent({ eventName: 'REFRESH_DATA' });
-                }}
-              >
-                <Icon as={FiRefreshCw} style={{ marginRight: 12 }} />
-                <Text size="sm" fontWeight={300}>
-                  Refresh Data
-                </Text>
-              </MenuItem>
-              <MenuDivider />
-              <MenuItem
-                onClick={() => {
-                  onEmailModalOpen();
-                }}
-              >
-                <Icon as={FiGitPullRequest} style={{ marginRight: 12 }} />
-                <Text size="sm" fontWeight={300}>
-                  Feedback
-                </Text>
-              </MenuItem>
-              <MenuItem
-                onClick={async () => {
-                  logEvent({ eventName: 'RESET_APPLICATION_DATA ' });
-                  await ipcRenderer.invoke('reset-application-data');
-                  navigate('/start');
-                }}
-              >
-                <Icon as={FiSlash} style={{ marginRight: 12 }} />
-                <Text size="sm" fontWeight={300}>
-                  Reset Application
-                </Text>
-              </MenuItem>
-              {!isPremium && process.env.NODE_ENV === 'development' && (
-                <MenuItem
-                  onClick={() => {
-                    ipcRenderer.invoke('dev-activate-license');
-                    window.location.reload();
-                  }}
-                >
-                  <Icon
-                    as={FiLock}
-                    style={{ marginRight: 12 }}
-                    color="red.500"
-                  />
-                  <Text size="sm" fontWeight={800} color="red.500">
-                    Dev: Auto 🥇
-                  </Text>
-                </MenuItem>
-              )}
-              {isPremium && process.env.NODE_ENV === 'development' && (
-                <MenuItem
-                  onClick={() => {
-                    ipcRenderer.invoke('deactivate-license');
-                    window.location.reload();
-                  }}
-                >
-                  <Icon
-                    as={FiLock}
-                    style={{ marginRight: 12 }}
-                    color="red.500"
-                  />
-                  <Text size="sm" fontWeight={800} color="red.500">
-                    Dev: Deactivate License
-                  </Text>
-                </MenuItem>
-              )}
-              <div
-                style={{
-                  padding: '0px 16px',
-                  width: '100%',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  marginTop: 10,
-                }}
-              >
-                <Text color="gray.400" fontSize={12}>
-                  Left on Read {APP_VERSION}
-                </Text>
-              </div>
-            </MenuList>
-          </Menu> */}
         </div>
       </div>
-      <EmailModal isOpen={isEmailModalOpen} onClose={onEmailModalClose} />
-      <PremiumModal isOpen={isPremiumModalOpen} onClose={onPremiumModalClose} />
-      <NotificationSettingsModal
-        isOpen={isNotificationsSettingsModalOpen}
-        onClose={onNotificationsSettingsModalOnClose}
-      />
     </div>
   );
 }

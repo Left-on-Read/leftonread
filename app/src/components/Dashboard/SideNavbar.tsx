@@ -5,15 +5,21 @@ import {
   Stack,
   Text,
   theme as defaultTheme,
+  useDisclosure,
 } from '@chakra-ui/react';
+import { ipcRenderer } from 'electron';
+import { useState } from 'react';
 import { IconType } from 'react-icons';
 import { BsLightningCharge } from 'react-icons/bs';
 import { FiBarChart, FiClipboard, FiCoffee } from 'react-icons/fi';
 
 import LogoWithText from '../../../assets/LogoWithText.svg';
 import { APP_VERSION } from '../../constants/versions';
+import { useGoldContext } from '../Premium/GoldContext';
+import { PremiumModal } from '../Premium/PremiumModal';
+import { EmailModal } from '../Support/EmailModal';
 
-const Pages = ['Analytics'] as const;
+const Pages = ['Analytics', 'Settings'] as const;
 
 // TODO(ALEX): PRODUCTIVITY
 // const Pages = ['Productivity', 'Analytics'] as const;
@@ -73,6 +79,18 @@ export function SideNavbar({
   activePage: TPages;
   onSelectPage: (page: TPages) => void;
 }) {
+  const { isPremium, setPremium } = useGoldContext();
+  const {
+    isOpen: isPremiumModalOpen,
+    onClose: onClosePremiumModal,
+    onOpen: onOpenPremiumModal,
+  } = useDisclosure();
+  const {
+    isOpen: isEmailModalOpen,
+    onClose: onCloseEmailModal,
+    onOpen: onOpenEmailModal,
+  } = useDisclosure();
+
   return (
     <div
       style={{
@@ -95,14 +113,14 @@ export function SideNavbar({
         </div>
         <div style={{ marginTop: '25%' }}>
           <Stack direction="column" alignItems="flex-start">
-            {Pages.map((page) => {
-              let icon = BsLightningCharge;
+            {Pages.filter((page) => page !== 'Settings').map((page) => {
+              const icon = BsLightningCharge;
 
-              if (page === 'Analytics') {
-                icon = FiBarChart;
-              } else if (page === 'Reports') {
-                icon = FiClipboard;
-              }
+              // if (page === 'Analytics') {
+              //   icon = FiBarChart;
+              // } else if (page === 'Reports') {
+              //   icon = FiClipboard;
+              // }
 
               return (
                 <SidebarMainLink
@@ -130,12 +148,61 @@ export function SideNavbar({
           style={{ alignItems: 'flex-start', marginTop: '22px' }}
           spacing="12px"
         >
-          <Button variant="link" fontSize="md">
+          {!isPremium && (
+            <Button
+              variant="link"
+              fontSize="md"
+              colorScheme="yellow"
+              onClick={onOpenPremiumModal}
+              fontWeight="semibold"
+            >
+              Unlock Gold
+            </Button>
+          )}
+          <Button
+            variant="link"
+            fontSize="md"
+            onClick={() => {
+              onSelectPage('Settings');
+            }}
+          >
             Settings
           </Button>
-          <Button variant="link" fontSize="md">
+          <Button
+            variant="link"
+            fontSize="md"
+            onClick={() => {
+              onOpenEmailModal();
+            }}
+          >
             Feedback
           </Button>
+          {!isPremium && process.env.NODE_ENV === 'development' && (
+            <Button
+              onClick={() => {
+                ipcRenderer.invoke('dev-activate-license');
+                setPremium(true);
+              }}
+              variant="link"
+              fontSize="md"
+              colorScheme="red"
+            >
+              Dev: Gold On
+            </Button>
+          )}
+          {isPremium && process.env.NODE_ENV === 'development' && (
+            <Button
+              onClick={() => {
+                ipcRenderer.invoke('deactivate-license');
+                setPremium(false);
+              }}
+              variant="link"
+              fontSize="md"
+              colorScheme="red"
+            >
+              Dev: Gold Off
+            </Button>
+          )}
         </Stack>
 
         <div style={{ marginTop: '15%' }}>
@@ -144,6 +211,8 @@ export function SideNavbar({
           </Text>
         </div>
       </div>
+      <PremiumModal isOpen={isPremiumModalOpen} onClose={onClosePremiumModal} />
+      <EmailModal isOpen={isEmailModalOpen} onClose={onCloseEmailModal} />
     </div>
   );
 }

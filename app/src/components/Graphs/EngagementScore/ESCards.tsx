@@ -12,6 +12,7 @@ import {
   theme as defaultTheme,
 } from '@chakra-ui/react';
 import { EngagementResult } from 'analysis/queries/EngagementQueries';
+import { useGoldContext } from 'components/Premium/GoldContext';
 import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 
@@ -188,7 +189,7 @@ export function ESCards({
   avgDelayResults: EngagementResult[];
   error: string | null;
 }) {
-  const { isPremium } = useGlobalContext();
+  const { isPremium } = useGoldContext();
 
   const [cards, setCards] = useState<CardType[]>(CARD_TYPES);
 

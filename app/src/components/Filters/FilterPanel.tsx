@@ -18,6 +18,7 @@ import { MultiSelect } from 'react-multi-select-component';
 import { DEFAULT_FILTER_LIMIT } from '../../constants';
 import { GroupChatFilters } from '../../constants/filters';
 import { useGlobalContext } from '../Dashboard/GlobalContext';
+import { useGoldContext } from '../Premium/GoldContext';
 import { UnlockPremiumButton } from '../Premium/UnlockPremiumButton';
 
 export const DEFAULT_QUERY_FILTERS = {
@@ -32,7 +33,8 @@ export function FilterPanel({
   filters: SharedQueryFilters;
   onUpdateFilters: (arg0: SharedQueryFilters) => void;
 }) {
-  const { dateRange, contacts, isPremium } = useGlobalContext();
+  const { dateRange, contacts } = useGlobalContext();
+  const { isPremium } = useGoldContext();
   const [filterDateRange, setFilterDateRange] = useState<number[]>([0, 100]);
 
   const difference =

@@ -39,8 +39,6 @@ export function AnalyticsPage({ onRefresh }: { onRefresh: () => void }) {
     isLoading: true,
     contacts: [],
     dateRange: { earliestDate: new Date(), latestDate: new Date() },
-    isPremium,
-    activatePremium: () => setIsPremium(true),
   });
 
   const [doesRequireRefresh, setDoesRequireRefresh] = useState<boolean>(false);
@@ -73,8 +71,6 @@ export function AnalyticsPage({ onRefresh }: { onRefresh: () => void }) {
           earliestDate,
           latestDate,
         },
-        isPremium: false, // NOTE: Does not matter what we set it to here
-        activatePremium: () => {},
       });
     };
 
@@ -114,13 +110,7 @@ export function AnalyticsPage({ onRefresh }: { onRefresh: () => void }) {
 
   return (
     <div style={{ position: 'relative', width: '100%' }}>
-      <GlobalContext.Provider
-        value={{
-          ...globalData,
-          isPremium,
-          activatePremium: () => setIsPremium(true),
-        }}
-      >
+      <GlobalContext.Provider value={globalData}>
         <div style={{ width: 'inherit' }}>
           <Navbar
             onRefresh={onRefresh}

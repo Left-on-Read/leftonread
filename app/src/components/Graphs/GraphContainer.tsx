@@ -10,7 +10,7 @@ import { IconType } from 'react-icons';
 import { FiPlus, FiRefreshCw, FiShare } from 'react-icons/fi';
 
 import { logEvent } from '../../utils/analytics';
-import { useGlobalContext } from '../Dashboard/GlobalContext';
+import { useGoldContext } from '../Premium/GoldContext';
 import { UnlockPremiumButton } from '../Premium/UnlockPremiumButton';
 
 export function GraphContainer({
@@ -34,7 +34,7 @@ export function GraphContainer({
   onClickMessageSchedulerRefresh?: () => void;
   setIsShareOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const { isPremium } = useGlobalContext();
+  const { isPremium } = useGoldContext();
 
   const isLocked = isPremiumGraph && !isPremium;
 
