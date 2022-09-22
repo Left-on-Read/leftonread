@@ -5,4 +5,13 @@ module.exports = {
   images: {
     disableStaticImages: true,
   },
+  async redirects() {
+    return [
+      {
+        source: '/download',
+        destination: '/?ref=download',
+        permanent: false,
+      },
+    ]
+  },
 }
