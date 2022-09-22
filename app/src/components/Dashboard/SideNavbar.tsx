@@ -20,7 +20,7 @@ import { EmailModal } from '../Support/EmailModal';
 const Pages = ['Analytics', 'Settings'] as const;
 
 // TODO(ALEX): PRODUCTIVITY
-// const Pages = ['Productivity', 'Analytics'] as const;
+// const Pages = ['Productivity', 'Analytics', 'Settings'] as const;
 
 export const SIDEBAR_WIDTH = 200;
 
