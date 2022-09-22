@@ -23,6 +23,7 @@ export function GraphContainer({
   onClickMessageScheduler,
   onClickMessageSchedulerRefresh,
   setIsShareOpen,
+  showGroupChatShareButton,
 }: {
   title: string[];
   description?: string;
@@ -33,6 +34,7 @@ export function GraphContainer({
   onClickMessageScheduler?: () => void;
   onClickMessageSchedulerRefresh?: () => void;
   setIsShareOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  showGroupChatShareButton?: boolean;
 }) {
   const { isPremium } = useGlobalContext();
 
@@ -103,7 +105,9 @@ export function GraphContainer({
                 }}
                 leftIcon={<Icon as={FiShare} />}
               >
-                Share
+                {showGroupChatShareButton
+                  ? 'Share with your group chat'
+                  : 'Share'}
               </Button>
             )}
             {onClickMessageScheduler && onClickMessageSchedulerRefresh && (

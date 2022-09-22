@@ -98,7 +98,7 @@ function GroupChatByFriendsBody({
   };
 
   const chartStyle: React.CSSProperties = isSharingVersion
-    ? { width: '400px', height: '500px' }
+    ? { width: '500px', height: '600px' }
     : {};
 
   const options = {
@@ -199,9 +199,11 @@ function GroupChatByFriendsBody({
   if (isSharingVersion) {
     return (
       <ShareModal
+        title="Group Chat by Friends"
         isOpen={isSharingVersion}
         onClose={() => setIsShareOpen(false)}
         graphRefToShare={graphRefToShare}
+        contacts={contactNames}
       >
         {body}
       </ShareModal>
@@ -240,7 +242,12 @@ export function GroupChatByFriendsChart({
           groupChatByFriendsDataList={groupChatByFriendsDataList}
         />
       )}
-      <GraphContainer title={title} icon={icon} setIsShareOpen={setIsShareOpen}>
+      <GraphContainer
+        title={title}
+        icon={icon}
+        setIsShareOpen={setIsShareOpen}
+        showGroupChatShareButton
+      >
         <GroupChatByFriendsBody
           title={title}
           isSharingVersion={false}

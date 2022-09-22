@@ -116,7 +116,7 @@ function TopFriendsBody({
   };
 
   const chartStyle: React.CSSProperties = isSharingVersion
-    ? { width: '400px', height: '500px' }
+    ? { width: '500px', height: '600px' }
     : {};
 
   const options = {
@@ -244,6 +244,7 @@ function TopFriendsBody({
         isOpen={isSharingVersion}
         onClose={() => setIsShareOpen(false)}
         graphRefToShare={graphRefToShare}
+        title="Top Messaged Friends"
       >
         {body}
       </ShareModal>

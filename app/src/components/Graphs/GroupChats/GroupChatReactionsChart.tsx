@@ -182,7 +182,7 @@ function GroupChatReactionsBody({
   };
 
   const chartStyle: React.CSSProperties = isSharingVersion
-    ? { width: '400px', height: '500px' }
+    ? { width: '500px', height: '600px' }
     : {};
 
   const options = {
@@ -297,6 +297,7 @@ function GroupChatReactionsBody({
   if (isSharingVersion) {
     return (
       <ShareModal
+        title={`Group Chat Reactions ${mode}`}
         isOpen={isSharingVersion}
         onClose={() => setIsShareOpen(false)}
         graphRefToShare={graphRefToShare}
@@ -338,7 +339,12 @@ export function GroupChatReactionsChart({
           colorByContactName={colorByContactName}
         />
       )}
-      <GraphContainer title={title} icon={icon} setIsShareOpen={setIsShareOpen}>
+      <GraphContainer
+        title={title}
+        icon={icon}
+        setIsShareOpen={setIsShareOpen}
+        showGroupChatShareButton
+      >
         <GroupChatReactionsBody
           title={title}
           filters={filters}

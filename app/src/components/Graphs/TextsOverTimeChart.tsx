@@ -123,7 +123,7 @@ function TextsOverTimeBody({
   };
 
   const chartStyle: React.CSSProperties = isSharingVersion
-    ? { width: '400px', height: '500px' }
+    ? { width: '500px', height: '600px' }
     : {};
 
   const options = {
@@ -234,6 +234,7 @@ function TextsOverTimeBody({
   if (isSharingVersion) {
     return (
       <ShareModal
+        title="Messages Per Day"
         isOpen={isSharingVersion}
         onClose={() => setIsShareOpen(false)}
         graphRefToShare={graphRefToShare}

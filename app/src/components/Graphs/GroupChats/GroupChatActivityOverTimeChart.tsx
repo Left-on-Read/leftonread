@@ -95,14 +95,14 @@ function GroupChatActivityOverTimeBody({
     },
     'lor-chartjs-logo-watermark-plugin': isSharingVersion
       ? {
-          yPaddingText: 90,
-          yPaddingLogo: 75,
+          yPaddingText: 100,
+          yPaddingLogo: 85,
         }
       : false,
   };
 
   const chartStyle: React.CSSProperties = isSharingVersion
-    ? { width: '400px', height: '500px' }
+    ? { width: '500px', height: '600px' }
     : {};
 
   const options = {
@@ -213,6 +213,7 @@ function GroupChatActivityOverTimeBody({
   if (isSharingVersion) {
     return (
       <ShareModal
+        title="Group Chat Activity Over Time"
         isOpen={isSharingVersion}
         onClose={() => setIsShareOpen(false)}
         graphRefToShare={graphRefToShare}
@@ -252,6 +253,7 @@ export function GroupChatActivityOverTimeChart({
         description={description}
         icon={icon}
         setIsShareOpen={setIsShareOpen}
+        showGroupChatShareButton
       >
         <GroupChatActivityOverTimeBody
           title={title}

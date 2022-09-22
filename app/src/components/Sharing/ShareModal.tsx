@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import {
   Box,
   Button,
@@ -11,6 +13,7 @@ import {
 } from '@chakra-ui/react';
 import electron from 'electron';
 import { useEffect, useState } from 'react';
+import { FiCopy, FiMessageCircle } from 'react-icons/fi';
 import { SocialIcon } from 'react-social-icons';
 
 import { logEvent } from '../../utils/analytics';
@@ -54,13 +57,18 @@ export function ShareModal({
   onClose,
   children,
   graphRefToShare,
+  title,
+  contacts,
 }: {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
   graphRefToShare?: React.MutableRefObject<null>;
+  title: string;
+  contacts?: string[];
 }) {
   const [copied, setCopied] = useState<boolean>();
+  const [isIMessageAppLoading, setIsIMessageAppLoading] = useState<boolean>();
 
   useEffect(() => {
     if (!isOpen) {
@@ -72,7 +80,7 @@ export function ShareModal({
     if (graphRefToShare && graphRefToShare.current) {
       const { current } = graphRefToShare;
 
-      // NOTE(Danilowicz): Not sure why it says toBase64Image doesn't exist
+      // NOTE(Danilowicz): Update ref type to be chartjs component
       // @ts-ignore
       const base64Image = current.toBase64Image();
 
@@ -84,39 +92,88 @@ export function ShareModal({
 
       logEvent({
         eventName: 'COPIED_GRAPH_TO_CLIPBOARD',
+        properties: {
+          name: title,
+        },
       });
     }
   };
 
+  const socialMediaBox = (
+    <Box
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+      }}
+    >
+      <LeftOnReadSocialIcon
+        network="twitter"
+        onClick={() => {
+          externalWindowOpen('https://www.twitter.com');
+        }}
+      />
+      <LeftOnReadSocialIcon
+        network="instagram"
+        onClick={() => {
+          externalWindowOpen('https://www.instagram.com');
+        }}
+      />
+      <LeftOnReadSocialIcon
+        network="reddit"
+        onClick={() => {
+          externalWindowOpen('https://www.reddit.com');
+        }}
+      />
+      <LeftOnReadSocialIcon
+        network="tiktok"
+        onClick={() => {
+          externalWindowOpen('https://www.tiktok.com');
+        }}
+      />
+      <LeftOnReadSocialIcon
+        network="linkedin"
+        onClick={() => {
+          externalWindowOpen('https://www.linkedin.com');
+        }}
+      />
+      <LeftOnReadSocialIcon
+        network="facebook"
+        onClick={() => {
+          externalWindowOpen('https://www.facebook.com');
+        }}
+      />
+    </Box>
+  );
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
-      <ModalContent style={{ width: '80vw' }}>
+      <ModalContent style={{ minWidth: '550px' }}>
         <ModalHeader>
           <Box
             style={{
               padding: '15px',
             }}
           >
+            {/* <Box display="flex" justifyContent="center" alignItems="center"> */}
+            <Text textAlign="center" fontSize={24} color="gray.800">
+              Share this graph
+            </Text>
+            {/* <Icon as={FiShare} /> */}
+            {/* </Box> */}
             <Box
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                marginBottom: '30px',
+                marginTop: '20px',
+                marginBottom: '20px',
               }}
             >
-              <Box
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-              >
-                <Text color="gray.800"> Share this graph</Text>
-              </Box>
               <Button
+                rightIcon={<FiCopy />}
                 disabled={copied}
-                colorScheme="purple"
                 onClick={() => {
                   handleCopy();
                   setCopied(true);
@@ -130,67 +187,63 @@ export function ShareModal({
                 }}
               >
                 <span className="primary">
-                  {copied ? <>Copied!</> : <>Copy to clipboard</>}
+                  {copied ? <>Copied!</> : <>Copy image to clipboard</>}
                 </span>
               </Button>
+              <Text fontSize="md">or</Text>
+              <Button
+                rightIcon={<FiMessageCircle />}
+                isLoading={isIMessageAppLoading}
+                loadingText="Loading..."
+                colorScheme="purple"
+                onClick={() => {
+                  setIsIMessageAppLoading(true);
+                  logEvent({
+                    eventName: 'CLICKED_SHARE_SOCIAL_ICON',
+                    properties: {
+                      media: 'iMessage',
+                    },
+                  });
+                  handleCopy();
+                  openIMessageAndPasteImage(contacts);
+                  setIsIMessageAppLoading(false);
+                }}
+                size="sm"
+                style={{
+                  transition: '.25s',
+                }}
+              >
+                Share with iMessage
+              </Button>
+              {/* </Box> */}
             </Box>
-            <Box
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                marginBottom: '10px',
-              }}
-            >
-              <LeftOnReadSocialIcon
-                network="twitter"
-                onClick={() => {
-                  externalWindowOpen('https://www.twitter.com');
-                }}
-              />
-
-              <LeftOnReadSocialIcon
-                network="instagram"
-                onClick={() => {
-                  externalWindowOpen('https://www.instagram.com');
-                }}
-              />
-
-              {/** Todo: tik tok logo */}
-              <LeftOnReadSocialIcon
-                network="twitch"
-                onClick={() => {
-                  externalWindowOpen('https://www.twitch.tv');
-                }}
-              />
-
-              {/** Todo:imessage logo */}
-              <LeftOnReadSocialIcon
-                network="whatsapp"
-                onClick={() => {
-                  openIMessageAndPasteImage();
-                }}
-              />
-
-              {/** Todo add reddit logo */}
-              <LeftOnReadSocialIcon
-                network="snapchat"
-                onClick={() => {
-                  externalWindowOpen('https://www.snapchat.com');
-                }}
-              />
-
-              <LeftOnReadSocialIcon
-                network="linkedin"
-                onClick={() => {
-                  externalWindowOpen('https://www.linkedin.com');
-                }}
-              />
-            </Box>
+            {/* <Box>
+              <Text color="gray" fontSize={14}>
+                Post with{' '}
+                <span style={{ color: defaultTheme.colors.purple['600'] }}>
+                  #DownloadLeftOnRead
+                </span>{' '}
+                to win a $50 giftcard
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    fontSize: '10px',
+                  }}
+                >
+                  <a href="https://leftonread.me/raffle-terms">
+                    *terms and conditions apply
+                  </a>
+                </div>
+              </Text>
+            </Box> */}
+            <Box>{socialMediaBox}</Box>
           </Box>
           <Divider />
         </ModalHeader>
-        <ModalBody>{children}</ModalBody>
+        <ModalBody display="flex" justifyContent="center">
+          {children}
+        </ModalBody>
       </ModalContent>
     </Modal>
   );
