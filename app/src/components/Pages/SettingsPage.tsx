@@ -13,6 +13,7 @@ import { ipcRenderer } from 'electron';
 import React, { useEffect, useState } from 'react';
 import { IconType } from 'react-icons';
 import { FiAward, FiBell, FiMail, FiTrash2 } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 
 import { NotificationSettings } from '../../constants/types';
 import { logEvent } from '../../utils/analytics';
@@ -60,9 +61,20 @@ function Notifications() {
 }
 
 function Application() {
+  const navigate = useNavigate();
+
   return (
     <Box>
-      <Button colorScheme="red" onClick={}>Reset Application</Button>
+      <Button
+        colorScheme="red"
+        onClick={async () => {
+          logEvent({ eventName: 'RESET_APPLICATION_DATA ' });
+          await ipcRenderer.invoke('reset-application-data');
+          navigate('/start');
+        }}
+      >
+        Reset Application
+      </Button>
     </Box>
   );
 }
