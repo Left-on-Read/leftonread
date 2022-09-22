@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Spinner, Text } from '@chakra-ui/react';
+import { Spinner } from '@chakra-ui/react';
 import { Context } from 'chartjs-plugin-datalabels';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
@@ -259,19 +259,18 @@ function GroupChatReactionsBody({
   const body = (
     <>
       {error ? (
-        <div
-          style={{
-            position: 'relative',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <div style={{ position: 'absolute' }}>
-            <Text color="red.400">Uh oh! Something went wrong... </Text>
-          </div>
-          <Bar data={{ labels: [], datasets: [] }} />
-        </div>
+        // <div
+        //   style={{
+        //     position: 'relative',
+        //     display: 'flex',
+        //     justifyContent: 'center',
+        //     alignItems: 'center',
+        //   }}
+        // >
+        //   <div style={{ position: 'absolute' }}>
+        //     <Text color="red.400">Uh oh! Something went wrong... </Text>
+        //   </div>
+        <Bar data={{ labels: [], datasets: [] }} />
       ) : (
         <>
           {showLoading && (

@@ -57,12 +57,17 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
       try {
         const groupChatByFriendsDataList: GroupChatByFriends[] =
           await ipcRenderer.invoke('query-group-chat-by-friends', filters);
-
+        console.log(groupChatByFriendsDataList);
         setData(groupChatByFriendsDataList);
 
         const setGct = [
           ...new Set(
-            groupChatByFriendsDataList.map((obj) => obj.group_chat_name)
+            groupChatByFriendsDataList.map((obj) => {
+              if (!obj.group_chat_name) {
+                console.log(obj);
+              }
+              return obj.group_chat_name;
+            })
           ),
         ];
 

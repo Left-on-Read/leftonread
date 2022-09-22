@@ -129,6 +129,7 @@ function SentimentOverTimeBody({
           yPaddingLogo: 110,
         }
       : false,
+    'lor-chartjs-no-data-to-display-message': !error,
   };
 
   const chartStyle: React.CSSProperties = isSharingVersion
@@ -201,18 +202,17 @@ function SentimentOverTimeBody({
   const body = (
     <>
       {error ? (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <div style={{ position: 'absolute' }}>
-            <Text color="red.400">Uh oh! Something went wrong... </Text>
-          </div>
-          <Line data={{ labels: [], datasets: [] }} options={options} />
-        </div>
+        // <div
+        //   style={{
+        //     display: 'flex',
+        //     justifyContent: 'center',
+        //     alignItems: 'center',
+        //   }}
+        // >
+        //   <div style={{ position: 'absolute' }}>
+        //     <Text color="red.400">Uh oh! Something went wrong... </Text>
+        //   </div>
+        <Line data={{ labels: [], datasets: [] }} options={options} />
       ) : (
         <>
           {isLoading && (

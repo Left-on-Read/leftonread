@@ -15,25 +15,34 @@ export async function openIMessageAndPasteImage(contacts?: string[]) {
         delay 0.25 -- this is super critical, it seems without the delay it wont work`;
       });
 
-  await exec(
-    `
-    osascript -e  'activate application "Messages"
-        delay 0.25 -- this is super critical, it seems without the delay it wont work
-        tell application "System Events" to tell process "Messages"
-        delay 0.25 -- this is super critical, it seems without the delay it wont work
-        key code 45 using command down           -- press Command + N to start a new window
-        delay 0.25 -- this is super critical, it seems without the delay it wont work
-
-        ${contactsAppleScriptBlock ? contactsAppleScriptBlock.join('\n') : ''}
-
-        key code 48 -- tab
-        delay 0.25 -- this is super critical, it seems without the delay it wont work
-        keystroke "v" using command down
-        delay 0.25 -- this is super critical, it seems without the delay it wont work
-        keystroke "Check out https://leftonread.me/?ref=share"  -- input the message
-    end tell'
-    `
-  );
+  try {
+    await exec(
+      `
+          osascript -e  'activate application "Messages"
+              delay 0.25 -- this is super critical, it seems without the delay it wont work
+              tell application "System Events" to tell process "Messages"
+              delay 0.25 -- this is super critical, it seems without the delay it wont work
+              key code 45 using command down           -- press Command + N to start a new window
+              delay 0.25 -- this is super critical, it seems without the delay it wont work
+      
+              ${
+                contactsAppleScriptBlock
+                  ? contactsAppleScriptBlock.join('\n')
+                  : ''
+              }
+      
+              key code 48 -- tab
+              delay 0.25 -- this is super critical, it seems without the delay it wont work
+              keystroke "v" using command down
+              delay 0.25 -- this is super critical, it seems without the delay it wont work
+              keystroke "Check out https://leftonread.me/?ref=share"  -- input the message
+          end tell'
+          `
+    );
+  } catch (e) {
+    // eslint-disable-next-line no-alert
+    alert('Oops! Something went wrong. Open iMessage yourself to respond!');
+  }
 }
 
 export async function typeMessageToPhoneNumber({

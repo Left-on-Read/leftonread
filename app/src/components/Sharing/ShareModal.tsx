@@ -149,7 +149,7 @@ export function ShareModal({
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
-      <ModalContent style={{ minWidth: '550px' }}>
+      <ModalContent minWidth="550px">
         <ModalHeader>
           <Box
             style={{
@@ -157,9 +157,9 @@ export function ShareModal({
             }}
           >
             {/* <Box display="flex" justifyContent="center" alignItems="center"> */}
-            <Text textAlign="center" fontSize={24} color="gray.800">
+            {/* <Text textAlign="center" fontSize={24} color="gray.800">
               Share this graph
-            </Text>
+            </Text> */}
             {/* <Icon as={FiShare} /> */}
             {/* </Box> */}
             <Box
@@ -167,7 +167,7 @@ export function ShareModal({
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                marginTop: '20px',
+                // marginTop: '20px',
                 marginBottom: '20px',
               }}
             >
