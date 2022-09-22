@@ -33,19 +33,6 @@ function App({ Component, pageProps }: AppProps) {
     initFirestore()
   }, [])
 
-  React.useEffect(() => {
-    import('react-facebook-pixel')
-      .then((x) => x.default)
-      .then((ReactPixel) => {
-        ReactPixel.init('1130957880846683')
-        ReactPixel.pageView()
-
-        router.events.on('routeChangeComplete', () => {
-          ReactPixel.pageView()
-        })
-      })
-  }, [router.events])
-
   return (
     <>
       <Global
