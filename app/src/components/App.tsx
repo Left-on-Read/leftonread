@@ -18,8 +18,7 @@ import { HashRouter, Route, Routes } from 'react-router-dom';
 
 import LogoWithTextFromGraphExport from '../../assets/LogoWithTextForGraphExport.svg';
 import { theme } from '../theme';
-import { Dashboard } from './Dashboard/AnalyticsPage';
-import { DashboardV2 } from './Dashboard/Dashboard';
+import { Dashboard } from './Dashboard/Dashboard';
 import { ErrorBoundary } from './ErrorBoundary';
 import { Home } from './Home/Home';
 import { Redirecter } from './Home/Redirecter';
@@ -120,9 +119,7 @@ export function App() {
             />
             <Route
               path="/dashboard"
-              element={
-                <DashboardV2 onRefresh={() => setIsInitializing(true)} />
-              }
+              element={<Dashboard onRefresh={() => setIsInitializing(true)} />}
             />
           </Routes>
           <Initializer
