@@ -13,9 +13,9 @@ import { ipcRenderer } from 'electron';
 import React, { useEffect, useState } from 'react';
 import { IconType } from 'react-icons';
 import { FiBell, FiMail, FiTrash2 } from 'react-icons/fi';
-import { logEvent } from 'utils/analytics';
 
 import { NotificationSettings } from '../../constants/types';
+import { logEvent } from '../../utils/analytics';
 import { STRIPE_LINK } from '../Premium/constants';
 import { useGoldContext } from '../Premium/GoldContext';
 import { EmailModal } from '../Support/EmailModal';

@@ -12,11 +12,10 @@ import {
   theme as defaultTheme,
 } from '@chakra-ui/react';
 import { EngagementResult } from 'analysis/queries/EngagementQueries';
-import { useGoldContext } from 'components/Premium/GoldContext';
 import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 
-import { useGlobalContext } from '../../Dashboard/GlobalContext';
+import { useGoldContext } from '../../Premium/GoldContext';
 
 type CardType = 'DOUBLE_TEXTS' | 'AVG_LENGTH' | 'LEFT_ON_READ' | 'AVG_DELAY';
 
