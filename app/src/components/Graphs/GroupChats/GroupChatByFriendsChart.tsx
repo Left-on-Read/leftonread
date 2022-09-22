@@ -164,18 +164,17 @@ function GroupChatByFriendsBody({
   const body = (
     <>
       {isError ? (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <div style={{ position: 'absolute' }}>
-            <Text color="red.400">Uh oh! Something went wrong... </Text>
-          </div>
-          <Bar data={{ labels: [], datasets: [] }} />
-        </div>
+        // <div
+        //   style={{
+        //     display: 'flex',
+        //     justifyContent: 'center',
+        //     alignItems: 'center',
+        //   }}
+        // >
+        //   <div style={{ position: 'absolute' }}>
+        //     <Text color="red.400">Uh oh! Something went wrong... </Text>
+        //   </div>
+        <Bar data={{ labels: [], datasets: [] }} />
       ) : (
         <>
           {isLoading && (
