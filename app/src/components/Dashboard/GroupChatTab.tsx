@@ -1,7 +1,6 @@
 import { Text } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
-import { cp } from 'fs';
 import { useEffect, useState } from 'react';
 import { FiCompass, FiFeather } from 'react-icons/fi';
 import Select from 'react-select';
@@ -57,15 +56,11 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
       try {
         const groupChatByFriendsDataList: GroupChatByFriends[] =
           await ipcRenderer.invoke('query-group-chat-by-friends', filters);
-        console.log(groupChatByFriendsDataList);
         setData(groupChatByFriendsDataList);
 
         const setGct = [
           ...new Set(
             groupChatByFriendsDataList.map((obj) => {
-              if (!obj.group_chat_name) {
-                console.log(obj);
-              }
               return obj.group_chat_name;
             })
           ),
