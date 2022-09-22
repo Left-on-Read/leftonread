@@ -1,9 +1,10 @@
-import { Spinner, Text, theme } from '@chakra-ui/react';
+import { Icon, Spinner, Text, theme, Tooltip } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useRef, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { IconType } from 'react-icons';
+import { FiInfo } from 'react-icons/fi';
 
 import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFilters';
 import { TextOverTimeResults } from '../../analysis/queries/TextsOverTimeQuery';
@@ -122,7 +123,7 @@ function TextsOverTimeBody({
   };
 
   const chartStyle: React.CSSProperties = isSharingVersion
-    ? { width: '400px', height: '500px' }
+    ? { width: '500px', height: '600px' }
     : {};
 
   const options = {
@@ -191,18 +192,17 @@ function TextsOverTimeBody({
   const body = (
     <>
       {error ? (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <div style={{ position: 'absolute' }}>
-            <Text color="red.400">Uh oh! Something went wrong... </Text>
-          </div>
-          <Line data={{ labels: [], datasets: [] }} options={options} />
-        </div>
+        // <div
+        //   style={{
+        //     display: 'flex',
+        //     justifyContent: 'center',
+        //     alignItems: 'center',
+        //   }}
+        // >
+        //   <div style={{ position: 'absolute' }}>
+        //     <Text color="red.400">Uh oh! Something went wrong... </Text>
+        //   </div>
+        <Line data={{ labels: [], datasets: [] }} options={options} />
       ) : (
         <>
           {isLoading && (
@@ -233,6 +233,7 @@ function TextsOverTimeBody({
   if (isSharingVersion) {
     return (
       <ShareModal
+        title="Messages Per Day"
         isOpen={isSharingVersion}
         onClose={() => setIsShareOpen(false)}
         graphRefToShare={graphRefToShare}
@@ -272,6 +273,16 @@ export function TextsOverTimeChart({
         description={description}
         icon={icon}
         setIsShareOpen={setIsShareOpen}
+        tooltip={
+          <Tooltip
+            label="To filter for a specific time period, use the Adjust Filters button at the top."
+            fontSize="md"
+          >
+            <span>
+              <Icon as={FiInfo} color="gray.500" />
+            </span>
+          </Tooltip>
+        }
       >
         <TextsOverTimeBody
           title={title}

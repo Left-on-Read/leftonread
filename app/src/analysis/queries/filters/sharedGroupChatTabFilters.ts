@@ -9,7 +9,7 @@ export interface SharedGroupChatTabQueryFilters {
 
 export function groupChatNameFilter(filter: SharedGroupChatTabQueryFilters) {
   if (filter.groupChatName) {
-    return `group_chat_name = "${filter.groupChatName}"`;
+    return `group_chat_name = '${filter.groupChatName}'`;
   }
   return undefined;
 }

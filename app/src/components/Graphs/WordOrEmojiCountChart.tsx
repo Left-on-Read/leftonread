@@ -96,7 +96,7 @@ function WordOrEmojiCountBody({
       anchor: 'end' as const,
       align: 'end' as const,
       formatter(value: any) {
-        return `(${value})`;
+        return `${value}`;
       },
     },
     'lor-chartjs-logo-watermark-plugin': isSharingVersion
@@ -105,7 +105,7 @@ function WordOrEmojiCountBody({
   };
 
   const chartStyle: React.CSSProperties = isSharingVersion
-    ? { width: '400px', height: '500px' }
+    ? { width: '500px', height: '600px' }
     : {};
 
   const options = {
@@ -183,18 +183,17 @@ function WordOrEmojiCountBody({
   const body = (
     <>
       {error ? (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <div style={{ position: 'absolute' }}>
-            <Text color="red.400">Uh oh! Something went wrong... </Text>
-          </div>
-          <Bar data={{ labels: [], datasets: [] }} />
-        </div>
+        // <div
+        //   style={{
+        //     display: 'flex',
+        //     justifyContent: 'center',
+        //     alignItems: 'center',
+        //   }}
+        // >
+        //   <div style={{ position: 'absolute' }}>
+        //     <Text color="red.400">Uh oh! Something went wrong... </Text>
+        //   </div>
+        <Bar data={{ labels: [], datasets: [] }} />
       ) : (
         <>
           {isLoading && (
@@ -228,6 +227,7 @@ function WordOrEmojiCountBody({
         isOpen={isSharingVersion}
         onClose={() => setIsShareOpen(false)}
         graphRefToShare={graphRefToShare}
+        title={title.join(', ')}
       >
         {body}
       </ShareModal>

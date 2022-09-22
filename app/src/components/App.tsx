@@ -33,7 +33,7 @@ export function App() {
 
   useEffect(() => {
     Chart.register({
-      id: 'lor-chartjs-no-data-to-display message',
+      id: 'lor-chartjs-no-data-to-display-message',
       afterDraw(chart) {
         const { datasets } = chart.data;
         const hasData = datasets.find(
@@ -93,12 +93,14 @@ export function App() {
           const { yAxis } = scales;
           ctx.font = '13px montserrat';
           ctx.fillStyle = 'gray';
+
+          const bottom = yAxis && yAxis.bottom ? yAxis.bottom : 0;
           ctx.fillText(
             'leftonread.me/download',
             chartArea.right - 155,
-            yAxis.bottom + options.yPaddingText
+            bottom + options.yPaddingText
           );
-          ctx.drawImage(image, 45, yAxis.bottom + options.yPaddingLogo);
+          ctx.drawImage(image, 45, bottom + options.yPaddingLogo);
           ctx.save(); // not sure if this .save() is even needed
         } else {
           image.onload = () => chart.draw();

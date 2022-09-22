@@ -19,9 +19,9 @@ export class GroupChatCoreTable extends Table {
         group by
             c."ROWID"
         having
-            count(distinct coalesced_contact_name) > 1)
+            count(distinct coalesced_contact_name) > 1),
     
-        SELECT 
+        GC_CORE_TABLE AS (SELECT 
         text,
         display_name,
         human_readable_date,
@@ -32,7 +32,9 @@ export class GroupChatCoreTable extends Table {
         REPLACE(REPLACE(associated_message_guid, "p:0/", ""), "p:1/", "")as associated_guid
         FROM core_main_table cm
         JOIN GROUP_CHAT_NAMES gcm
-        on cm.chat_id  = gcm.chat_id
+        on cm.chat_id  = gcm.chat_id)
+
+        SELECT * FROM GC_CORE_TABLE WHERE group_chat_name IS NOT NULL AND contact_name IS NOT NULL
     `;
 
     await sqlite3Wrapper.runP(this.db, q);

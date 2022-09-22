@@ -61,9 +61,10 @@ function SentimentOverTimeBody({
   const sentData = sent.map((d) => {
     return {
       y:
-        d.positiveScore === 0 && d.negativeScore === 0
+        (d.positiveScore === 0 && d.negativeScore === 0
           ? 0.5
-          : d.positiveScore / (d.positiveScore + Math.abs(d.negativeScore)),
+          : d.positiveScore / (d.positiveScore + Math.abs(d.negativeScore))) *
+        100,
       x: new Date(d.day).toLocaleDateString(),
       is_from_me: d.is_from_me,
     };
@@ -71,9 +72,10 @@ function SentimentOverTimeBody({
   const receivedData = received.map((d) => {
     return {
       y:
-        d.positiveScore === 0 && d.negativeScore === 0
+        (d.positiveScore === 0 && d.negativeScore === 0
           ? 0.5
-          : d.positiveScore / (d.positiveScore + Math.abs(d.negativeScore)),
+          : d.positiveScore / (d.positiveScore + Math.abs(d.negativeScore))) *
+        100,
       x: new Date(d.day).toLocaleDateString(),
       is_from_me: d.is_from_me,
     };
@@ -127,6 +129,7 @@ function SentimentOverTimeBody({
           yPaddingLogo: 110,
         }
       : false,
+    'lor-chartjs-no-data-to-display-message': !error,
   };
 
   const chartStyle: React.CSSProperties = isSharingVersion
@@ -199,18 +202,17 @@ function SentimentOverTimeBody({
   const body = (
     <>
       {error ? (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <div style={{ position: 'absolute' }}>
-            <Text color="red.400">Uh oh! Something went wrong... </Text>
-          </div>
-          <Line data={{ labels: [], datasets: [] }} options={options} />
-        </div>
+        // <div
+        //   style={{
+        //     display: 'flex',
+        //     justifyContent: 'center',
+        //     alignItems: 'center',
+        //   }}
+        // >
+        //   <div style={{ position: 'absolute' }}>
+        //     <Text color="red.400">Uh oh! Something went wrong... </Text>
+        //   </div>
+        <Line data={{ labels: [], datasets: [] }} options={options} />
       ) : (
         <>
           {isLoading && (
@@ -243,6 +245,7 @@ function SentimentOverTimeBody({
         isOpen={isSharingVersion}
         onClose={() => setIsShareOpen(false)}
         graphRefToShare={graphRefToShare}
+        title="Sentiment Over Time"
       >
         {body}
       </ShareModal>

@@ -16,11 +16,13 @@ function GroupChatActivityOverTimeBody({
   filters,
   isSharingVersion,
   setIsShareOpen,
+  colorByContactName,
 }: {
   title: string[];
   filters: SharedGroupChatTabQueryFilters;
   isSharingVersion: boolean;
   setIsShareOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  colorByContactName: Record<string, string>;
 }) {
   const [data, setData] = useState<GroupActivityOverTimeResult[]>([]);
 
@@ -80,10 +82,17 @@ function GroupChatActivityOverTimeBody({
     ],
   };
 
+  // You want to go off of the group chat name, and not the number of contacts
+  // because you want to use the group chat name if it exists
+  let titleLabel = title;
+  if (title && title.length > 1 && title[1].length > 25) {
+    titleLabel = [title[0], ...title[1].split(', ')];
+  }
+
   const plugins = {
     title: {
       display: isSharingVersion,
-      text: title,
+      text: titleLabel,
       font: {
         size: 20,
         family: 'Montserrat',
@@ -95,14 +104,14 @@ function GroupChatActivityOverTimeBody({
     },
     'lor-chartjs-logo-watermark-plugin': isSharingVersion
       ? {
-          yPaddingText: 90,
-          yPaddingLogo: 75,
+          yPaddingText: 100,
+          yPaddingLogo: 85,
         }
       : false,
   };
 
   const chartStyle: React.CSSProperties = isSharingVersion
-    ? { width: '400px', height: '500px' }
+    ? { width: '500px', height: '600px' }
     : {};
 
   const options = {
@@ -172,18 +181,17 @@ function GroupChatActivityOverTimeBody({
   const body = (
     <>
       {error ? (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <div style={{ position: 'absolute' }}>
-            <Text color="red.400">Uh oh! Something went wrong... </Text>
-          </div>
-          <Line data={{ labels: [], datasets: [] }} options={options} />
-        </div>
+        // <div
+        //   style={{
+        //     display: 'flex',
+        //     justifyContent: 'center',
+        //     alignItems: 'center',
+        //   }}
+        // >
+        //   <div style={{ position: 'absolute' }}>
+        //     <Text color="red.400">Uh oh! Something went wrong... </Text>
+        //   </div>
+        <Line data={{ labels: [], datasets: [] }} options={options} />
       ) : (
         <>
           {isLoading && (
@@ -213,9 +221,11 @@ function GroupChatActivityOverTimeBody({
   if (isSharingVersion) {
     return (
       <ShareModal
+        title="Group Chat Activity Over Time"
         isOpen={isSharingVersion}
         onClose={() => setIsShareOpen(false)}
         graphRefToShare={graphRefToShare}
+        contacts={Object.keys(colorByContactName)}
       >
         {body}
       </ShareModal>
@@ -229,11 +239,13 @@ export function GroupChatActivityOverTimeChart({
   description,
   icon,
   filters,
+  colorByContactName,
 }: {
   title: string[];
   description: string;
   icon: IconType;
   filters: SharedGroupChatTabQueryFilters;
+  colorByContactName: Record<string, string>;
 }) {
   const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
 
@@ -245,6 +257,7 @@ export function GroupChatActivityOverTimeChart({
           filters={filters}
           isSharingVersion
           setIsShareOpen={setIsShareOpen}
+          colorByContactName={colorByContactName}
         />
       )}
       <GraphContainer
@@ -252,12 +265,14 @@ export function GroupChatActivityOverTimeChart({
         description={description}
         icon={icon}
         setIsShareOpen={setIsShareOpen}
+        showGroupChatShareButton
       >
         <GroupChatActivityOverTimeBody
           title={title}
           filters={filters}
           isSharingVersion={false}
           setIsShareOpen={setIsShareOpen}
+          colorByContactName={colorByContactName}
         />
       </GraphContainer>
     </>

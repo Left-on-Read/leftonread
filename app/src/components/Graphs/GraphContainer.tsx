@@ -23,6 +23,7 @@ export function GraphContainer({
   onClickMessageScheduler,
   onClickMessageSchedulerRefresh,
   setIsShareOpen,
+  showGroupChatShareButton,
 }: {
   title: string[];
   description?: string;
@@ -33,6 +34,7 @@ export function GraphContainer({
   onClickMessageScheduler?: () => void;
   onClickMessageSchedulerRefresh?: () => void;
   setIsShareOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  showGroupChatShareButton?: boolean;
 }) {
   const { isPremium } = useGoldContext();
 
@@ -68,7 +70,6 @@ export function GraphContainer({
               alignItems: 'center',
               width: '100%',
               justifyContent: 'space-between',
-              paddingRight: 36,
             }}
           >
             <div>
@@ -83,15 +84,26 @@ export function GraphContainer({
                   {title}
                 </Text>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
+
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginRight: showGroupChatShareButton ? '25px' : undefined,
+                }}
+              >
                 <Text fontSize="sm" color="gray">
                   {description}
                 </Text>
                 <span style={{ marginLeft: '10px' }}>{tooltip}</span>
               </div>
             </div>
+
             {!isLocked && setIsShareOpen && (
               <Button
+                style={{
+                  padding: showGroupChatShareButton ? '0px 30px' : undefined,
+                }}
                 onClick={() => {
                   setIsShareOpen(true);
                   logEvent({
@@ -103,7 +115,7 @@ export function GraphContainer({
                 }}
                 leftIcon={<Icon as={FiShare} />}
               >
-                Share
+                {showGroupChatShareButton ? 'Share with group' : 'Share'}
               </Button>
             )}
             {onClickMessageScheduler && onClickMessageSchedulerRefresh && (

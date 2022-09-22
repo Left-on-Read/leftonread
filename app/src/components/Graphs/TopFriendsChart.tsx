@@ -109,14 +109,14 @@ function TopFriendsBody({
     },
     'lor-chartjs-logo-watermark-plugin': isSharingVersion
       ? {
-          yPaddingText: filters.contact ? 55 : 122,
-          yPaddingLogo: filters.contact ? 45 : 110,
+          yPaddingText: filters.contact?.length === 1 ? 55 : 112,
+          yPaddingLogo: filters.contact?.length === 1 ? 45 : 100,
         }
       : false,
   };
 
   const chartStyle: React.CSSProperties = isSharingVersion
-    ? { width: '400px', height: '500px' }
+    ? { width: '500px', height: '600px' }
     : {};
 
   const options = {
@@ -199,19 +199,19 @@ function TopFriendsBody({
   const body = (
     <>
       {error ? (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <div style={{ position: 'absolute' }}>
-            <Text color="red.400">Uh oh! Something went wrong... </Text>
-          </div>
-          <Bar data={{ labels: [], datasets: [] }} />
-        </div>
+        // <div
+        //   style={{
+        //     display: 'flex',
+        //     justifyContent: 'center',
+        //     alignItems: 'center',
+        //   }}
+        // >
+        //   <div style={{ position: 'absolute' }}>
+        //     <Text color="red.400">Uh oh! Something went wrong... </Text>
+        //   </div>
+        <Bar data={{ labels: [], datasets: [] }} />
       ) : (
+        // </div>
         <>
           {showLoading && (
             <div
@@ -244,6 +244,7 @@ function TopFriendsBody({
         isOpen={isSharingVersion}
         onClose={() => setIsShareOpen(false)}
         graphRefToShare={graphRefToShare}
+        title="Top Messaged Friends"
       >
         {body}
       </ShareModal>
@@ -286,7 +287,7 @@ export function TopFriendsChart({
         tooltip={
           filters.groupChat === GroupChatFilters.BOTH ? (
             <Tooltip
-              label="When including group chats, Left on Read attributes your sent messages to the group itself, and does not spread the count across the individuals of the group."
+              label="When including group chats, Left on Read attributes your sent messages to the group itself. It does not spread the sent count across the individuals of the group."
               fontSize="md"
             >
               <span>

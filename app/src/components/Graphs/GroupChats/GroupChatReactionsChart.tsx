@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Spinner, Text } from '@chakra-ui/react';
+import { Spinner } from '@chakra-ui/react';
 import { Context } from 'chartjs-plugin-datalabels';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
@@ -134,10 +134,17 @@ function GroupChatReactionsBody({
     datasets: Object.values(datasetByContactName),
   };
 
+  // You want to go off of the group chat name, and not the number of contacts
+  // because you want to use the group chat name if it exists
+  let titleLabel = title;
+  if (title && title.length > 1 && title[1].length > 25) {
+    titleLabel = [title[0], ...title[1].split(', ')];
+  }
+
   const plugins = {
     title: {
       display: isSharingVersion,
-      text: title,
+      text: titleLabel,
       font: {
         size: 20,
         family: 'Montserrat',
@@ -154,12 +161,12 @@ function GroupChatReactionsBody({
           clamp: true,
           anchor: 'start' as const,
           align: 'start' as const,
-          rotation: 320,
+          rotation: Object.keys(colorByContactName).length < 5 ? 320 : 270,
           formatter(value: any, context: Context) {
             if (!value) {
               return '';
             }
-            const MAX_LABEL_LENGTH = 10;
+            const MAX_LABEL_LENGTH = 8;
             if (
               context.dataset.label &&
               context.dataset.label.length > MAX_LABEL_LENGTH
@@ -182,7 +189,7 @@ function GroupChatReactionsBody({
   };
 
   const chartStyle: React.CSSProperties = isSharingVersion
-    ? { width: '400px', height: '500px' }
+    ? { width: '500px', height: '600px' }
     : {};
 
   const options = {
@@ -252,19 +259,18 @@ function GroupChatReactionsBody({
   const body = (
     <>
       {error ? (
-        <div
-          style={{
-            position: 'relative',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <div style={{ position: 'absolute' }}>
-            <Text color="red.400">Uh oh! Something went wrong... </Text>
-          </div>
-          <Bar data={{ labels: [], datasets: [] }} />
-        </div>
+        // <div
+        //   style={{
+        //     position: 'relative',
+        //     display: 'flex',
+        //     justifyContent: 'center',
+        //     alignItems: 'center',
+        //   }}
+        // >
+        //   <div style={{ position: 'absolute' }}>
+        //     <Text color="red.400">Uh oh! Something went wrong... </Text>
+        //   </div>
+        <Bar data={{ labels: [], datasets: [] }} />
       ) : (
         <>
           {showLoading && (
@@ -297,9 +303,11 @@ function GroupChatReactionsBody({
   if (isSharingVersion) {
     return (
       <ShareModal
+        title={`Group Chat Reactions ${mode}`}
         isOpen={isSharingVersion}
         onClose={() => setIsShareOpen(false)}
         graphRefToShare={graphRefToShare}
+        contacts={Object.keys(colorByContactName)}
       >
         {body}
       </ShareModal>
@@ -338,7 +346,22 @@ export function GroupChatReactionsChart({
           colorByContactName={colorByContactName}
         />
       )}
-      <GraphContainer title={title} icon={icon} setIsShareOpen={setIsShareOpen}>
+      <GraphContainer
+        title={title}
+        icon={icon}
+        setIsShareOpen={setIsShareOpen}
+        showGroupChatShareButton
+        // tooltip={
+        //   <Tooltip
+        //     label="Reactions where added in iOS 10 in September 2016. If nothing is showing, your group chat may be too old!"
+        //     fontSize="md"
+        //   >
+        //     <span>
+        //       <Icon as={FiInfo} color="gray.500" />
+        //     </span>
+        //   </Tooltip>
+        // }
+      >
         <GroupChatReactionsBody
           title={title}
           filters={filters}
