@@ -134,10 +134,17 @@ function GroupChatReactionsBody({
     datasets: Object.values(datasetByContactName),
   };
 
+  // You want to go off of the group chat name, and not the number of contacts
+  // because you want to use the group chat name if it exists
+  let titleLabel = title;
+  if (title && title.length > 1 && title[1].length > 25) {
+    titleLabel = [title[0], ...title[1].split(', ')];
+  }
+
   const plugins = {
     title: {
       display: isSharingVersion,
-      text: title,
+      text: titleLabel,
       font: {
         size: 20,
         family: 'Montserrat',
@@ -301,6 +308,7 @@ function GroupChatReactionsBody({
         isOpen={isSharingVersion}
         onClose={() => setIsShareOpen(false)}
         graphRefToShare={graphRefToShare}
+        contacts={Object.keys(colorByContactName)}
       >
         {body}
       </ShareModal>

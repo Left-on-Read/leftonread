@@ -30,7 +30,7 @@ export async function openIMessageAndPasteImage(contacts?: string[]) {
         delay 0.25 -- this is super critical, it seems without the delay it wont work
         keystroke "v" using command down
         delay 0.25 -- this is super critical, it seems without the delay it wont work
-        keystroke "Check out https://leftonread.me/"  -- input the message
+        keystroke "Check out https://leftonread.me/?ref=share"  -- input the message
     end tell'
     `
   );
