@@ -98,6 +98,7 @@ function App({ Component, pageProps }: AppProps) {
           sizes="16x16"
           href="/favicon-16.png"
         />
+
         <link rel="apple-touch-icon" href="/favicon-57.png" />
         <link rel="apple-touch-icon" sizes="114x114" href="/favicon-114.png" />
         <link rel="apple-touch-icon" sizes="72x72" href="/favicon-72.png" />
@@ -110,7 +111,29 @@ function App({ Component, pageProps }: AppProps) {
         <meta name="msapplication-TileColor" content="#FFFFFF" />
         <meta name="msapplication-TileImage" content="/favicon-144.png" />
         <meta name="msapplication-config" content="/browserconfig.xml" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1130957880846683');
+  fbq('track', 'PageView');
+`,
+          }}
+        />
       </Head>
+      <img
+        height="1"
+        width="1"
+        style={{ display: 'none' }}
+        src="https://www.facebook.com/tr?id=1130957880846683&ev=PageView&noscript=1"
+      />{' '}
       <ChakraProvider theme={chakraTheme}>
         <Component {...pageProps} />
       </ChakraProvider>
