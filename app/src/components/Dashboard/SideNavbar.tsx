@@ -160,7 +160,7 @@ export function SideNavbar({
               onOpenEmailModal();
             }}
           >
-            Feedback
+            Contact Support
           </Button>
           {!isPremium && process.env.NODE_ENV === 'development' && (
             <Button

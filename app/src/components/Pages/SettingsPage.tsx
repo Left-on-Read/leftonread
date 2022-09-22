@@ -12,7 +12,7 @@ import {
 import { ipcRenderer } from 'electron';
 import React, { useEffect, useState } from 'react';
 import { IconType } from 'react-icons';
-import { FiBell, FiMail, FiTrash2 } from 'react-icons/fi';
+import { FiAward, FiBell, FiMail, FiTrash2 } from 'react-icons/fi';
 
 import { NotificationSettings } from '../../constants/types';
 import { logEvent } from '../../utils/analytics';
@@ -62,7 +62,7 @@ function Notifications() {
 function Application() {
   return (
     <Box>
-      <Button colorScheme="red">Reset Application</Button>
+      <Button colorScheme="red" onClick={}>Reset Application</Button>
     </Box>
   );
 }
@@ -105,7 +105,7 @@ function ContactUs() {
           variant="link"
           colorScheme="purple"
           onClick={() => {
-            handleOpenEmailModal('other');
+            window.open('mailto:help.leftonread@gmail.com');
           }}
         >
           Email Us
@@ -149,7 +149,7 @@ function ManageSubscription() {
             window.open(STRIPE_LINK);
           }}
         >
-          Get Left on Read Gold
+          Unlock Gold
         </Button>
       )}
     </Box>
@@ -217,6 +217,8 @@ function SettingsCard({
 }
 
 export function SettingsPage() {
+  const { isPremium } = useGoldContext();
+
   return (
     <Box style={{ padding: '36px' }}>
       <Text fontSize="5xl" fontWeight="bold" style={{ marginBottom: 40 }}>
@@ -241,14 +243,18 @@ export function SettingsPage() {
         <SettingsCard
           title="Contact Us"
           icon={FiMail}
-          description="Questions or Feedback?"
+          description="Questions or feedback?"
         >
           <ContactUs />
         </SettingsCard>
         <SettingsCard
-          title="Manage Subscription"
-          icon={FiMail}
-          description="Re-new, edit, or cancel Left on Read Gold"
+          title={isPremium ? 'Manage Subscription' : 'Get Left on Read Gold'}
+          icon={FiAward}
+          description={
+            isPremium
+              ? 'Edit your Left on Read Gold subscription'
+              : 'Unlock filtering, new graphs, and more!'
+          }
         >
           <ManageSubscription />
         </SettingsCard>
