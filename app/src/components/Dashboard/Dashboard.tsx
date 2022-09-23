@@ -1,9 +1,11 @@
+import { Box } from '@chakra-ui/react';
 import Store from 'electron-store';
 import { useState } from 'react';
 
 import { SettingsPage } from '../Pages/SettingsPage';
 import { GoldContext } from '../Premium/GoldContext';
 import { AnalyticsPage } from './AnalyticsPage';
+import { EngagementCharts } from './ChartTabs';
 import { SIDEBAR_WIDTH, SideNavbar, TPages } from './SideNavbar';
 
 const store = new Store();
@@ -38,6 +40,12 @@ export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
         <div style={{ flex: '1 1 0', minWidth: 0 }}>
           {activePage === 'Analytics' && (
             <AnalyticsPage onRefresh={onRefresh} />
+          )}
+          {activePage === 'Productivity' && (
+            // TODO(Danilowicz): Should make a shared container
+            <Box style={{ padding: '70px 36px 36px 36px' }}>
+              <EngagementCharts />
+            </Box>
           )}
           {activePage === 'Settings' && <SettingsPage />}
         </div>

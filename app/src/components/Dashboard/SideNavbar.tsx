@@ -10,6 +10,7 @@ import {
 import { ipcRenderer } from 'electron';
 import { IconType } from 'react-icons';
 import { BsLightningCharge } from 'react-icons/bs';
+import { FiClipboard } from 'react-icons/fi';
 
 import LogoWithText from '../../../assets/LogoWithText.svg';
 import { APP_VERSION } from '../../constants/versions';
@@ -17,10 +18,7 @@ import { useGoldContext } from '../Premium/GoldContext';
 import { PremiumModal } from '../Premium/PremiumModal';
 import { EmailModal } from '../Support/EmailModal';
 
-const Pages = ['Analytics', 'Settings'] as const;
-
-// TODO(ALEX): PRODUCTIVITY
-// const Pages = ['Productivity', 'Analytics', 'Settings'] as const;
+const Pages = ['Analytics', 'Productivity', 'Settings'] as const;
 
 export const SIDEBAR_WIDTH = 200;
 
@@ -99,13 +97,10 @@ export function SideNavbar({
         <div style={{ marginTop: '25%' }}>
           <Stack direction="column" alignItems="flex-start">
             {Pages.filter((page) => page !== 'Settings').map((page) => {
-              const icon = BsLightningCharge;
-
-              // if (page === 'Analytics') {
-              //   icon = FiBarChart;
-              // } else if (page === 'Reports') {
-              //   icon = FiClipboard;
-              // }
+              let icon = BsLightningCharge;
+              if (page === 'Productivity') {
+                icon = FiClipboard;
+              }
 
               return (
                 <SidebarMainLink
