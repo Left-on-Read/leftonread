@@ -37,6 +37,7 @@ import { WordOrEmojiCountChart } from '../Graphs/WordOrEmojiCountChart';
 import { MessageScheduler } from '../Productivity/MessageScheduler';
 import { useGlobalContext } from './GlobalContext';
 import { GroupChatTab } from './GroupChatTab';
+import { SIDEBAR_WIDTH } from './SideNavbar';
 
 export const titleFormatter = ({
   titleName,
@@ -106,11 +107,11 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
           if (index === 1) {
             activeTab = 'Words & Emojis';
           } else if (index === 2) {
-            activeTab = 'Sentiment';
-          } else if (index === 3) {
-            activeTab = 'Engagement';
-          } else if (index === 4) {
             activeTab = 'Group Chats';
+          } else if (index === 3) {
+            activeTab = 'Sentiment';
+          } else if (index === 4) {
+            activeTab = 'Engagement';
           }
 
           logEvent({
@@ -124,13 +125,15 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
       >
         <TabList
           style={{
-            position: 'fixed',
             backgroundColor: 'white',
-            paddingBottom: 24,
             width: '100%',
             background:
               'linear-gradient(0deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 25%, rgba(255,255,255,1) 100%)',
             zIndex: 6,
+            position: 'fixed',
+            padding: `12px ${SIDEBAR_WIDTH + 36}px 12px 36px`,
+            display: 'flex',
+            justifyContent: 'space-around',
           }}
         >
           {/* IF YOU CHANGE THE TABS - PLEASE CHANGE LOGGING ABOVE */}
@@ -141,16 +144,13 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
             <span style={{ marginRight: 10 }}>😃</span>Words & Emojis
           </Tab>
           <Tab style={{ marginRight: 32 }}>
+            <span style={{ marginRight: 10 }}>👨‍👩‍👦</span>Groups
+          </Tab>
+          <Tab style={{ marginRight: 32 }}>
             <span style={{ marginRight: 10 }}>❤️</span>Sentiment
           </Tab>
-          <Tab style={{ marginRight: 32 }}>
-            <span style={{ marginRight: 10 }}>⚡ </span>Engagement
-          </Tab>
-          <Tab style={{ marginRight: 32 }}>
-            <span style={{ marginRight: 10 }}>👨‍👩‍👦</span>Group Chats
-          </Tab>
         </TabList>
-        <TabPanels style={{ paddingTop: 60 }}>
+        <TabPanels style={{ padding: '70px 36px 36px 36px' }}>
           <TabPanel>
             <Stack direction="column" spacing={40}>
               <SentVsReceivedChart
@@ -256,6 +256,9 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
             </Stack>
           </TabPanel>
           <TabPanel>
+            <GroupChatTab filters={filters} />
+          </TabPanel>
+          <TabPanel>
             <Stack direction="column" spacing={40}>
               <TotalSentimentChart
                 title={titleFormatter({
@@ -292,29 +295,32 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
               />
             </Stack>
           </TabPanel>
-          <TabPanel>
-            <Stack direction="column" spacing={40}>
-              <RespondReminders />
-              <MessageScheduler />
-              <EngagementScoreChart
-                title={titleFormatter({
-                  titleName: 'Engagement Score ™',
-                  filters,
-                })}
-                description={descriptionFormatter({
-                  description: `Measures how "good" of a texter you are`,
-                  filters,
-                })}
-                icon={FiRadio}
-                filters={filters}
-              />
-            </Stack>
-          </TabPanel>
-          <TabPanel>
-            <GroupChatTab filters={filters} />
-          </TabPanel>
         </TabPanels>
       </Tabs>
     </div>
+  );
+}
+
+export function EngagementCharts() {
+  // TODO(Danilowicz): This needs to be refactored and be props
+  // { filters }: { filters: SharedQueryFilters }
+  const filters = {};
+  return (
+    <Stack direction="column" spacing={40}>
+      <RespondReminders />
+      <MessageScheduler />
+      <EngagementScoreChart
+        title={titleFormatter({
+          titleName: 'Engagement Score ™',
+          filters,
+        })}
+        description={descriptionFormatter({
+          description: `Measures how "good" of a texter you are`,
+          filters,
+        })}
+        icon={FiRadio}
+        filters={filters}
+      />
+    </Stack>
   );
 }

@@ -15,7 +15,7 @@ import { EngagementResult } from 'analysis/queries/EngagementQueries';
 import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 
-import { useGlobalContext } from '../../Dashboard/GlobalContext';
+import { useGoldContext } from '../../Premium/GoldContext';
 
 type CardType = 'DOUBLE_TEXTS' | 'AVG_LENGTH' | 'LEFT_ON_READ' | 'AVG_DELAY';
 
@@ -188,7 +188,7 @@ export function ESCards({
   avgDelayResults: EngagementResult[];
   error: string | null;
 }) {
-  const { isPremium } = useGlobalContext();
+  const { isPremium } = useGoldContext();
 
   const [cards, setCards] = useState<CardType[]>(CARD_TYPES);
 
