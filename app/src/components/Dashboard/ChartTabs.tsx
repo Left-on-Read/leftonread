@@ -149,9 +149,6 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
           <Tab style={{ marginRight: 32 }}>
             <span style={{ marginRight: 10 }}>❤️</span>Sentiment
           </Tab>
-          <Tab style={{ marginRight: 32 }}>
-            <span style={{ marginRight: 10 }}>⚡ </span>Engagement
-          </Tab>
         </TabList>
         <TabPanels style={{ padding: '70px 36px 36px 36px' }}>
           <TabPanel>
@@ -298,26 +295,32 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
               />
             </Stack>
           </TabPanel>
-          <TabPanel>
-            <Stack direction="column" spacing={40}>
-              <RespondReminders />
-              <MessageScheduler />
-              <EngagementScoreChart
-                title={titleFormatter({
-                  titleName: 'Engagement Score ™',
-                  filters,
-                })}
-                description={descriptionFormatter({
-                  description: `Measures how "good" of a texter you are`,
-                  filters,
-                })}
-                icon={FiRadio}
-                filters={filters}
-              />
-            </Stack>
-          </TabPanel>
         </TabPanels>
       </Tabs>
     </div>
+  );
+}
+
+export function EngagementCharts() {
+  // TODO(Danilowicz): This needs to be refactored and be props
+  // { filters }: { filters: SharedQueryFilters }
+  const filters = {};
+  return (
+    <Stack direction="column" spacing={40}>
+      <RespondReminders />
+      <MessageScheduler />
+      <EngagementScoreChart
+        title={titleFormatter({
+          titleName: 'Engagement Score ™',
+          filters,
+        })}
+        description={descriptionFormatter({
+          description: `Measures how "good" of a texter you are`,
+          filters,
+        })}
+        icon={FiRadio}
+        filters={filters}
+      />
+    </Stack>
   );
 }
