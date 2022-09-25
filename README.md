@@ -2,6 +2,9 @@
 	<img src="https://raw.githubusercontent.com/Left-on-Read/leftonread/main/app/assets/LogoWithText.svg" />
 </h2>
 
+
+[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Wow,%20super%20cool%20open-source%20project%20-%20checkout%20out%20Left%20on%20Read&url=https://leftonread.me&hashtags=texting,analytics,buildinpublic)
+
 iMessages supercharged! Built with Electron, React, SQLite, Typescript, and ❤️.
 
 ## Download Left on Read for Mac
