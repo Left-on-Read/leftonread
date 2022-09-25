@@ -1,7 +1,5 @@
 import { Box, Button, Icon, IconButton, Text, theme } from '@chakra-ui/react';
-import { useKeyPress } from 'hooks/useKeyPress';
 import { useEffect, useRef, useState } from 'react';
-import Confetti from 'react-confetti';
 import {
   FiArrowRightCircle,
   FiCheck,
@@ -11,6 +9,8 @@ import {
   FiRefreshCw,
 } from 'react-icons/fi';
 import Select from 'react-select';
+
+import { useKeyPress } from '../../hooks/useKeyPress';
 
 enum InboxConversationStatuses {
   'AWAITING_ACTION' = 'AWAITING_ACTION',
