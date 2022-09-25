@@ -128,6 +128,10 @@ export function MessageInbox() {
   const [replyNowActive, setReplyNowActive] = useState<boolean>(false);
   const [doneActive, setDoneActive] = useState<boolean>(false);
 
+  const numConversationsAwaitingAction = conversations.filter(
+    (c) => c.status === InboxConversationStatuses.AWAITING_ACTION
+  ).length;
+
   const bottomOfConversationThreadRef = useRef(null);
   useEffect(() => {
     if (
@@ -136,7 +140,8 @@ export function MessageInbox() {
     ) {
       // @ts-ignore
       bottomOfConversationThreadRef.current.scrollIntoView({
-        block: 'end',
+        block: 'nearest',
+        inline: 'start',
       });
     }
   });
@@ -153,9 +158,10 @@ export function MessageInbox() {
       //   setIsInboxZero(true);
       // }
       // proposedIndex = remainingAwaiting;
+    } else {
+      setCurrentConversationIndex(proposedIndex);
+      setSelectedConversationStatus(conversations[proposedIndex].status);
     }
-    setCurrentConversationIndex(proposedIndex);
-    setSelectedConversationStatus(conversations[proposedIndex].status);
   };
 
   const moveUpConversationStack = () => {
@@ -230,7 +236,6 @@ export function MessageInbox() {
       <>
         <Text mr="1">Status: Awaiting Action </Text>
         <FiAlertCircle />
-        {/* <Text fontFamily="Segoe UI Symbol">‼️</Text> */}
       </>
     );
   }
@@ -240,7 +245,6 @@ export function MessageInbox() {
       <>
         <Text mr="1">Status: Remind Me</Text>
         <FiClock />
-        {/* <Text fontFamily="Segoe UI Symbol">⏰</Text> */}
       </>
     );
   }
@@ -274,7 +278,7 @@ export function MessageInbox() {
           marginBottom: '20px',
         }}
       >
-        <Text fontSize="4xl">Your Inbox 📥</Text>
+        <Text fontSize="4xl">{`Your Inbox (${numConversationsAwaitingAction}) 📥`}</Text>
         <Button leftIcon={<Icon as={FiRefreshCw} />} onClick={() => {}}>
           Refresh Data
         </Button>
@@ -309,18 +313,7 @@ export function MessageInbox() {
             >
               {statusMessage}
             </Box>
-            {/* <Box
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                // justifyContent: 'space-between',
-                // paddingLeft: 60,
-                // paddingRight: 60,
-                // paddingTop: 60,
-                // paddingBottom: 30,
-                // minHeight: '45vh',
-              }}
-            > */}
+
             <Box
               style={{
                 display: 'flex',
@@ -383,7 +376,7 @@ export function MessageInbox() {
                       marginBottom="5px"
                       marginTop="5px"
                       marginLeft={marginLeft}
-                      key={c.friend}
+                      key={c.message}
                       style={{
                         border: `1px solid ${theme.colors.gray['200']}`,
                         padding: 25,
@@ -453,16 +446,8 @@ export function MessageInbox() {
               fontSize={14}
               textAlign="center"
               color="gray.500"
-            >{`${
-              conversations.filter(
-                (c) => c.status === InboxConversationStatuses.AWAITING_ACTION
-              ).length
-            } conversation${
-              conversations.filter(
-                (c) => c.status === InboxConversationStatuses.AWAITING_ACTION
-              ).length < 2
-                ? ''
-                : 's'
+            >{`${numConversationsAwaitingAction} conversation${
+              numConversationsAwaitingAction < 2 ? '' : 's'
             } awaiting action`}</Text>
           </>
         ) : (
