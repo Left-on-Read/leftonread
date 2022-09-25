@@ -44,13 +44,13 @@ export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
           )}
           {activePage === 'Productivity' && (
             // TODO(Danilowicz): Should make a shared container
-            <Box style={{ padding: '70px 36px 36px 36px' }}>
+            <Box style={{ padding: '70px 50px 50px 50px' }}>
               <EngagementCharts />
             </Box>
           )}
           {activePage === 'Inbox' && (
             // TODO(Danilowicz): Should make a shared container
-            <Box style={{ padding: '70px 36px 36px 36px' }}>
+            <Box style={{ padding: '70px 50px 50px 50px' }}>
               <MessageInbox />
             </Box>
           )}

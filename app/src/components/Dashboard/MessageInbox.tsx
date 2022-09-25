@@ -1,8 +1,8 @@
 import { Box, Button, Icon, IconButton, Text, theme } from '@chakra-ui/react';
 import { useKeyPress } from 'hooks/useKeyPress';
 import { useEffect, useRef, useState } from 'react';
+import Confetti from 'react-confetti';
 import {
-  FiAlertCircle,
   FiArrowRightCircle,
   FiCheck,
   FiChevronDown,
@@ -121,6 +121,8 @@ export function MessageInbox() {
       conversations[currentConversationIndex].status
     );
 
+  const [showConfetti, setShowConfetti] = useState<boolean>(false);
+
   const [isInboxZero, setIsInboxZero] = useState<boolean>(false);
   const [upActive, setUpActive] = useState<boolean>(false);
   const [downActive, setDownActive] = useState<boolean>(false);
@@ -220,6 +222,8 @@ export function MessageInbox() {
     }, 200);
 
     moveDownConversationStack();
+
+    setShowConfetti(true);
   };
 
   useKeyPress(['f'], onClickDone);
@@ -234,8 +238,10 @@ export function MessageInbox() {
   ) {
     statusMessage = (
       <>
-        <Text mr="1">Status: Awaiting Action </Text>
-        <FiAlertCircle />
+        <Text>Status:</Text>
+        <Text ml="1" mr="1" color="red.400" fontWeight="bold">
+          Awaiting Action
+        </Text>
       </>
     );
   }
@@ -278,7 +284,7 @@ export function MessageInbox() {
           marginBottom: '20px',
         }}
       >
-        <Text fontSize="4xl">{`Your Inbox (${numConversationsAwaitingAction}) 📥`}</Text>
+        <Text fontSize="4xl">{`Your Inbox (${numConversationsAwaitingAction})`}</Text>
         <Button leftIcon={<Icon as={FiRefreshCw} />} onClick={() => {}}>
           Refresh Data
         </Button>
@@ -366,6 +372,17 @@ export function MessageInbox() {
                   maxWidth: '650px',
                 }}
               >
+                {/* {showConfetti && (
+                  <Confetti
+                    width={440}
+                    height={350}
+                    recycle={false}
+                    numberOfPieces={200}
+                    onConfettiComplete={() => {
+                      setShowConfetti(false);
+                    }}
+                  />
+                )} */}
                 {conversations[currentConversationIndex].messages.map((c) => {
                   let marginLeft = '0px';
                   if (c.friend === 'you') {
