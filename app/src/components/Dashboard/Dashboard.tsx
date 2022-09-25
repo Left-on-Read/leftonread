@@ -6,12 +6,13 @@ import { SettingsPage } from '../Pages/SettingsPage';
 import { GoldContext } from '../Premium/GoldContext';
 import { AnalyticsPage } from './AnalyticsPage';
 import { EngagementCharts } from './ChartTabs';
+import { MessageInbox } from './MessageInbox';
 import { SIDEBAR_WIDTH, SideNavbar, TPages } from './SideNavbar';
 
 const store = new Store();
 
 export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
-  const [activePage, setActivePage] = useState<TPages>('Analytics');
+  const [activePage, setActivePage] = useState<TPages>('Inbox');
   const [isPremium, setIsPremium] = useState<boolean>(
     store.get('license') !== ''
   );
@@ -45,6 +46,12 @@ export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
             // TODO(Danilowicz): Should make a shared container
             <Box style={{ padding: '70px 36px 36px 36px' }}>
               <EngagementCharts />
+            </Box>
+          )}
+          {activePage === 'Inbox' && (
+            // TODO(Danilowicz): Should make a shared container
+            <Box style={{ padding: '70px 36px 36px 36px' }}>
+              <MessageInbox />
             </Box>
           )}
           {activePage === 'Settings' && <SettingsPage />}
