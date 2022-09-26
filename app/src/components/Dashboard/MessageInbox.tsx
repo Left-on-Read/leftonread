@@ -1,4 +1,7 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Box, Button, Icon, IconButton, Text, theme } from '@chakra-ui/react';
+import { ipcRenderer } from 'electron';
+import log from 'electron-log';
 import { useEffect, useRef, useState } from 'react';
 import {
   FiArrowRightCircle,
@@ -10,6 +13,7 @@ import {
 } from 'react-icons/fi';
 import Select from 'react-select';
 
+import { InboxReadQueryResult } from '../../analysis/queries/InboxReadQuery';
 import { useKeyPress } from '../../hooks/useKeyPress';
 
 enum InboxConversationStatuses {
@@ -19,109 +23,23 @@ enum InboxConversationStatuses {
   'DONE' = 'DONE',
 }
 
-const fakeData = [
-  {
-    name: 'Teddy Ni',
-    status: InboxConversationStatuses.AWAITING_ACTION,
-    messages: [
-      { friend: 'Teddy Ni', message: 'Hi, how is it going?', date: new Date() },
-      { friend: 'you', message: 'it is going', date: new Date() },
-      {
-        friend: 'Teddy Ni',
-        message: 'cool u wanna go to movies',
-        date: new Date(),
-      },
-    ],
-  },
-  {
-    name: 'Joe Smith',
-    status: InboxConversationStatuses.AWAITING_ACTION,
-    messages: [
-      { friend: 'Joe Smith', message: 'hola amigo', date: new Date() },
-      { friend: 'you', message: 'hey whatup', date: new Date() },
-    ],
-  },
-  {
-    name: 'Ricardo Lopez',
-    status: InboxConversationStatuses.AWAITING_ACTION,
-    messages: [
-      {
-        friend: 'you',
-        message: 'wanna get dinner in like 2 weeks',
-        date: new Date(),
-      },
-      {
-        friend: 'you',
-        message: 'hey following up on dinner?',
-        date: new Date(),
-      },
-      {
-        friend: 'Ricardo Lopez',
-        message: 'wasssup',
-        date: new Date(),
-      },
-      {
-        friend: 'you',
-        message:
-          'hey here is a super long text message i like dogs i love dogs i love cats i love turtles',
-        date: new Date(),
-      },
-    ],
-  },
-  {
-    name: 'Britney Gonzales',
-    status: InboxConversationStatuses.AWAITING_ACTION,
-    messages: [
-      {
-        friend: 'Britney Gonzales',
-        message: 'did u see radiohead',
-        date: new Date(),
-      },
-      {
-        friend: 'you',
-        message: 'yay',
-        date: new Date(),
-      },
-      {
-        friend: 'Britney Gonzales',
-        message: 'dats awesome',
-        date: new Date(),
-      },
-      {
-        friend: 'you',
-        message: 'thanks',
-        date: new Date(),
-      },
-      {
-        friend: 'Britney Gonzales',
-        message: 'ok byeeeee',
-        date: new Date(),
-      },
-    ],
-  },
-];
+type TConversation = {
+  chatId: string;
+  name: string;
+  status: InboxConversationStatuses;
+  messages: {
+    friend: string;
+    message: string;
+    date: Date;
+  }[];
+};
 
 export function MessageInbox() {
-  const [conversations, setConversations] = useState<
-    {
-      name: string;
-      status: InboxConversationStatuses;
-      messages: {
-        friend: string;
-        message: string;
-        date: Date;
-      }[];
-    }[]
-  >(fakeData);
+  const [conversations, setConversations] = useState<TConversation[]>([]);
   const [currentConversationIndex, setCurrentConversationIndex] =
     useState<number>(0);
-
   const [selectedConversationStatus, setSelectedConversationStatus] =
-    useState<InboxConversationStatuses>(
-      conversations[currentConversationIndex].status
-    );
-
-  const [showConfetti, setShowConfetti] = useState<boolean>(false);
+    useState<InboxConversationStatuses>();
 
   const [isInboxZero, setIsInboxZero] = useState<boolean>(false);
   const [upActive, setUpActive] = useState<boolean>(false);
@@ -129,10 +47,69 @@ export function MessageInbox() {
   const [remindMeActive, setRemindMeActive] = useState<boolean>(false);
   const [replyNowActive, setReplyNowActive] = useState<boolean>(false);
   const [doneActive, setDoneActive] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const numConversationsAwaitingAction = conversations.filter(
-    (c) => c.status === InboxConversationStatuses.AWAITING_ACTION
-  ).length;
+  useEffect(() => {
+    async function fetchMessageInbox() {
+      setError('');
+      setIsLoading(true);
+      try {
+        const data: InboxReadQueryResult[] = await ipcRenderer.invoke(
+          'query-inbox'
+        );
+
+        const conversationsByChatId: Record<string, TConversation> = {};
+        // transform the data into format we want
+        data.forEach((m) => {
+          const {
+            chat_id,
+            contact_name,
+            is_from_me,
+            message,
+            human_readable_date,
+          } = m;
+
+          const msg = {
+            friend: is_from_me === 0 ? contact_name : 'you',
+            message,
+            date: new Date(human_readable_date),
+          };
+          // first time seeing this chat
+          if (!conversationsByChatId[chat_id]) {
+            const conversation = {
+              name: contact_name,
+              chatId: chat_id,
+              // TODO: read this from DB
+              status: InboxConversationStatuses.AWAITING_ACTION,
+              messages: [msg],
+            };
+            conversationsByChatId[chat_id] = conversation;
+          } else {
+            conversationsByChatId[chat_id].messages.push(msg);
+          }
+        });
+
+        // look at the last messages and sort by priority
+        // 1) last text not you
+        // 2) last text you with a question
+
+        const c = Object.values(conversationsByChatId);
+        setConversations(c);
+        if (c.length > 0) {
+          setSelectedConversationStatus(c[0].status);
+        }
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        }
+        log.error(`ERROR: fetching for Message Inbox`, err);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchMessageInbox();
+  }, []);
 
   const bottomOfConversationThreadRef = useRef(null);
   useEffect(() => {
@@ -147,6 +124,10 @@ export function MessageInbox() {
       });
     }
   });
+
+  const numConversationsAwaitingAction = conversations.filter(
+    (c) => c.status === InboxConversationStatuses.AWAITING_ACTION
+  ).length;
 
   const moveDownConversationStack = () => {
     const proposedIndex = currentConversationIndex + 1;
@@ -222,8 +203,6 @@ export function MessageInbox() {
     }, 200);
 
     moveDownConversationStack();
-
-    setShowConfetti(true);
   };
 
   useKeyPress(['f'], onClickDone);
@@ -231,6 +210,13 @@ export function MessageInbox() {
   useKeyPress(['s'], onClickRemindMe);
   useKeyPress(['q'], onClickUp);
   useKeyPress(['a'], onClickDown);
+
+  if (isLoading || conversations.length === 0) {
+    return <>Loading</>;
+  }
+
+  // TODO(Danilowicz): handle error too
+  // if (error)
 
   let statusMessage;
   if (
@@ -301,7 +287,28 @@ export function MessageInbox() {
           Jump to any thread
         </Text>
         <div style={{ width: '40%' }}>
-          <Select options={[{ value: 'Teddy Ni', label: 'Teddy Ni' }]} />
+          <Select
+            value={{
+              label: conversations[currentConversationIndex].name,
+              value: conversations[currentConversationIndex].chatId,
+            }}
+            options={conversations.map((c) => {
+              return {
+                value: c.chatId,
+                label: c.name,
+              };
+            })}
+            onChange={(e) => {
+              if (e) {
+                const proposedIndex = conversations.findIndex(
+                  (c) => c.chatId === e.value
+                );
+                if (proposedIndex !== -1) {
+                  setCurrentConversationIndex(proposedIndex);
+                }
+              }
+            }}
+          />
         </div>
       </Box>
       <Box borderWidth="1px" borderRadius="lg" minHeight={550}>
