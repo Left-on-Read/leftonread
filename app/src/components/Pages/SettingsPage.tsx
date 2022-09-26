@@ -140,14 +140,12 @@ function ManageSubscription() {
           variant="link"
           onClick={() => {
             logEvent({
-              eventName: 'EDIT_GOLD_SETTINGS',
+              eventName: 'BUY_US_COFFEE',
             });
-            window.open(
-              'https://billing.stripe.com/p/login/eVabK06mUcNG2oE6oo'
-            );
+            window.open('https://www.buymeacoffee.com/leftonread');
           }}
         >
-          Edit Subscription
+          Buy us a coffee
         </Button>
       )}
       {!isPremium && (
@@ -259,11 +257,11 @@ export function SettingsPage() {
           <ContactUs />
         </SettingsCard>
         <SettingsCard
-          title={isPremium ? 'Manage Subscription' : 'Get Left on Read Gold'}
+          title={isPremium ? 'Gold is unlocked' : 'Get Left on Read Gold'}
           icon={FiAward}
           description={
             isPremium
-              ? 'Edit your Left on Read Gold subscription'
+              ? 'Thank you supporting Left on Read!'
               : 'Unlock filtering, new graphs, and more!'
           }
         >
