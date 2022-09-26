@@ -25,7 +25,6 @@ import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFi
 import { GroupChatFilters } from '../../constants/filters';
 import { logEvent } from '../../utils/analytics';
 import { EngagementScoreChart } from '../Graphs/EngagementScore/EngagementScoreChart';
-import { RespondReminders } from '../Graphs/RespondReminders';
 import { SentimentOverTimeChart } from '../Graphs/SentimentOverTimeChart';
 import { SentVsReceivedChart } from '../Graphs/SentVsReceivedChart';
 import { TextsOverTimeChart } from '../Graphs/TextsOverTimeChart';
@@ -34,7 +33,6 @@ import { TopFriendsChart } from '../Graphs/TopFriendsChart';
 import { TopSentimentFriendsChart } from '../Graphs/TopSentimentFriendsChart';
 import { TotalSentimentChart } from '../Graphs/TotalSentimentChart';
 import { WordOrEmojiCountChart } from '../Graphs/WordOrEmojiCountChart';
-import { MessageScheduler } from '../Productivity/MessageScheduler';
 import { useGlobalContext } from './GlobalContext';
 import { GroupChatTab } from './GroupChatTab';
 import { SIDEBAR_WIDTH } from './SideNavbar';
@@ -293,34 +291,22 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
                 icon={FiArrowUpCircle}
                 filters={filters}
               />
+              <EngagementScoreChart
+                title={titleFormatter({
+                  titleName: 'Engagement Score ™',
+                  filters,
+                })}
+                description={descriptionFormatter({
+                  description: `Measures how "good" of a texter you are`,
+                  filters,
+                })}
+                icon={FiRadio}
+                filters={filters}
+              />
             </Stack>
           </TabPanel>
         </TabPanels>
       </Tabs>
     </div>
-  );
-}
-
-export function EngagementCharts() {
-  // TODO(Danilowicz): This needs to be refactored and be props
-  // { filters }: { filters: SharedQueryFilters }
-  const filters = {};
-  return (
-    <Stack direction="column" spacing={40}>
-      <RespondReminders />
-      <MessageScheduler />
-      <EngagementScoreChart
-        title={titleFormatter({
-          titleName: 'Engagement Score ™',
-          filters,
-        })}
-        description={descriptionFormatter({
-          description: `Measures how "good" of a texter you are`,
-          filters,
-        })}
-        icon={FiRadio}
-        filters={filters}
-      />
-    </Stack>
   );
 }

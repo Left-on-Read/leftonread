@@ -240,12 +240,14 @@ export function GroupChatActivityOverTimeChart({
   icon,
   filters,
   colorByContactName,
+  isPremiumGraph,
 }: {
   title: string[];
   description: string;
   icon: IconType;
   filters: SharedGroupChatTabQueryFilters;
   colorByContactName: Record<string, string>;
+  isPremiumGraph?: boolean;
 }) {
   const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
 
@@ -266,6 +268,7 @@ export function GroupChatActivityOverTimeChart({
         icon={icon}
         setIsShareOpen={setIsShareOpen}
         showGroupChatShareButton
+        isPremiumGraph={isPremiumGraph}
       >
         <GroupChatActivityOverTimeBody
           title={title}
