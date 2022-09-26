@@ -111,6 +111,7 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
         filters={{ ...filters, groupChatName: selectedGroupChat.value }}
         mode="GIVES"
         colorByContactName={colorByContactName}
+        isPremiumGraph
       />
 
       <GroupChatReactionsChart
@@ -119,6 +120,7 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
         filters={{ ...filters, groupChatName: selectedGroupChat.value }}
         mode="GETS"
         colorByContactName={colorByContactName}
+        isPremiumGraph
       />
 
       <GroupChatActivityOverTimeChart
@@ -127,6 +129,7 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
         icon={FiCompass}
         filters={{ ...filters, groupChatName: selectedGroupChat.value }}
         colorByContactName={colorByContactName}
+        isPremiumGraph
       />
     </>
   );
