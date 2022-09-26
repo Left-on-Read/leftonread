@@ -7,6 +7,8 @@ import webpack from 'webpack';
 import { dependencies as externals } from '../../release/app/package.json';
 import webpackPaths from './webpack.paths';
 
+const PalettePlugin = require('@palette.dev/webpack-plugin');
+
 const configuration: webpack.Configuration = {
   externals: [...Object.keys(externals || {})],
 
@@ -47,6 +49,9 @@ const configuration: webpack.Configuration = {
   plugins: [
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'production',
+    }),
+    new PalettePlugin({
+      key: '', // todo asset key goes here
     }),
   ],
 };
