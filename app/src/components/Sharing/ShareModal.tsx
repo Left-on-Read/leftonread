@@ -105,6 +105,7 @@ export function ShareModal({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
+        padding: '0px 20px',
       }}
     >
       <LeftOnReadSocialIcon
@@ -125,18 +126,18 @@ export function ShareModal({
           externalWindowOpen('https://www.reddit.com');
         }}
       />
-      <LeftOnReadSocialIcon
+      {/* <LeftOnReadSocialIcon
         network="tiktok"
         onClick={() => {
           externalWindowOpen('https://www.tiktok.com');
         }}
-      />
-      <LeftOnReadSocialIcon
+      /> */}
+      {/* <LeftOnReadSocialIcon
         network="linkedin"
         onClick={() => {
           externalWindowOpen('https://www.linkedin.com');
         }}
-      />
+      /> */}
       <LeftOnReadSocialIcon
         network="facebook"
         onClick={() => {
@@ -150,6 +151,11 @@ export function ShareModal({
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
       <ModalContent minWidth="550px">
+        <ModalBody display="flex" justifyContent="center">
+          {children}
+        </ModalBody>
+        <Divider />
+
         <ModalHeader>
           <Box
             style={{
@@ -168,7 +174,7 @@ export function ShareModal({
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 // marginTop: '20px',
-                marginBottom: '20px',
+                marginBottom: '32px',
               }}
             >
               <Button
@@ -181,16 +187,18 @@ export function ShareModal({
                     setCopied(false);
                   }, 2500);
                 }}
-                size="sm"
+                size="md"
                 style={{
                   transition: '.25s',
                 }}
               >
                 <span className="primary">
-                  {copied ? <>Copied!</> : <>Copy image to clipboard</>}
+                  {copied ? <>Copied!</> : <>Copy Image</>}
                 </span>
               </Button>
-              <Text fontSize="md">or</Text>
+              <div style={{ margin: '0px 12px' }}>
+                <Text fontSize="md">or</Text>
+              </div>
               <Button
                 rightIcon={<FiMessageCircle />}
                 isLoading={isIMessageAppLoading}
@@ -208,7 +216,7 @@ export function ShareModal({
                   openIMessageAndPasteImage(contacts);
                   setIsIMessageAppLoading(false);
                 }}
-                size="sm"
+                size="md"
                 style={{
                   transition: '.25s',
                 }}
@@ -239,11 +247,7 @@ export function ShareModal({
             </Box> */}
             <Box>{socialMediaBox}</Box>
           </Box>
-          <Divider />
         </ModalHeader>
-        <ModalBody display="flex" justifyContent="center">
-          {children}
-        </ModalBody>
       </ModalContent>
     </Modal>
   );
