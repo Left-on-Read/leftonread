@@ -1,5 +1,13 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Box, Button, Icon, IconButton, Text, theme } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Icon,
+  IconButton,
+  Text,
+  theme,
+  useToast,
+} from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useRef, useState } from 'react';
@@ -15,6 +23,8 @@ import Select from 'react-select';
 
 import { InboxReadQueryResult } from '../../analysis/queries/InboxReadQuery';
 import { useKeyPress } from '../../hooks/useKeyPress';
+import { logEvent } from '../../utils/analytics';
+import { typeMessageToPhoneNumber } from '../../utils/appleScriptCommands';
 
 enum InboxConversationStatuses {
   'AWAITING_ACTION' = 'AWAITING_ACTION',
@@ -47,8 +57,12 @@ export function MessageInbox() {
   const [remindMeActive, setRemindMeActive] = useState<boolean>(false);
   const [replyNowActive, setReplyNowActive] = useState<boolean>(false);
   const [doneActive, setDoneActive] = useState<boolean>(false);
+
   const [error, setError] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const toast = useToast();
+  const toastIdRef = useRef<any>();
 
   useEffect(() => {
     async function fetchMessageInbox() {
@@ -129,6 +143,12 @@ export function MessageInbox() {
     (c) => c.status === InboxConversationStatuses.AWAITING_ACTION
   ).length;
 
+  function closeToast() {
+    if (toastIdRef.current) {
+      toast.close(toastIdRef.current);
+    }
+  }
+
   const moveDownConversationStack = () => {
     const proposedIndex = currentConversationIndex + 1;
     if (proposedIndex > conversations.length - 1) {
@@ -157,6 +177,7 @@ export function MessageInbox() {
   };
 
   const onClickUp = () => {
+    closeToast();
     setUpActive(true);
     moveUpConversationStack();
     setTimeout(() => {
@@ -165,6 +186,7 @@ export function MessageInbox() {
   };
 
   const onClickDown = () => {
+    closeToast();
     setDownActive(true);
     moveDownConversationStack();
     setTimeout(() => {
@@ -173,6 +195,7 @@ export function MessageInbox() {
   };
 
   const onClickRemindMe = () => {
+    closeToast();
     setRemindMeActive(true);
     setSelectedConversationStatus(InboxConversationStatuses.REMIND_ME);
 
@@ -180,27 +203,67 @@ export function MessageInbox() {
       setRemindMeActive(false);
     }, 200);
 
+    toastIdRef.current = toast({
+      // store previous conversation index
+      title: `Marked conversation with ${conversations[currentConversationIndex].name} as remind me`,
+      duration: 5000,
+      position: 'bottom-right',
+      variant: 'subtle',
+    });
+
     moveDownConversationStack();
   };
 
-  const onClickReplyNow = () => {
+  const onClickReplyNow = async () => {
+    closeToast();
     setReplyNowActive(true);
     setSelectedConversationStatus(InboxConversationStatuses.REPLY_NOW);
-
     setTimeout(() => {
       setReplyNowActive(false);
     }, 200);
+
+    toastIdRef.current = toast({
+      // store previous conversation index
+      title: `Marked conversation with ${conversations[currentConversationIndex].name} as responded`,
+      status: 'info',
+      duration: 5000,
+      position: 'bottom-right',
+    });
+
+    await typeMessageToPhoneNumber({
+      message: 'Hey, meant to follow up on this earlier!',
+      // NOTE(Danilowicz): if we get reports of this not working,
+      // we should use the phone number here, which might have a
+      // a higher success rate
+      phoneNumber: conversations[currentConversationIndex].name,
+    });
+
+    logEvent({
+      eventName: 'CLICKED_REPLY_NOW',
+    });
 
     moveDownConversationStack();
   };
 
   const onClickDone = () => {
+    closeToast();
     setDoneActive(true);
     setSelectedConversationStatus(InboxConversationStatuses.DONE);
 
     setTimeout(() => {
       setDoneActive(false);
     }, 200);
+
+    toastIdRef.current = toast({
+      title: `Marked conversation with ${conversations[currentConversationIndex].name} as done`,
+      status: 'success',
+      duration: 5000,
+      position: 'bottom-right',
+    });
+
+    logEvent({
+      eventName: 'CLICKED_DONE',
+    });
 
     moveDownConversationStack();
   };
@@ -443,7 +506,6 @@ export function MessageInbox() {
                 onClick={onClickRemindMe}
                 isActive={remindMeActive}
                 rightIcon={<FiClock />}
-                colorScheme="blue"
               >
                 Remind Me
               </Button>
@@ -451,7 +513,7 @@ export function MessageInbox() {
                 onClick={onClickReplyNow}
                 isActive={replyNowActive}
                 rightIcon={<FiArrowRightCircle />}
-                colorScheme="purple"
+                colorScheme="blue"
               >
                 Reply Now
               </Button>

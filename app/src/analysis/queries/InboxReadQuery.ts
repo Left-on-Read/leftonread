@@ -36,7 +36,7 @@ export async function queryInbox(
         -- do not do group chats for now
         AND cache_roomnames IS NULL
         -- sort by chat and by date
-        ORDER BY chat_id ASC, human_readable_date ASC
+        ORDER BY human_readable_date ASC
     `;
 
   return allP(db, q);
