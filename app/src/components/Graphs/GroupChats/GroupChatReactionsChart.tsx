@@ -358,7 +358,7 @@ export function GroupChatReactionsChart({
         description={`Who ${mode.toLocaleLowerCase()} the most hahas, loves, likes, dislikes...`}
         tooltip={
           <Tooltip
-            label="Reactions where added in iOS 10 in September 2016. If nothing is showing, your group chat may be too old!"
+            label="Reactions were added in iOS 10 in September 2016. If nothing is showing, your group chat may be too old."
             fontSize="md"
           >
             <span>
