@@ -9,7 +9,7 @@ iMessages supercharged! Built with Electron, React, SQLite, Typescript, and ‚ù§Ô
 
 ## Download Left on Read for Mac
 
-<h3><a href=https://github.com/Left-on-Read/leftonread/releases">Download</a></h3>
+<h3><a href=https://github.com/Left-on-Read/leftonread/releases>Download</a></h3>
 
 <p align="right"><a href="https://leftonread.me/">leftonread.me</a></p>
 
