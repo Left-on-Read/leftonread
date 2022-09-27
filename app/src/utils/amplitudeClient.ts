@@ -24,13 +24,11 @@ export function logEventMain({
   const uuid = getUuid();
 
   try {
-    AmplitudeClient.logEvent(
-      {
-        user_id: uuid,
-        event_type: eventName,
-      },
-      properties
-    );
+    AmplitudeClient.logEvent({
+      user_id: uuid,
+      event_type: eventName,
+      event_properties: properties,
+    });
   } catch (e) {
     log.error(e);
   }
