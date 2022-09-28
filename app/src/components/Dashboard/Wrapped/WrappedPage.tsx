@@ -1,7 +1,8 @@
 import { Box, IconButton } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
+import { Gradient } from '../../Gradient';
 import { SIDEBAR_WIDTH } from '../SideNavbar';
 
 function WrappedYourFirstText() {
@@ -31,15 +32,38 @@ function WrappedClosing() {
 
 function WrappedGradient({ children }: { children: React.ReactNode }) {
   // TODO(Danilowcz): make this move
+
+  useEffect(() => {
+    const gradient = new Gradient();
+    // @ts-ignore
+    gradient.initGradient('#gradient-canvas');
+  }, []);
+
   return (
     <Box
       style={{
-        width: '100vw',
-        height: '100vh',
         display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        position: 'relative',
       }}
-      bgGradient="linear(to-tr, #0695FF, #A334FA, #FF6968)"
     >
+      <div style={{ position: 'absolute', top: 0, left: 0, height: '100%' }}>
+        <canvas
+          id="gradient-canvas"
+          data-transition-in
+          style={
+            {
+              '--gradient-color-1': '#c3e4ff',
+              '--gradient-color-2': '#6ec3f4',
+              '--gradient-color-3': '#eae2ff',
+              '--gradient-color-4': '#b9beff',
+            } as any
+          }
+        />
+      </div>
+
       {children}
     </Box>
   );
@@ -65,7 +89,6 @@ export function WrappedPage() {
           justifyContent: 'center',
           margin: 'auto',
           position: 'relative',
-          left: `-${SIDEBAR_WIDTH / 2}px`, // im confused why it needs /2 to be centered but :shrug:
         }}
       >
         <IconButton

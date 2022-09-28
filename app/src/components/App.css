@@ -45,3 +45,12 @@
   padding: 12px 16px 12px 21px !important;
   border-left: 5px solid var(--chakra-colors-purple-400) !important;
 }
+
+#gradient-canvas {
+  width: 100%;
+  height: 100%;
+  /* --gradient-color-1: #c3e4ff;
+  --gradient-color-2: #6ec3f4;
+  --gradient-color-3: #eae2ff;
+  --gradient-color-4: #b9beff; */
+}
