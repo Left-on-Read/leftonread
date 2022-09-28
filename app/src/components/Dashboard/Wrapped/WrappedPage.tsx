@@ -3,40 +3,23 @@ import React, { useEffect, useState } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
 import { Gradient } from '../../Gradient';
-import { SIDEBAR_WIDTH } from '../SideNavbar';
-
-function WrappedYourFirstText() {
-  return (
-    <>
-      <Box>Your first text this year</Box>
-      <Box>{`"i love dogs"`}</Box>
-    </>
-  );
-}
-
-function WrappedIntro() {
-  return (
-    <>
-      <Box>Welcome to Left on Read Wrapped</Box>
-    </>
-  );
-}
-
-function WrappedClosing() {
-  return (
-    <>
-      <Box>Thanks for watching, share with your friends!</Box>
-    </>
-  );
-}
+import { WrappedIntro } from './Sections/WrappedIntro';
 
 function WrappedGradient({ children }: { children: React.ReactNode }) {
-  // TODO(Danilowcz): make this move
+  const [color, setColor] = useState<string>('D6BCFA');
 
   useEffect(() => {
     const gradient = new Gradient();
     // @ts-ignore
     gradient.initGradient('#gradient-canvas');
+
+    // setTimeout(() => {
+    //   setColor('0BC5EA');
+    //   setTimeout(() => {
+    //     // @ts-ignore
+    //     gradient.initGradient('#gradient-canvas');
+    //   }, 500);
+    // }, 5000);
   }, []);
 
   return (
@@ -55,10 +38,10 @@ function WrappedGradient({ children }: { children: React.ReactNode }) {
           data-transition-in
           style={
             {
-              '--gradient-color-1': '#c3e4ff',
-              '--gradient-color-2': '#6ec3f4',
-              '--gradient-color-3': '#eae2ff',
-              '--gradient-color-4': '#b9beff',
+              '--gradient-color-1': `#D6BCFA`,
+              '--gradient-color-2': '#E9D8FD',
+              '--gradient-color-3': '#FAF5FF',
+              '--gradient-color-4': '#EDF2F7',
             } as any
           }
         />
@@ -71,11 +54,7 @@ function WrappedGradient({ children }: { children: React.ReactNode }) {
 
 export function WrappedPage() {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
-  const components = [
-    <WrappedIntro />,
-    <WrappedYourFirstText />,
-    <WrappedClosing />,
-  ];
+  const components = [<WrappedIntro />];
 
   const selectedComponent = components[selectedIndex];
   const iconSize = 50;
@@ -108,10 +87,9 @@ export function WrappedPage() {
           style={{
             zIndex: 1,
             backgroundColor: 'white',
-            width: '450px',
-            height: '600px', // TODO(Danilowicz): make this 9 by 16 at the end
-            borderRadius: 8,
-            padding: '50px',
+            width: '45vh',
+            height: '80vh',
+            borderRadius: 16,
           }}
         >
           {selectedComponent}
