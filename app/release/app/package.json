@@ -10,6 +10,7 @@
         "link-modules": "node -r ts-node/register ../../.erb/scripts/link-modules.ts"
     },
     "dependencies": {
-        "sqlite3": "^5.0.10"
+        "sqlite3": "^5.0.10",
+        "node-mac-contacts": "^1.6.0"
     }
 }

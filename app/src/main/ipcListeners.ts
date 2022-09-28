@@ -4,6 +4,7 @@ import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 import FormData from 'form-data';
 import * as fs from 'fs';
+import nmc from 'node-mac-contacts';
 import { machineId } from 'node-machine-id';
 import * as sqlite3 from 'sqlite3';
 
@@ -360,5 +361,10 @@ export function attachIpcListeners() {
     if (process.env.NODE_ENV !== 'production') {
       activateLicense('123');
     }
+  });
+
+  ipcMain.handle('get-contacts', async () => {
+    nmc.requestAccess();
+    return nmc.getAllContacts(['contactThumbnailImage', 'contactImage']);
   });
 }

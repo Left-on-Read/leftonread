@@ -1,7 +1,7 @@
 import { ArrowForwardIcon, Icon } from '@chakra-ui/icons';
 import { Button, Text } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IconType } from 'react-icons';
 import { FiBarChart2, FiGlobe, FiLock } from 'react-icons/fi';
 
@@ -47,6 +47,44 @@ function BulletPoint({
 export function GetStarted({ onNext }: { onNext: (arg0: boolean) => void }) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  const [thumbnail, setThumbnail] = useState<string>('');
+  const [image, setImage] = useState<string>('');
+
+  useEffect(() => {
+    async function fetch() {
+      const contacts = await ipcRenderer.invoke('get-contacts');
+      console.log(contacts);
+
+      const index = contacts.findIndex((c: any) => c.firstName === 'Teddy');
+
+      const { contactThumbnailImage, contactImage } = contacts[index];
+      console.log(contactImage, contactThumbnailImage);
+      // const tb = contactThumbnailImage.toString('base64');
+      // setThumbnail(tb);
+      // const im = contactImage.toString('base64');
+      // setImage(im);
+
+      const myUrl = URL.createObjectURL(
+        new Blob(
+          [contactThumbnailImage.buffer],
+          { type: 'image/png' } /* (1) */
+        )
+      );
+
+      console.log(myUrl);
+      setImage(myUrl);
+
+      const url = URL.createObjectURL(
+        new Blob([contactImage.buffer], { type: 'image/png' } /* (1) */)
+      );
+
+      console.log(url);
+
+      setThumbnail(url);
+    }
+    fetch();
+  }, []);
+
   const onStart = async () => {
     setIsLoading(true);
     const hasAccess = await ipcRenderer.invoke('check-permissions');
@@ -87,6 +125,17 @@ export function GetStarted({ onNext }: { onNext: (arg0: boolean) => void }) {
 so you can feel better about your relationship 
 with your phone.`}
         color="blue.400"
+      />
+      hello world
+      <img
+        id="na-img"
+        src={image}
+        style={{ borderRadius: '80%', width: '40px', height: '40px' }}
+      />
+      <img
+        id="my-img"
+        src={thumbnail}
+        style={{ borderRadius: '80%', width: '40px', height: '40px' }}
       />
       <Button
         style={{ marginTop: 0 }}
