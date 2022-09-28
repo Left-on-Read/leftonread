@@ -8,6 +8,7 @@ import { GoldContext } from '../Premium/GoldContext';
 import { MessageScheduler } from '../Productivity/MessageScheduler';
 import { AnalyticsPage } from './AnalyticsPage';
 import { SIDEBAR_WIDTH, SideNavbar, TPages } from './SideNavbar';
+import { WrappedPage } from './Wrapped/WrappedPage';
 
 const store = new Store();
 
@@ -51,6 +52,7 @@ export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
               </Stack>
             </Box>
           )}
+          {activePage === 'Wrapped' && <WrappedPage />}
           {activePage === 'Settings' && <SettingsPage />}
         </div>
       </div>

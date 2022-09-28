@@ -10,7 +10,7 @@ import {
 import { ipcRenderer } from 'electron';
 import { IconType } from 'react-icons';
 import { BsLightningCharge } from 'react-icons/bs';
-import { FiClipboard } from 'react-icons/fi';
+import { FiClipboard, FiGift } from 'react-icons/fi';
 
 import LogoWithText from '../../../assets/LogoWithText.svg';
 import { APP_VERSION } from '../../constants/versions';
@@ -18,7 +18,7 @@ import { useGoldContext } from '../Premium/GoldContext';
 import { PremiumModal } from '../Premium/PremiumModal';
 import { EmailModal } from '../Support/EmailModal';
 
-const Pages = ['Analytics', 'Productivity', 'Settings'] as const;
+const Pages = ['Analytics', 'Productivity', 'Wrapped', 'Settings'] as const;
 
 export const SIDEBAR_WIDTH = 200;
 
@@ -100,6 +100,9 @@ export function SideNavbar({
               let icon = BsLightningCharge;
               if (page === 'Productivity') {
                 icon = FiClipboard;
+              }
+              if (page === 'Wrapped') {
+                icon = FiGift;
               }
 
               return (
