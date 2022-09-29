@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Spinner } from '@chakra-ui/react';
+import { Icon, Spinner, Tooltip } from '@chakra-ui/react';
 import { Context } from 'chartjs-plugin-datalabels';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useRef, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { IconType } from 'react-icons';
+import { FiInfo } from 'react-icons/fi';
 
 import { SharedGroupChatTabQueryFilters } from '../../../analysis/queries/filters/sharedGroupChatTabFilters';
 import { GroupChatReactions } from '../../../analysis/queries/GroupChats/GroupChatReactionsQuery';
@@ -189,7 +190,7 @@ function GroupChatReactionsBody({
   };
 
   const chartStyle: React.CSSProperties = isSharingVersion
-    ? { width: '500px', height: '600px' }
+    ? { width: '500px', height: '500px' }
     : {};
 
   const options = {
@@ -323,6 +324,7 @@ export function GroupChatReactionsChart({
   loadingOverride,
   mode,
   colorByContactName,
+  isPremiumGraph,
 }: {
   title: string[];
   icon: IconType;
@@ -330,6 +332,7 @@ export function GroupChatReactionsChart({
   loadingOverride?: boolean;
   mode: 'GIVES' | 'GETS';
   colorByContactName: Record<string, string>;
+  isPremiumGraph?: boolean;
 }) {
   const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
 
@@ -351,16 +354,18 @@ export function GroupChatReactionsChart({
         icon={icon}
         setIsShareOpen={setIsShareOpen}
         showGroupChatShareButton
-        // tooltip={
-        //   <Tooltip
-        //     label="Reactions where added in iOS 10 in September 2016. If nothing is showing, your group chat may be too old!"
-        //     fontSize="md"
-        //   >
-        //     <span>
-        //       <Icon as={FiInfo} color="gray.500" />
-        //     </span>
-        //   </Tooltip>
-        // }
+        isPremiumGraph={!!isPremiumGraph}
+        description={`Who ${mode.toLocaleLowerCase()} the most hahas, loves, likes, dislikes...`}
+        tooltip={
+          <Tooltip
+            label="Reactions were added in iOS 10 in September 2016. If nothing is showing, your group chat may be too old."
+            fontSize="md"
+          >
+            <span>
+              <Icon as={FiInfo} color="gray.500" />
+            </span>
+          </Tooltip>
+        }
       >
         <GroupChatReactionsBody
           title={title}

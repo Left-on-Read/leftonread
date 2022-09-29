@@ -1,11 +1,12 @@
-import { Box } from '@chakra-ui/react';
+import { Box, Stack } from '@chakra-ui/react';
 import Store from 'electron-store';
 import { useState } from 'react';
 
+import { RespondReminders } from '../Graphs/RespondReminders';
 import { SettingsPage } from '../Pages/SettingsPage';
 import { GoldContext } from '../Premium/GoldContext';
+import { MessageScheduler } from '../Productivity/MessageScheduler';
 import { AnalyticsPage } from './AnalyticsPage';
-import { EngagementCharts } from './ChartTabs';
 import { MessageInbox } from './MessageInbox';
 import { SIDEBAR_WIDTH, SideNavbar, TPages } from './SideNavbar';
 
@@ -44,8 +45,11 @@ export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
           )}
           {activePage === 'Productivity' && (
             // TODO(Danilowicz): Should make a shared container
-            <Box style={{ padding: '70px 50px 50px 50px' }}>
-              <EngagementCharts />
+            <Box style={{ padding: '70px 36px 36px 36px' }}>
+              <Stack direction="column" spacing={40}>
+                <RespondReminders />
+                <MessageScheduler />
+              </Stack>
             </Box>
           )}
           {activePage === 'Inbox' && (

@@ -105,7 +105,7 @@ function WordOrEmojiCountBody({
   };
 
   const chartStyle: React.CSSProperties = isSharingVersion
-    ? { width: '500px', height: '600px' }
+    ? { width: '500px', height: '500px' }
     : {};
 
   const options = {
