@@ -7,12 +7,13 @@ import { SettingsPage } from '../Pages/SettingsPage';
 import { GoldContext } from '../Premium/GoldContext';
 import { MessageScheduler } from '../Productivity/MessageScheduler';
 import { AnalyticsPage } from './AnalyticsPage';
+import { MessageInbox } from './MessageInbox';
 import { SIDEBAR_WIDTH, SideNavbar, TPages } from './SideNavbar';
 
 const store = new Store();
 
 export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
-  const [activePage, setActivePage] = useState<TPages>('Analytics');
+  const [activePage, setActivePage] = useState<TPages>('Inbox');
   const [isPremium, setIsPremium] = useState<boolean>(
     store.get('license') !== ''
   );
@@ -49,6 +50,12 @@ export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
                 <RespondReminders />
                 <MessageScheduler />
               </Stack>
+            </Box>
+          )}
+          {activePage === 'Inbox' && (
+            // TODO(Danilowicz): Should make a shared container
+            <Box style={{ padding: '70px 50px 50px 50px' }}>
+              <MessageInbox />
             </Box>
           )}
           {activePage === 'Settings' && <SettingsPage />}
