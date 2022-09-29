@@ -4,6 +4,7 @@ import {
   Button,
   Icon,
   IconButton,
+  Spinner,
   Text,
   theme,
   useToast,
@@ -150,6 +151,10 @@ export function MessageInbox() {
   }
 
   const moveDownConversationStack = () => {
+    const tmp = [...conversations];
+    tmp.splice(currentConversationIndex, 1); // 2nd parameter means remove one item only
+    setConversations(tmp);
+
     const proposedIndex = currentConversationIndex + 1;
     if (proposedIndex > conversations.length - 1) {
       const remainingAwaiting = conversations.findIndex(
@@ -275,7 +280,24 @@ export function MessageInbox() {
   useKeyPress(['a'], onClickDown);
 
   if (isLoading || conversations.length === 0) {
-    return <>Loading</>;
+    return (
+      <>
+        <div
+          style={{
+            position: 'absolute',
+            height: '100%',
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            top: 0,
+            left: 100,
+          }}
+        >
+          <Spinner color="purple.400" size="xl" />
+        </div>
+      </>
+    );
   }
 
   // TODO(Danilowicz): handle error too
@@ -334,9 +356,9 @@ export function MessageInbox() {
         }}
       >
         <Text fontSize="4xl">{`Your Inbox (${numConversationsAwaitingAction})`}</Text>
-        <Button leftIcon={<Icon as={FiRefreshCw} />} onClick={() => {}}>
+        {/* <Button leftIcon={<Icon as={FiRefreshCw} />} onClick={() => {}}>
           Refresh Data
-        </Button>
+        </Button> */}
       </Box>
 
       <Box
@@ -502,13 +524,13 @@ export function MessageInbox() {
                 justifyContent: 'space-evenly',
               }}
             >
-              <Button
+              {/* <Button
                 onClick={onClickRemindMe}
                 isActive={remindMeActive}
                 rightIcon={<FiClock />}
               >
                 Remind Me
-              </Button>
+              </Button> */}
               <Button
                 onClick={onClickReplyNow}
                 isActive={replyNowActive}
