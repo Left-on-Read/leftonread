@@ -8,8 +8,6 @@ import {
   Button,
   Icon,
 } from '@chakra-ui/react';
-import { ContactOptionsQueryResult } from 'analysis/queries/ContactOptionsQuery';
-import { EarliestAndLatestDateResults } from 'analysis/queries/EarliestAndLatestDatesQuery';
 import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
@@ -20,7 +18,7 @@ import { logEvent } from '../../utils/analytics';
 import { DEFAULT_QUERY_FILTERS } from '../Filters/FilterPanel';
 import { Footer } from '../Footer';
 import { ChartTabs } from './ChartTabs';
-import { GlobalContext, TGlobalContext } from './GlobalContext';
+import { GlobalContext } from './GlobalContext';
 import { Navbar } from './Navbar';
 
 export function AnalyticsPage({ onRefresh }: { onRefresh: () => void }) {
@@ -28,47 +26,11 @@ export function AnalyticsPage({ onRefresh }: { onRefresh: () => void }) {
     DEFAULT_QUERY_FILTERS
   );
 
-  const [globalData, setGlobalData] = useState<TGlobalContext>({
-    isLoading: true,
-    contacts: [],
-    dateRange: { earliestDate: new Date(), latestDate: new Date() },
-  });
-
   const [doesRequireRefresh, setDoesRequireRefresh] = useState<boolean>(false);
   const [showUpdateAvailable, setShowUpdateAvailable] =
     useState<boolean>(false);
 
   const cancelRef = useRef<any>();
-
-  useEffect(() => {
-    const fetchGlobalContext = async () => {
-      const [datesDataList, contacts]: [
-        EarliestAndLatestDateResults,
-        ContactOptionsQueryResult[]
-      ] = await Promise.all([
-        ipcRenderer.invoke('query-earliest-and-latest-dates'),
-        ipcRenderer.invoke('query-get-contact-options'),
-      ]);
-
-      let earliestDate = new Date();
-      let latestDate = new Date();
-      if (datesDataList && datesDataList.length === 1) {
-        earliestDate = new Date(datesDataList[0].earliest_date);
-        latestDate = new Date(datesDataList[0].latest_date);
-      }
-
-      setGlobalData({
-        isLoading: false,
-        contacts,
-        dateRange: {
-          earliestDate,
-          latestDate,
-        },
-      });
-    };
-
-    fetchGlobalContext();
-  }, []);
 
   useEffect(() => {
     const checkRequiresRefresh = async () => {
@@ -103,95 +65,93 @@ export function AnalyticsPage({ onRefresh }: { onRefresh: () => void }) {
 
   return (
     <div style={{ position: 'relative', width: '100%' }}>
-      <GlobalContext.Provider value={globalData}>
-        <div style={{ width: 'inherit' }}>
-          <Navbar
-            onRefresh={onRefresh}
-            filters={filters}
-            onUpdateFilters={setFilters}
-          />
+      <div style={{ width: 'inherit' }}>
+        <Navbar
+          onRefresh={onRefresh}
+          filters={filters}
+          onUpdateFilters={setFilters}
+        />
 
-          <div style={{ paddingTop: 90 }}>
-            <ChartTabs filters={filters} />
-          </div>
+        <div style={{ paddingTop: 90 }}>
+          <ChartTabs filters={filters} />
         </div>
-        <Footer />
-        <AlertDialog
-          isOpen={doesRequireRefresh && !showUpdateAvailable}
-          onClose={() => {}}
-          leastDestructiveRef={cancelRef}
-        >
-          <AlertDialogOverlay />
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <Icon
-                  as={FiAlertCircle}
-                  style={{ marginRight: 8 }}
-                  color="red.400"
-                />{' '}
-                Requires Refresh
-              </div>
-            </AlertDialogHeader>
-            <AlertDialogBody>
-              {`We've added exciting new features that require a data refresh!`}
-            </AlertDialogBody>
-            <AlertDialogFooter>
-              <Button
-                colorScheme="purple"
-                onClick={() => {
-                  setDoesRequireRefresh(false);
-                  onRefresh();
-                }}
-              >
-                Refresh
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-        <AlertDialog
-          isOpen={showUpdateAvailable}
-          onClose={() => {}}
-          leastDestructiveRef={cancelRef}
-        >
-          <AlertDialogOverlay />
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <Icon
-                  as={FiAlertCircle}
-                  style={{ marginRight: 8 }}
-                  color="red.400"
-                />{' '}
-                Update Available
-              </div>
-            </AlertDialogHeader>
-            <AlertDialogBody>
-              Restart to install new features, stability improvements, and
-              overall updates.
-            </AlertDialogBody>
-            <AlertDialogFooter>
-              <Button
-                colorScheme="purple"
-                onClick={() => {
-                  ipcRenderer.invoke('quit-and-install');
-                }}
-                style={{ marginRight: 16 }}
-              >
-                Restart
-              </Button>
-              <Button
-                onClick={() => {
-                  setDoesRequireRefresh(false);
-                  onRefresh();
-                }}
-              >
-                Dismiss
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      </GlobalContext.Provider>
+      </div>
+      <Footer />
+      <AlertDialog
+        isOpen={doesRequireRefresh && !showUpdateAvailable}
+        onClose={() => {}}
+        leastDestructiveRef={cancelRef}
+      >
+        <AlertDialogOverlay />
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Icon
+                as={FiAlertCircle}
+                style={{ marginRight: 8 }}
+                color="red.400"
+              />{' '}
+              Requires Refresh
+            </div>
+          </AlertDialogHeader>
+          <AlertDialogBody>
+            {`We've added exciting new features that require a data refresh!`}
+          </AlertDialogBody>
+          <AlertDialogFooter>
+            <Button
+              colorScheme="purple"
+              onClick={() => {
+                setDoesRequireRefresh(false);
+                onRefresh();
+              }}
+            >
+              Refresh
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+      <AlertDialog
+        isOpen={showUpdateAvailable}
+        onClose={() => {}}
+        leastDestructiveRef={cancelRef}
+      >
+        <AlertDialogOverlay />
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Icon
+                as={FiAlertCircle}
+                style={{ marginRight: 8 }}
+                color="red.400"
+              />{' '}
+              Update Available
+            </div>
+          </AlertDialogHeader>
+          <AlertDialogBody>
+            Restart to install new features, stability improvements, and overall
+            updates.
+          </AlertDialogBody>
+          <AlertDialogFooter>
+            <Button
+              colorScheme="purple"
+              onClick={() => {
+                ipcRenderer.invoke('quit-and-install');
+              }}
+              style={{ marginRight: 16 }}
+            >
+              Restart
+            </Button>
+            <Button
+              onClick={() => {
+                setDoesRequireRefresh(false);
+                onRefresh();
+              }}
+            >
+              Dismiss
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
