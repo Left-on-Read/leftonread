@@ -13,7 +13,7 @@ import { WrappedPage } from './Wrapped/WrappedPage';
 const store = new Store();
 
 export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
-  const [activePage, setActivePage] = useState<TPages>('Analytics');
+  const [activePage, setActivePage] = useState<TPages>('Wrapped');
   const [isPremium, setIsPremium] = useState<boolean>(
     store.get('license') !== ''
   );

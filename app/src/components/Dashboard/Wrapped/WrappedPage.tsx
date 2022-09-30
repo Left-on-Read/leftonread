@@ -1,9 +1,22 @@
-import { Box, IconButton } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  IconButton,
+  theme as defaultTheme,
+} from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
 import { Gradient } from '../../Gradient';
+import { BusiestDay } from './Sections/BusiestDay';
+import { DayInParticular } from './Sections/DayInParticular';
+import { EveryoneScrolling } from './Sections/EveryoneScrolling';
+import { MostMessages } from './Sections/MostMessages';
+import { TotalCount } from './Sections/TotalCount';
 import { WrappedIntro } from './Sections/WrappedIntro';
+import { WrappedIntroTexts } from './Sections/WrappedIntroTexts';
+
+export const DURATION_OF_SLIDE_IN_SECS = 10;
 
 function WrappedGradient({ children }: { children: React.ReactNode }) {
   const [color, setColor] = useState<string>('D6BCFA');
@@ -38,10 +51,10 @@ function WrappedGradient({ children }: { children: React.ReactNode }) {
           data-transition-in
           style={
             {
-              '--gradient-color-1': `#D6BCFA`,
-              '--gradient-color-2': '#E9D8FD',
-              '--gradient-color-3': '#FAF5FF',
-              '--gradient-color-4': '#EDF2F7',
+              '--gradient-color-1': defaultTheme.colors.purple['200'],
+              '--gradient-color-2': defaultTheme.colors.purple['300'],
+              '--gradient-color-3': defaultTheme.colors.gray['300'],
+              '--gradient-color-4': defaultTheme.colors.gray['200'],
             } as any
           }
         />
@@ -53,10 +66,62 @@ function WrappedGradient({ children }: { children: React.ReactNode }) {
 }
 
 export function WrappedPage() {
-  const [selectedIndex, setSelectedIndex] = useState<number>(0);
-  const components = [<WrappedIntro />];
+  const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [triggerExit, setTriggerExit] = useState<boolean>(false);
 
-  const selectedComponent = components[selectedIndex];
+  const components = [
+    <WrappedIntro
+      shouldExit={triggerExit}
+      onExitFinish={() => {
+        setActiveIndex(activeIndex + 1);
+        setTriggerExit(false);
+      }}
+    />,
+    <WrappedIntroTexts
+      shouldExit={triggerExit}
+      onExitFinish={() => {
+        setActiveIndex(activeIndex + 1);
+        setTriggerExit(false);
+      }}
+    />,
+    <EveryoneScrolling
+      shouldExit={triggerExit}
+      onExitFinish={() => {
+        setActiveIndex(activeIndex + 1);
+        setTriggerExit(false);
+      }}
+    />,
+    <TotalCount
+      shouldExit={triggerExit}
+      onExitFinish={() => {
+        setActiveIndex(activeIndex + 1);
+        setTriggerExit(false);
+      }}
+    />,
+    <DayInParticular
+      shouldExit={triggerExit}
+      onExitFinish={() => {
+        setActiveIndex(activeIndex + 1);
+        setTriggerExit(false);
+      }}
+    />,
+    <BusiestDay
+      shouldExit={triggerExit}
+      onExitFinish={() => {
+        setActiveIndex(activeIndex + 1);
+        setTriggerExit(false);
+      }}
+    />,
+    <MostMessages
+      shouldExit={triggerExit}
+      onExitFinish={() => {
+        setActiveIndex(activeIndex + 1);
+        setTriggerExit(false);
+      }}
+    />,
+  ];
+
+  const selectedComponent = components[activeIndex];
   const iconSize = 50;
 
   return (
@@ -72,32 +137,52 @@ export function WrappedPage() {
       >
         <IconButton
           onClick={() => {
-            if (selectedIndex !== 0) {
-              setSelectedIndex(selectedIndex - 1);
+            if (activeIndex !== 0) {
+              setActiveIndex(activeIndex - 1);
+              setTriggerExit(false);
             }
           }}
-          isDisabled={selectedIndex === 0}
+          isDisabled={activeIndex === 0}
           colorScheme="transparent"
           aria-label="left"
           icon={<FiChevronLeft />}
           fontSize={iconSize}
-          visibility={selectedIndex === 0 ? 'hidden' : undefined}
+          visibility={activeIndex === 0 ? 'hidden' : undefined}
         />
-        <Box
-          style={{
-            zIndex: 1,
-            backgroundColor: 'white',
-            width: '45vh',
-            height: '80vh',
-            borderRadius: 16,
-          }}
-        >
-          {selectedComponent}
+        <Box>
+          <Box
+            style={{
+              zIndex: 1,
+              backgroundColor: 'white',
+              width: '45vh',
+              height: '80vh',
+              borderRadius: 16,
+            }}
+          >
+            {selectedComponent}
+          </Box>
+          <Box>
+            <Button
+              as={Box}
+              colorScheme="purple"
+              onClick={() => setTriggerExit(true)}
+              style={{
+                width: '100%',
+                cursor: 'pointer',
+                marginTop: 24,
+              }}
+            >
+              {activeIndex > 0 ? 'Share' : 'Lets Go'}
+            </Button>
+          </Box>
         </Box>
         <IconButton
           onClick={() => {
-            if (selectedIndex !== components.length - 1) {
-              setSelectedIndex(selectedIndex + 1);
+            if (activeIndex === 0) {
+              setTriggerExit(true);
+            } else if (activeIndex !== components.length - 1) {
+              setActiveIndex(activeIndex + 1);
+              setTriggerExit(false);
             }
           }}
           colorScheme="transparent"
@@ -105,7 +190,7 @@ export function WrappedPage() {
           icon={<FiChevronRight />}
           fontSize={iconSize}
           visibility={
-            selectedIndex === components.length - 1 ? 'hidden' : undefined
+            activeIndex === components.length - 1 ? 'hidden' : undefined
           }
         />
       </Box>
