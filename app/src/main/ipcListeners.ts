@@ -26,7 +26,8 @@ import { SharedQueryFilters } from '../analysis/queries/filters/sharedQueryFilte
 import { queryGroupChatActivityOverTime } from '../analysis/queries/GroupChats/GroupChatActivityOverTimeQuery';
 import { queryGroupChatByFriends } from '../analysis/queries/GroupChats/GroupChatByFriendsQuery';
 import { queryGroupChatReactionsQuery } from '../analysis/queries/GroupChats/GroupChatReactionsQuery';
-import { queryInbox } from '../analysis/queries/InboxReadQuery';
+import { queryInboxRead } from '../analysis/queries/InboxReadQuery';
+import { queryInboxWrite } from '../analysis/queries/InboxWriteQuery';
 import { queryRespondReminders } from '../analysis/queries/RespondReminders';
 import {
   querySentimentOverTimeReceived,
@@ -363,9 +364,14 @@ export function attachIpcListeners() {
     }
   });
 
-  ipcMain.handle('query-inbox', async () => {
+  ipcMain.handle('query-inbox-read', async () => {
     // TODO(Danilowicz): change this to read the inbox db not the core db
     const db = getDb();
-    return queryInbox(db);
+    return queryInboxRead(db);
+  });
+
+  ipcMain.handle('query-inbox-write', async (event, chatId: string) => {
+    const db = getDb();
+    await queryInboxWrite(db, chatId);
   });
 }

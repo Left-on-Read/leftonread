@@ -2,7 +2,6 @@
 import {
   Box,
   Button,
-  Icon,
   IconButton,
   Spinner,
   Text,
@@ -18,21 +17,16 @@ import {
   FiChevronDown,
   FiChevronUp,
   FiClock,
-  FiRefreshCw,
 } from 'react-icons/fi';
 import Select from 'react-select';
 
-import { InboxReadQueryResult } from '../../analysis/queries/InboxReadQuery';
+import {
+  InboxConversationStatuses,
+  InboxReadQueryResult,
+} from '../../analysis/queries/InboxReadQuery';
 import { useKeyPress } from '../../hooks/useKeyPress';
 import { logEvent } from '../../utils/analytics';
 import { typeMessageToPhoneNumber } from '../../utils/appleScriptCommands';
-
-enum InboxConversationStatuses {
-  'AWAITING_ACTION' = 'AWAITING_ACTION',
-  'REMIND_ME' = 'REMIND_ME',
-  'REPLY_NOW' = 'REPLY_NOW',
-  'DONE' = 'DONE',
-}
 
 type TConversation = {
   chatId: string;
@@ -42,10 +36,12 @@ type TConversation = {
     friend: string;
     message: string;
     date: Date;
+    messageId: number;
   }[];
 };
 
 export function MessageInbox() {
+  const [count, setCount] = useState<number>(1);
   const [conversations, setConversations] = useState<TConversation[]>([]);
   const [currentConversationIndex, setCurrentConversationIndex] =
     useState<number>(0);
@@ -71,7 +67,7 @@ export function MessageInbox() {
       setIsLoading(true);
       try {
         const data: InboxReadQueryResult[] = await ipcRenderer.invoke(
-          'query-inbox'
+          'query-inbox-read'
         );
 
         const conversationsByChatId: Record<string, TConversation> = {};
@@ -83,25 +79,29 @@ export function MessageInbox() {
             is_from_me,
             message,
             human_readable_date,
+            message_id,
           } = m;
 
           const msg = {
             friend: is_from_me === 0 ? contact_name : 'you',
             message,
             date: new Date(human_readable_date),
+            messageId: message_id,
           };
-          // first time seeing this chat
-          if (!conversationsByChatId[chat_id]) {
-            const conversation = {
-              name: contact_name,
-              chatId: chat_id,
-              // TODO: read this from DB
-              status: InboxConversationStatuses.AWAITING_ACTION,
-              messages: [msg],
-            };
-            conversationsByChatId[chat_id] = conversation;
-          } else {
-            conversationsByChatId[chat_id].messages.push(msg);
+          if (contact_name.length > 0) {
+            // first time seeing this chat
+            if (!conversationsByChatId[chat_id]) {
+              const conversation = {
+                name: contact_name,
+                chatId: chat_id,
+                // TODO: read this from DB
+                status: InboxConversationStatuses.AWAITING_ACTION,
+                messages: [msg],
+              };
+              conversationsByChatId[chat_id] = conversation;
+            } else {
+              conversationsByChatId[chat_id].messages.push(msg);
+            }
           }
         });
 
@@ -111,8 +111,11 @@ export function MessageInbox() {
 
         const c = Object.values(conversationsByChatId);
         setConversations(c);
+        setCount(c.length);
         if (c.length > 0) {
           setSelectedConversationStatus(c[0].status);
+        } else {
+          setIsInboxZero(true);
         }
       } catch (err: unknown) {
         if (err instanceof Error) {
@@ -125,6 +128,17 @@ export function MessageInbox() {
     }
     fetchMessageInbox();
   }, []);
+
+  const writeConversationStatusToInbox = async ({
+    chatId,
+  }: // status,
+  {
+    chatId: string;
+    // status: InboxConversationStatuses;
+  }) => {
+    await ipcRenderer.invoke('query-inbox-write', chatId);
+    setCount(count - 1);
+  };
 
   const bottomOfConversationThreadRef = useRef(null);
   useEffect(() => {
@@ -140,9 +154,7 @@ export function MessageInbox() {
     }
   });
 
-  const numConversationsAwaitingAction = conversations.filter(
-    (c) => c.status === InboxConversationStatuses.AWAITING_ACTION
-  ).length;
+  const numConversationsAwaitingAction = count;
 
   function closeToast() {
     if (toastIdRef.current) {
@@ -151,10 +163,6 @@ export function MessageInbox() {
   }
 
   const moveDownConversationStack = () => {
-    const tmp = [...conversations];
-    tmp.splice(currentConversationIndex, 1); // 2nd parameter means remove one item only
-    setConversations(tmp);
-
     const proposedIndex = currentConversationIndex + 1;
     if (proposedIndex > conversations.length - 1) {
       const remainingAwaiting = conversations.findIndex(
@@ -220,6 +228,9 @@ export function MessageInbox() {
   };
 
   const onClickReplyNow = async () => {
+    writeConversationStatusToInbox({
+      chatId: conversations[currentConversationIndex].chatId,
+    });
     closeToast();
     setReplyNowActive(true);
     setSelectedConversationStatus(InboxConversationStatuses.REPLY_NOW);
@@ -251,6 +262,9 @@ export function MessageInbox() {
   };
 
   const onClickDone = () => {
+    writeConversationStatusToInbox({
+      chatId: conversations[currentConversationIndex].chatId,
+    });
     closeToast();
     setDoneActive(true);
     setSelectedConversationStatus(InboxConversationStatuses.DONE);
@@ -279,7 +293,7 @@ export function MessageInbox() {
   useKeyPress(['q'], onClickUp);
   useKeyPress(['a'], onClickDown);
 
-  if (isLoading || conversations.length === 0) {
+  if (isLoading) {
     return (
       <>
         <div
@@ -345,6 +359,9 @@ export function MessageInbox() {
   }
 
   const iconSize = 55;
+  const messages = conversations[currentConversationIndex]
+    ? conversations[currentConversationIndex].messages
+    : [];
   return (
     <>
       <Box
@@ -374,15 +391,27 @@ export function MessageInbox() {
         <div style={{ width: '40%' }}>
           <Select
             value={{
-              label: conversations[currentConversationIndex].name,
-              value: conversations[currentConversationIndex].chatId,
+              label:
+                conversations.length > 0 &&
+                conversations[currentConversationIndex]
+                  ? conversations[currentConversationIndex].name
+                  : '',
+              value:
+                conversations.length > 0 &&
+                conversations[currentConversationIndex]
+                  ? conversations[currentConversationIndex].chatId
+                  : '',
             }}
-            options={conversations.map((c) => {
-              return {
-                value: c.chatId,
-                label: c.name,
-              };
-            })}
+            options={
+              conversations.length > 0
+                ? conversations.map((c) => {
+                    return {
+                      value: c.chatId,
+                      label: c.name,
+                    };
+                  })
+                : []
+            }
             onChange={(e) => {
               if (e) {
                 const proposedIndex = conversations.findIndex(
@@ -397,10 +426,12 @@ export function MessageInbox() {
         </div>
       </Box>
       <Box borderWidth="1px" borderRadius="lg" minHeight={550}>
-        {!isInboxZero ? (
+        {!isInboxZero && !isLoading ? (
           <>
             <Text textAlign="center" fontSize="4xl" paddingTop={10}>
-              {conversations[currentConversationIndex].name}
+              {conversations[currentConversationIndex]
+                ? conversations[currentConversationIndex].name
+                : ''}
             </Text>
             <Box
               display="flex"
@@ -475,7 +506,7 @@ export function MessageInbox() {
                     }}
                   />
                 )} */}
-                {conversations[currentConversationIndex].messages.map((c) => {
+                {messages.map((c) => {
                   let marginLeft = '0px';
                   if (c.friend === 'you') {
                     marginLeft = '350px';
@@ -485,7 +516,7 @@ export function MessageInbox() {
                       marginBottom="5px"
                       marginTop="5px"
                       marginLeft={marginLeft}
-                      key={c.message}
+                      key={c.messageId}
                       style={{
                         border: `1px solid ${theme.colors.gray['200']}`,
                         padding: 25,
