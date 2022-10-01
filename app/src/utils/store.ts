@@ -76,6 +76,10 @@ const schema = {
     },
     default: [],
   },
+  // lastRefreshTimestamp: {
+  //   type: 'string',
+  //   default: '',
+  // },
 } as const;
 
 const store = new Store({ schema, migrations });
@@ -96,6 +100,15 @@ export function checkRequiresRefresh(): boolean {
 
   return semver.gt(requiredUpdateVersion, lastUpdatedVersion);
 }
+
+// export function getLastRefreshTimestamp(): string {
+//   return store.get('lastRefreshTimestamp', '') as string;
+// }
+
+// export function setLastRefreshTimestamp(d: Date) {
+//   const inLocalTime = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
+//   store.set('lastRefreshTimestamp', inLocalTime.toISOString());
+// }
 
 export function setLastUpdatedVersion(version: string) {
   store.set('lastUpdatedVersion', version);

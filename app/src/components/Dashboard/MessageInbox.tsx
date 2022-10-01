@@ -48,9 +48,7 @@ export function MessageInbox() {
         'query-inbox-read',
         chatIds[currentChatIndex].chat_id
       );
-      // TODO: resort this
       const conversationByChatId: Record<string, TConversation> = {};
-      // transform the data into format we want
       conversationData.forEach((m) => {
         const {
           chat_id,
@@ -151,8 +149,11 @@ export function MessageInbox() {
 
   const moveDownConversationStack = () => {
     const proposedIndex = currentChatIndex + 1;
-    // TODO: defensive check?
-    setCurrentChatIndex(proposedIndex);
+    if (chatIds.length === proposedIndex) {
+      setIsInboxZero(true);
+    } else {
+      setCurrentChatIndex(proposedIndex);
+    }
   };
 
   const onClickReplyNow = async () => {
@@ -276,7 +277,7 @@ export function MessageInbox() {
     category = (
       <>
         <Text ml="1" mr="1" color="red.400" fontWeight="bold">
-          Requires review
+          Awaiting action
         </Text>
       </>
     );
@@ -439,7 +440,7 @@ export function MessageInbox() {
               color="gray.500"
             >{`${numConversationsAwaitingAction} conversation${
               numConversationsAwaitingAction < 2 ? '' : 's'
-            } awaiting action.`}</Text>
+            } left, excludes group chats.`}</Text>
             <Text
               fontSize={14}
               textAlign="center"
@@ -453,17 +454,15 @@ export function MessageInbox() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              flexDirection: 'column',
             }}
             minHeight={550}
           >
-            <Text
-              bgGradient="linear(to-br, #0047AB, #6495ED)"
-              bgClip="text"
-              textAlign="center"
-              fontSize={45}
-              fontWeight="extrabold"
-            >
-              You have no messages awaiting action right now.
+            <Text textAlign="center" fontSize={45}>
+              😊
+            </Text>
+            <Text textAlign="center" fontSize={20}>
+              Refresh your data to see new texts here!
             </Text>
           </Box>
         )}

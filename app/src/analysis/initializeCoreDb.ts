@@ -5,6 +5,7 @@ import * as sqlite3 from 'sqlite3';
 
 import { closeDB, initializeDB } from '../utils/db';
 import * as sqlite3Wrapper from '../utils/sqliteWrapper';
+// import { setLastRefreshTimestamp } from '../utils/store';
 import {
   addressBookDBAliasName,
   appDirectoryInitPath,
@@ -172,6 +173,8 @@ export async function initializeCoreDb(): Promise<sqlite3.Database> {
   //   await clearExistingDirectory();
   //   throw e;
   // }
+
+  // setLastRefreshTimestamp(new Date());
   log.info('INFO: Created LOR DB');
 
   return lorDB;

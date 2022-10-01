@@ -3,6 +3,7 @@ import * as sqlite3 from 'sqlite3';
 
 import { isDateInThisWeek } from '../../main/util';
 import { allP } from '../../utils/sqliteWrapper';
+// import { getLastRefreshTimestamp } from '../../utils/store';
 import { CoreTableNames } from '../tables/types';
 
 export type InboxReadQueryResult = {
@@ -20,9 +21,7 @@ export async function queryInboxRead(
   db: sqlite3.Database,
   chatId: string
 ): Promise<InboxReadQueryResult[]> {
-  // TODO:
-  // read off messages directly, to get photos
-  // dont bother with reactions right now
+  // TODO(Danilowicz): read off messages directly dont bother with reactions right now
   const q = `
         SELECT DISTINCT
             message_id,
@@ -51,23 +50,32 @@ export type TGetChatIdsResult = {
 
 // Order here matters, it's what we sort by
 export enum TInboxCategory {
-  'RECENT' = 'RECENT',
   'POSSIBLE_FOLLOW_UP' = 'POSSIBLE_FOLLOW_UP',
   'AWAITING_YOUR_RESPONSE' = 'AWAITING_YOUR_RESPONSE',
+  'RECENT' = 'RECENT',
   'MANUAL_REVIEW' = 'MANUAL_REVIEW',
 }
 
 export async function queryGetInboxChatIds(
   db: sqlite3.Database
 ): Promise<TGetChatIdsResult> {
+  // const lastMainTableRefreshDate = getLastRefreshTimestamp();
+  const lastMainTableRefreshDate = new Date();
+  lastMainTableRefreshDate.setMonth(lastMainTableRefreshDate.getMonth() - 3);
+  let dateClause = '';
+  if (lastMainTableRefreshDate) {
+    dateClause = `WHERE human_readable_date > DATE("${lastMainTableRefreshDate.toISOString()}")`;
+  }
   const q = `
+    WITH TB AS (
     SELECT DISTINCT chat_id, COALESCE(contact_name, id) as contact_name, text as message, MAX(human_readable_date) as human_readable_date, is_from_me
     FROM ${CoreTableNames.CORE_MAIN_TABLE}
     WHERE chat_id IS NOT NULL
     AND (service_center != chat_id OR service_center is NULL)
     -- do not do group chats for now
     AND cache_roomnames IS NULL
-    GROUP BY chat_id
+    GROUP BY chat_id)
+    SELECT * FROM TB ${dateClause}
   `;
   const data = await allP(db, q);
 
