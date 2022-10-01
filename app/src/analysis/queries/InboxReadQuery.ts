@@ -3,7 +3,7 @@ import * as sqlite3 from 'sqlite3';
 
 import { isDateInThisWeek } from '../../main/util';
 import { allP } from '../../utils/sqliteWrapper';
-// import { getLastMainTableRefreshDate } from '../../utils/store';
+// import { getLastRefreshTimestamp } from '../../utils/store';
 import { CoreTableNames } from '../tables/types';
 
 export type InboxReadQueryResult = {
@@ -59,11 +59,12 @@ export enum TInboxCategory {
 export async function queryGetInboxChatIds(
   db: sqlite3.Database
 ): Promise<TGetChatIdsResult> {
-  // TODO: read from store
-  const lastMainTableRefreshDate = '2022-09-29T07:25:36.180Z'; // getLastMainTableRefreshDate();
+  // const lastMainTableRefreshDate = getLastRefreshTimestamp();
+  const lastMainTableRefreshDate = new Date();
+  lastMainTableRefreshDate.setMonth(lastMainTableRefreshDate.getMonth() - 3);
   let dateClause = '';
   if (lastMainTableRefreshDate) {
-    dateClause = `WHERE human_readable_date > DATE("${lastMainTableRefreshDate}")`;
+    dateClause = `WHERE human_readable_date > DATE("${lastMainTableRefreshDate.toISOString()}")`;
   }
   const q = `
     WITH TB AS (
