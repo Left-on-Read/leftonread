@@ -1,27 +1,15 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import {
-  Box,
-  Button,
-  IconButton,
-  Spinner,
-  Text,
-  theme,
-  useToast,
-} from '@chakra-ui/react';
+import { Box, Button, Spinner, Text, theme, useToast } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useRef, useState } from 'react';
-import {
-  FiArrowRightCircle,
-  FiCheck,
-  FiChevronDown,
-  FiChevronUp,
-} from 'react-icons/fi';
+import { FiArrowRightCircle, FiCheck } from 'react-icons/fi';
 import Select from 'react-select';
 
 import {
-  InboxConversationStatuses,
   InboxReadQueryResult,
+  TGetChatIdsResult,
+  TInboxCategory,
 } from '../../analysis/queries/InboxReadQuery';
 import { useKeyPress } from '../../hooks/useKeyPress';
 import { logEvent } from '../../utils/analytics';
@@ -30,7 +18,7 @@ import { typeMessageToPhoneNumber } from '../../utils/appleScriptCommands';
 type TConversation = {
   chatId: string;
   name: string;
-  status: InboxConversationStatuses;
+  category: TInboxCategory;
   messages: {
     friend: string;
     message: string;
@@ -40,19 +28,12 @@ type TConversation = {
 };
 
 export function MessageInbox() {
-  const [chatIds, setChatIds] = useState<
-    {
-      chat_id: string;
-      contact_name: string;
-    }[]
-  >([]);
+  const [chatIds, setChatIds] = useState<TGetChatIdsResult>([]);
   const [count, setCount] = useState<number>(0);
   const [conversation, setConversation] = useState<TConversation[]>([]);
   const [currentChatIndex, setCurrentChatIndex] = useState<number>(0);
 
   const [isInboxZero, setIsInboxZero] = useState<boolean>(false);
-  const [upActive, setUpActive] = useState<boolean>(false);
-  const [downActive, setDownActive] = useState<boolean>(false);
   const [replyNowActive, setReplyNowActive] = useState<boolean>(false);
   const [doneActive, setDoneActive] = useState<boolean>(false);
 
@@ -67,6 +48,7 @@ export function MessageInbox() {
         'query-inbox-read',
         chatIds[currentChatIndex].chat_id
       );
+      // TODO: resort this
       const conversationByChatId: Record<string, TConversation> = {};
       // transform the data into format we want
       conversationData.forEach((m) => {
@@ -91,7 +73,7 @@ export function MessageInbox() {
             const cns = {
               name: contact_name,
               chatId: chat_id,
-              status: InboxConversationStatuses.AWAITING_ACTION,
+              category: chatIds[currentChatIndex].category,
               messages: [msg],
             };
             conversationByChatId[chat_id] = cns;
@@ -100,7 +82,13 @@ export function MessageInbox() {
           }
         }
       });
-      setConversation(Object.values(conversationByChatId));
+      const convo = Object.values(conversationByChatId).map((d) => {
+        return {
+          ...d,
+          messages: d.messages.reverse(),
+        };
+      });
+      setConversation(Object.values(convo));
     }
     if (chatIds.length > 0) {
       fetchConversation();
@@ -111,15 +99,14 @@ export function MessageInbox() {
     async function fetchChatIds() {
       setIsLoading(true);
       try {
-        const chatIdData: { chat_id: string; contact_name: string }[] =
-          await ipcRenderer.invoke('query-inbox-chat-ids');
-        console.log(chatIdData);
+        const chatIdData: TGetChatIdsResult = await ipcRenderer.invoke(
+          'query-inbox-chat-ids'
+        );
         if (chatIdData.length > 0) {
           setChatIds(chatIdData);
           setCount(chatIdData.length);
           setCurrentChatIndex(0);
         } else {
-          console.log('this is hapening');
           setIsInboxZero(true);
         }
       } catch (err: unknown) {
@@ -133,10 +120,8 @@ export function MessageInbox() {
 
   const writeConversationStatusToInbox = async ({
     chatId,
-  }: // status,
-  {
+  }: {
     chatId: string;
-    // status: InboxConversationStatuses;
   }) => {
     await ipcRenderer.invoke('query-inbox-write', chatId);
     setCount(count - 1);
@@ -168,32 +153,6 @@ export function MessageInbox() {
     const proposedIndex = currentChatIndex + 1;
     // TODO: defensive check?
     setCurrentChatIndex(proposedIndex);
-  };
-
-  const moveUpConversationStack = () => {
-    const proposedIndex = currentChatIndex - 1;
-    if (proposedIndex < 0) {
-      return;
-    }
-    setCurrentChatIndex(proposedIndex);
-  };
-
-  const onClickUp = () => {
-    closeToast();
-    setUpActive(true);
-    moveUpConversationStack();
-    setTimeout(() => {
-      setUpActive(false);
-    }, 200);
-  };
-
-  const onClickDown = () => {
-    closeToast();
-    setDownActive(true);
-    moveDownConversationStack();
-    setTimeout(() => {
-      setDownActive(false);
-    }, 200);
   };
 
   const onClickReplyNow = async () => {
@@ -254,10 +213,8 @@ export function MessageInbox() {
     moveDownConversationStack();
   };
 
-  useKeyPress(['f'], onClickDone);
-  useKeyPress(['d'], onClickReplyNow);
-  useKeyPress(['q'], onClickUp);
-  useKeyPress(['a'], onClickDown);
+  useKeyPress(['d'], onClickDone);
+  useKeyPress(['s'], onClickReplyNow);
 
   if (
     isLoading ||
@@ -286,6 +243,44 @@ export function MessageInbox() {
 
   // TODO(Danilowicz): handle error too
   // if (error)
+
+  let category;
+  const ct = chatIds[currentChatIndex]
+    ? chatIds[currentChatIndex].category
+    : undefined;
+  if (ct === TInboxCategory.AWAITING_YOUR_RESPONSE) {
+    category = (
+      <>
+        <Text ml="1" mr="1" color="red.400" fontWeight="bold">
+          Awaiting your response
+        </Text>
+      </>
+    );
+  } else if (ct === TInboxCategory.POSSIBLE_FOLLOW_UP) {
+    category = (
+      <>
+        <Text ml="1" mr="1" color="red.400" fontWeight="bold">
+          Possibly needs follow up
+        </Text>
+      </>
+    );
+  } else if (ct === TInboxCategory.RECENT) {
+    category = (
+      <>
+        <Text ml="1" mr="1" color="red.400" fontWeight="bold">
+          Recent
+        </Text>
+      </>
+    );
+  } else if (ct === TInboxCategory.MANUAL_REVIEW) {
+    category = (
+      <>
+        <Text ml="1" mr="1" color="red.400" fontWeight="bold">
+          Requires review
+        </Text>
+      </>
+    );
+  }
 
   return (
     <>
@@ -349,10 +344,7 @@ export function MessageInbox() {
               justifyContent="center"
               mb={25}
             >
-              <Text>Status:</Text>
-              <Text ml="1" mr="1" color="red.400" fontWeight="bold">
-                Awaiting Action
-              </Text>
+              {category}
             </Box>
 
             <Box
@@ -362,38 +354,6 @@ export function MessageInbox() {
                 justifyContent: 'center',
               }}
             >
-              {/* <Box
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-evenly',
-                  marginRight: '100px',
-                }}
-              >
-                <IconButton
-                  isActive={upActive}
-                  onClick={onClickUp}
-                  visibility={currentChatIndex === 0 ? 'hidden' : undefined}
-                  colorScheme="gray"
-                  aria-label="Up"
-                  size="lg"
-                  icon={<FiChevronUp />}
-                  fontSize={iconSize - 25}
-                  w={iconSize}
-                  h={iconSize}
-                />
-                <IconButton
-                  isActive={downActive}
-                  onClick={onClickDown}
-                  colorScheme="gray"
-                  aria-label="Up"
-                  size="lg"
-                  icon={<FiChevronDown />}
-                  fontSize={iconSize - 25}
-                  w={iconSize}
-                  h={iconSize}
-                />
-              </Box> */}
               <Box
                 style={{
                   display: 'flex',
@@ -455,13 +415,6 @@ export function MessageInbox() {
                 justifyContent: 'space-evenly',
               }}
             >
-              {/* <Button
-                onClick={onClickRemindMe}
-                isActive={remindMeActive}
-                rightIcon={<FiClock />}
-              >
-                Remind Me
-              </Button> */}
               <Button
                 onClick={onClickReplyNow}
                 isActive={replyNowActive}
@@ -481,13 +434,18 @@ export function MessageInbox() {
             </Box>
             <Text
               mt={5}
-              mb={5}
               fontSize={14}
               textAlign="center"
               color="gray.500"
             >{`${numConversationsAwaitingAction} conversation${
               numConversationsAwaitingAction < 2 ? '' : 's'
-            } awaiting action`}</Text>
+            } awaiting action.`}</Text>
+            <Text
+              fontSize={14}
+              textAlign="center"
+              color="gray.500"
+              mb={5}
+            >{`Tip: Use the "S" key to reply now or "D" to mark as done.`}</Text>
           </>
         ) : (
           <Box
