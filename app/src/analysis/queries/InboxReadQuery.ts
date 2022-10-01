@@ -3,6 +3,7 @@ import * as sqlite3 from 'sqlite3';
 
 import { isDateInThisWeek } from '../../main/util';
 import { allP } from '../../utils/sqliteWrapper';
+// import { getLastMainTableRefreshDate } from '../../utils/store';
 import { CoreTableNames } from '../tables/types';
 
 export type InboxReadQueryResult = {
@@ -58,14 +59,22 @@ export enum TInboxCategory {
 export async function queryGetInboxChatIds(
   db: sqlite3.Database
 ): Promise<TGetChatIdsResult> {
+  const lastMainTableRefreshDate = '2022-09-29T07:25:36.180Z'; // getLastMainTableRefreshDate();
+  console.log('r', lastMainTableRefreshDate);
+  let dateClause = '';
+  if (lastMainTableRefreshDate) {
+    dateClause = `WHERE human_readable_date > DATE("${lastMainTableRefreshDate}")`;
+  }
   const q = `
+    WITH TB AS (
     SELECT DISTINCT chat_id, COALESCE(contact_name, id) as contact_name, text as message, MAX(human_readable_date) as human_readable_date, is_from_me
     FROM ${CoreTableNames.CORE_MAIN_TABLE}
     WHERE chat_id IS NOT NULL
     AND (service_center != chat_id OR service_center is NULL)
     -- do not do group chats for now
     AND cache_roomnames IS NULL
-    GROUP BY chat_id
+    GROUP BY chat_id)
+    SELECT * FROM TB ${dateClause}
   `;
   const data = await allP(db, q);
 

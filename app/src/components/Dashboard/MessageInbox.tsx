@@ -149,7 +149,7 @@ export function MessageInbox() {
 
   const moveDownConversationStack = () => {
     const proposedIndex = currentChatIndex + 1;
-    if (chatIds.length - 1 === proposedIndex) {
+    if (chatIds.length === proposedIndex) {
       setIsInboxZero(true);
     } else {
       setCurrentChatIndex(proposedIndex);
