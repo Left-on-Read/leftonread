@@ -2,7 +2,9 @@ import { Box, Text, theme as defaultTheme } from '@chakra-ui/react';
 import { motion, useAnimationControls } from 'framer-motion';
 import { useCallback, useEffect } from 'react';
 
-const sectionDurationInSecs = 10000;
+import { TimerBar } from '../TimerBar';
+
+const sectionDurationInSecs = 8;
 
 export function MostMessages({
   shouldExit,
@@ -71,24 +73,7 @@ export function MostMessages({
       shadow="dark-lg"
       bgColor="purple.50"
     >
-      <motion.div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          height: 5,
-          backgroundColor: defaultTheme.colors.purple['500'],
-        }}
-        initial={{
-          width: '0',
-        }}
-        animate={{
-          width: '100%',
-        }}
-        transition={{
-          duration: sectionDurationInSecs,
-        }}
-      />
+      <TimerBar durationInSecs={sectionDurationInSecs} />
       <motion.div
         initial={{
           opacity: 0,
@@ -107,8 +92,17 @@ export function MostMessages({
           left: '2vh',
           fontWeight: 'bold',
           color: 'gray',
-          opacity: 0.4,
           fontSize: 36,
+        }}
+        initial={{
+          opacity: 0,
+        }}
+        animate={{
+          opacity: [0, 0.4, 0],
+        }}
+        transition={{
+          duration: 2.5,
+          delay: 2,
         }}
       >
         {secondFriend}
@@ -123,18 +117,38 @@ export function MostMessages({
           opacity: 0.4,
           fontSize: 36,
         }}
+        initial={{
+          opacity: 0,
+        }}
+        animate={{
+          opacity: [0, 0.4, 0],
+        }}
+        transition={{
+          duration: 2.5,
+          delay: 3,
+        }}
       >
         {thirdFriend}
       </motion.div>
       <motion.div
         style={{
           position: 'absolute',
-          top: '5vh',
+          top: '13vh',
           right: '-8vh',
           fontWeight: 'bold',
           color: 'gray',
           opacity: 0.4,
           fontSize: 36,
+        }}
+        initial={{
+          opacity: 0,
+        }}
+        animate={{
+          opacity: [0, 0.4, 0],
+        }}
+        transition={{
+          duration: 2.5,
+          delay: 2.5,
         }}
       >
         {fourthFriend}
@@ -143,11 +157,21 @@ export function MostMessages({
         style={{
           position: 'absolute',
           top: '5vh',
-          right: '-8vh',
+          left: '-8vh',
           fontWeight: 'bold',
           color: 'gray',
           opacity: 0.4,
           fontSize: 36,
+        }}
+        initial={{
+          opacity: 0,
+        }}
+        animate={{
+          opacity: [0, 0.4, 0],
+        }}
+        transition={{
+          duration: 2.5,
+          delay: 3.5,
         }}
       >
         {fitfhFriend}

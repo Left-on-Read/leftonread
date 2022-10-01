@@ -12,6 +12,7 @@ import { BusiestDay } from './Sections/BusiestDay';
 import { DayInParticular } from './Sections/DayInParticular';
 import { EveryoneScrolling } from './Sections/EveryoneScrolling';
 import { MostMessages } from './Sections/MostMessages';
+import { TopFriend } from './Sections/TopFriend';
 import { TotalCount } from './Sections/TotalCount';
 import { WrappedIntro } from './Sections/WrappedIntro';
 import { WrappedIntroTexts } from './Sections/WrappedIntroTexts';
@@ -113,6 +114,13 @@ export function WrappedPage() {
       }}
     />,
     <MostMessages
+      shouldExit={triggerExit}
+      onExitFinish={() => {
+        setActiveIndex(activeIndex + 1);
+        setTriggerExit(false);
+      }}
+    />,
+    <TopFriend
       shouldExit={triggerExit}
       onExitFinish={() => {
         setActiveIndex(activeIndex + 1);

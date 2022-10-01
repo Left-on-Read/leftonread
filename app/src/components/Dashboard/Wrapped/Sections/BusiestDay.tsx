@@ -2,7 +2,9 @@ import { Box, Text, theme as defaultTheme } from '@chakra-ui/react';
 import { motion, useAnimationControls } from 'framer-motion';
 import { useCallback, useEffect } from 'react';
 
-const sectionDurationInSecs = 10000;
+import { TimerBar } from '../TimerBar';
+
+const sectionDurationInSecs = 10;
 
 export function BusiestDay({
   shouldExit,
@@ -69,24 +71,7 @@ export function BusiestDay({
       shadow="dark-lg"
       bgColor="purple.50"
     >
-      <motion.div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          height: 5,
-          backgroundColor: defaultTheme.colors.purple['500'],
-        }}
-        initial={{
-          width: '0',
-        }}
-        animate={{
-          width: '100%',
-        }}
-        transition={{
-          duration: sectionDurationInSecs,
-        }}
-      />
+      <TimerBar durationInSecs={sectionDurationInSecs} />
       <motion.div
         initial={{
           opacity: 0,
