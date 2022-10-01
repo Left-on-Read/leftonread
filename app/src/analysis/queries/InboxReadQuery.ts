@@ -20,9 +20,7 @@ export async function queryInboxRead(
   db: sqlite3.Database,
   chatId: string
 ): Promise<InboxReadQueryResult[]> {
-  // TODO:
-  // read off messages directly, to get photos
-  // dont bother with reactions right now
+  // TODO(Danilowicz): read off messages directly dont bother with reactions right now
   const q = `
         SELECT DISTINCT
             message_id,
@@ -51,9 +49,9 @@ export type TGetChatIdsResult = {
 
 // Order here matters, it's what we sort by
 export enum TInboxCategory {
-  'RECENT' = 'RECENT',
   'POSSIBLE_FOLLOW_UP' = 'POSSIBLE_FOLLOW_UP',
   'AWAITING_YOUR_RESPONSE' = 'AWAITING_YOUR_RESPONSE',
+  'RECENT' = 'RECENT',
   'MANUAL_REVIEW' = 'MANUAL_REVIEW',
 }
 
