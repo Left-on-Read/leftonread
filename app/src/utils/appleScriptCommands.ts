@@ -61,11 +61,15 @@ export async function typeMessageToPhoneNumber({
           delay 0.25 -- this is super critical, it seems without the delay it wont work
           key code 45 using command down           -- press Command + N to start a new window
           delay 0.25 -- this is super critical, it seems without the delay it wont work
+          delay 0.25 -- this is super critical, it seems without the delay it wont work
           keystroke "${phoneNumber}"  -- input the phone number
+          delay 0.25 -- this is super critical, it seems without the delay it wont work
           delay 0.25 -- this is super critical, it seems without the delay it wont work
           key code 36 —- enter
           delay 0.25 -- this is super critical, it seems without the delay it wont work
+          delay 0.25 -- this is super critical, it seems without the delay it wont work
           key code 48 -- tab
+          delay 0.25 -- this is super critical, it seems without the delay it wont work
           delay 0.25 -- this is super critical, it seems without the delay it wont work
           keystroke "${message}"  -- input the message
       end tell'

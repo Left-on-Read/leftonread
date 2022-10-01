@@ -16,7 +16,6 @@ import {
   FiCheck,
   FiChevronDown,
   FiChevronUp,
-  FiClock,
 } from 'react-icons/fi';
 import Select from 'react-select';
 
@@ -41,92 +40,95 @@ type TConversation = {
 };
 
 export function MessageInbox() {
-  const [count, setCount] = useState<number>(1);
-  const [conversations, setConversations] = useState<TConversation[]>([]);
-  const [currentConversationIndex, setCurrentConversationIndex] =
-    useState<number>(0);
-  const [selectedConversationStatus, setSelectedConversationStatus] =
-    useState<InboxConversationStatuses>();
+  const [chatIds, setChatIds] = useState<
+    {
+      chat_id: string;
+      contact_name: string;
+    }[]
+  >([]);
+  const [count, setCount] = useState<number>(0);
+  const [conversation, setConversation] = useState<TConversation[]>([]);
+  const [currentChatIndex, setCurrentChatIndex] = useState<number>(0);
 
   const [isInboxZero, setIsInboxZero] = useState<boolean>(false);
   const [upActive, setUpActive] = useState<boolean>(false);
   const [downActive, setDownActive] = useState<boolean>(false);
-  const [remindMeActive, setRemindMeActive] = useState<boolean>(false);
   const [replyNowActive, setReplyNowActive] = useState<boolean>(false);
   const [doneActive, setDoneActive] = useState<boolean>(false);
 
-  const [error, setError] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const toast = useToast();
   const toastIdRef = useRef<any>();
 
   useEffect(() => {
-    async function fetchMessageInbox() {
-      setError('');
+    async function fetchConversation() {
+      const conversationData: InboxReadQueryResult[] = await ipcRenderer.invoke(
+        'query-inbox-read',
+        chatIds[currentChatIndex].chat_id
+      );
+      const conversationByChatId: Record<string, TConversation> = {};
+      // transform the data into format we want
+      conversationData.forEach((m) => {
+        const {
+          chat_id,
+          contact_name,
+          is_from_me,
+          message,
+          human_readable_date,
+          message_id,
+        } = m;
+
+        const msg = {
+          friend: is_from_me === 0 ? contact_name : 'you',
+          message,
+          date: new Date(human_readable_date),
+          messageId: message_id,
+        };
+        if (contact_name.length > 0) {
+          // first time seeing this chat
+          if (!conversationByChatId[chat_id]) {
+            const cns = {
+              name: contact_name,
+              chatId: chat_id,
+              status: InboxConversationStatuses.AWAITING_ACTION,
+              messages: [msg],
+            };
+            conversationByChatId[chat_id] = cns;
+          } else {
+            conversationByChatId[chat_id].messages.push(msg);
+          }
+        }
+      });
+      setConversation(Object.values(conversationByChatId));
+    }
+    if (chatIds.length > 0) {
+      fetchConversation();
+    }
+  }, [chatIds, currentChatIndex]);
+
+  useEffect(() => {
+    async function fetchChatIds() {
       setIsLoading(true);
       try {
-        const data: InboxReadQueryResult[] = await ipcRenderer.invoke(
-          'query-inbox-read'
-        );
-
-        const conversationsByChatId: Record<string, TConversation> = {};
-        // transform the data into format we want
-        data.forEach((m) => {
-          const {
-            chat_id,
-            contact_name,
-            is_from_me,
-            message,
-            human_readable_date,
-            message_id,
-          } = m;
-
-          const msg = {
-            friend: is_from_me === 0 ? contact_name : 'you',
-            message,
-            date: new Date(human_readable_date),
-            messageId: message_id,
-          };
-          if (contact_name.length > 0) {
-            // first time seeing this chat
-            if (!conversationsByChatId[chat_id]) {
-              const conversation = {
-                name: contact_name,
-                chatId: chat_id,
-                // TODO: read this from DB
-                status: InboxConversationStatuses.AWAITING_ACTION,
-                messages: [msg],
-              };
-              conversationsByChatId[chat_id] = conversation;
-            } else {
-              conversationsByChatId[chat_id].messages.push(msg);
-            }
-          }
-        });
-
-        // look at the last messages and sort by priority
-        // 1) last text not you
-        // 2) last text you with a question
-
-        const c = Object.values(conversationsByChatId);
-        setConversations(c);
-        setCount(c.length);
-        if (c.length > 0) {
-          setSelectedConversationStatus(c[0].status);
+        const chatIdData: { chat_id: string; contact_name: string }[] =
+          await ipcRenderer.invoke('query-inbox-chat-ids');
+        console.log(chatIdData);
+        if (chatIdData.length > 0) {
+          setChatIds(chatIdData);
+          setCount(chatIdData.length);
+          setCurrentChatIndex(0);
         } else {
+          console.log('this is hapening');
           setIsInboxZero(true);
         }
       } catch (err: unknown) {
-        if (err instanceof Error) {
-          setError(err.message);
-        }
         log.error(`ERROR: fetching for Message Inbox`, err);
       } finally {
         setIsLoading(false);
       }
     }
-    fetchMessageInbox();
+    fetchChatIds();
   }, []);
 
   const writeConversationStatusToInbox = async ({
@@ -163,30 +165,17 @@ export function MessageInbox() {
   }
 
   const moveDownConversationStack = () => {
-    const proposedIndex = currentConversationIndex + 1;
-    if (proposedIndex > conversations.length - 1) {
-      const remainingAwaiting = conversations.findIndex(
-        (c) => c.status === InboxConversationStatuses.AWAITING_ACTION
-      );
-      setIsInboxZero(true);
-      // TODO(Danilowicz): do this when we actual persist the valuess
-      // if (remainingAwaiting === -1) {
-      //   setIsInboxZero(true);
-      // }
-      // proposedIndex = remainingAwaiting;
-    } else {
-      setCurrentConversationIndex(proposedIndex);
-      setSelectedConversationStatus(conversations[proposedIndex].status);
-    }
+    const proposedIndex = currentChatIndex + 1;
+    // TODO: defensive check?
+    setCurrentChatIndex(proposedIndex);
   };
 
   const moveUpConversationStack = () => {
-    const proposedIndex = currentConversationIndex - 1;
+    const proposedIndex = currentChatIndex - 1;
     if (proposedIndex < 0) {
       return;
     }
-    setCurrentConversationIndex(proposedIndex);
-    setSelectedConversationStatus(conversations[proposedIndex].status);
+    setCurrentChatIndex(proposedIndex);
   };
 
   const onClickUp = () => {
@@ -207,40 +196,19 @@ export function MessageInbox() {
     }, 200);
   };
 
-  const onClickRemindMe = () => {
-    closeToast();
-    setRemindMeActive(true);
-    setSelectedConversationStatus(InboxConversationStatuses.REMIND_ME);
-
-    setTimeout(() => {
-      setRemindMeActive(false);
-    }, 200);
-
-    toastIdRef.current = toast({
-      // store previous conversation index
-      title: `Marked conversation with ${conversations[currentConversationIndex].name} as remind me`,
-      duration: 5000,
-      position: 'bottom-right',
-      variant: 'subtle',
-    });
-
-    moveDownConversationStack();
-  };
-
   const onClickReplyNow = async () => {
     writeConversationStatusToInbox({
-      chatId: conversations[currentConversationIndex].chatId,
+      chatId: chatIds[currentChatIndex].chat_id,
     });
     closeToast();
     setReplyNowActive(true);
-    setSelectedConversationStatus(InboxConversationStatuses.REPLY_NOW);
     setTimeout(() => {
       setReplyNowActive(false);
     }, 200);
 
     toastIdRef.current = toast({
       // store previous conversation index
-      title: `Marked conversation with ${conversations[currentConversationIndex].name} as responded`,
+      title: `Marked conversation with ${chatIds[currentChatIndex].contact_name} as responded`,
       status: 'info',
       duration: 5000,
       position: 'bottom-right',
@@ -251,7 +219,7 @@ export function MessageInbox() {
       // NOTE(Danilowicz): if we get reports of this not working,
       // we should use the phone number here, which might have a
       // a higher success rate
-      phoneNumber: conversations[currentConversationIndex].name,
+      phoneNumber: chatIds[currentChatIndex].contact_name,
     });
 
     logEvent({
@@ -263,18 +231,17 @@ export function MessageInbox() {
 
   const onClickDone = () => {
     writeConversationStatusToInbox({
-      chatId: conversations[currentConversationIndex].chatId,
+      chatId: chatIds[currentChatIndex].chat_id,
     });
     closeToast();
     setDoneActive(true);
-    setSelectedConversationStatus(InboxConversationStatuses.DONE);
 
     setTimeout(() => {
       setDoneActive(false);
     }, 200);
 
     toastIdRef.current = toast({
-      title: `Marked conversation with ${conversations[currentConversationIndex].name} as done`,
+      title: `Marked conversation with ${chatIds[currentChatIndex].contact_name} as done`,
       status: 'success',
       duration: 5000,
       position: 'bottom-right',
@@ -289,11 +256,14 @@ export function MessageInbox() {
 
   useKeyPress(['f'], onClickDone);
   useKeyPress(['d'], onClickReplyNow);
-  useKeyPress(['s'], onClickRemindMe);
   useKeyPress(['q'], onClickUp);
   useKeyPress(['a'], onClickDown);
 
-  if (isLoading) {
+  if (
+    isLoading ||
+    (!isInboxZero && chatIds.length === 0) ||
+    (!isInboxZero && conversation.length === 0)
+  ) {
     return (
       <>
         <div
@@ -317,51 +287,8 @@ export function MessageInbox() {
   // TODO(Danilowicz): handle error too
   // if (error)
 
-  let statusMessage;
-  if (
-    selectedConversationStatus === InboxConversationStatuses.AWAITING_ACTION
-  ) {
-    statusMessage = (
-      <>
-        <Text>Status:</Text>
-        <Text ml="1" mr="1" color="red.400" fontWeight="bold">
-          Awaiting Action
-        </Text>
-      </>
-    );
-  }
-
-  if (selectedConversationStatus === InboxConversationStatuses.REMIND_ME) {
-    statusMessage = (
-      <>
-        <Text mr="1">Status: Remind Me</Text>
-        <FiClock />
-      </>
-    );
-  }
-
-  if (selectedConversationStatus === InboxConversationStatuses.REPLY_NOW) {
-    statusMessage = (
-      <>
-        <Text mr="1">Status: Reply Now</Text>
-        <FiArrowRightCircle />
-      </>
-    );
-  }
-
-  if (selectedConversationStatus === InboxConversationStatuses.DONE) {
-    statusMessage = (
-      <>
-        <Text mr="1">Status: Done</Text>
-        <FiCheck />
-      </>
-    );
-  }
-
   const iconSize = 55;
-  const messages = conversations[currentConversationIndex]
-    ? conversations[currentConversationIndex].messages
-    : [];
+
   return (
     <>
       <Box
@@ -369,69 +296,53 @@ export function MessageInbox() {
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'space-between',
-          marginBottom: '20px',
         }}
       >
         <Text fontSize="4xl">{`Your Inbox (${numConversationsAwaitingAction})`}</Text>
-        {/* <Button leftIcon={<Icon as={FiRefreshCw} />} onClick={() => {}}>
-          Refresh Data
-        </Button> */}
+        {!isInboxZero && (
+          <Box
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              marginBottom: 30,
+            }}
+          >
+            <Text fontSize="lg" mb={1}>
+              Jump to any thread...
+            </Text>
+            <div>
+              <Select
+                value={{
+                  value: chatIds[currentChatIndex].chat_id,
+                  label: chatIds[currentChatIndex].contact_name,
+                }}
+                options={chatIds.map((v) => {
+                  return {
+                    value: v.chat_id,
+                    label: v.contact_name,
+                  };
+                })}
+                onChange={(e) => {
+                  if (e) {
+                    const proposedIndex = chatIds.findIndex(
+                      (c) => c.chat_id.toString() === e.value.toString()
+                    );
+                    if (proposedIndex !== -1) {
+                      setCurrentChatIndex(proposedIndex);
+                    }
+                  }
+                }}
+              />
+            </div>
+          </Box>
+        )}
       </Box>
 
-      <Box
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          marginBottom: 30,
-        }}
-      >
-        <Text fontSize="lg" mb={1}>
-          Jump to any thread
-        </Text>
-        <div style={{ width: '40%' }}>
-          <Select
-            value={{
-              label:
-                conversations.length > 0 &&
-                conversations[currentConversationIndex]
-                  ? conversations[currentConversationIndex].name
-                  : '',
-              value:
-                conversations.length > 0 &&
-                conversations[currentConversationIndex]
-                  ? conversations[currentConversationIndex].chatId
-                  : '',
-            }}
-            options={
-              conversations.length > 0
-                ? conversations.map((c) => {
-                    return {
-                      value: c.chatId,
-                      label: c.name,
-                    };
-                  })
-                : []
-            }
-            onChange={(e) => {
-              if (e) {
-                const proposedIndex = conversations.findIndex(
-                  (c) => c.chatId === e.value
-                );
-                if (proposedIndex !== -1) {
-                  setCurrentConversationIndex(proposedIndex);
-                }
-              }
-            }}
-          />
-        </div>
-      </Box>
       <Box borderWidth="1px" borderRadius="lg" minHeight={550}>
         {!isInboxZero && !isLoading ? (
           <>
             <Text textAlign="center" fontSize="4xl" paddingTop={10}>
-              {conversations[currentConversationIndex]
-                ? conversations[currentConversationIndex].name
-                : ''}
+              {chatIds[currentChatIndex].contact_name}
             </Text>
             <Box
               display="flex"
@@ -440,7 +351,10 @@ export function MessageInbox() {
               justifyContent="center"
               mb={25}
             >
-              {statusMessage}
+              <Text>Status:</Text>
+              <Text ml="1" mr="1" color="red.400" fontWeight="bold">
+                Awaiting Action
+              </Text>
             </Box>
 
             <Box
@@ -450,7 +364,7 @@ export function MessageInbox() {
                 justifyContent: 'center',
               }}
             >
-              <Box
+              {/* <Box
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
@@ -461,7 +375,7 @@ export function MessageInbox() {
                 <IconButton
                   isActive={upActive}
                   onClick={onClickUp}
-                  isDisabled={currentConversationIndex === 0}
+                  visibility={currentChatIndex === 0 ? 'hidden' : undefined}
                   colorScheme="gray"
                   aria-label="Up"
                   size="lg"
@@ -481,32 +395,20 @@ export function MessageInbox() {
                   w={iconSize}
                   h={iconSize}
                 />
-              </Box>
+              </Box> */}
               <Box
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
-                  maxHeight: '300px',
+                  maxHeight: '200px',
                   overflow: 'auto',
                   border: `1px solid ${theme.colors.gray['200']}`,
                   borderRadius: 16,
                   padding: 15,
-                  marginLeft: '-50px',
                   maxWidth: '650px',
                 }}
               >
-                {/* {showConfetti && (
-                  <Confetti
-                    width={440}
-                    height={350}
-                    recycle={false}
-                    numberOfPieces={200}
-                    onConfettiComplete={() => {
-                      setShowConfetti(false);
-                    }}
-                  />
-                )} */}
-                {messages.map((c) => {
+                {conversation[0].messages.map((c) => {
                   let marginLeft = '0px';
                   if (c.friend === 'you') {
                     marginLeft = '350px';
@@ -549,7 +451,7 @@ export function MessageInbox() {
 
             <Box
               style={{
-                marginTop: 50,
+                marginTop: 25,
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'space-evenly',
@@ -602,13 +504,10 @@ export function MessageInbox() {
               bgGradient="linear(to-br, #0047AB, #6495ED)"
               bgClip="text"
               textAlign="center"
-              fontSize={65}
+              fontSize={45}
               fontWeight="extrabold"
             >
-              Inbox zero
-            </Text>
-            <Text ml={5} fontSize={65}>
-              🎉
+              You have no messages awaiting action right now.
             </Text>
           </Box>
         )}

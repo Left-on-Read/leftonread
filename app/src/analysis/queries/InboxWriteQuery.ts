@@ -14,6 +14,5 @@ export async function queryInboxWrite(
         UPDATE ${CoreTableNames.CORE_MAIN_TABLE} SET service_center = ${chatId} WHERE chat_id = ${chatId}
     `;
 
-  log.info(q);
   return runP(db, q);
 }
