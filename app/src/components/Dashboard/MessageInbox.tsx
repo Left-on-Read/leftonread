@@ -287,8 +287,6 @@ export function MessageInbox() {
   // TODO(Danilowicz): handle error too
   // if (error)
 
-  const iconSize = 55;
-
   return (
     <>
       <Box
@@ -298,7 +296,7 @@ export function MessageInbox() {
           justifyContent: 'space-between',
         }}
       >
-        <Text fontSize="4xl">{`Your Inbox (${numConversationsAwaitingAction})`}</Text>
+        <Text fontSize="4xl">{`Your Inbox (${numConversationsAwaitingAction}) 📥`}</Text>
         {!isInboxZero && (
           <Box
             style={{
@@ -308,7 +306,7 @@ export function MessageInbox() {
             }}
           >
             <Text fontSize="lg" mb={1}>
-              Jump to any thread...
+              Jump to any thread ↩️
             </Text>
             <div>
               <Select
