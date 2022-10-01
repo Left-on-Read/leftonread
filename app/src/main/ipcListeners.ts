@@ -26,7 +26,10 @@ import { SharedQueryFilters } from '../analysis/queries/filters/sharedQueryFilte
 import { queryGroupChatActivityOverTime } from '../analysis/queries/GroupChats/GroupChatActivityOverTimeQuery';
 import { queryGroupChatByFriends } from '../analysis/queries/GroupChats/GroupChatByFriendsQuery';
 import { queryGroupChatReactionsQuery } from '../analysis/queries/GroupChats/GroupChatReactionsQuery';
-import { queryInboxRead } from '../analysis/queries/InboxReadQuery';
+import {
+  queryGetInboxChatIds,
+  queryInboxRead,
+} from '../analysis/queries/InboxReadQuery';
 import { queryInboxWrite } from '../analysis/queries/InboxWriteQuery';
 import { queryRespondReminders } from '../analysis/queries/RespondReminders';
 import {
@@ -364,13 +367,21 @@ export function attachIpcListeners() {
     }
   });
 
-  ipcMain.handle('query-inbox-read', async () => {
+  ipcMain.handle('query-inbox-read', async (event, chatId: string) => {
     // TODO(Danilowicz): change this to read the inbox db not the core db
     const db = getDb();
-    return queryInboxRead(db);
+    return queryInboxRead(db, chatId);
+  });
+
+  ipcMain.handle('query-inbox-chat-ids', async (event) => {
+    // TODO(Danilowicz): change this to read the inbox db not the core db
+    const db = getDb();
+    const chatIds = await queryGetInboxChatIds(db);
+    return chatIds;
   });
 
   ipcMain.handle('query-inbox-write', async (event, chatId: string) => {
+    // TODO(Danilowicz): change this to write to the inbox db not the core db
     const db = getDb();
     await queryInboxWrite(db, chatId);
   });
