@@ -26,7 +26,6 @@ export async function queryInboxRead(
   db: sqlite3.Database,
   chatId: string
 ): Promise<InboxReadQueryResult[]> {
-  log.info(chatId);
   // TODO:
   // read off messages directly, to get photos
   // dont bother with reactions right now
