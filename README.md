@@ -39,11 +39,6 @@ Thank you to Vercel for sponsoring this project!
 
 [![Vercel](./assets/documentation/powered-by-vercel.svg)](https://vercel.com/?utm_source=leftonread&utm_campaign=oss)
 
-Thank you to 3 Minute Journal for sponsoring this project!
-
-[![3-minute-journal](https://ph-files.imgix.net/7eed76e3-d582-46b7-aab4-fa1c3d6a4a1e.png?auto=format&auto=compress&codec=mozjpeg&cs=strip&w=72&h=72&fit=crop&bg=0fff&dpr=2)](https://apps.apple.com/us/app/3-minute-journal/id1621951579)
-
-
 ## Support
 
 <a href="https://www.buymeacoffee.com/leftonread" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
