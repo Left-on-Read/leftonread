@@ -18,7 +18,7 @@ import { useGoldContext } from '../Premium/GoldContext';
 import { PremiumModal } from '../Premium/PremiumModal';
 import { EmailModal } from '../Support/EmailModal';
 
-const Pages = ['Inbox', 'Analytics', 'Productivity', 'Settings'] as const;
+const Pages = ['Analytics', 'Productivity', 'Inbox', 'Settings'] as const;
 
 export const SIDEBAR_WIDTH = 200;
 
