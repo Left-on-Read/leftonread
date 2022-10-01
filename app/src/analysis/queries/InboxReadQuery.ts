@@ -59,8 +59,8 @@ export enum TInboxCategory {
 export async function queryGetInboxChatIds(
   db: sqlite3.Database
 ): Promise<TGetChatIdsResult> {
+  // TODO: read from store
   const lastMainTableRefreshDate = '2022-09-29T07:25:36.180Z'; // getLastMainTableRefreshDate();
-  console.log('r', lastMainTableRefreshDate);
   let dateClause = '';
   if (lastMainTableRefreshDate) {
     dateClause = `WHERE human_readable_date > DATE("${lastMainTableRefreshDate}")`;
