@@ -5,7 +5,7 @@
 
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Wow,%20super%20cool%20open-source%20project%20-%20checkout%20out%20Left%20on%20Read&url=https://leftonread.me&hashtags=texting,analytics,buildinpublic)
 
-iMessages supercharged! Built with Electron, React, SQLite, Typescript, and ❤️.
+iMessages supercharged! We are entirely open-source to show you that your data is secure and never leaves your computer. Left on Read is built with Electron, React, SQLite, Typescript, and ❤️.
 
 ## Download Left on Read for Mac
 
@@ -19,7 +19,7 @@ iMessages supercharged! Built with Electron, React, SQLite, Typescript, and ❤�
 
 **Secure**: Just like your private photos and important documents, your text messages are only accessible to you and never seen by us.
 
-**Productive and Fun**: The first iteration was a [web application](https://www.reddit.com/r/dataisbeautiful/comments/biou3e/4_years_of_texts_between_me_and_my_long_distance/), but now we have rebuilt Left on Read as a Desktop app to feature fun productivity tools, such as scheduled messages and reminders.
+**Fun**: The first iteration was a [web application](https://www.reddit.com/r/dataisbeautiful/comments/biou3e/4_years_of_texts_between_me_and_my_long_distance/), but now we have rebuilt Left on Read as a Desktop app.
 
 ## Contributing
 
