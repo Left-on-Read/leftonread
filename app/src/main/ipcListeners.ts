@@ -368,20 +368,20 @@ export function attachIpcListeners() {
   });
 
   ipcMain.handle('query-inbox-read', async (event, chatId: string) => {
-    // TODO(Danilowicz): change this to read the inbox db not the core db
     const db = getDb();
     return queryInboxRead(db, chatId);
   });
 
-  ipcMain.handle('query-inbox-chat-ids', async (event) => {
-    // TODO(Danilowicz): change this to read the inbox db not the core db
-    const db = getDb();
-    const chatIds = await queryGetInboxChatIds(db);
-    return chatIds;
-  });
+  ipcMain.handle(
+    'query-inbox-chat-ids',
+    async (event, lastMainTableRefreshDate?: Date) => {
+      const db = getDb();
+      const chatIds = await queryGetInboxChatIds(db, lastMainTableRefreshDate);
+      return chatIds;
+    }
+  );
 
   ipcMain.handle('query-inbox-write', async (event, chatId: string) => {
-    // TODO(Danilowicz): change this to write to the inbox db not the core db
     const db = getDb();
     await queryInboxWrite(db, chatId);
   });

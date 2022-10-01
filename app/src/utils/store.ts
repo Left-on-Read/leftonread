@@ -35,6 +35,10 @@ const schema = {
     type: 'string',
     default: '',
   },
+  lastRefreshed: {
+    type: 'string',
+    default: '',
+  },
   lastSentNotificationTimestamp: {
     type: 'string',
     default: '',
@@ -97,19 +101,18 @@ export function checkRequiresRefresh(): boolean {
   return semver.gt(requiredUpdateVersion, lastUpdatedVersion);
 }
 
-// export function getLastMainTableRefreshDate(): Date | undefined {
-//   const d = store.get('lastMainTableRefreshDate', '') as string;
-//   console.log(d);
-//   if (d) {
-//     return new Date(d);
-//   }
-//   return undefined;
-// }
+export function getLastRefreshed(): Date | undefined {
+  const d = store.get('lastRefreshed', '') as string;
+  if (d) {
+    return new Date(d);
+  }
+  return undefined;
+}
 
-// export function setLastMainTableRefreshDate(d: Date) {
-//   const inLocalTime = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
-//   store.set('lastMainTableRefreshDate', inLocalTime.toISOString());
-// }
+export function setLastRefreshed(d: Date) {
+  const inLocalTime = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
+  store.set('lastMainTableRefreshDate', inLocalTime.toISOString());
+}
 
 export function setLastUpdatedVersion(version: string) {
   store.set('lastUpdatedVersion', version);

@@ -1,9 +1,7 @@
-import log from 'electron-log';
 import * as sqlite3 from 'sqlite3';
 
 import { isDateInThisWeek } from '../../main/util';
 import { allP } from '../../utils/sqliteWrapper';
-// import { getLastMainTableRefreshDate } from '../../utils/store';
 import { CoreTableNames } from '../tables/types';
 
 export type InboxReadQueryResult = {
@@ -57,13 +55,12 @@ export enum TInboxCategory {
 }
 
 export async function queryGetInboxChatIds(
-  db: sqlite3.Database
+  db: sqlite3.Database,
+  lastMainTableRefreshDateString?: Date
 ): Promise<TGetChatIdsResult> {
-  const lastMainTableRefreshDate = '2022-09-29T07:25:36.180Z'; // getLastMainTableRefreshDate();
-  console.log('r', lastMainTableRefreshDate);
   let dateClause = '';
-  if (lastMainTableRefreshDate) {
-    dateClause = `WHERE human_readable_date > DATE("${lastMainTableRefreshDate}")`;
+  if (lastMainTableRefreshDateString) {
+    dateClause = `WHERE human_readable_date > DATE("${lastMainTableRefreshDateString}")`;
   }
   const q = `
     WITH TB AS (

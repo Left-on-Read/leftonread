@@ -14,6 +14,7 @@ import {
 import { useKeyPress } from '../../hooks/useKeyPress';
 import { logEvent } from '../../utils/analytics';
 import { typeMessageToPhoneNumber } from '../../utils/appleScriptCommands';
+import { getLastRefreshed } from '../../utils/store';
 
 type TConversation = {
   chatId: string;
@@ -97,8 +98,10 @@ export function MessageInbox() {
     async function fetchChatIds() {
       setIsLoading(true);
       try {
+        const lastRefreshDate = getLastRefreshed();
         const chatIdData: TGetChatIdsResult = await ipcRenderer.invoke(
-          'query-inbox-chat-ids'
+          'query-inbox-chat-ids',
+          lastRefreshDate
         );
         if (chatIdData.length > 0) {
           setChatIds(chatIdData);

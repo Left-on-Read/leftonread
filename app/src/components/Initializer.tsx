@@ -12,6 +12,7 @@ import { FiLifeBuoy, FiRepeat, FiSkipBack } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 
 import { APP_VERSION } from '../constants/versions';
+import { setLastRefreshed } from '../utils/store';
 import { BarChartLoading } from './Loaders/BarChartLoading';
 import { InitializingTextSlider } from './Loaders/InitializingTextSlider';
 import { EmailModal } from './Support/EmailModal';
@@ -68,6 +69,7 @@ export function Initializer({
         setError(e.message);
       }
     } finally {
+      setLastRefreshed(new Date());
       onUpdateIsInitializing(false);
       setIsRunning(false);
     }
