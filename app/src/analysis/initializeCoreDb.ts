@@ -5,7 +5,7 @@ import * as sqlite3 from 'sqlite3';
 
 import { closeDB, initializeDB } from '../utils/db';
 import * as sqlite3Wrapper from '../utils/sqliteWrapper';
-// import { setLastRefreshTimestamp } from '../utils/store';
+import { setLastRefreshTimestamp } from '../utils/store';
 import {
   addressBookDBAliasName,
   appDirectoryInitPath,
@@ -73,7 +73,11 @@ async function dropAllTables(db: sqlite3.Database) {
   log.info('INFO: Dropped all pre-existing LOR-created tables.');
 }
 
-export async function initializeCoreDb(): Promise<sqlite3.Database> {
+export async function initializeCoreDb({
+  isRefresh,
+}: {
+  isRefresh: boolean;
+}): Promise<sqlite3.Database> {
   log.info(
     `INFO: Copying a chat.db and address book files from the user's library into a .leftonread folder`
   );
@@ -174,7 +178,10 @@ export async function initializeCoreDb(): Promise<sqlite3.Database> {
   //   throw e;
   // }
 
-  // setLastRefreshTimestamp(new Date());
+  if (isRefresh) {
+    setLastRefreshTimestamp(new Date());
+  }
+
   log.info('INFO: Created LOR DB');
 
   return lorDB;

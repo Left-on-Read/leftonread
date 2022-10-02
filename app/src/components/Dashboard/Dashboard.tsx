@@ -17,7 +17,7 @@ import { SIDEBAR_WIDTH, SideNavbar, TPages } from './SideNavbar';
 const store = new Store();
 
 export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
-  const [activePage, setActivePage] = useState<TPages>('Inbox');
+  const [activePage, setActivePage] = useState<TPages>('Analytics');
   const [isPremium, setIsPremium] = useState<boolean>(
     store.get('license') !== ''
   );

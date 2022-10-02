@@ -293,7 +293,7 @@ export function MessageInbox() {
         }}
       >
         <Text fontSize="4xl">{`Your Inbox (${numConversationsAwaitingAction}) 📥`}</Text>
-        {!isInboxZero && (
+        {/* {!isInboxZero && (
           <Box
             style={{
               display: 'flex',
@@ -329,7 +329,7 @@ export function MessageInbox() {
               />
             </div>
           </Box>
-        )}
+        )} */}
       </Box>
 
       <Box borderWidth="1px" borderRadius="lg" minHeight={550}>
@@ -459,10 +459,17 @@ export function MessageInbox() {
             minHeight={550}
           >
             <Text textAlign="center" fontSize={45}>
-              😊
+              Inbox Zero
             </Text>
-            <Text textAlign="center" fontSize={20}>
-              Refresh your data to see new texts here!
+            <Text
+              textAlign="center"
+              fontSize={20}
+              paddingRight={20}
+              paddingLeft={20}
+            >
+              If you have more texts since the last time you went through your
+              inbox, refresh your data on the Analytics Tab to see new chats
+              here.
             </Text>
           </Box>
         )}

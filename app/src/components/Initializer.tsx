@@ -21,15 +21,17 @@ function randomIntFromInterval(min: number, max: number) {
 }
 
 export function Initializer({
+  isRefresh,
   isInitializing,
   onUpdateIsInitializing,
 }: {
+  isRefresh: boolean;
   isInitializing: boolean;
   onUpdateIsInitializing: (arg0: boolean) => void;
 }) {
   const navigate = useNavigate();
 
-  const [progressNumber, setProgressNumber] = useState<number>(0);
+  const [progressNumber, setProgressNumber] = useState<number>(1);
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const {
@@ -54,12 +56,12 @@ export function Initializer({
   }, [progressNumber]);
 
   const initializeTables = useCallback(async () => {
-    setProgressNumber(0);
+    setProgressNumber(1);
     setError(null);
     setIsRunning(true);
     try {
       navigate('/start');
-      await ipcRenderer.invoke('initialize-tables');
+      await ipcRenderer.invoke('initialize-tables', isRefresh);
       await ipcRenderer.invoke('set-last-updated-version', APP_VERSION);
       setProgressNumber(99);
       navigate('/dashboard');
@@ -71,7 +73,7 @@ export function Initializer({
       onUpdateIsInitializing(false);
       setIsRunning(false);
     }
-  }, [navigate, onUpdateIsInitializing]);
+  }, [navigate, onUpdateIsInitializing, isRefresh]);
 
   useEffect(() => {
     if (isInitializing && !isRunning) {
@@ -226,7 +228,7 @@ export function Initializer({
                           onClick={() => {
                             setError(null);
                             setIsRunning(false);
-                            setProgressNumber(0);
+                            setProgressNumber(1);
                             onUpdateIsInitializing(false);
                             navigate('/start');
                           }}
