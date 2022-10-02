@@ -7,7 +7,7 @@ import { TimerBar } from '../TimerBar';
 
 const sectionDurationInSecs = 12;
 
-export function TopFriend({
+export function TopGroupChat({
   shouldExit,
   onExitFinish,
 }: {
@@ -17,14 +17,14 @@ export function TopFriend({
   const controls = useAnimationControls();
   const [showConfetti, setShowConfetti] = useState<boolean>(false);
 
-  const sentMessages = 3847;
-  const receivedMessages = 2384;
-  const topWord = 'Idiot';
+  const totalMessages = 5938;
+  const youSent = 1736;
+  const mostActive = 'Jackie Chen';
 
   const animateExit = useCallback(() => {
     controls.stop();
     controls.start({
-      height: '100%',
+      opacity: 1,
       transition: {
         duration: 1,
       },
@@ -46,13 +46,13 @@ export function TopFriend({
     };
   }, [animateExit, onExitFinish]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      controls.start({
-        opacity: 1,
-      });
-    }, 200);
-  }, [controls]);
+  //   useEffect(() => {
+  //     setTimeout(() => {
+  //       controls.start({
+  //         opacity: 1,
+  //       });
+  //     }, 200);
+  //   }, [controls]);
 
   useEffect(() => {
     if (shouldExit) {
@@ -63,7 +63,7 @@ export function TopFriend({
   useEffect(() => {
     const interval = setTimeout(() => {
       setShowConfetti(true);
-    }, 5500);
+    }, 4500);
 
     return () => {
       clearTimeout(interval);
@@ -85,20 +85,19 @@ export function TopFriend({
         overflow: 'hidden',
       }}
       shadow="dark-lg"
-      bgColor="purple.50"
+      bgColor="blue.50"
     >
-      <TimerBar durationInSecs={sectionDurationInSecs} />
+      <TimerBar durationInSecs={sectionDurationInSecs} isBlue />
       <motion.div
+        initial={{ opacity: 0 }}
         animate={controls}
         style={{
           position: 'absolute',
           bottom: 0,
           left: 0,
           width: '100%',
+          height: '100%',
           backgroundColor: defaultTheme.colors.blue['50'],
-        }}
-        initial={{
-          height: '0%',
         }}
       />
       <Confetti
@@ -124,11 +123,11 @@ export function TopFriend({
         }}
         transition={{
           duration: 0.5,
-          delay: 4.4,
+          delay: 3.4,
         }}
       >
         <Text fontSize="lg" fontWeight="medium" style={{ textAlign: 'center' }}>
-          Your Top Friend:
+          Your Top Group Chat:
         </Text>
         <motion.div
           initial={{
@@ -145,16 +144,16 @@ export function TopFriend({
           }}
           transition={{
             duration: 0.5,
-            delay: 5.5,
+            delay: 4.5,
           }}
         >
           <Text
             fontSize="2xl"
             fontWeight="bold"
             style={{ textAlign: 'center', marginTop: '1vh' }}
-            color="purple.500"
+            color="blue.500"
           >
-            Alexander Danilowicz
+            SF North Park Boys
           </Text>
         </motion.div>
       </motion.div>
@@ -176,7 +175,7 @@ export function TopFriend({
             <span style={{ fontWeight: 600, marginRight: '1vh' }}>
               Total Messages:
             </span>{' '}
-            {(sentMessages + receivedMessages).toLocaleString()}
+            {totalMessages.toLocaleString()}
           </Text>
         </motion.div>
         <motion.div
@@ -191,8 +190,10 @@ export function TopFriend({
           }}
         >
           <Text fontSize="lg">
-            <span style={{ fontWeight: 600, marginRight: '1vh' }}>Sent:</span>{' '}
-            {sentMessages.toLocaleString()}
+            <span style={{ fontWeight: 600, marginRight: '1vh' }}>
+              You Sent:
+            </span>{' '}
+            {youSent.toLocaleString()}
           </Text>
         </motion.div>
         <motion.div
@@ -208,27 +209,9 @@ export function TopFriend({
         >
           <Text fontSize="lg">
             <span style={{ fontWeight: 600, marginRight: '1vh' }}>
-              Received:
+              Most Active:
             </span>{' '}
-            {receivedMessages.toLocaleString()}
-          </Text>
-        </motion.div>
-        <motion.div
-          style={{ marginBottom: '1vh' }}
-          initial={{ opacity: 0 }}
-          animate={{
-            opacity: 1,
-          }}
-          transition={{
-            duration: 0.7,
-            delay: 3.3,
-          }}
-        >
-          <Text fontSize="lg">
-            <span style={{ fontWeight: 600, marginRight: '1vh' }}>
-              Top Word:
-            </span>{' '}
-            {topWord}
+            {mostActive}
           </Text>
         </motion.div>
       </motion.div>

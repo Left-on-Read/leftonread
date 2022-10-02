@@ -1,7 +1,13 @@
 import { theme as defaultTheme } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 
-export function TimerBar({ durationInSecs }: { durationInSecs: number }) {
+export function TimerBar({
+  durationInSecs,
+  isBlue,
+}: {
+  durationInSecs: number;
+  isBlue?: boolean;
+}) {
   return (
     <motion.div
       style={{
@@ -9,7 +15,9 @@ export function TimerBar({ durationInSecs }: { durationInSecs: number }) {
         top: 0,
         left: 0,
         height: 5,
-        backgroundColor: defaultTheme.colors.purple['500'],
+        backgroundColor: isBlue
+          ? defaultTheme.colors.blue['500']
+          : defaultTheme.colors.purple['500'],
       }}
       initial={{
         width: '0',

@@ -11,11 +11,21 @@ import { Gradient } from '../../Gradient';
 import { BusiestDay } from './Sections/BusiestDay';
 import { DayInParticular } from './Sections/DayInParticular';
 import { EveryoneScrolling } from './Sections/EveryoneScrolling';
+import { FriendList } from './Sections/FriendList';
+import { FunniestMessage } from './Sections/FunniestMessage';
+import { LeftOnReadStats } from './Sections/LeftOnReadStats';
 import { MostMessages } from './Sections/MostMessages';
+import { OtherFriendsToo } from './Sections/OtherFriendsToo';
+import { SentEmojiList } from './Sections/SentEmojiList';
+import { SentWordList } from './Sections/SentWordList';
+import { Thanks } from './Sections/Thanks';
+import { ThereWereFunnyMoments } from './Sections/ThereWereFunnyMoments';
 import { TopFriend } from './Sections/TopFriend';
+import { TopGroupChat } from './Sections/TopGroupChat';
 import { TotalCount } from './Sections/TotalCount';
 import { WrappedIntro } from './Sections/WrappedIntro';
 import { WrappedIntroTexts } from './Sections/WrappedIntroTexts';
+import { YouTexting } from './Sections/YouTexting';
 
 export const DURATION_OF_SLIDE_IN_SECS = 10;
 
@@ -121,6 +131,76 @@ export function WrappedPage() {
       }}
     />,
     <TopFriend
+      shouldExit={triggerExit}
+      onExitFinish={() => {
+        setActiveIndex(activeIndex + 1);
+        setTriggerExit(false);
+      }}
+    />,
+    <OtherFriendsToo
+      shouldExit={triggerExit}
+      onExitFinish={() => {
+        setActiveIndex(activeIndex + 1);
+        setTriggerExit(false);
+      }}
+    />,
+    <FriendList
+      shouldExit={triggerExit}
+      onExitFinish={() => {
+        setActiveIndex(activeIndex + 1);
+        setTriggerExit(false);
+      }}
+    />,
+    <TopGroupChat
+      shouldExit={triggerExit}
+      onExitFinish={() => {
+        setActiveIndex(activeIndex + 1);
+        setTriggerExit(false);
+      }}
+    />,
+    <ThereWereFunnyMoments
+      shouldExit={triggerExit}
+      onExitFinish={() => {
+        setActiveIndex(activeIndex + 1);
+        setTriggerExit(false);
+      }}
+    />,
+    <FunniestMessage
+      shouldExit={triggerExit}
+      onExitFinish={() => {
+        setActiveIndex(activeIndex + 1);
+        setTriggerExit(false);
+      }}
+    />,
+    <YouTexting
+      shouldExit={triggerExit}
+      onExitFinish={() => {
+        setActiveIndex(activeIndex + 1);
+        setTriggerExit(false);
+      }}
+    />,
+    <SentWordList
+      shouldExit={triggerExit}
+      onExitFinish={() => {
+        setActiveIndex(activeIndex + 1);
+        setTriggerExit(false);
+      }}
+    />,
+    <SentEmojiList
+      shouldExit={triggerExit}
+      onExitFinish={() => {
+        setActiveIndex(activeIndex + 1);
+        setTriggerExit(false);
+      }}
+    />,
+    <LeftOnReadStats
+      shouldExit={triggerExit}
+      onExitFinish={() => {
+        setActiveIndex(activeIndex + 1);
+        setTriggerExit(false);
+      }}
+    />,
+    <Thanks
       shouldExit={triggerExit}
       onExitFinish={() => {
         setActiveIndex(activeIndex + 1);
