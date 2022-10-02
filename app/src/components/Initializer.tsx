@@ -31,7 +31,7 @@ export function Initializer({
 }) {
   const navigate = useNavigate();
 
-  const [progressNumber, setProgressNumber] = useState<number>(0);
+  const [progressNumber, setProgressNumber] = useState<number>(1);
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const {
@@ -56,7 +56,7 @@ export function Initializer({
   }, [progressNumber]);
 
   const initializeTables = useCallback(async () => {
-    setProgressNumber(0);
+    setProgressNumber(1);
     setError(null);
     setIsRunning(true);
     try {
@@ -228,7 +228,7 @@ export function Initializer({
                           onClick={() => {
                             setError(null);
                             setIsRunning(false);
-                            setProgressNumber(0);
+                            setProgressNumber(1);
                             onUpdateIsInitializing(false);
                             navigate('/start');
                           }}

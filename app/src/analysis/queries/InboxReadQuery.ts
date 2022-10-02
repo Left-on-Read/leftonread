@@ -59,6 +59,10 @@ export async function queryGetInboxChatIds(
   lastRefreshTimestamp?: string
 ): Promise<TGetChatIdsResult> {
   let dateClause = '';
+  // TODO(Danilowicz): on first initialize, we don't set lastRefreshTimestamp
+  // so we will grab anything. But on the 2nd time (via a isRefresh prop), we set the field
+  // and thus will only pull the most recent convos.
+  // We really should be writing to a seperate DB that is not wiped like the others.
   if (lastRefreshTimestamp) {
     dateClause = `WHERE human_readable_date > datetime("${lastRefreshTimestamp}")`;
   }
