@@ -21,9 +21,11 @@ function randomIntFromInterval(min: number, max: number) {
 }
 
 export function Initializer({
+  isRefresh,
   isInitializing,
   onUpdateIsInitializing,
 }: {
+  isRefresh: boolean;
   isInitializing: boolean;
   onUpdateIsInitializing: (arg0: boolean) => void;
 }) {
@@ -59,7 +61,7 @@ export function Initializer({
     setIsRunning(true);
     try {
       navigate('/start');
-      await ipcRenderer.invoke('initialize-tables');
+      await ipcRenderer.invoke('initialize-tables', isRefresh);
       await ipcRenderer.invoke('set-last-updated-version', APP_VERSION);
       setProgressNumber(99);
       navigate('/dashboard');
@@ -71,7 +73,7 @@ export function Initializer({
       onUpdateIsInitializing(false);
       setIsRunning(false);
     }
-  }, [navigate, onUpdateIsInitializing]);
+  }, [navigate, onUpdateIsInitializing, isRefresh]);
 
   useEffect(() => {
     if (isInitializing && !isRunning) {

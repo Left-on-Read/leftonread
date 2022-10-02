@@ -62,6 +62,7 @@ import {
   checkRequiresRefresh,
   deactivateLicense,
   getCompletedOnboardings,
+  getLastRefreshTimestamp,
   getNotificationSettings,
   setLastUpdatedVersion,
   setNotificationSettings,
@@ -74,8 +75,8 @@ function getDb() {
 }
 
 export function attachIpcListeners() {
-  ipcMain.handle('initialize-tables', async (event, arg) => {
-    await initializeCoreDb();
+  ipcMain.handle('initialize-tables', async (event, isRefresh) => {
+    await initializeCoreDb({ isRefresh });
     return true;
   });
 
@@ -368,20 +369,18 @@ export function attachIpcListeners() {
   });
 
   ipcMain.handle('query-inbox-read', async (event, chatId: string) => {
-    // TODO(Danilowicz): change this to read the inbox db not the core db
     const db = getDb();
     return queryInboxRead(db, chatId);
   });
 
   ipcMain.handle('query-inbox-chat-ids', async (event) => {
-    // TODO(Danilowicz): change this to read the inbox db not the core db
     const db = getDb();
-    const chatIds = await queryGetInboxChatIds(db);
+    const lastRefreshTimestamp = getLastRefreshTimestamp();
+    const chatIds = await queryGetInboxChatIds(db, lastRefreshTimestamp);
     return chatIds;
   });
 
   ipcMain.handle('query-inbox-write', async (event, chatId: string) => {
-    // TODO(Danilowicz): change this to write to the inbox db not the core db
     const db = getDb();
     await queryInboxWrite(db, chatId);
   });

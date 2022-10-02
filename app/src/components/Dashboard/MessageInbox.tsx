@@ -293,7 +293,7 @@ export function MessageInbox() {
         }}
       >
         <Text fontSize="4xl">{`Your Inbox (${numConversationsAwaitingAction}) 📥`}</Text>
-        {!isInboxZero && (
+        {/* {!isInboxZero && (
           <Box
             style={{
               display: 'flex',
@@ -329,7 +329,7 @@ export function MessageInbox() {
               />
             </div>
           </Box>
-        )}
+        )} */}
       </Box>
 
       <Box borderWidth="1px" borderRadius="lg" minHeight={550}>

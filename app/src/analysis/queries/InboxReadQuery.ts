@@ -3,7 +3,6 @@ import * as sqlite3 from 'sqlite3';
 
 import { isDateInThisWeek } from '../../main/util';
 import { allP } from '../../utils/sqliteWrapper';
-// import { getLastRefreshTimestamp } from '../../utils/store';
 import { CoreTableNames } from '../tables/types';
 
 export type InboxReadQueryResult = {
@@ -21,7 +20,6 @@ export async function queryInboxRead(
   db: sqlite3.Database,
   chatId: string
 ): Promise<InboxReadQueryResult[]> {
-  // TODO(Danilowicz): read off messages directly dont bother with reactions right now
   const q = `
         SELECT DISTINCT
             message_id,
@@ -57,14 +55,12 @@ export enum TInboxCategory {
 }
 
 export async function queryGetInboxChatIds(
-  db: sqlite3.Database
+  db: sqlite3.Database,
+  lastRefreshTimestamp?: string
 ): Promise<TGetChatIdsResult> {
-  // const lastMainTableRefreshDate = getLastRefreshTimestamp();
-  const lastMainTableRefreshDate = new Date();
-  lastMainTableRefreshDate.setMonth(lastMainTableRefreshDate.getMonth() - 3);
   let dateClause = '';
-  if (lastMainTableRefreshDate) {
-    dateClause = `WHERE human_readable_date > DATE("${lastMainTableRefreshDate.toISOString()}")`;
+  if (lastRefreshTimestamp) {
+    dateClause = `WHERE human_readable_date > datetime("${lastRefreshTimestamp}")`;
   }
   const q = `
     WITH TB AS (
