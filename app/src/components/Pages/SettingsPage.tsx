@@ -262,7 +262,7 @@ export function SettingsPage() {
           description={
             isPremium
               ? 'Thank you supporting Left on Read! ❤️'
-              : 'Unlock filtering, new graphs, and more!'
+              : 'Support this project to unlock filtering and all graphs.'
           }
         >
           <ManageSubscription />
