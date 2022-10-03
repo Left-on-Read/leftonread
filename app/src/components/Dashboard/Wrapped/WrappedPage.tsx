@@ -1,14 +1,12 @@
-import {
-  Box,
-  Button,
-  IconButton,
-  theme as defaultTheme,
-} from '@chakra-ui/react';
+import { Box, IconButton, theme as defaultTheme } from '@chakra-ui/react';
+import { TotalSentVsReceivedResults } from 'analysis/queries/TotalSentVsReceivedQuery';
+import { ipcRenderer } from 'electron';
 import { motion, useAnimationControls } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
 import { Gradient } from '../../Gradient';
+import { useGlobalContext } from '../GlobalContext';
 import { BusiestDay } from './Sections/BusiestDay';
 import { DayInParticular } from './Sections/DayInParticular';
 import { EveryoneScrolling } from './Sections/EveryoneScrolling';
@@ -176,10 +174,49 @@ function WrappedGradient({
 }
 
 export function WrappedPage() {
+  const { dateRange } = useGlobalContext();
+
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [activeTheme, setActiveTheme] = useState<'blue' | 'purple'>('purple');
-
   const [triggerExit, setTriggerExit] = useState<boolean>(false);
+  const [sentVsReceivedData, setSentVsReceivedData] = useState<{
+    sent: number;
+    received: number;
+  }>({ sent: 0, received: 0 });
+
+  const oneYearAgoDate = new Date(
+    new Date().setFullYear(new Date().getFullYear() - 1)
+  );
+  const startDate =
+    dateRange.earliestDate > oneYearAgoDate
+      ? dateRange.earliestDate
+      : oneYearAgoDate;
+
+  // TODO(Danilowicz): Run this on page load and hope it's finished by the time wrapped starts
+  useEffect(() => {
+    async function fetchData() {
+      console.log(startDate);
+      const sentVsReceivedDataPromise: Promise<TotalSentVsReceivedResults> =
+        ipcRenderer.invoke('query-total-sent-vs-received', { startDate });
+
+      const [sentVsReceivedResult] = await Promise.all([
+        sentVsReceivedDataPromise,
+      ]);
+
+      const receivedList = sentVsReceivedResult.filter(
+        (obj) => obj.is_from_me === 0
+      );
+      const sentList = sentVsReceivedResult.filter(
+        (obj) => obj.is_from_me === 1
+      );
+
+      setSentVsReceivedData({
+        received: receivedList[0]?.total ?? 0,
+        sent: sentList[0]?.total ?? 0,
+      });
+    }
+    fetchData();
+  }, [startDate]);
 
   useEffect(() => {
     if (activeIndex === 8) {
@@ -196,6 +233,7 @@ export function WrappedPage() {
         setActiveIndex(activeIndex + 1);
         setTriggerExit(false);
       }}
+      startDate={startDate}
     />,
     <WrappedIntroTexts
       shouldExit={triggerExit}
@@ -217,6 +255,7 @@ export function WrappedPage() {
         setActiveIndex(activeIndex + 1);
         setTriggerExit(false);
       }}
+      data={sentVsReceivedData}
     />,
     <DayInParticular
       shouldExit={triggerExit}

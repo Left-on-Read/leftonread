@@ -8,9 +8,11 @@ import { TimerBar } from '../TimerBar';
 const sectionDurationInSecs = 10000000;
 
 export function TotalCount({
+  data,
   shouldExit,
   onExitFinish,
 }: {
+  data: { sent: number; received: number };
   shouldExit: boolean;
   onExitFinish: () => void;
 }) {
@@ -104,7 +106,7 @@ export function TotalCount({
         </Text>
         <div style={{ display: 'flex', alignItems: 'flex-end' }}>
           <Text fontSize="6xl" fontWeight="black" color="blue.500">
-            487
+            {data.sent.toLocaleString()}
           </Text>
           <Text style={{ paddingBottom: 20, marginLeft: 8 }}>texts</Text>
         </div>
@@ -119,7 +121,7 @@ export function TotalCount({
         </Text>
         <div style={{ display: 'flex', alignItems: 'flex-end' }}>
           <Text fontSize="6xl" fontWeight="black" color="green.500">
-            859
+            {data.received.toLocaleString()}
           </Text>
           <Text style={{ paddingBottom: 20, marginLeft: 8 }}>texts</Text>
         </div>

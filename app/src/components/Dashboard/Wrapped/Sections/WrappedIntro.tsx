@@ -1,16 +1,20 @@
 import { Box, Text } from '@chakra-ui/react';
+import { useGlobalContext } from 'components/Dashboard/GlobalContext';
 import { motion, useAnimationControls } from 'framer-motion';
 import { useEffect } from 'react';
 
 import LogoWithText from '../../../../../assets/LogoWithText.svg';
 
 export function WrappedIntro({
+  startDate,
   shouldExit,
   onExitFinish,
 }: {
+  startDate: Date;
   shouldExit: boolean;
   onExitFinish: () => void;
 }) {
+  const globalData = useGlobalContext();
   const controls = useAnimationControls();
 
   useEffect(() => {
@@ -41,23 +45,30 @@ export function WrappedIntro({
       shadow="dark-lg"
       bgColor="purple.50"
     >
-      <div style={{ height: '10vh' }} />
-      <motion.div animate={controls} transition={{ duration: 1 }}>
-        <Text fontSize="5xl" fontWeight="bold" color="black">
-          Wrapped
-        </Text>
-      </motion.div>
-      <motion.div animate={controls} transition={{ duration: 1, delay: 0.2 }}>
-        <Text>Sep 27, 2021 — Sep 27, 2022</Text>
-      </motion.div>
       <motion.div animate={controls} transition={{ duration: 1, delay: 0.4 }}>
-        <div style={{ marginTop: '4vh', padding: '36px' }}>
+        <div style={{ padding: '36px', marginTop: '-90px' }}>
           <img
             src={LogoWithText}
             alt="Left on Read"
             style={{ height: '100%' }}
           />
         </div>
+      </motion.div>
+      <motion.div animate={controls} transition={{ duration: 1 }}>
+        <Text
+          fontSize="5xl"
+          fontWeight={600}
+          bgGradient="linear(to-r, blue.400, purple.600)"
+          bgClip="text"
+        >
+          Wrapped
+        </Text>
+      </motion.div>
+      <motion.div animate={controls} transition={{ duration: 1, delay: 0.2 }}>
+        <Text color="gray.700">
+          {startDate.toLocaleDateString()} -{' '}
+          {globalData.dateRange.latestDate.toLocaleDateString()}
+        </Text>
       </motion.div>
     </Box>
   );
