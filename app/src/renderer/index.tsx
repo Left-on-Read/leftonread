@@ -14,7 +14,6 @@ import { App } from '../components/App';
 
 init({
   key: 'cl8j2xvzc014708mq30m2vaqv',
-  // Collect click, web vitals, network, performance events, and profiles
   plugins: [events(), vitals(), network(), measure(), profiler()],
 });
 

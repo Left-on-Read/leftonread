@@ -1716,18 +1716,18 @@
     node-fetch "^2.6.7"
     yargs "^17.5.1"
 
-"@palette.dev/electron@^1.9.8":
-  version "1.9.8"
-  resolved "https://registry.yarnpkg.com/@palette.dev/electron/-/electron-1.9.8.tgz#61f023d90932657263691d427be527d56abc27ab"
-  integrity sha512-A8NuFo/FKskUlDhLJMNkjLw4JaXA8AqdtRimyuN84pQcU6Y/tZ9bpKwirOEEKt6Fr/NTihZ04iDyZZL2NcrMRw==
+"@palette.dev/electron@^1.12.1":
+  version "1.12.1"
+  resolved "https://registry.yarnpkg.com/@palette.dev/electron/-/electron-1.12.1.tgz#a9259282e5d59bded9e156719379daa989cbfc7f"
+  integrity sha512-zIbH2VRqlAPPEVD6tYUedUPg79h+Oz5e9Qnzy+CR3oiU3BAcYp9AeHtPjKg5nQQZ6Quw+0OutFbYCMUcNO9+rQ==
   dependencies:
     "@amilajack/systeminformation" "^5.11.18"
     node-fetch "^2.6.7"
 
-"@palette.dev/webpack-plugin@^1.1.10":
-  version "1.1.10"
-  resolved "https://registry.yarnpkg.com/@palette.dev/webpack-plugin/-/webpack-plugin-1.1.10.tgz#0f8d9c9fb963e3111c7519c7b13a6bb57737fce5"
-  integrity sha512-ZhQ5/r8wY7Ucv9cEeMMmNFIuwYU7Cc8B4Ci0YKATWkHtrZ5fXDzo2TfsGXX8PRj9NlH6fFfSIFs7iiKiHg+e/g==
+"@palette.dev/webpack-plugin@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@palette.dev/webpack-plugin/-/webpack-plugin-1.2.0.tgz#16cf0d96fe81dbf95708cdb9a4c7063cad0555d7"
+  integrity sha512-Fu1E2cYpRxsGBlVuDyJ9LG3gNq/85ZpAvHHVUSjiJDTByS0jDyqOBO7qBejrQjSack1lAPxQL+z5FOmHUhFkSQ==
   dependencies:
     "@palette.dev/cli" "^1.x.x"
 
