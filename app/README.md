@@ -4,7 +4,7 @@
 
 <h3><a href=https://github.com/Left-on-Read/leftonread/releases>Download</a></h3>
 
-<p align="right"><a href="https://leftonread.me/">leftonread.me</a></p
+<p align="right"><a href="https://leftonread.me/">leftonread.me</a></p>
 
 ## License
 
