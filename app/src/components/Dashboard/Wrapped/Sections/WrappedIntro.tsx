@@ -1,9 +1,9 @@
 import { Box, Text } from '@chakra-ui/react';
-import { useGlobalContext } from 'components/Dashboard/GlobalContext';
 import { motion, useAnimationControls } from 'framer-motion';
 import { useEffect } from 'react';
 
 import LogoWithText from '../../../../../assets/LogoWithText.svg';
+import { useGlobalContext } from '../../GlobalContext';
 
 export function WrappedIntro({
   startDate,
