@@ -1,13 +1,13 @@
-import { Input, Spinner, Text, theme } from '@chakra-ui/react';
-import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
-import { useGoldContext } from 'components/Premium/GoldContext';
+import { Input, Spinner, theme } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useRef, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { IconType } from 'react-icons';
 
+import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFilters';
 import { TWordOrEmojiResults } from '../../analysis/queries/WordOrEmojiQuery';
+import { useGoldContext } from '../Premium/GoldContext';
 import { ShareModal } from '../Sharing/ShareModal';
 import { GraphContainer } from './GraphContainer';
 
