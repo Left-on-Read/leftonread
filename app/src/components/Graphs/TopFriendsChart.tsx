@@ -244,7 +244,6 @@ function TopFriendsBody({
         onClose={() => setIsShareOpen(false)}
         graphRefToShare={graphRefToShare}
         title="Top Messaged Friends"
-        to
       >
         {body}
       </ShareModal>
