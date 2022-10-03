@@ -64,8 +64,10 @@ import {
   getCompletedOnboardings,
   getLastRefreshTimestamp,
   getNotificationSettings,
+  getShowShareTooltip,
   setLastUpdatedVersion,
   setNotificationSettings,
+  setShowShareTooltip,
 } from '../utils/store';
 
 function getDb() {
@@ -78,6 +80,14 @@ export function attachIpcListeners() {
   ipcMain.handle('initialize-tables', async (event, isRefresh) => {
     await initializeCoreDb({ isRefresh });
     return true;
+  });
+
+  ipcMain.handle('store-get-show-share-tooltip', async () => {
+    return getShowShareTooltip();
+  });
+
+  ipcMain.handle('store-set-show-share-tooltip', async (event, val) => {
+    setShowShareTooltip(val);
   });
 
   ipcMain.handle(

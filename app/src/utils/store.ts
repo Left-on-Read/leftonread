@@ -80,6 +80,10 @@ const schema = {
     type: 'string',
     default: '',
   },
+  showShareTooltip: {
+    type: 'boolean',
+    default: true,
+  },
 } as const;
 
 const store = new Store({ schema, migrations });
@@ -103,6 +107,14 @@ export function checkRequiresRefresh(): boolean {
 
 export function getLastRefreshTimestamp(): string {
   return store.get('lastRefreshTimestamp', '') as string;
+}
+
+export function getShowShareTooltip(): boolean {
+  return store.get('showShareTooltip', false) as boolean;
+}
+
+export function setShowShareTooltip(val: boolean) {
+  store.set('showShareTooltip', val);
 }
 
 export function setLastRefreshTimestamp(d: Date) {
