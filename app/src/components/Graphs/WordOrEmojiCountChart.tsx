@@ -1,12 +1,13 @@
-import { Spinner, Text, theme } from '@chakra-ui/react';
-import { SharedQueryFilters } from 'analysis/queries/filters/sharedQueryFilters';
+import { Input, Spinner, theme } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useRef, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { IconType } from 'react-icons';
 
+import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFilters';
 import { TWordOrEmojiResults } from '../../analysis/queries/WordOrEmojiQuery';
+import { useGoldContext } from '../Premium/GoldContext';
 import { ShareModal } from '../Sharing/ShareModal';
 import { GraphContainer } from './GraphContainer';
 
@@ -228,6 +229,11 @@ function WordOrEmojiCountBody({
         onClose={() => setIsShareOpen(false)}
         graphRefToShare={graphRefToShare}
         title={title.join(', ')}
+        contacts={
+          filters.contact?.length === 1
+            ? filters.contact?.map((c) => c.value)
+            : undefined
+        }
       >
         {body}
       </ShareModal>
@@ -255,15 +261,22 @@ export function WordOrEmojiCountChart({
   isFromMe: boolean;
   isPremiumGraph?: boolean;
 }) {
+  const { isPremium } = useGoldContext();
   const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
+  const [value, setValue] = useState('');
+  const handleChange = (event: any) => setValue(event.target.value);
 
+  const f = { ...filters, word: value };
+  const placeholder = `${!isPremium ? 'Unlock gold to s' : 'S'}earch for any ${
+    isEmoji ? 'emoji, such as 🚀' : 'word'
+  }...`;
   return (
     <>
       {isShareOpen && (
         <WordOrEmojiCountBody
-          title={title}
+          title={value ? title.concat(`filtering by "${value}"`) : title}
           labelText={labelText}
-          filters={filters}
+          filters={f}
           isEmoji={isEmoji}
           isFromMe={isFromMe}
           isSharingVersion
@@ -277,10 +290,18 @@ export function WordOrEmojiCountChart({
         isPremiumGraph={!!isPremiumGraph}
         setIsShareOpen={setIsShareOpen}
       >
+        <Input
+          isDisabled={!isPremium}
+          width="50%"
+          placeholder={placeholder}
+          mb={3}
+          value={value}
+          onChange={handleChange}
+        />
         <WordOrEmojiCountBody
           title={title}
           labelText={labelText}
-          filters={filters}
+          filters={f}
           isEmoji={isEmoji}
           isFromMe={isFromMe}
           isSharingVersion={false}

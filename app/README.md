@@ -1,5 +1,17 @@
 # Left on Read - App
 
+## Download Packaged Version
+
+<h3><a href=https://github.com/Left-on-Read/leftonread/releases>Download</a></h3>
+
+<p align="right"><a href="https://leftonread.me/">leftonread.me</a></p>
+
+## License
+
+Left on Read is licensed under an Elastic License 2.0 (ELv2).
+
+By contributing to Left on Read, you agree that your contributions will be licensed under ELv2.
+
 ## Table of Contents
 
 - [Local Development](#local-development)
@@ -103,3 +115,10 @@ You most likely have an old electron process running. If this is warning, you ca
 ### Error: Cannot find module
 
 If you are getting a "Cannot find module" error, you likely forgot to install the packages. Be sure to run `yarn` in the `app/` directory.
+
+
+## Support
+
+<a href="https://www.buymeacoffee.com/leftonread" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+
+<a href="https://www.producthunt.com/posts/left-on-read?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-left&#0045;on&#0045;read" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=358899&theme=light" alt="Left&#0032;on&#0032;Read - iMessages&#0032;supercharged | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>

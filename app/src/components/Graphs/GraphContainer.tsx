@@ -4,8 +4,10 @@ import {
   Icon,
   Text,
   theme as defaultTheme,
+  Tooltip,
 } from '@chakra-ui/react';
-import React from 'react';
+import { ipcRenderer } from 'electron';
+import React, { useEffect, useState } from 'react';
 import { IconType } from 'react-icons';
 import { FiPlus, FiRefreshCw, FiShare } from 'react-icons/fi';
 
@@ -37,8 +39,22 @@ export function GraphContainer({
   showGroupChatShareButton?: boolean;
 }) {
   const { isPremium } = useGoldContext();
-
+  const [isTooltipOpen, setIsTooltipOpen] = useState<boolean>(false);
   const isLocked = isPremiumGraph && !isPremium;
+
+  useEffect(() => {
+    async function fetchTooltip() {
+      const showTooltip: boolean = await ipcRenderer.invoke(
+        'store-get-show-share-tooltip'
+      );
+      setIsTooltipOpen(showTooltip);
+    }
+
+    const timer = setTimeout(() => {
+      fetchTooltip();
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <>
@@ -100,24 +116,32 @@ export function GraphContainer({
             </div>
 
             {!isLocked && setIsShareOpen && (
-              <Button
-                style={{
-                  padding: showGroupChatShareButton ? '0px 30px' : undefined,
-                }}
-                onClick={() => {
-                  setIsShareOpen(true);
-                  logEvent({
-                    eventName: 'SHARE_GRAPH',
-                    properties: {
-                      graph: title[0],
-                    },
-                  });
-                }}
-                leftIcon={<Icon as={FiShare} />}
-                colorScheme="blue"
+              <Tooltip
+                hasArrow
+                label="Share with your friends!"
+                placement="bottom"
+                isOpen={isTooltipOpen}
               >
-                {showGroupChatShareButton ? 'Share with group' : 'Share'}
-              </Button>
+                <Button
+                  style={{
+                    padding: showGroupChatShareButton ? '0px 30px' : undefined,
+                  }}
+                  onClick={async () => {
+                    setIsTooltipOpen(false);
+                    ipcRenderer.invoke('store-set-show-share-tooltip', false);
+                    setIsShareOpen(true);
+                    logEvent({
+                      eventName: 'SHARE_GRAPH',
+                      properties: {
+                        graph: title[0],
+                      },
+                    });
+                  }}
+                  leftIcon={<Icon as={FiShare} />}
+                >
+                  {showGroupChatShareButton ? 'Share with group' : 'Share'}
+                </Button>
+              </Tooltip>
             )}
             {onClickMessageScheduler && onClickMessageSchedulerRefresh && (
               <div>

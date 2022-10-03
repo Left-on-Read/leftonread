@@ -196,6 +196,11 @@ function TopSentimentFriendsBody({
         isOpen={isSharingVersion}
         onClose={() => setIsShareOpen(false)}
         graphRefToShare={graphRefToShare}
+        contacts={
+          filters.contact?.length === 1
+            ? filters.contact?.map((c) => c.value)
+            : undefined
+        }
       >
         {body}
       </ShareModal>
