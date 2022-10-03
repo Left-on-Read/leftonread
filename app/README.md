@@ -1,4 +1,24 @@
-# Left on Read - App
+<h2 align="center">
+	<img src="https://raw.githubusercontent.com/Left-on-Read/leftonread/main/app/assets/LogoWithText.svg" />
+</h2>
+
+
+[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Wow,%20super%20cool%20open-source%20project%20-%20checkout%20out%20Left%20on%20Read&url=https://leftonread.me&hashtags=texting,analytics,buildinpublic)
+
+iMessages supercharged! We are entirely open-source to show you that your data is secure and never leaves your computer. Left on Read is built with Electron, React, SQLite, Typescript, and ❤️.
+
+## Download Left on Read for Mac
+
+<h3><a href=https://github.com/Left-on-Read/leftonread/releases>Download</a></h3>
+
+<p align="right"><a href="https://leftonread.me/">leftonread.me</a></p
+
+
+## License
+
+Left on Read is licensed under an Elastic License 2.0 (ELv2).
+
+By contributing to Left on Read, you agree that your contributions will be licensed under ELv2.
 
 ## Table of Contents
 
