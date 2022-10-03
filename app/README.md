@@ -1,18 +1,10 @@
-<h2 align="center">
-	<img src="https://raw.githubusercontent.com/Left-on-Read/leftonread/main/app/assets/LogoWithText.svg" />
-</h2>
+# Left on Read - App
 
-
-[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Wow,%20super%20cool%20open-source%20project%20-%20checkout%20out%20Left%20on%20Read&url=https://leftonread.me&hashtags=texting,analytics,buildinpublic)
-
-iMessages supercharged! We are entirely open-source to show you that your data is secure and never leaves your computer. Left on Read is built with Electron, React, SQLite, Typescript, and ❤️.
-
-## Download Left on Read for Mac
+## Download Packaged Version
 
 <h3><a href=https://github.com/Left-on-Read/leftonread/releases>Download</a></h3>
 
 <p align="right"><a href="https://leftonread.me/">leftonread.me</a></p
-
 
 ## License
 
@@ -123,3 +115,10 @@ You most likely have an old electron process running. If this is warning, you ca
 ### Error: Cannot find module
 
 If you are getting a "Cannot find module" error, you likely forgot to install the packages. Be sure to run `yarn` in the `app/` directory.
+
+
+## Support
+
+<a href="https://www.buymeacoffee.com/leftonread" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+
+<a href="https://www.producthunt.com/posts/left-on-read?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-left&#0045;on&#0045;read" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=358899&theme=light" alt="Left&#0032;on&#0032;Read - iMessages&#0032;supercharged | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
