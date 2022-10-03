@@ -1,11 +1,13 @@
 import { Box, Text, theme as defaultTheme } from '@chakra-ui/react';
 import { motion, useAnimationControls } from 'framer-motion';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 import { ShareIndicator } from '../ShareIndicator';
 import { TimerBar } from '../TimerBar';
+import { Watermark } from '../Watermark';
 
-const sectionDurationInSecs = 10000000;
+// TODO(teddy): Revert this once timing gets upgraded
+const sectionDurationInSecs = 100000;
 
 export function TotalCount({
   data,
@@ -16,6 +18,7 @@ export function TotalCount({
   shouldExit: boolean;
   onExitFinish: () => void;
 }) {
+  const ref = useRef<HTMLDivElement>(null);
   const sentControls = useAnimationControls();
   const receivedControls = useAnimationControls();
 
@@ -87,10 +90,6 @@ export function TotalCount({
       height="100%"
       width="100%"
       style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-around',
-        padding: '7vh 6vh',
         borderRadius: 16,
         position: 'relative',
         overflow: 'hidden',
@@ -99,33 +98,48 @@ export function TotalCount({
       bgColor="purple.50"
     >
       <TimerBar durationInSecs={sectionDurationInSecs} />
-      <ShareIndicator />
-      <motion.div animate={sentControls} initial={{ opacity: 0 }}>
-        <Text fontSize="4xl" fontWeight="bold">
-          Sent
-        </Text>
-        <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-          <Text fontSize="6xl" fontWeight="black" color="blue.500">
-            {data.sent.toLocaleString()}
-          </Text>
-          <Text style={{ paddingBottom: 20, marginLeft: 8 }}>texts</Text>
-        </div>
-      </motion.div>
-      <motion.div
-        style={{ alignSelf: 'flex-end' }}
-        animate={receivedControls}
-        initial={{ opacity: 0 }}
+      <ShareIndicator contentRef={ref} />
+      <Box
+        ref={ref}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-around',
+          height: '100%',
+          width: '100%',
+          padding: '7vh 6vh',
+          position: 'relative',
+        }}
+        bgColor="purple.50"
       >
-        <Text fontSize="4xl" fontWeight="bold">
-          Received
-        </Text>
-        <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-          <Text fontSize="6xl" fontWeight="black" color="green.500">
-            {data.received.toLocaleString()}
+        <Watermark />
+        <motion.div animate={sentControls} initial={{ opacity: 0 }}>
+          <Text fontSize="4xl" fontWeight="bold">
+            Sent
           </Text>
-          <Text style={{ paddingBottom: 20, marginLeft: 8 }}>texts</Text>
-        </div>
-      </motion.div>
+          <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+            <Text fontSize="6xl" fontWeight="black" color="blue.500">
+              {data.sent.toLocaleString()}
+            </Text>
+            <Text style={{ paddingBottom: 20, marginLeft: 8 }}>texts</Text>
+          </div>
+        </motion.div>
+        <motion.div
+          style={{ alignSelf: 'flex-end' }}
+          animate={receivedControls}
+          initial={{ opacity: 0 }}
+        >
+          <Text fontSize="4xl" fontWeight="bold">
+            Received
+          </Text>
+          <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+            <Text fontSize="6xl" fontWeight="black" color="green.500">
+              {data.received.toLocaleString()}
+            </Text>
+            <Text style={{ paddingBottom: 20, marginLeft: 8 }}>texts</Text>
+          </div>
+        </motion.div>
+      </Box>
     </Box>
   );
 }

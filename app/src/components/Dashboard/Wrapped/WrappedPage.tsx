@@ -2,7 +2,7 @@ import { Box, IconButton, theme as defaultTheme } from '@chakra-ui/react';
 import { TopFriendsSimpleResult } from 'analysis/queries/WrappedQueries/TopFriendsSimpleQuery';
 import { ipcRenderer } from 'electron';
 import { motion, useAnimationControls } from 'framer-motion';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
 import { TotalSentVsReceivedResults } from '../../../analysis/queries/TotalSentVsReceivedQuery';
@@ -234,7 +234,8 @@ export function WrappedPage() {
       });
     }
     fetchData();
-  }, [startDate]);
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     if (activeIndex === 8) {
@@ -244,6 +245,7 @@ export function WrappedPage() {
     }
   }, [activeIndex]);
 
+  // TODO: Refactor this - this is getting pretty expensive bc of re-renders.
   const components = [
     <WrappedIntro
       shouldExit={triggerExit}

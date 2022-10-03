@@ -45,8 +45,8 @@ export function WrappedIntro({
       shadow="dark-lg"
       bgColor="purple.50"
     >
-      <motion.div animate={controls} transition={{ duration: 1, delay: 0.4 }}>
-        <div style={{ padding: '36px', marginTop: '-90px' }}>
+      <motion.div animate={controls} transition={{ duration: 1 }}>
+        <div style={{ padding: '36px', marginTop: '-1vh' }}>
           <img
             src={LogoWithText}
             alt="Left on Read"
@@ -54,7 +54,7 @@ export function WrappedIntro({
           />
         </div>
       </motion.div>
-      <motion.div animate={controls} transition={{ duration: 1 }}>
+      <motion.div animate={controls} transition={{ duration: 1, delay: 0.2 }}>
         <Text
           fontSize="5xl"
           fontWeight={600}
@@ -64,7 +64,7 @@ export function WrappedIntro({
           Wrapped
         </Text>
       </motion.div>
-      <motion.div animate={controls} transition={{ duration: 1, delay: 0.2 }}>
+      <motion.div animate={controls} transition={{ duration: 1, delay: 0.4 }}>
         <Text color="gray.700">
           {startDate.toLocaleDateString()} -{' '}
           {globalData.dateRange.latestDate.toLocaleDateString()}

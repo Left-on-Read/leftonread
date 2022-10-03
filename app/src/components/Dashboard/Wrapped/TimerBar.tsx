@@ -18,6 +18,7 @@ export function TimerBar({
         backgroundColor: isBlue
           ? defaultTheme.colors.blue['500']
           : defaultTheme.colors.purple['500'],
+        zIndex: 3,
       }}
       initial={{
         width: '0',
