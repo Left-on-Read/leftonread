@@ -50,18 +50,21 @@ export function Permissions() {
           <ol>
             <li> Open System Preferences below.</li>
             <li style={{ marginTop: 22 }}>
-              Under Full Disk Access, grant Left on Read access. You may need to
-              add the app with the + button.
+              Under Full Disk Access, grant Left on Read access.{' '}
+              <span style={{ fontWeight: 600 }}>
+                If you {`don't`} see Left on Read, add the app with the {`"+"`}{' '}
+                button.
+              </span>
             </li>
             <li style={{ marginTop: 22 }}>
-              Fully quit and restart the Left on Read app.
+              Fully quit and restart the Left on Read app. If that did not work,
+              you may have to restart your computer.
             </li>
           </ol>
         </Text>
       </div>
 
       <Button
-        style={{}}
         rightIcon={<ArrowForwardIcon />}
         colorScheme="purple"
         onClick={async () => {

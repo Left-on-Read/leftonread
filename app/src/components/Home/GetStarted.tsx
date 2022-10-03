@@ -70,7 +70,7 @@ export function GetStarted({ onNext }: { onNext: (arg0: boolean) => void }) {
     >
       <BulletPoint
         icon={FiShield}
-        title="We do not read your data"
+        title="We never read your data"
         description="Your text messages will never leave your computer and are never read by us."
         color="blue.400"
       />
