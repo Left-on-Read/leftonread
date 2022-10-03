@@ -1,7 +1,6 @@
 import {
   Icon,
   Spinner,
-  Text,
   theme as defaultTheme,
   Tooltip,
 } from '@chakra-ui/react';

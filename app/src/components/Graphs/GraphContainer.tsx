@@ -114,6 +114,7 @@ export function GraphContainer({
                   });
                 }}
                 leftIcon={<Icon as={FiShare} />}
+                colorScheme="blue"
               >
                 {showGroupChatShareButton ? 'Share with group' : 'Share'}
               </Button>

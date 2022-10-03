@@ -30,6 +30,7 @@ Chart.register(gradient);
 
 export function App() {
   const [isInitializing, setIsInitializing] = useState<boolean>(false);
+  const [isRefresh, setIsRefresh] = useState<boolean>(false);
 
   useEffect(() => {
     Chart.register({
@@ -117,14 +118,29 @@ export function App() {
             <Route path="/" element={<Redirecter />} />
             <Route
               path="/start"
-              element={<Home onInitialize={() => setIsInitializing(true)} />}
+              element={
+                <Home
+                  onInitialize={() => {
+                    setIsRefresh(false);
+                    setIsInitializing(true);
+                  }}
+                />
+              }
             />
             <Route
               path="/dashboard"
-              element={<Dashboard onRefresh={() => setIsInitializing(true)} />}
+              element={
+                <Dashboard
+                  onRefresh={() => {
+                    setIsInitializing(true);
+                    setIsRefresh(true);
+                  }}
+                />
+              }
             />
           </Routes>
           <Initializer
+            isRefresh={isRefresh}
             isInitializing={isInitializing}
             onUpdateIsInitializing={setIsInitializing}
           />

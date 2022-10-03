@@ -26,6 +26,11 @@ import { SharedQueryFilters } from '../analysis/queries/filters/sharedQueryFilte
 import { queryGroupChatActivityOverTime } from '../analysis/queries/GroupChats/GroupChatActivityOverTimeQuery';
 import { queryGroupChatByFriends } from '../analysis/queries/GroupChats/GroupChatByFriendsQuery';
 import { queryGroupChatReactionsQuery } from '../analysis/queries/GroupChats/GroupChatReactionsQuery';
+import {
+  queryGetInboxChatIds,
+  queryInboxRead,
+} from '../analysis/queries/InboxReadQuery';
+import { queryInboxWrite } from '../analysis/queries/InboxWriteQuery';
 import { queryRespondReminders } from '../analysis/queries/RespondReminders';
 import {
   querySentimentOverTimeReceived,
@@ -57,6 +62,7 @@ import {
   checkRequiresRefresh,
   deactivateLicense,
   getCompletedOnboardings,
+  getLastRefreshTimestamp,
   getNotificationSettings,
   setLastUpdatedVersion,
   setNotificationSettings,
@@ -69,8 +75,8 @@ function getDb() {
 }
 
 export function attachIpcListeners() {
-  ipcMain.handle('initialize-tables', async (event, arg) => {
-    await initializeCoreDb();
+  ipcMain.handle('initialize-tables', async (event, isRefresh) => {
+    await initializeCoreDb({ isRefresh });
     return true;
   });
 
@@ -360,5 +366,22 @@ export function attachIpcListeners() {
     if (process.env.NODE_ENV !== 'production') {
       activateLicense('123');
     }
+  });
+
+  ipcMain.handle('query-inbox-read', async (event, chatId: string) => {
+    const db = getDb();
+    return queryInboxRead(db, chatId);
+  });
+
+  ipcMain.handle('query-inbox-chat-ids', async (event) => {
+    const db = getDb();
+    const lastRefreshTimestamp = getLastRefreshTimestamp();
+    const chatIds = await queryGetInboxChatIds(db, lastRefreshTimestamp);
+    return chatIds;
+  });
+
+  ipcMain.handle('query-inbox-write', async (event, chatId: string) => {
+    const db = getDb();
+    await queryInboxWrite(db, chatId);
   });
 }
