@@ -69,7 +69,7 @@ export function WrappedShareModal({
         style={{ borderRadius: 24 }}
         shadow="dark-lg"
       >
-        <ModalHeader>Share #LeftOnRead</ModalHeader>
+        <ModalHeader>Share Left on Read</ModalHeader>
         <ModalCloseButton />
         <ModalBody style={{ width: '60vw' }}>
           <Text>
@@ -80,7 +80,7 @@ export function WrappedShareModal({
                 color: defaultTheme.colors.purple['500'],
               }}
             >
-              #LeftOnRead
+              #iMessageAnalytics
             </span>
           </Text>
           <div
