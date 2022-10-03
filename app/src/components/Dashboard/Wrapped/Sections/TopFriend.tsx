@@ -1,9 +1,12 @@
 import { Box, Text, theme as defaultTheme } from '@chakra-ui/react';
 import { motion, useAnimationControls } from 'framer-motion';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Confetti from 'react-confetti';
 
+import { AnimationRunner } from '../AnimationRunner';
+import { ShareIndicator } from '../ShareIndicator';
 import { TimerBar } from '../TimerBar';
+import { Watermark } from '../Watermark';
 
 const sectionDurationInSecs = 12;
 
@@ -14,72 +17,57 @@ export function TopFriend({
   shouldExit: boolean;
   onExitFinish: () => void;
 }) {
-  const controls = useAnimationControls();
+  const ref = useRef<HTMLDivElement>(null);
+
+  const [tick, setTick] = useState<number>(0);
+
+  const ar = useMemo(
+    () => new AnimationRunner(sectionDurationInSecs, setTick),
+    []
+  );
   const [showConfetti, setShowConfetti] = useState<boolean>(false);
+
+  const controls = useAnimationControls();
 
   const sentMessages = 3847;
   const receivedMessages = 2384;
   const topWord = 'Idiot';
 
-  const animateExit = useCallback(() => {
-    controls.stop();
-    controls.start({
-      height: '100%',
-      transition: {
-        duration: 1,
-      },
-    });
-  }, [controls]);
-
   useEffect(() => {
-    const timeoutOne = setTimeout(() => {
-      animateExit();
-    }, (sectionDurationInSecs - 2) * 1000);
-
-    const timeoutTwo = setTimeout(() => {
-      onExitFinish();
-    }, sectionDurationInSecs * 1000);
-
-    return () => {
-      clearTimeout(timeoutOne);
-      clearTimeout(timeoutTwo);
-    };
-  }, [animateExit, onExitFinish]);
-
-  useEffect(() => {
-    setTimeout(() => {
+    ar.addEvent(200, () => {
       controls.start({
         opacity: 1,
       });
-    }, 200);
-  }, [controls]);
+    });
 
-  useEffect(() => {
-    if (shouldExit) {
-      animateExit();
-    }
-  }, [animateExit, shouldExit]);
-
-  useEffect(() => {
-    const interval = setTimeout(() => {
+    ar.addEvent(5500, () => {
       setShowConfetti(true);
-    }, 5500);
+    });
+
+    ar.addEvent((sectionDurationInSecs - 1.1) * 1000, () => {
+      controls.start({
+        height: '100%',
+        transition: {
+          duration: 1,
+        },
+      });
+    });
+
+    ar.addEvent(sectionDurationInSecs * 1000, onExitFinish);
+
+    ar.start();
 
     return () => {
-      clearTimeout(interval);
+      ar.reset();
+      ar.isActive = false;
     };
-  }, []);
+  }, [ar, controls, onExitFinish]);
 
   return (
     <Box
       height="100%"
       width="100%"
       style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: '3vh',
         borderRadius: 16,
         position: 'relative',
         overflow: 'hidden',
@@ -87,49 +75,60 @@ export function TopFriend({
       shadow="dark-lg"
       bgColor="purple.50"
     >
-      <TimerBar durationInSecs={sectionDurationInSecs} />
       <motion.div
-        animate={controls}
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          width: '100%',
-          backgroundColor: defaultTheme.colors.blue['50'],
-        }}
-        initial={{
-          height: '0%',
-        }}
-      />
-      <Confetti
-        run={showConfetti}
-        numberOfPieces={500}
-        tweenDuration={1000}
-        recycle={false}
-      />
-      <div style={{ height: '10vh' }} />
-
-      <motion.div
-        initial={{
-          opacity: 0,
-        }}
-        animate={{
-          opacity: 1,
-        }}
-        style={{
-          lineHeight: 1.2,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{
-          duration: 0.5,
-          delay: 4.4,
+          delay: 6,
         }}
       >
-        <Text fontSize="lg" fontWeight="medium" style={{ textAlign: 'center' }}>
-          Your Top Friend:
-        </Text>
+        <ShareIndicator
+          contentRef={ref}
+          onPause={() => {
+            ar.pause();
+          }}
+          onStart={() => {
+            ar.start();
+          }}
+        />
+      </motion.div>
+      <TimerBar durationInSecs={sectionDurationInSecs} tick={tick} />
+      <Box
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: '3vh',
+        }}
+        ref={ref}
+        bg="purple.50"
+        height="100%"
+        width="100%"
+      >
+        <Watermark />
+        <motion.div
+          animate={controls}
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            width: '100%',
+            backgroundColor: defaultTheme.colors.blue['50'],
+            zIndex: 10,
+          }}
+          initial={{
+            height: '0%',
+          }}
+        />
+        <Confetti
+          run={showConfetti}
+          numberOfPieces={500}
+          tweenDuration={1000}
+          recycle={false}
+        />
+        <div style={{ height: '10vh' }} />
+
         <motion.div
           initial={{
             opacity: 0,
@@ -145,93 +144,119 @@ export function TopFriend({
           }}
           transition={{
             duration: 0.5,
-            delay: 5.5,
+            delay: 4.4,
           }}
         >
           <Text
-            fontSize="2xl"
-            fontWeight="bold"
-            style={{ textAlign: 'center', marginTop: '1vh' }}
-            color="purple.500"
+            fontSize="lg"
+            fontWeight="medium"
+            style={{ textAlign: 'center' }}
           >
-            Alexander Danilowicz
+            Your Top Friend:
           </Text>
-        </motion.div>
-      </motion.div>
-      <motion.div
-        style={{ display: 'flex', flexDirection: 'column', marginTop: '5vh' }}
-      >
-        <motion.div
-          style={{ marginBottom: '1vh' }}
-          initial={{ opacity: 0 }}
-          animate={{
-            opacity: 1,
-          }}
-          transition={{
-            duration: 0.7,
-            delay: 0.3,
-          }}
-        >
-          <Text fontSize="lg">
-            <span style={{ fontWeight: 600, marginRight: '1vh' }}>
-              Total Messages:
-            </span>{' '}
-            {(sentMessages + receivedMessages).toLocaleString()}
-          </Text>
-        </motion.div>
-        <motion.div
-          style={{ marginBottom: '1vh' }}
-          initial={{ opacity: 0 }}
-          animate={{
-            opacity: 1,
-          }}
-          transition={{
-            duration: 0.7,
-            delay: 1.3,
-          }}
-        >
-          <Text fontSize="lg">
-            <span style={{ fontWeight: 600, marginRight: '1vh' }}>Sent:</span>{' '}
-            {sentMessages.toLocaleString()}
-          </Text>
+          <motion.div
+            initial={{
+              opacity: 0,
+            }}
+            animate={{
+              opacity: 1,
+            }}
+            style={{
+              lineHeight: 1.2,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+            transition={{
+              duration: 0.5,
+              delay: 5.5,
+            }}
+          >
+            <Text
+              fontSize="2xl"
+              fontWeight="bold"
+              style={{ textAlign: 'center', marginTop: '1vh' }}
+              color="purple.500"
+            >
+              Alexander Danilowicz
+            </Text>
+          </motion.div>
         </motion.div>
         <motion.div
-          style={{ marginBottom: '1vh' }}
-          initial={{ opacity: 0 }}
-          animate={{
-            opacity: 1,
-          }}
-          transition={{
-            duration: 0.7,
-            delay: 2.3,
-          }}
+          style={{ display: 'flex', flexDirection: 'column', marginTop: '5vh' }}
         >
-          <Text fontSize="lg">
-            <span style={{ fontWeight: 600, marginRight: '1vh' }}>
-              Received:
-            </span>{' '}
-            {receivedMessages.toLocaleString()}
-          </Text>
+          <motion.div
+            style={{ marginBottom: '1vh' }}
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: 1,
+            }}
+            transition={{
+              duration: 0.7,
+              delay: 0.3,
+            }}
+          >
+            <Text fontSize="lg">
+              <span style={{ fontWeight: 600, marginRight: '1vh' }}>
+                Total Messages:
+              </span>{' '}
+              {(sentMessages + receivedMessages).toLocaleString()}
+            </Text>
+          </motion.div>
+          <motion.div
+            style={{ marginBottom: '1vh' }}
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: 1,
+            }}
+            transition={{
+              duration: 0.7,
+              delay: 1.3,
+            }}
+          >
+            <Text fontSize="lg">
+              <span style={{ fontWeight: 600, marginRight: '1vh' }}>Sent:</span>{' '}
+              {sentMessages.toLocaleString()}
+            </Text>
+          </motion.div>
+          <motion.div
+            style={{ marginBottom: '1vh' }}
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: 1,
+            }}
+            transition={{
+              duration: 0.7,
+              delay: 2.3,
+            }}
+          >
+            <Text fontSize="lg">
+              <span style={{ fontWeight: 600, marginRight: '1vh' }}>
+                Received:
+              </span>{' '}
+              {receivedMessages.toLocaleString()}
+            </Text>
+          </motion.div>
+          <motion.div
+            style={{ marginBottom: '1vh' }}
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: 1,
+            }}
+            transition={{
+              duration: 0.7,
+              delay: 3.3,
+            }}
+          >
+            <Text fontSize="lg">
+              <span style={{ fontWeight: 600, marginRight: '1vh' }}>
+                Top Word:
+              </span>{' '}
+              {topWord}
+            </Text>
+          </motion.div>
         </motion.div>
-        <motion.div
-          style={{ marginBottom: '1vh' }}
-          initial={{ opacity: 0 }}
-          animate={{
-            opacity: 1,
-          }}
-          transition={{
-            duration: 0.7,
-            delay: 3.3,
-          }}
-        >
-          <Text fontSize="lg">
-            <span style={{ fontWeight: 600, marginRight: '1vh' }}>
-              Top Word:
-            </span>{' '}
-            {topWord}
-          </Text>
-        </motion.div>
-      </motion.div>
+      </Box>
     </Box>
   );
 }

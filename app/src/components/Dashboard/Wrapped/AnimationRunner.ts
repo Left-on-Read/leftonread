@@ -17,6 +17,9 @@ export class AnimationRunner {
   }
 
   start() {
+    if (this.isActive) {
+      return;
+    }
     this.isActive = true;
     this.tick();
   }
