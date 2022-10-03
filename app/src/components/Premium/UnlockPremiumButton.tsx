@@ -1,5 +1,5 @@
-import { Box, Button, Icon, Text, useDisclosure } from '@chakra-ui/react';
-import { FiGift, FiLock, FiUnlock } from 'react-icons/fi';
+import { Box, Button, Text, useDisclosure } from '@chakra-ui/react';
+import { FiUnlock } from 'react-icons/fi';
 
 import { logEvent } from '../../utils/analytics';
 import { STRIPE_LINK } from './constants';
@@ -41,11 +41,11 @@ export function UnlockPremiumButton({ context }: { context: string }) {
             >
               <FiUnlock />
               <Text fontWeight={600} ml={3}>
-                Get Gold
+                Unlock Gold
               </Text>
             </Box>
             <Text fontSize="14">
-              Support this project to unlock all features.
+              Support this project to unlock all features!
             </Text>
           </Box>
         </Button>
