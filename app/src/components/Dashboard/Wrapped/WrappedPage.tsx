@@ -226,7 +226,8 @@ export function WrappedPage() {
       });
     }
     fetchData();
-  }, [startDate]);
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     if (activeIndex === 8) {

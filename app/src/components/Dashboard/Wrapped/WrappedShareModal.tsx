@@ -63,7 +63,12 @@ export function WrappedShareModal({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <ModalContent minWidth="60vw" bgColor="purple.50">
+      <ModalContent
+        minWidth="60vw"
+        bgColor="purple.50"
+        style={{ borderRadius: 24 }}
+        shadow="dark-lg"
+      >
         <ModalHeader>Share #LeftOnRead</ModalHeader>
         <ModalCloseButton />
         <ModalBody style={{ width: '60vw' }}>
