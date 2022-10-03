@@ -1,13 +1,14 @@
 import { Box, Text, theme as defaultTheme } from '@chakra-ui/react';
 import { motion, useAnimationControls } from 'framer-motion';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import { AnimationRunner } from '../AnimationRunner';
 import { ShareIndicator } from '../ShareIndicator';
 import { TimerBar } from '../TimerBar';
 import { Watermark } from '../Watermark';
 
 // TODO(teddy): Revert this once timing gets upgraded
-const sectionDurationInSecs = 100000;
+const sectionDurationInSecs = 8;
 
 export function TotalCount({
   data,
@@ -22,44 +23,12 @@ export function TotalCount({
   const sentControls = useAnimationControls();
   const receivedControls = useAnimationControls();
 
-  const animateExit = useCallback(() => {
-    sentControls.stop();
-    receivedControls.stop();
+  const [tick, setTick] = useState<number>(0);
 
-    sentControls.start({
-      x: -20,
-      opacity: 0,
-      transition: {
-        duration: 1,
-      },
-    });
-
-    receivedControls.start({
-      x: 20,
-      opacity: 0,
-      transition: {
-        duration: 1,
-      },
-    });
-  }, [sentControls, receivedControls]);
+  const ar = useMemo(() => new AnimationRunner(setTick), []);
 
   useEffect(() => {
-    const timeoutOne = setTimeout(() => {
-      animateExit();
-    }, (sectionDurationInSecs - 1) * 1000);
-
-    const timeoutTwo = setTimeout(() => {
-      onExitFinish();
-    }, sectionDurationInSecs * 1000);
-
-    return () => {
-      clearTimeout(timeoutOne);
-      clearTimeout(timeoutTwo);
-    };
-  }, [animateExit, onExitFinish]);
-
-  useEffect(() => {
-    setTimeout(() => {
+    ar.addEvent(200, () => {
       sentControls.start({
         opacity: 1,
         x: 20,
@@ -76,14 +45,33 @@ export function TotalCount({
           delay: 0.5,
         },
       });
-    }, 200);
-  }, [sentControls, receivedControls]);
+    });
 
-  useEffect(() => {
-    if (shouldExit) {
-      animateExit();
-    }
-  }, [animateExit, shouldExit]);
+    ar.addEvent((sectionDurationInSecs - 1) * 1000, () => {
+      sentControls.stop();
+      receivedControls.stop();
+
+      sentControls.start({
+        x: -20,
+        opacity: 0,
+        transition: {
+          duration: 1,
+        },
+      });
+
+      receivedControls.start({
+        x: 20,
+        opacity: 0,
+        transition: {
+          duration: 1,
+        },
+      });
+    });
+
+    ar.addEvent(sectionDurationInSecs * 1000, onExitFinish);
+
+    ar.start();
+  }, [ar, sentControls, receivedControls, onExitFinish]);
 
   return (
     <Box
@@ -97,8 +85,16 @@ export function TotalCount({
       shadow="dark-lg"
       bgColor="purple.50"
     >
-      <TimerBar durationInSecs={sectionDurationInSecs} />
-      <ShareIndicator contentRef={ref} />
+      <TimerBar durationInSecs={sectionDurationInSecs} tick={tick} />
+      <ShareIndicator
+        contentRef={ref}
+        onPause={() => {
+          ar.pause();
+        }}
+        onStart={() => {
+          ar.start();
+        }}
+      />
       <Box
         ref={ref}
         style={{

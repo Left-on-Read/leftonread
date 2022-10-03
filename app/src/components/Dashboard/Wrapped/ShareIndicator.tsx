@@ -1,25 +1,23 @@
-import { ChevronUpIcon } from '@chakra-ui/icons';
 import {
   Box,
-  Button,
   Icon,
-  IconButton,
   Text,
   theme as defaultTheme,
   useDisclosure,
 } from '@chakra-ui/react';
-import download from 'downloadjs';
-import electron from 'electron';
 import { AnimatePresence, motion } from 'framer-motion';
-import { toBlob, toJpeg, toPixelData, toPng, toSvg } from 'html-to-image';
 import { FiShare } from 'react-icons/fi';
 
 import { WrappedShareModal } from './WrappedShareModal';
 
 export function ShareIndicator({
   contentRef,
+  onPause,
+  onStart,
 }: {
   contentRef: React.MutableRefObject<HTMLDivElement | null>;
+  onPause: () => void;
+  onStart: () => void;
 }) {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
@@ -61,6 +59,7 @@ export function ShareIndicator({
               cursor: 'pointer',
             }}
             onClick={() => {
+              onPause();
               onOpen();
             }}
           >
@@ -86,7 +85,10 @@ export function ShareIndicator({
       </AnimatePresence>
       <WrappedShareModal
         isOpen={isOpen}
-        onClose={onClose}
+        onClose={() => {
+          onStart();
+          onClose();
+        }}
         contentRef={contentRef}
       />
     </>
