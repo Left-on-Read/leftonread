@@ -18,7 +18,6 @@ import { logEvent } from '../../utils/analytics';
 import { DEFAULT_QUERY_FILTERS } from '../Filters/FilterPanel';
 import { Footer } from '../Footer';
 import { ChartTabs } from './ChartTabs';
-import { GlobalContext } from './GlobalContext';
 import { Navbar } from './Navbar';
 
 export function AnalyticsPage({ onRefresh }: { onRefresh: () => void }) {
