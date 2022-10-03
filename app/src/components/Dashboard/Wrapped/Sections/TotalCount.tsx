@@ -6,6 +6,7 @@ import { ShareIndicator } from '../ShareIndicator';
 import { TimerBar } from '../TimerBar';
 import { Watermark } from '../Watermark';
 
+// TODO(teddy): Revert this once timing gets upgraded
 const sectionDurationInSecs = 100000;
 
 export function TotalCount({
