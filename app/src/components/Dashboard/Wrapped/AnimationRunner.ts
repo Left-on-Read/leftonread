@@ -5,10 +5,15 @@ export class AnimationRunner {
 
   events: Map<number, () => void> = new Map();
 
+  durationInSecs: number = 10;
+
   tickListener?: (arg0: number) => void = () => {};
 
-  constructor(tickListener?: (arg0: number) => void) {
+  constructor(durationInSecs: number, tickListener?: (arg0: number) => void) {
     this.tickListener = tickListener;
+    this.counter = 0;
+    this.events = new Map();
+    this.durationInSecs = durationInSecs;
   }
 
   start() {
@@ -24,8 +29,16 @@ export class AnimationRunner {
     this.events.set(time, callback);
   }
 
+  reset() {
+    this.counter = 0;
+  }
+
   tick() {
     setTimeout(() => {
+      if (this.counter >= this.durationInSecs * 1000) {
+        this.isActive = false;
+      }
+
       if (this.isActive) {
         this.counter += 100;
 

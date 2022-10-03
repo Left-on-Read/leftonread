@@ -381,6 +381,7 @@ export function WrappedPage() {
   ];
 
   const selectedComponent = components[activeIndex];
+
   const iconSize = 50;
 
   return (
@@ -420,20 +421,6 @@ export function WrappedPage() {
           >
             {selectedComponent}
           </Box>
-          {/* <Box>
-            <Button
-              as={Box}
-              colorScheme="purple"
-              onClick={() => setTriggerExit(true)}
-              style={{
-                width: '100%',
-                cursor: 'pointer',
-                marginTop: 24,
-              }}
-            >
-              {activeIndex > 0 ? 'Share' : 'Lets Go'}
-            </Button>
-          </Box> */}
         </Box>
         <IconButton
           onClick={() => {

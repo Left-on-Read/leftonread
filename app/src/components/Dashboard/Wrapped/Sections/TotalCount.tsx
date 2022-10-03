@@ -25,7 +25,10 @@ export function TotalCount({
 
   const [tick, setTick] = useState<number>(0);
 
-  const ar = useMemo(() => new AnimationRunner(setTick), []);
+  const ar = useMemo(
+    () => new AnimationRunner(sectionDurationInSecs, setTick),
+    []
+  );
 
   useEffect(() => {
     ar.addEvent(200, () => {
@@ -71,6 +74,11 @@ export function TotalCount({
     ar.addEvent(sectionDurationInSecs * 1000, onExitFinish);
 
     ar.start();
+
+    return () => {
+      ar.reset();
+      ar.isActive = false;
+    };
   }, [ar, sentControls, receivedControls, onExitFinish]);
 
   return (
