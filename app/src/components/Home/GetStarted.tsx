@@ -3,7 +3,7 @@ import { Button, Text } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
 import { useState } from 'react';
 import { IconType } from 'react-icons';
-import { FiBarChart2, FiGlobe, FiLock } from 'react-icons/fi';
+import { FiBarChart2, FiGlobe, FiLock, FiShield } from 'react-icons/fi';
 
 import { logEvent } from '../../utils/analytics';
 
@@ -69,15 +69,15 @@ export function GetStarted({ onNext }: { onNext: (arg0: boolean) => void }) {
       }}
     >
       <BulletPoint
-        icon={FiLock}
-        title="Your Device Only"
-        description="Just like your private photos and documents, your messages will remain accessible only by you. Your data will never leave your computer."
+        icon={FiShield}
+        title="We never read your data"
+        description="Your text messages will never leave your computer and are never read by us."
         color="blue.400"
       />
       <BulletPoint
-        icon={FiGlobe}
-        title="Open-Source"
-        description="Security is our #1 priority, which is why this software is publicly available for anyone to audit."
+        icon={FiLock}
+        title="Secure"
+        description="Security and privacy is our #1 priority. This is why our software is open-source. You can take a look at the code yourself."
         color="blue.400"
       />
       <BulletPoint

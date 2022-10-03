@@ -1,7 +1,6 @@
 import {
   Icon,
   Spinner,
-  Text,
   theme as defaultTheme,
   Tooltip,
 } from '@chakra-ui/react';
@@ -116,7 +115,7 @@ function TopFriendsBody({
   };
 
   const chartStyle: React.CSSProperties = isSharingVersion
-    ? { width: '500px', height: '600px' }
+    ? { width: '500px', height: '500px' }
     : {};
 
   const options = {
@@ -245,6 +244,11 @@ function TopFriendsBody({
         onClose={() => setIsShareOpen(false)}
         graphRefToShare={graphRefToShare}
         title="Top Messaged Friends"
+        contacts={
+          filters.contact?.length === 1
+            ? filters.contact?.map((c) => c.value)
+            : undefined
+        }
       >
         {body}
       </ShareModal>

@@ -246,6 +246,11 @@ function SentimentOverTimeBody({
         onClose={() => setIsShareOpen(false)}
         graphRefToShare={graphRefToShare}
         title="Sentiment Over Time"
+        contacts={
+          filters.contact?.length === 1
+            ? filters.contact?.map((c) => c.value)
+            : undefined
+        }
       >
         {body}
       </ShareModal>

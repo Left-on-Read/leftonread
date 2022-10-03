@@ -257,12 +257,12 @@ export function SettingsPage() {
           <ContactUs />
         </SettingsCard>
         <SettingsCard
-          title={isPremium ? 'Gold is unlocked' : 'Get Left on Read Gold'}
+          title={isPremium ? 'Gold is unlocked 🎉' : 'Get Left on Read Gold'}
           icon={FiAward}
           description={
             isPremium
-              ? 'Thank you supporting Left on Read!'
-              : 'Unlock filtering, new graphs, and more!'
+              ? 'Thank you supporting Left on Read! ❤️'
+              : 'Support this project to unlock filtering and all graphs.'
           }
         >
           <ManageSubscription />

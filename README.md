@@ -5,11 +5,11 @@
 
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Wow,%20super%20cool%20open-source%20project%20-%20checkout%20out%20Left%20on%20Read&url=https://leftonread.me&hashtags=texting,analytics,buildinpublic)
 
-iMessages supercharged! Built with Electron, React, SQLite, Typescript, and ❤️.
+iMessages supercharged! We are entirely open-source to show you that your data is secure and never leaves your computer. Left on Read is built with Electron, React, SQLite, Typescript, and ❤️.
 
 ## Download Left on Read for Mac
 
-<h3><a href=https://github.com/Left-on-Read/leftonread/releases">Download</a></h3>
+<h3><a href=https://github.com/Left-on-Read/leftonread/releases>Download</a></h3>
 
 <p align="right"><a href="https://leftonread.me/">leftonread.me</a></p>
 
@@ -19,7 +19,7 @@ iMessages supercharged! Built with Electron, React, SQLite, Typescript, and ❤�
 
 **Secure**: Just like your private photos and important documents, your text messages are only accessible to you and never seen by us.
 
-**Productive and Fun**: The first iteration was a [web application](https://www.reddit.com/r/dataisbeautiful/comments/biou3e/4_years_of_texts_between_me_and_my_long_distance/), but now we have rebuilt Left on Read as a Desktop app to feature fun productivity tools, such as scheduled messages and reminders.
+**Fun**: The first iteration was a [web application](https://www.reddit.com/r/dataisbeautiful/comments/biou3e/4_years_of_texts_between_me_and_my_long_distance/), but now we have rebuilt Left on Read as a Desktop app.
 
 ## Contributing
 
@@ -38,11 +38,6 @@ _Support this project by becoming a sponsor. Your logo will show up here with a 
 Thank you to Vercel for sponsoring this project!
 
 [![Vercel](./assets/documentation/powered-by-vercel.svg)](https://vercel.com/?utm_source=leftonread&utm_campaign=oss)
-
-Thank you to 3 Minute Journal for sponsoring this project!
-
-[![3-minute-journal](https://ph-files.imgix.net/7eed76e3-d582-46b7-aab4-fa1c3d6a4a1e.png?auto=format&auto=compress&codec=mozjpeg&cs=strip&w=72&h=72&fit=crop&bg=0fff&dpr=2)](https://apps.apple.com/us/app/3-minute-journal/id1621951579)
-
 
 ## Support
 
