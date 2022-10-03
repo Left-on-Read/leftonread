@@ -20,8 +20,6 @@ export function TotalCount({
   onExitFinish: () => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const sentControls = useAnimationControls();
-  const receivedControls = useAnimationControls();
 
   const [tick, setTick] = useState<number>(0);
 
@@ -29,6 +27,9 @@ export function TotalCount({
     () => new AnimationRunner(sectionDurationInSecs, setTick),
     []
   );
+
+  const sentControls = useAnimationControls();
+  const receivedControls = useAnimationControls();
 
   useEffect(() => {
     ar.addEvent(200, () => {
