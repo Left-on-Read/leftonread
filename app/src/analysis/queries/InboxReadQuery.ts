@@ -60,12 +60,15 @@ export async function queryGetInboxChatIds(
 ): Promise<TGetChatIdsResult> {
   let dateClause = '';
   // TODO(Danilowicz): on first initialize, we don't set lastRefreshTimestamp
-  // so we will grab anything. But on the 2nd time (via a isRefresh prop), we set the field
+  // so we will grab everything in last 3 months.
+  // But on the 2nd time (via a isRefresh prop), we set the field
   // and thus will only pull the most recent convos.
   // We really should be writing to a seperate DB that is not wiped like the others.
   if (lastRefreshTimestamp) {
     dateClause = `WHERE human_readable_date > datetime("${lastRefreshTimestamp}")`;
   }
+  const d = new Date();
+  d.setMonth(d.getMonth() - 3);
   const q = `
     WITH TB AS (
     SELECT DISTINCT chat_id, COALESCE(contact_name, id) as contact_name, text as message, MAX(human_readable_date) as human_readable_date, is_from_me
@@ -74,9 +77,11 @@ export async function queryGetInboxChatIds(
     AND (service_center != chat_id OR service_center is NULL)
     -- do not do group chats for now
     AND cache_roomnames IS NULL
+    AND human_readable_date > datetime("${d.toISOString()}")
     GROUP BY chat_id)
     SELECT * FROM TB ${dateClause}
   `;
+  log.info(q);
   const data = await allP(db, q);
 
   if (data && Array.isArray(data) && data.length > 0) {
