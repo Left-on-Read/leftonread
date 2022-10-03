@@ -4,6 +4,7 @@ import {
   IconButton,
   theme as defaultTheme,
 } from '@chakra-ui/react';
+import { motion, useAnimationControls } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
@@ -29,22 +30,68 @@ import { YouTexting } from './Sections/YouTexting';
 
 export const DURATION_OF_SLIDE_IN_SECS = 10;
 
-function WrappedGradient({ children }: { children: React.ReactNode }) {
-  const [color, setColor] = useState<string>('D6BCFA');
+function WrappedGradient({
+  theme,
+  children,
+}: {
+  theme: 'blue' | 'purple' | 'green';
+  children: React.ReactNode;
+}) {
+  const blueControls = useAnimationControls();
+  const purpleControls = useAnimationControls();
+  const greenControls = useAnimationControls();
 
   useEffect(() => {
-    const gradient = new Gradient();
+    const gradientPurple = new Gradient();
+    const gradientBlue = new Gradient();
+    const gradientGreen = new Gradient();
     // @ts-ignore
-    gradient.initGradient('#gradient-canvas');
+    gradientPurple.initGradient('#gradient-canvas-purple');
 
-    // setTimeout(() => {
-    //   setColor('0BC5EA');
-    //   setTimeout(() => {
-    //     // @ts-ignore
-    //     gradient.initGradient('#gradient-canvas');
-    //   }, 500);
-    // }, 5000);
+    // @ts-ignore
+    gradientBlue.initGradient('#gradient-canvas-blue');
+
+    // @ts-ignore
+    gradientGreen.initGradient('#gradient-canvas-green');
   }, []);
+
+  useEffect(() => {
+    if (theme === 'blue') {
+      blueControls.start({
+        opacity: 1,
+      });
+      purpleControls.start({
+        opacity: 0,
+      });
+      greenControls.start({
+        opacity: 0,
+      });
+    }
+
+    if (theme === 'purple') {
+      blueControls.start({
+        opacity: 0,
+      });
+      greenControls.start({
+        opacity: 0,
+      });
+      purpleControls.start({
+        opacity: 1,
+      });
+    }
+
+    if (theme === 'green') {
+      blueControls.start({
+        opacity: 0,
+      });
+      purpleControls.start({
+        opacity: 0,
+      });
+      greenControls.start({
+        opacity: 1,
+      });
+    }
+  }, [theme, blueControls, purpleControls, greenControls]);
 
   return (
     <Box
@@ -54,11 +101,19 @@ function WrappedGradient({ children }: { children: React.ReactNode }) {
         alignItems: 'center',
         height: '100vh',
         position: 'relative',
+        overflow: 'hidden',
       }}
     >
-      <div style={{ position: 'absolute', top: 0, left: 0, height: '100%' }}>
+      <motion.div
+        style={{ position: 'absolute', top: 0, left: 0, height: '100%' }}
+        initial={{ opacity: 0 }}
+        animate={purpleControls}
+        transition={{
+          duration: 1,
+        }}
+      >
         <canvas
-          id="gradient-canvas"
+          id="gradient-canvas-purple"
           data-transition-in
           style={
             {
@@ -66,11 +121,55 @@ function WrappedGradient({ children }: { children: React.ReactNode }) {
               '--gradient-color-2': defaultTheme.colors.purple['300'],
               '--gradient-color-3': defaultTheme.colors.gray['300'],
               '--gradient-color-4': defaultTheme.colors.gray['200'],
+              height: '100%',
             } as any
           }
         />
-      </div>
-
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={blueControls}
+        style={{ position: 'absolute', top: 0, left: 0, height: '100%' }}
+        transition={{
+          duration: 1,
+        }}
+      >
+        <canvas
+          id="gradient-canvas-blue"
+          data-transition-in
+          style={
+            {
+              '--gradient-color-1': defaultTheme.colors.blue['200'],
+              '--gradient-color-2': defaultTheme.colors.blue['300'],
+              '--gradient-color-3': defaultTheme.colors.gray['300'],
+              '--gradient-color-4': defaultTheme.colors.gray['200'],
+              height: '100%',
+            } as any
+          }
+        />
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={greenControls}
+        style={{ position: 'absolute', top: 0, left: 0, height: '100%' }}
+        transition={{
+          duration: 1,
+        }}
+      >
+        <canvas
+          id="gradient-canvas-green"
+          data-transition-in
+          style={
+            {
+              '--gradient-color-1': defaultTheme.colors.green['200'],
+              '--gradient-color-2': defaultTheme.colors.green['300'],
+              '--gradient-color-3': defaultTheme.colors.gray['300'],
+              '--gradient-color-4': defaultTheme.colors.gray['200'],
+              height: '100%',
+            } as any
+          }
+        />
+      </motion.div>
       {children}
     </Box>
   );
@@ -78,7 +177,17 @@ function WrappedGradient({ children }: { children: React.ReactNode }) {
 
 export function WrappedPage() {
   const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [activeTheme, setActiveTheme] = useState<'blue' | 'purple'>('purple');
+
   const [triggerExit, setTriggerExit] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (activeIndex === 8) {
+      setActiveTheme('blue');
+    } else if (activeIndex === 7) {
+      setActiveTheme('purple');
+    }
+  }, [activeIndex]);
 
   const components = [
     <WrappedIntro
@@ -213,7 +322,7 @@ export function WrappedPage() {
   const iconSize = 50;
 
   return (
-    <WrappedGradient>
+    <WrappedGradient theme={activeTheme}>
       <Box
         style={{
           display: 'flex',
@@ -242,14 +351,14 @@ export function WrappedPage() {
             style={{
               zIndex: 1,
               backgroundColor: 'white',
-              width: '45vh',
-              height: '80vh',
+              width: '47.8125vh',
+              height: '85vh',
               borderRadius: 16,
             }}
           >
             {selectedComponent}
           </Box>
-          <Box>
+          {/* <Box>
             <Button
               as={Box}
               colorScheme="purple"
@@ -262,7 +371,7 @@ export function WrappedPage() {
             >
               {activeIndex > 0 ? 'Share' : 'Lets Go'}
             </Button>
-          </Box>
+          </Box> */}
         </Box>
         <IconButton
           onClick={() => {

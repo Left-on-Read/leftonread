@@ -4,7 +4,7 @@ import { useCallback, useEffect } from 'react';
 
 import { TimerBar } from '../TimerBar';
 
-const sectionDurationInSecs = 100000;
+const sectionDurationInSecs = 8;
 
 export function Thanks({
   shouldExit,
@@ -81,7 +81,7 @@ export function Thanks({
         style={{ textAlign: 'center', marginTop: '4vh' }}
         fontWeight="semibold"
       >
-        Now go forth and proudly share how great (or bad) of a texter you are
+        Now go forth and proudly share how great (or bad) of a texter you were
         with the world.
       </Text>
     </Box>

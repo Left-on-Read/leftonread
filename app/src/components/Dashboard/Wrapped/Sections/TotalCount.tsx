@@ -2,9 +2,10 @@ import { Box, Text, theme as defaultTheme } from '@chakra-ui/react';
 import { motion, useAnimationControls } from 'framer-motion';
 import { useCallback, useEffect } from 'react';
 
+import { ShareIndicator } from '../ShareIndicator';
 import { TimerBar } from '../TimerBar';
 
-const sectionDurationInSecs = 10;
+const sectionDurationInSecs = 10000000;
 
 export function TotalCount({
   shouldExit,
@@ -96,6 +97,7 @@ export function TotalCount({
       bgColor="purple.50"
     >
       <TimerBar durationInSecs={sectionDurationInSecs} />
+      <ShareIndicator />
       <motion.div animate={sentControls} initial={{ opacity: 0 }}>
         <Text fontSize="4xl" fontWeight="bold">
           Sent
