@@ -1,7 +1,7 @@
 import { Box, IconButton, theme as defaultTheme } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
 import { motion, useAnimationControls } from 'framer-motion';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
 import { TotalSentVsReceivedResults } from '../../../analysis/queries/TotalSentVsReceivedQuery';
@@ -237,6 +237,7 @@ export function WrappedPage() {
     }
   }, [activeIndex]);
 
+  // TODO: Refactor this - this is getting pretty expensive bc of re-renders.
   const components = [
     <WrappedIntro
       shouldExit={triggerExit}
