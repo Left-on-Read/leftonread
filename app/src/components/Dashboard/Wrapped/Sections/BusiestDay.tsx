@@ -1,4 +1,5 @@
 import { Box, Text, theme as defaultTheme } from '@chakra-ui/react';
+import { MostPopularDayResult } from 'analysis/queries/WrappedQueries/MostPopularDayQuery';
 import { motion, useAnimationControls } from 'framer-motion';
 import { useCallback, useEffect } from 'react';
 
@@ -9,14 +10,16 @@ const sectionDurationInSecs = 10;
 export function BusiestDay({
   shouldExit,
   onExitFinish,
+  mostPopularDayData,
 }: {
+  mostPopularDayData: MostPopularDayResult;
   shouldExit: boolean;
   onExitFinish: () => void;
 }) {
   const controls = useAnimationControls();
 
-  const totalTexts = 2948;
-  const averageTexts = 837;
+  const totalTexts = mostPopularDayData.mostPopularCount;
+  const averageTexts = mostPopularDayData.avgCount;
 
   const animateExit = useCallback(() => {
     controls.stop();
@@ -92,7 +95,12 @@ export function BusiestDay({
               color: defaultTheme.colors.purple['500'],
             }}
           >
-            April 14th, 2022
+            {mostPopularDayData.mostPopularDate.toLocaleDateString('en-us', {
+              weekday: 'long',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
           </span>
           , you sent and received a total of{' '}
           <span
@@ -135,7 +143,7 @@ export function BusiestDay({
             }}
           >
             <Text style={{ marginTop: '1vh' }} fontWeight="semibold">
-              4/14/22
+              {mostPopularDayData.mostPopularDate.toLocaleDateString()}
             </Text>
             <motion.div
               initial={{ height: 0 }}

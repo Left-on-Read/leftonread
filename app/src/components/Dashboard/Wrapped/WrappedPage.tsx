@@ -1,10 +1,11 @@
 import { Box, IconButton, theme as defaultTheme } from '@chakra-ui/react';
-import { TotalSentVsReceivedResults } from 'analysis/queries/TotalSentVsReceivedQuery';
 import { ipcRenderer } from 'electron';
 import { motion, useAnimationControls } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
+import { TotalSentVsReceivedResults } from '../../../analysis/queries/TotalSentVsReceivedQuery';
+import { MostPopularDayResult } from '../../../analysis/queries/WrappedQueries/MostPopularDayQuery';
 import { Gradient } from '../../Gradient';
 import { useGlobalContext } from '../GlobalContext';
 import { BusiestDay } from './Sections/BusiestDay';
@@ -184,6 +185,13 @@ export function WrappedPage() {
     received: number;
   }>({ sent: 0, received: 0 });
 
+  const [mostPopularDayData, setMostPopularDayData] =
+    useState<MostPopularDayResult>({
+      avgCount: 0,
+      mostPopularCount: 0,
+      mostPopularDate: new Date(),
+    });
+
   const oneYearAgoDate = new Date(
     new Date().setFullYear(new Date().getFullYear() - 1)
   );
@@ -195,24 +203,26 @@ export function WrappedPage() {
   // TODO(Danilowicz): Run this on page load and hope it's finished by the time wrapped starts
   useEffect(() => {
     async function fetchData() {
-      console.log(startDate);
       const sentVsReceivedDataPromise: Promise<TotalSentVsReceivedResults> =
         ipcRenderer.invoke('query-total-sent-vs-received', { startDate });
 
-      const [sentVsReceivedResult] = await Promise.all([
+      const mostPopularDayPromise: Promise<MostPopularDayResult> =
+        ipcRenderer.invoke('query-most-popular-day', { startDate });
+
+      const [sentVsReceivedResult, mostPopularDayResult] = await Promise.all([
         sentVsReceivedDataPromise,
+        mostPopularDayPromise,
       ]);
 
-      const receivedList = sentVsReceivedResult.filter(
-        (obj) => obj.is_from_me === 0
-      );
-      const sentList = sentVsReceivedResult.filter(
-        (obj) => obj.is_from_me === 1
-      );
+      setMostPopularDayData(mostPopularDayResult);
 
       setSentVsReceivedData({
-        received: receivedList[0]?.total ?? 0,
-        sent: sentList[0]?.total ?? 0,
+        received:
+          sentVsReceivedResult.filter((obj) => obj.is_from_me === 0)[0]
+            ?.total ?? 0,
+        sent:
+          sentVsReceivedResult.filter((obj) => obj.is_from_me === 1)[0]
+            ?.total ?? 0,
       });
     }
     fetchData();
@@ -270,6 +280,7 @@ export function WrappedPage() {
         setActiveIndex(activeIndex + 1);
         setTriggerExit(false);
       }}
+      mostPopularDayData={mostPopularDayData}
     />,
     <MostMessages
       shouldExit={triggerExit}

@@ -52,6 +52,7 @@ import {
   IWordOrEmojiFilters,
   queryEmojiOrWordCounts,
 } from '../analysis/queries/WordOrEmojiQuery';
+import { queryMostPopularDay } from '../analysis/queries/WrappedQueries/MostPopularDayQuery';
 import { API_BASE_URL } from '../constants/api';
 import { NotificationSettings } from '../constants/types';
 import { APP_VERSION } from '../constants/versions';
@@ -290,6 +291,14 @@ export function attachIpcListeners() {
   ipcMain.handle('check-requires-refresh', async () => {
     return checkRequiresRefresh();
   });
+
+  ipcMain.handle(
+    'query-most-popular-day',
+    async (event, filters: SharedQueryFilters) => {
+      const db = getDb();
+      return queryMostPopularDay(db, filters);
+    }
+  );
 
   ipcMain.handle('set-last-updated-version', async (event, version: string) => {
     setLastUpdatedVersion(version);
