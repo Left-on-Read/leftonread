@@ -228,6 +228,11 @@ function WordOrEmojiCountBody({
         onClose={() => setIsShareOpen(false)}
         graphRefToShare={graphRefToShare}
         title={title.join(', ')}
+        contacts={
+          filters.contact?.length === 1
+            ? filters.contact?.map((c) => c.value)
+            : undefined
+        }
       >
         {body}
       </ShareModal>
