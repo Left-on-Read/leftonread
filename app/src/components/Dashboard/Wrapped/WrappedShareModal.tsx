@@ -41,17 +41,19 @@ export function WrappedShareModal({
   const currentRef = contentRef.current;
 
   useEffect(() => {
-    const generateImage = async () => {
-      if (!currentRef) {
-        return;
-      }
+    if (isOpen) {
+      const generateImage = async () => {
+        if (!currentRef) {
+          return;
+        }
 
-      const dataurl = await toPng(currentRef);
-      setImgSrc(dataurl);
-    };
+        const dataurl = await toPng(currentRef);
+        setImgSrc(dataurl);
+      };
 
-    generateImage();
-  }, [currentRef]);
+      generateImage();
+    }
+  }, [currentRef, isOpen]);
 
   const copyToClipboard = () => {
     const nativeImg = electron.nativeImage.createFromDataURL(imgSrc);
