@@ -1,8 +1,4 @@
-import {
-  filterOutReactions,
-  GroupChatFilters,
-  TimeRangeFilters,
-} from '../../../constants/filters';
+import { GroupChatFilters, TimeRangeFilters } from '../../../constants/filters';
 import { delimList } from '../../../utils/delimList';
 import { CoreMainTableColumns } from '../../tables/CoreTable';
 import { ContactOptionsQueryResult } from '../ContactOptionsQuery';

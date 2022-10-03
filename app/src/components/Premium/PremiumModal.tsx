@@ -175,7 +175,7 @@ export function PremiumModal({
                   )}
                   <Button
                     variant="link"
-                    color="gray.400"
+                    color="gray.600"
                     fontSize={14}
                     style={{ marginTop: 24 }}
                     onClick={() => {
@@ -185,7 +185,7 @@ export function PremiumModal({
                       window.open(STRIPE_LINK);
                     }}
                   >
-                    {`Don't have a license key? Get one here.`}
+                    {`Don't have a license key? Get one here 🎉`}
                   </Button>
                   <Text
                     color="gray.400"

@@ -108,8 +108,6 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
             activeTab = 'Group Chats';
           } else if (index === 3) {
             activeTab = 'Sentiment';
-          } else if (index === 4) {
-            activeTab = 'Engagement';
           }
 
           logEvent({
@@ -214,19 +212,6 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
               />
               <WordOrEmojiCountChart
                 title={titleFormatter({
-                  titleName: 'Top Sent Emojis',
-                  filters,
-                })}
-                description={descriptionFormatter({ description: '', filters })}
-                icon={FiMeh}
-                labelText="Count of Sent Emojis"
-                filters={filters}
-                isEmoji
-                isFromMe
-                isPremiumGraph
-              />
-              <WordOrEmojiCountChart
-                title={titleFormatter({
                   titleName: 'Top Received Words',
                   filters,
                 })}
@@ -236,7 +221,6 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
                 filters={filters}
                 isEmoji={false}
                 isFromMe={false}
-                isPremiumGraph
               />
               <WordOrEmojiCountChart
                 title={titleFormatter({
@@ -248,6 +232,19 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
                 labelText="Count of Sent Words"
                 filters={filters}
                 isEmoji={false}
+                isFromMe
+                isPremiumGraph
+              />
+              <WordOrEmojiCountChart
+                title={titleFormatter({
+                  titleName: 'Top Sent Emojis',
+                  filters,
+                })}
+                description={descriptionFormatter({ description: '', filters })}
+                icon={FiMeh}
+                labelText="Count of Sent Emojis"
+                filters={filters}
+                isEmoji
                 isFromMe
                 isPremiumGraph
               />
