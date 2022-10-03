@@ -53,6 +53,7 @@ import {
   queryEmojiOrWordCounts,
 } from '../analysis/queries/WordOrEmojiQuery';
 import { queryMostPopularDay } from '../analysis/queries/WrappedQueries/MostPopularDayQuery';
+import { queryTopFriendsSimple } from '../analysis/queries/WrappedQueries/TopFriendsSimpleQuery';
 import { API_BASE_URL } from '../constants/api';
 import { NotificationSettings } from '../constants/types';
 import { APP_VERSION } from '../constants/versions';
@@ -297,6 +298,14 @@ export function attachIpcListeners() {
     async (event, filters: SharedQueryFilters) => {
       const db = getDb();
       return queryMostPopularDay(db, filters);
+    }
+  );
+
+  ipcMain.handle(
+    'query-top-friends-simple',
+    async (event, filters: SharedQueryFilters) => {
+      const db = getDb();
+      return queryTopFriendsSimple(db, filters);
     }
   );
 

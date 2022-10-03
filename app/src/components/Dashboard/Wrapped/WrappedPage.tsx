@@ -1,4 +1,5 @@
 import { Box, IconButton, theme as defaultTheme } from '@chakra-ui/react';
+import { TopFriendsSimpleResult } from 'analysis/queries/WrappedQueries/TopFriendsSimpleQuery';
 import { ipcRenderer } from 'electron';
 import { motion, useAnimationControls } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
@@ -192,6 +193,8 @@ export function WrappedPage() {
       mostPopularDate: new Date(),
     });
 
+  const [topFriends, setTopFriends] = useState<TopFriendsSimpleResult>([]);
+
   const oneYearAgoDate = new Date(
     new Date().setFullYear(new Date().getFullYear() - 1)
   );
@@ -209,13 +212,18 @@ export function WrappedPage() {
       const mostPopularDayPromise: Promise<MostPopularDayResult> =
         ipcRenderer.invoke('query-most-popular-day', { startDate });
 
-      const [sentVsReceivedResult, mostPopularDayResult] = await Promise.all([
-        sentVsReceivedDataPromise,
-        mostPopularDayPromise,
-      ]);
+      const topFriendsSimplePromise: Promise<TopFriendsSimpleResult> =
+        ipcRenderer.invoke('query-top-friends-simple', { startDate });
+
+      const [sentVsReceivedResult, mostPopularDayResult, topFriendsResult] =
+        await Promise.all([
+          sentVsReceivedDataPromise,
+          mostPopularDayPromise,
+          topFriendsSimplePromise,
+        ]);
 
       setMostPopularDayData(mostPopularDayResult);
-
+      setTopFriends(topFriendsResult);
       setSentVsReceivedData({
         received:
           sentVsReceivedResult.filter((obj) => obj.is_from_me === 0)[0]
@@ -288,6 +296,7 @@ export function WrappedPage() {
         setActiveIndex(activeIndex + 1);
         setTriggerExit(false);
       }}
+      topFriends={topFriends}
     />,
     <TopFriend
       shouldExit={triggerExit}
@@ -309,6 +318,7 @@ export function WrappedPage() {
         setActiveIndex(activeIndex + 1);
         setTriggerExit(false);
       }}
+      topFriends={topFriends}
     />,
     <TopGroupChat
       shouldExit={triggerExit}

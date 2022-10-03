@@ -2,6 +2,7 @@ import { Box, Stack, Text, theme as defaultTheme } from '@chakra-ui/react';
 import { motion, useAnimationControls } from 'framer-motion';
 import { useCallback, useEffect } from 'react';
 
+import { TopFriendsSimpleResult } from '../../../../analysis/queries/WrappedQueries/TopFriendsSimpleQuery';
 import { TimerBar } from '../TimerBar';
 
 const sectionDurationInSecs = 10;
@@ -9,17 +10,13 @@ const sectionDurationInSecs = 10;
 export function FriendList({
   shouldExit,
   onExitFinish,
+  topFriends,
 }: {
   shouldExit: boolean;
   onExitFinish: () => void;
+  topFriends: TopFriendsSimpleResult;
 }) {
-  const topFriends = [
-    'Alexander Danilowicz',
-    'Sally Xu',
-    'Brian Mc Gartoll',
-    'Matthew Tso',
-    'Alex Chan',
-  ];
+  const data = topFriends.map((c) => c.friend);
 
   const controls = useAnimationControls();
 
@@ -87,7 +84,7 @@ export function FriendList({
         </Text>
       </motion.div>
       <Stack style={{ marginTop: '6vh' }} spacing="4vh">
-        {topFriends.map((friend, index) => (
+        {data.slice(0, 5).map((friend, index) => (
           <Box key={friend} style={{ display: 'flex', alignItems: 'center' }}>
             <motion.div
               initial={{ opacity: 0 }}

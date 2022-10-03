@@ -1,4 +1,6 @@
-import { Box, Text, theme as defaultTheme } from '@chakra-ui/react';
+/* eslint-disable prefer-destructuring */
+import { Box, Text, theme } from '@chakra-ui/react';
+import { TopFriendsSimpleResult } from 'analysis/queries/WrappedQueries/TopFriendsSimpleQuery';
 import { motion, useAnimationControls } from 'framer-motion';
 import { useCallback, useEffect } from 'react';
 
@@ -9,16 +11,24 @@ const sectionDurationInSecs = 8;
 export function MostMessages({
   shouldExit,
   onExitFinish,
+  topFriends,
 }: {
   shouldExit: boolean;
   onExitFinish: () => void;
+  topFriends: TopFriendsSimpleResult;
 }) {
   const controls = useAnimationControls();
 
-  const secondFriend = 'Sally Xu';
-  const thirdFriend = 'Alex Chan';
-  const fourthFriend = 'Brian Mc Gartoll';
-  const fitfhFriend = 'Matthew Tso';
+  let secondFriend = 'Steve Jobs';
+  let thirdFriend = 'Bill Gates';
+  let fourthFriend = 'Oprah';
+  let fifthFriend = 'Beyonce';
+  if (topFriends.length > 9) {
+    secondFriend = topFriends[5].friend;
+    thirdFriend = topFriends[6].friend;
+    fourthFriend = topFriends[7].friend;
+    fifthFriend = topFriends[8].friend;
+  }
 
   const animateExit = useCallback(() => {
     controls.stop();
@@ -174,7 +184,7 @@ export function MostMessages({
           delay: 3.5,
         }}
       >
-        {fitfhFriend}
+        {fifthFriend}
       </motion.div>
     </Box>
   );
