@@ -2,6 +2,7 @@ import { Box, Text, theme as defaultTheme } from '@chakra-ui/react';
 import { motion, useAnimationControls } from 'framer-motion';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import { EngagementResult } from '../../../../analysis/queries/EngagementQueries';
 import { AnimationRunner } from '../AnimationRunner';
 import { ShareIndicator } from '../ShareIndicator';
 import { TimerBar } from '../TimerBar';
@@ -12,9 +13,11 @@ const sectionDurationInSecs = 10;
 export function LeftOnReadStats({
   shouldExit,
   onExitFinish,
+  leftOnReadData,
 }: {
   shouldExit: boolean;
   onExitFinish: () => void;
+  leftOnReadData: EngagementResult[];
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -137,7 +140,7 @@ export function LeftOnReadStats({
           </Text>
           <div style={{ display: 'flex', alignItems: 'flex-end' }}>
             <Text fontSize="6xl" fontWeight="black" color="purple.500">
-              487
+              {leftOnReadData.find((c) => c.isFromMe === 0)?.value ?? 0}
             </Text>
             <Text style={{ paddingBottom: 20, marginLeft: 8 }}>times</Text>
           </div>
@@ -155,7 +158,7 @@ export function LeftOnReadStats({
           </Text>
           <div style={{ display: 'flex', alignItems: 'flex-end' }}>
             <Text fontSize="6xl" fontWeight="black" color="pink.500">
-              859
+              {leftOnReadData.find((c) => c.isFromMe === 1)?.value ?? 0}
             </Text>
             <Text style={{ paddingBottom: 20, marginLeft: 8 }}>times</Text>
           </div>

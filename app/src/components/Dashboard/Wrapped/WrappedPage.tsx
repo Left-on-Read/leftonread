@@ -4,6 +4,7 @@ import { motion, useAnimationControls } from 'framer-motion';
 import React, { useEffect, useMemo, useState } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
+import { EngagementResult } from '../../../analysis/queries/EngagementQueries';
 import { GroupChatByFriends } from '../../../analysis/queries/GroupChats/GroupChatByFriendsQuery';
 import { TotalSentVsReceivedResults } from '../../../analysis/queries/TotalSentVsReceivedQuery';
 import { TWordOrEmojiResults } from '../../../analysis/queries/WordOrEmojiQuery';
@@ -219,6 +220,7 @@ export function WrappedPage() {
   const [topSentEmojis, setTopSentEmojis] = useState<TWordOrEmojiResults>([]);
   const [funniestGroupChatMessage, setFunniestGroupChatMessage] =
     useState<FunniestMessageResult>([]);
+  const [leftOnReadData, setLeftOnReadData] = useState<EngagementResult[]>([]);
 
   const oneYearAgoDate = new Date(
     new Date().setFullYear(new Date().getFullYear() - 1)
@@ -274,6 +276,14 @@ export function WrappedPage() {
       const funniestGroupChatPromise: Promise<FunniestMessageResult> =
         ipcRenderer.invoke('query-funniest-message-group-chat');
 
+      const leftOnReadPromise: Promise<EngagementResult[]> = ipcRenderer.invoke(
+        'query-left-on-read',
+        {
+          startDate,
+          groupChat: GroupChatFilters.ONLY_INDIVIDUAL,
+        }
+      );
+
       const [
         sentVsReceivedResult,
         mostPopularDayResult,
@@ -283,6 +293,7 @@ export function WrappedPage() {
         topSentWordsResult,
         topSentEmojisResult,
         funniestGroupChatResult,
+        leftOnReadResult,
       ] = await Promise.all([
         sentVsReceivedDataPromise,
         mostPopularDayPromise,
@@ -292,6 +303,7 @@ export function WrappedPage() {
         topSentWordsPromise,
         topSentEmojisPromise,
         funniestGroupChatPromise,
+        leftOnReadPromise,
       ]);
 
       if (topGroupChatAndFriendResult.length < 1) {
@@ -315,6 +327,22 @@ export function WrappedPage() {
       } else {
         setFunniestGroupChatMessage(funniestGroupChatResult);
       }
+
+      if (leftOnReadResult.length < 1) {
+        setLeftOnReadData([
+          {
+            value: 0,
+            isFromMe: 0,
+          },
+          {
+            value: 0,
+            isFromMe: 1,
+          },
+        ]);
+      } else {
+        setLeftOnReadData(leftOnReadResult);
+      }
+
       setTopSentWords(topSentWordsResult);
       setTopSentEmojis(topSentEmojisResult);
       setMostPopularDayData(mostPopularDayResult);
@@ -476,6 +504,7 @@ export function WrappedPage() {
         setActiveIndex(activeIndex + 1);
         setTriggerExit(false);
       }}
+      leftOnReadData={leftOnReadData}
     />,
     <Thanks
       shouldExit={triggerExit}
