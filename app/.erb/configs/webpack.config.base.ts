@@ -51,7 +51,7 @@ const configuration: webpack.Configuration = {
       NODE_ENV: 'production',
     }),
     new PalettePlugin({
-      key: '', // todo asset key goes here, but also need it on release pipeline
+      key: process.env.PALETTE_ASSET_KEY ?? 'foobar',
     }),
   ],
 };
