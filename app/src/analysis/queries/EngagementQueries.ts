@@ -68,7 +68,6 @@ export async function queryLeftOnRead(
   filters: SharedQueryFilters
 ): Promise<EngagementResult[]> {
   const THREE_DAYS_IN_SECONDS = 60 * 60 * 24 * 3;
-
   const q = `
         SELECT 
           COUNT(*) AS value,
