@@ -33,7 +33,7 @@ export function TopGroupChat({
   const controls = useAnimationControls();
 
   const totalMessages = 0;
-  const youSent = 0;
+  const mostActiveSent = topGroupChatAndFriend[0].count;
   const mostActive = topGroupChatAndFriend[0].contact_name;
 
   useEffect(() => {
@@ -187,7 +187,7 @@ export function TopGroupChat({
         <motion.div
           style={{ display: 'flex', flexDirection: 'column', marginTop: '5vh' }}
         >
-          <motion.div
+          {/* <motion.div
             style={{ marginBottom: '1vh' }}
             initial={{ opacity: 0 }}
             animate={{
@@ -204,25 +204,7 @@ export function TopGroupChat({
               </span>{' '}
               {totalMessages.toLocaleString()}
             </Text>
-          </motion.div>
-          <motion.div
-            style={{ marginBottom: '1vh' }}
-            initial={{ opacity: 0 }}
-            animate={{
-              opacity: 1,
-            }}
-            transition={{
-              duration: 0.7,
-              delay: 1.3,
-            }}
-          >
-            <Text fontSize="lg">
-              <span style={{ fontWeight: 600, marginRight: '1vh' }}>
-                You Sent:
-              </span>{' '}
-              {youSent.toLocaleString()}
-            </Text>
-          </motion.div>
+          </motion.div> */}
           <motion.div
             style={{ marginBottom: '1vh' }}
             initial={{ opacity: 0 }}
@@ -239,6 +221,25 @@ export function TopGroupChat({
                 Most Active:
               </span>{' '}
               {mostActive}
+            </Text>
+          </motion.div>
+          <motion.div
+            style={{ marginBottom: '1vh' }}
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: 1,
+            }}
+            transition={{
+              duration: 0.7,
+              delay: 1.3,
+            }}
+          >
+            <Text fontSize="lg">
+              <span style={{ fontWeight: 600, marginRight: '1vh' }}>
+                {mostActive.toLowerCase().trim() === 'you' ? 'You' : 'They'}{' '}
+                Sent:
+              </span>{' '}
+              {mostActiveSent.toLocaleString()}
             </Text>
           </motion.div>
         </motion.div>
