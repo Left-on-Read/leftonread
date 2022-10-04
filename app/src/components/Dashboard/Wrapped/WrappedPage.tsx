@@ -378,7 +378,15 @@ export function WrappedPage() {
         setTriggerExit(false);
       }}
     />,
-    <Overview />,
+    <Overview
+      overviewData={{
+        topFriend: topFriendWordAndCount.friend,
+        sentCount: sentVsReceivedData.sent,
+        receivedCount: sentVsReceivedData.received,
+        words: topSentWords.map((c) => c.word).slice(0, 3),
+        emojis: topSentEmojis.map((c) => c.word).slice(0, 3),
+      }}
+    />,
   ];
 
   useEffect(() => {
