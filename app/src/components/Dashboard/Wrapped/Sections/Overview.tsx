@@ -1,4 +1,4 @@
-import { Box, Divider, Stack, Text } from '@chakra-ui/react';
+import { Box, Divider, Skeleton, Stack, Text } from '@chakra-ui/react';
 import { toPng } from 'html-to-image';
 import { useEffect, useRef, useState } from 'react';
 
@@ -238,14 +238,6 @@ export function Overview() {
   const ref = useRef<HTMLDivElement>(null);
   const [imgSrc, setImgSrc] = useState<string>('');
 
-  const sentCount = 38826;
-  const receivedCount = 84723;
-  const words = ['lol', 'haha', 'what'];
-  const emojis = ['😖', '🤐', '🤖'];
-
-  const labelColor = 'black.600';
-  const dataColor = 'purple.700';
-
   const currentRef = ref.current;
 
   useEffect(() => {
@@ -283,11 +275,25 @@ export function Overview() {
         </Text>
       </Box>
       <Box style={{ display: 'flex', justifyContent: 'center' }}>
-        <img
-          src={imgSrc}
-          alt="Graphic"
-          style={{ width: '70%', borderRadius: 16 }}
-        />
+        <Box
+          shadow="dark-lg"
+          style={{
+            borderRadius: 16,
+            display: 'flex',
+            width: '70%',
+            overflow: 'hidden',
+          }}
+        >
+          {imgSrc ? (
+            <img
+              src={imgSrc}
+              alt="Graphic"
+              style={{ width: '100%', borderRadius: 16 }}
+            />
+          ) : (
+            <Skeleton width="100%" height="60vh" />
+          )}
+        </Box>
       </Box>
     </Box>
   );
