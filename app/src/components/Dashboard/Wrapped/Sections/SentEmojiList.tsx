@@ -111,7 +111,7 @@ export function SentEmojiList({
           animate={controls}
           style={{ lineHeight: 1.2, marginTop: '8vh' }}
         >
-          <Text fontSize="2xl" fontWeight="bold" color="blue.500">
+          <Text fontSize="2xl" fontWeight="bold" color="blue.600">
             Your Top Sent Emojis
           </Text>
         </motion.div>
@@ -133,6 +133,7 @@ export function SentEmojiList({
                   fontSize="4xl"
                   fontWeight="bold"
                   style={{ width: '12vh' }}
+                  color="blue.600"
                 >
                   #{index + 1}
                 </Text>
@@ -146,7 +147,7 @@ export function SentEmojiList({
                   delay: 0.8 + 0.2 * index,
                 }}
               >
-                <Text fontSize="3xl" fontWeight="semibold">
+                <Text fontSize="4xl" fontWeight="semibold">
                   {emoji.word}
                 </Text>
               </motion.div>

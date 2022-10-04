@@ -56,8 +56,8 @@ export function WrappedIntro({
       </motion.div>
       <motion.div animate={controls} transition={{ duration: 1, delay: 0.2 }}>
         <Text
-          fontSize="3.5vw"
-          fontWeight={600}
+          fontSize="5xl"
+          fontWeight={800}
           bgGradient="linear(to-r, blue.400, purple.600)"
           bgClip="text"
         >
@@ -65,7 +65,7 @@ export function WrappedIntro({
         </Text>
       </motion.div>
       <motion.div animate={controls} transition={{ duration: 1, delay: 0.4 }}>
-        <Text color="gray.700">
+        <Text color="gray.700" fontSize="xl" style={{ marginTop: '2vh' }}>
           {startDate.toLocaleDateString()} -{' '}
           {globalData.dateRange.latestDate.toLocaleDateString()}
         </Text>

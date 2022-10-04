@@ -12,11 +12,10 @@ import {
   Stack,
   Text,
   theme as defaultTheme,
-  useDisclosure,
 } from '@chakra-ui/react';
 import download from 'downloadjs';
 import electron from 'electron';
-import { toBlob, toJpeg, toPixelData, toPng, toSvg } from 'html-to-image';
+import { toPng } from 'html-to-image';
 import { useEffect, useState } from 'react';
 import {
   FiDownload,

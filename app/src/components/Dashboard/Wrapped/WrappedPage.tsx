@@ -187,7 +187,7 @@ function WrappedGradient({
 export function WrappedPage() {
   const { dateRange } = useGlobalContext();
 
-  const [activeIndex, setActiveIndex] = useState<number>(18);
+  const [activeIndex, setActiveIndex] = useState<number>(0);
   const [activeTheme, setActiveTheme] = useState<'blue' | 'purple' | 'green'>(
     'purple'
   );

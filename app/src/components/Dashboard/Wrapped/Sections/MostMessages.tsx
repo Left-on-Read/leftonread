@@ -93,7 +93,7 @@ export function MostMessages({
         animate={controls}
         style={{ lineHeight: 1.2, display: 'flex', justifyContent: 'center' }}
       >
-        <Text fontSize="2vw" fontWeight="bold" style={{ textAlign: 'center' }}>
+        <Text fontSize="3xl" fontWeight="bold" style={{ textAlign: 'center' }}>
           These messages seem to be going to a select few friends...
         </Text>
       </motion.div>
