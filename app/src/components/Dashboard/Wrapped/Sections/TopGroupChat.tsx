@@ -3,6 +3,7 @@ import { motion, useAnimationControls } from 'framer-motion';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Confetti from 'react-confetti';
 
+import { GroupChatByFriends } from '../../../../analysis/queries/GroupChats/GroupChatByFriendsQuery';
 import { AnimationRunner } from '../AnimationRunner';
 import { ShareIndicator } from '../ShareIndicator';
 import { TimerBar } from '../TimerBar';
@@ -13,9 +14,11 @@ const sectionDurationInSecs = 12;
 export function TopGroupChat({
   shouldExit,
   onExitFinish,
+  topGroupChatAndFriend,
 }: {
   shouldExit: boolean;
   onExitFinish: () => void;
+  topGroupChatAndFriend: GroupChatByFriends[];
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -29,9 +32,9 @@ export function TopGroupChat({
 
   const controls = useAnimationControls();
 
-  const totalMessages = 5938;
-  const youSent = 1736;
-  const mostActive = 'Jackie Chen';
+  const totalMessages = 0;
+  const youSent = 0;
+  const mostActive = topGroupChatAndFriend[0].contact_name;
 
   useEffect(() => {
     ar.addEvent(200, () => {
@@ -177,7 +180,7 @@ export function TopGroupChat({
               style={{ textAlign: 'center', marginTop: '1vh' }}
               color="blue.500"
             >
-              SF North Park Boys
+              {topGroupChatAndFriend[0].group_chat_name.replaceAll(',', ', ')}
             </Text>
           </motion.div>
         </motion.div>

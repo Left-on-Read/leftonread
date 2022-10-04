@@ -1,4 +1,5 @@
 import { Box, IconButton, theme as defaultTheme } from '@chakra-ui/react';
+import { GroupChatByFriends } from 'analysis/queries/GroupChats/GroupChatByFriendsQuery';
 import {
   TopFriendCountAndWordSimpleResult,
   TopFriendsSimpleResult,
@@ -204,6 +205,9 @@ export function WrappedPage() {
       receivedTotal: 100,
       word: 'lol',
     });
+  const [topGroupChatAndFriend, setTopGroupChatAndFriend] = useState<
+    GroupChatByFriends[]
+  >([]);
 
   const oneYearAgoDate = new Date(
     new Date().setFullYear(new Date().getFullYear() - 1)
@@ -230,17 +234,31 @@ export function WrappedPage() {
           startDate,
         });
 
+      const topGroupChatAndFriendPromise: Promise<GroupChatByFriends[]> =
+        ipcRenderer.invoke('query-group-chat-by-friends', { startDate }, 1);
+
       const [
         sentVsReceivedResult,
         mostPopularDayResult,
         topFriendsResult,
         topFriendWordAndCountResult,
+        topGroupChatAndFriendResult,
       ] = await Promise.all([
         sentVsReceivedDataPromise,
         mostPopularDayPromise,
         topFriendsSimplePromise,
         topFriendWordAndCountPromise,
+        topGroupChatAndFriendPromise,
       ]);
+
+      if (topGroupChatAndFriendResult.length < 1) {
+        // TODO: skip page if there's a problem?
+        setTopGroupChatAndFriend([
+          { group_chat_name: '', contact_name: '', count: 0 },
+        ]);
+      } else {
+        setTopGroupChatAndFriend(topGroupChatAndFriendResult);
+      }
 
       setMostPopularDayData(mostPopularDayResult);
       setTopFriends(topFriendsResult);
@@ -350,6 +368,7 @@ export function WrappedPage() {
         setActiveIndex(activeIndex + 1);
         setTriggerExit(false);
       }}
+      topGroupChatAndFriend={topGroupChatAndFriend}
     />,
     <ThereWereFunnyMoments
       shouldExit={triggerExit}

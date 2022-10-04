@@ -326,9 +326,9 @@ export function attachIpcListeners() {
 
   ipcMain.handle(
     'query-group-chat-by-friends',
-    async (event, filters: SharedGroupChatTabQueryFilters) => {
+    async (event, filters: SharedGroupChatTabQueryFilters, limit?: number) => {
       const db = getDb();
-      return queryGroupChatByFriends(db, filters);
+      return queryGroupChatByFriends(db, filters, limit);
     }
   );
 
