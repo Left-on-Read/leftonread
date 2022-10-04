@@ -25,6 +25,7 @@ import {
   FiTwitter,
 } from 'react-icons/fi';
 
+import { logEvent } from '../../../utils/analytics';
 import { openIMessageAndPasteImage } from '../../../utils/appleScriptCommands';
 
 export function WrappedShareModal({
@@ -137,6 +138,10 @@ export function WrappedShareModal({
                     setTimeout(() => {
                       setCopied(false);
                     }, 2500);
+
+                    logEvent({
+                      eventName: 'WSM_COPY',
+                    });
                   }}
                   shadow="2xl"
                 >
@@ -148,6 +153,10 @@ export function WrappedShareModal({
                   onClick={() => {
                     copyToClipboard();
                     openIMessageAndPasteImage();
+
+                    logEvent({
+                      eventName: 'WSM_MESSAGE',
+                    });
                   }}
                   shadow="2xl"
                 >
@@ -178,6 +187,10 @@ export function WrappedShareModal({
                       '_blank',
                       'top=500,left=200,frame=false,nodeIntegration=no'
                     );
+
+                    logEvent({
+                      eventName: 'WSM_TWITTER',
+                    });
                   }}
                   shadow="2xl"
                 >
@@ -188,6 +201,10 @@ export function WrappedShareModal({
                   colorScheme="gray"
                   onClick={() => {
                     download(imgSrc, 'leftonread-wrapped.png');
+
+                    logEvent({
+                      eventName: 'WSM_DOWNLOAD',
+                    });
                   }}
                   shadow="2xl"
                 >
