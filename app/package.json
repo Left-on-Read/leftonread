@@ -128,6 +128,7 @@
     "chart.js": "^3.8.2",
     "chartjs-plugin-datalabels": "^2.1.0",
     "chartjs-plugin-gradient": "^0.5.1",
+    "classnames": "^2.3.2",
     "color-interpolate": "^1.0.5",
     "downloadjs": "^1.4.7",
     "electron-debug": "^3.2.0",

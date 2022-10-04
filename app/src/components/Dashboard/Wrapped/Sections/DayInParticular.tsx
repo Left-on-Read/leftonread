@@ -2,6 +2,8 @@ import { Box, Text, theme as defaultTheme } from '@chakra-ui/react';
 import { motion, useAnimationControls } from 'framer-motion';
 import { useCallback, useEffect } from 'react';
 
+import { Messages } from '../Messages';
+
 const sectionDurationInSecs = 6;
 
 export function DayInParticular({
@@ -73,6 +75,7 @@ export function DayInParticular({
           left: 0,
           height: 5,
           backgroundColor: defaultTheme.colors.purple['500'],
+          zIndex: 3,
         }}
         initial={{
           width: '0',
@@ -89,15 +92,34 @@ export function DayInParticular({
           opacity: 0,
         }}
         animate={controls}
-        style={{ lineHeight: 1.2, display: 'flex', justifyContent: 'center' }}
+        style={{
+          lineHeight: 1.2,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+        }}
       >
         <Text
           fontSize="3.5vw"
           fontWeight="bold"
-          style={{ textAlign: 'center' }}
+          style={{
+            textAlign: 'center',
+            zIndex: 2,
+          }}
         >
           One day in particular was busier than the others.
         </Text>
+        <Box
+          style={{
+            zIndex: 1,
+            marginTop: '10px',
+            position: 'absolute',
+            width: '80%',
+            opacity: '0.5',
+          }}
+        >
+          <Messages />
+        </Box>
       </motion.div>
     </Box>
   );
