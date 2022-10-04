@@ -143,7 +143,7 @@ export function SentWordList({
                   delay: 0.8 + 0.2 * index,
                 }}
               >
-                <Text fontSize="lg" fontWeight="semibold">
+                <Text fontSize="4xl" fontWeight="semibold">
                   {word.word}
                 </Text>
               </motion.div>

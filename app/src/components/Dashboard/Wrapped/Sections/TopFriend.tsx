@@ -149,6 +149,9 @@ export function TopFriend({
             delay: 4.4,
           }}
         >
+          <Text mb={10} fontSize="5vw">
+            🎉
+          </Text>
           <Text
             fontSize="2vw"
             fontWeight="medium"
@@ -178,8 +181,7 @@ export function TopFriend({
               fontSize="2.5vw"
               fontWeight="bold"
               style={{ textAlign: 'center', marginTop: '1vh' }}
-              bgGradient="linear(to-t, purple.400, purple.700)"
-              bgClip="text"
+              color="purple.600"
             >
               {friend}
             </Text>
@@ -199,7 +201,7 @@ export function TopFriend({
               delay: 0.3,
             }}
           >
-            <Text fontSize="1.5vw">
+            <Text fontSize="2.0vw">
               <span style={{ fontWeight: 600, marginRight: '1vh' }}>
                 Total Messages:
               </span>{' '}
@@ -217,7 +219,7 @@ export function TopFriend({
               delay: 1.3,
             }}
           >
-            <Text fontSize="1.5vw">
+            <Text fontSize="2.0vw">
               <span style={{ fontWeight: 600, marginRight: '1vh' }}>Sent:</span>{' '}
               {sentTotal.toLocaleString()}
             </Text>
@@ -233,7 +235,7 @@ export function TopFriend({
               delay: 2.3,
             }}
           >
-            <Text fontSize="1.5vw">
+            <Text fontSize="2.0vw">
               <span style={{ fontWeight: 600, marginRight: '1vh' }}>
                 Received:
               </span>{' '}
@@ -251,7 +253,7 @@ export function TopFriend({
               delay: 3.3,
             }}
           >
-            <Text fontSize="1.5vw">
+            <Text fontSize="2.0vw">
               <span style={{ fontWeight: 600, marginRight: '1vh' }}>
                 Top Word:
               </span>{' '}

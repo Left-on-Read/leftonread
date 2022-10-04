@@ -1,4 +1,5 @@
 import cn from 'classnames';
+import { randomUUID } from 'crypto';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 
@@ -29,7 +30,7 @@ function useInterval(callback: any, delay: any) {
   }, [delay]);
 }
 
-const initialMessages = [{ text: '', sent: false }];
+const initialMessages = [{ text: '', sent: false, id: randomUUID() }];
 
 const transition = {
   type: 'spring',
@@ -56,23 +57,23 @@ export const Messages = (): JSX.Element => {
   useInterval(() => {
     setMessages((curr) => {
       if (curr.length % 2 === 0) {
-        curr.push({ text: '', sent: false });
+        curr.push({ text: '', sent: false, id: randomUUID() });
       } else {
-        curr.push({ text: '', sent: true });
+        curr.push({ text: '', sent: true, id: randomUUID() });
       }
       return [...curr];
     });
-  }, 500);
+  }, 300);
 
   return (
     <AnimatePresence>
       <ol className={styles.list}>
-        {messages.map(({ text, sent }, i) => {
+        {messages.map(({ text, sent, id }, i) => {
           const isLast = i === messages.length - 1;
           const noTail = !isLast && messages[i + 1]?.sent === sent;
           return (
             <motion.li
-              key={text}
+              key={id}
               className={cn(
                 styles.shared,
                 sent ? styles.sent : styles.received,

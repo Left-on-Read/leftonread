@@ -150,8 +150,11 @@ export function TopGroupChat({
             delay: 3.4,
           }}
         >
+          <Text mb={10} fontSize="5vw">
+            🙌
+          </Text>
           <Text
-            fontSize="lg"
+            fontSize="2vw"
             fontWeight="medium"
             style={{ textAlign: 'center' }}
           >
@@ -176,7 +179,7 @@ export function TopGroupChat({
             }}
           >
             <Text
-              fontSize="2xl"
+              fontSize="2.5vw"
               fontWeight="bold"
               style={{ textAlign: 'center', marginTop: '1vh' }}
               color="blue.500"
@@ -217,7 +220,7 @@ export function TopGroupChat({
               delay: 2.3,
             }}
           >
-            <Text fontSize="lg">
+            <Text fontSize="1.8vw">
               <span style={{ fontWeight: 600, marginRight: '1vh' }}>
                 Most Active:
               </span>{' '}
@@ -235,7 +238,7 @@ export function TopGroupChat({
               delay: 1.3,
             }}
           >
-            <Text fontSize="lg">
+            <Text fontSize="1.8vw">
               <span style={{ fontWeight: 600, marginRight: '1vh' }}>
                 {mostActive.toLowerCase().trim() === 'you' ? 'You' : 'They'}{' '}
                 Sent:

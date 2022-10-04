@@ -81,8 +81,7 @@ export function Thanks({
         style={{ textAlign: 'center', marginTop: '4vh' }}
         fontWeight="semibold"
       >
-        Now go forth and proudly share how great (or bad) of a texter you were
-        with the world.
+        Now proudly share how good (or bad) of a texter you were with the world.
       </Text>
     </Box>
   );

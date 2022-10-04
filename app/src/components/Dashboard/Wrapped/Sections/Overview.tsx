@@ -225,16 +225,16 @@ function OverviewImageComponent({
           </Box>
           <Box
             style={{
-              marginTop: '-6vh',
+              marginTop: '2vh',
             }}
           >
-            <div className="mine messages">
+            {/* <div className="mine messages">
               <div className="message last">
                 <Text fontWeight="bold" color={backgroundColor}>
                   How?
                 </Text>
               </div>
-            </div>
+            </div> */}
             <div className="yours messages">
               <div className="message last">
                 <Text fontWeight="bold" color={backgroundColor}>
@@ -293,8 +293,14 @@ export function Overview() {
       <Box
         style={{ display: 'flex', justifyContent: 'center', margin: '24px 0' }}
       >
-        <Text fontWeight="bold" fontSize="xl">
-          Share #iMessageWrapped
+        <Text
+          fontWeight="bold"
+          fontSize="2.5vw"
+          bgGradient="linear(to-r, green.600, purple.600)"
+          bgClip="text"
+          mt="2"
+        >
+          Share Your Wrapped
         </Text>
       </Box>
       <Box style={{ display: 'flex', justifyContent: 'center' }}>

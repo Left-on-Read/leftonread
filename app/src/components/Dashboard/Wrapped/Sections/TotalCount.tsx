@@ -120,22 +120,11 @@ export function TotalCount({
       >
         <Watermark />
         <motion.div animate={sentControls} initial={{ opacity: 0 }}>
-          <Text
-            fontSize="4xl"
-            fontWeight="bold"
-            // bgGradient="linear(to-t, blue.600, blue.800)"
-            // bgClip="text"
-            color="blue.700"
-          >
+          <Text fontSize="4xl" fontWeight="bold" color="blue.600">
             Sent
           </Text>
           <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-            <Text
-              fontSize="6xl"
-              fontWeight="bold"
-              bgGradient="linear(to-t, blue.400, blue.600)"
-              bgClip="text"
-            >
+            <Text fontSize="6xl" fontWeight="bold" color="blue.500">
               {data.sent.toLocaleString()}
             </Text>
             <Text
@@ -151,22 +140,11 @@ export function TotalCount({
           animate={receivedControls}
           initial={{ opacity: 0 }}
         >
-          <Text
-            fontSize="4xl"
-            fontWeight="bold"
-            color="green.700"
-            // bgGradient="linear(to-t, green.600, green.800)"
-            // bgClip="text"
-          >
+          <Text fontSize="4xl" fontWeight="bold" color="green.600">
             Received
           </Text>
           <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-            <Text
-              fontSize="6xl"
-              fontWeight="bold"
-              bgGradient="linear(to-t, green.400, green.600)"
-              bgClip="text"
-            >
+            <Text fontSize="6xl" fontWeight="bold" color="green.500">
               {data.received.toLocaleString()}
             </Text>
             <Text
