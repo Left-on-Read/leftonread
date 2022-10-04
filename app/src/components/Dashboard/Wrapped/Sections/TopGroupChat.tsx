@@ -1,9 +1,12 @@
 import { Box, Text, theme as defaultTheme } from '@chakra-ui/react';
 import { motion, useAnimationControls } from 'framer-motion';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Confetti from 'react-confetti';
 
+import { AnimationRunner } from '../AnimationRunner';
+import { ShareIndicator } from '../ShareIndicator';
 import { TimerBar } from '../TimerBar';
+import { Watermark } from '../Watermark';
 
 const sectionDurationInSecs = 12;
 
@@ -14,72 +17,57 @@ export function TopGroupChat({
   shouldExit: boolean;
   onExitFinish: () => void;
 }) {
-  const controls = useAnimationControls();
+  const ref = useRef<HTMLDivElement>(null);
+
+  const [tick, setTick] = useState<number>(0);
+
+  const ar = useMemo(
+    () => new AnimationRunner(sectionDurationInSecs, setTick),
+    []
+  );
   const [showConfetti, setShowConfetti] = useState<boolean>(false);
+
+  const controls = useAnimationControls();
 
   const totalMessages = 5938;
   const youSent = 1736;
   const mostActive = 'Jackie Chen';
 
-  const animateExit = useCallback(() => {
-    controls.stop();
-    controls.start({
-      opacity: 1,
-      transition: {
-        duration: 1,
-      },
+  useEffect(() => {
+    ar.addEvent(200, () => {
+      controls.start({
+        opacity: 1,
+      });
     });
-  }, [controls]);
 
-  useEffect(() => {
-    const timeoutOne = setTimeout(() => {
-      animateExit();
-    }, (sectionDurationInSecs - 2) * 1000);
-
-    const timeoutTwo = setTimeout(() => {
-      onExitFinish();
-    }, sectionDurationInSecs * 1000);
-
-    return () => {
-      clearTimeout(timeoutOne);
-      clearTimeout(timeoutTwo);
-    };
-  }, [animateExit, onExitFinish]);
-
-  //   useEffect(() => {
-  //     setTimeout(() => {
-  //       controls.start({
-  //         opacity: 1,
-  //       });
-  //     }, 200);
-  //   }, [controls]);
-
-  useEffect(() => {
-    if (shouldExit) {
-      animateExit();
-    }
-  }, [animateExit, shouldExit]);
-
-  useEffect(() => {
-    const interval = setTimeout(() => {
+    ar.addEvent(4500, () => {
       setShowConfetti(true);
-    }, 4500);
+    });
+
+    ar.addEvent((sectionDurationInSecs - 2) * 1000, () => {
+      controls.start({
+        height: '100%',
+        transition: {
+          duration: 1,
+        },
+      });
+    });
+
+    ar.addEvent(sectionDurationInSecs * 1000, onExitFinish);
+
+    ar.start();
 
     return () => {
-      clearTimeout(interval);
+      ar.reset();
+      ar.isActive = false;
     };
-  }, []);
+  }, [ar, controls, onExitFinish]);
 
   return (
     <Box
       height="100%"
       width="100%"
       style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: '3vh',
         borderRadius: 16,
         position: 'relative',
         overflow: 'hidden',
@@ -87,48 +75,59 @@ export function TopGroupChat({
       shadow="dark-lg"
       bgColor="blue.50"
     >
-      <TimerBar durationInSecs={sectionDurationInSecs} isBlue />
+      <TimerBar durationInSecs={sectionDurationInSecs} isBlue tick={tick} />
       <motion.div
         initial={{ opacity: 0 }}
-        animate={controls}
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          backgroundColor: defaultTheme.colors.blue['50'],
-        }}
-      />
-      <Confetti
-        run={showConfetti}
-        numberOfPieces={500}
-        tweenDuration={1000}
-        recycle={false}
-      />
-      <div style={{ height: '10vh' }} />
-
-      <motion.div
-        initial={{
-          opacity: 0,
-        }}
-        animate={{
-          opacity: 1,
-        }}
-        style={{
-          lineHeight: 1.2,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
+        animate={{ opacity: 1 }}
         transition={{
-          duration: 0.5,
-          delay: 3.4,
+          delay: 5,
         }}
       >
-        <Text fontSize="lg" fontWeight="medium" style={{ textAlign: 'center' }}>
-          Your Top Group Chat:
-        </Text>
+        <ShareIndicator
+          contentRef={ref}
+          onPause={() => {
+            ar.pause();
+          }}
+          onStart={() => {
+            ar.start();
+          }}
+        />
+      </motion.div>
+      <Box
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: '3vh',
+        }}
+        height="100%"
+        width="100%"
+        bgColor="blue.50"
+        ref={ref}
+      >
+        <Watermark />
+        <motion.div
+          animate={controls}
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            backgroundColor: defaultTheme.colors.blue['50'],
+            zIndex: 10,
+          }}
+          initial={{ height: '0%' }}
+        />
+        <Confetti
+          run={showConfetti}
+          numberOfPieces={500}
+          tweenDuration={1000}
+          recycle={false}
+        />
+        <div style={{ height: '10vh' }} />
+
         <motion.div
           initial={{
             opacity: 0,
@@ -144,77 +143,103 @@ export function TopGroupChat({
           }}
           transition={{
             duration: 0.5,
-            delay: 4.5,
+            delay: 3.4,
           }}
         >
           <Text
-            fontSize="2xl"
-            fontWeight="bold"
-            style={{ textAlign: 'center', marginTop: '1vh' }}
-            color="blue.500"
+            fontSize="lg"
+            fontWeight="medium"
+            style={{ textAlign: 'center' }}
           >
-            SF North Park Boys
+            Your Top Group Chat:
           </Text>
-        </motion.div>
-      </motion.div>
-      <motion.div
-        style={{ display: 'flex', flexDirection: 'column', marginTop: '5vh' }}
-      >
-        <motion.div
-          style={{ marginBottom: '1vh' }}
-          initial={{ opacity: 0 }}
-          animate={{
-            opacity: 1,
-          }}
-          transition={{
-            duration: 0.7,
-            delay: 0.3,
-          }}
-        >
-          <Text fontSize="lg">
-            <span style={{ fontWeight: 600, marginRight: '1vh' }}>
-              Total Messages:
-            </span>{' '}
-            {totalMessages.toLocaleString()}
-          </Text>
-        </motion.div>
-        <motion.div
-          style={{ marginBottom: '1vh' }}
-          initial={{ opacity: 0 }}
-          animate={{
-            opacity: 1,
-          }}
-          transition={{
-            duration: 0.7,
-            delay: 1.3,
-          }}
-        >
-          <Text fontSize="lg">
-            <span style={{ fontWeight: 600, marginRight: '1vh' }}>
-              You Sent:
-            </span>{' '}
-            {youSent.toLocaleString()}
-          </Text>
+          <motion.div
+            initial={{
+              opacity: 0,
+            }}
+            animate={{
+              opacity: 1,
+            }}
+            style={{
+              lineHeight: 1.2,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+            transition={{
+              duration: 0.5,
+              delay: 4.5,
+            }}
+          >
+            <Text
+              fontSize="2xl"
+              fontWeight="bold"
+              style={{ textAlign: 'center', marginTop: '1vh' }}
+              color="blue.500"
+            >
+              SF North Park Boys
+            </Text>
+          </motion.div>
         </motion.div>
         <motion.div
-          style={{ marginBottom: '1vh' }}
-          initial={{ opacity: 0 }}
-          animate={{
-            opacity: 1,
-          }}
-          transition={{
-            duration: 0.7,
-            delay: 2.3,
-          }}
+          style={{ display: 'flex', flexDirection: 'column', marginTop: '5vh' }}
         >
-          <Text fontSize="lg">
-            <span style={{ fontWeight: 600, marginRight: '1vh' }}>
-              Most Active:
-            </span>{' '}
-            {mostActive}
-          </Text>
+          <motion.div
+            style={{ marginBottom: '1vh' }}
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: 1,
+            }}
+            transition={{
+              duration: 0.7,
+              delay: 0.3,
+            }}
+          >
+            <Text fontSize="lg">
+              <span style={{ fontWeight: 600, marginRight: '1vh' }}>
+                Total Messages:
+              </span>{' '}
+              {totalMessages.toLocaleString()}
+            </Text>
+          </motion.div>
+          <motion.div
+            style={{ marginBottom: '1vh' }}
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: 1,
+            }}
+            transition={{
+              duration: 0.7,
+              delay: 1.3,
+            }}
+          >
+            <Text fontSize="lg">
+              <span style={{ fontWeight: 600, marginRight: '1vh' }}>
+                You Sent:
+              </span>{' '}
+              {youSent.toLocaleString()}
+            </Text>
+          </motion.div>
+          <motion.div
+            style={{ marginBottom: '1vh' }}
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: 1,
+            }}
+            transition={{
+              duration: 0.7,
+              delay: 2.3,
+            }}
+          >
+            <Text fontSize="lg">
+              <span style={{ fontWeight: 600, marginRight: '1vh' }}>
+                Most Active:
+              </span>{' '}
+              {mostActive}
+            </Text>
+          </motion.div>
         </motion.div>
-      </motion.div>
+      </Box>
     </Box>
   );
 }

@@ -1,9 +1,13 @@
 import { Box, Text, theme as defaultTheme } from '@chakra-ui/react';
 import { motion, useAnimationControls } from 'framer-motion';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import { AnimationRunner } from '../AnimationRunner';
+import { ShareIndicator } from '../ShareIndicator';
 import { TimerBar } from '../TimerBar';
+import { Watermark } from '../Watermark';
 
+// const sectionDurationInSecs = 10;
 const sectionDurationInSecs = 10;
 
 export function FunniestMessage({
@@ -13,91 +17,132 @@ export function FunniestMessage({
   shouldExit: boolean;
   onExitFinish: () => void;
 }) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  const [tick, setTick] = useState<number>(0);
+
+  const ar = useMemo(
+    () => new AnimationRunner(sectionDurationInSecs, setTick),
+    []
+  );
+
   const controls = useAnimationControls();
 
-  const animateExit = useCallback(() => {
-    controls.stop();
-    controls.start({
-      opacity: 0,
-    });
-  }, [controls]);
-
   useEffect(() => {
-    const timeoutOne = setTimeout(() => {
-      animateExit();
-    }, (sectionDurationInSecs - 1) * 1000);
-
-    const timeoutTwo = setTimeout(() => {
-      onExitFinish();
-    }, sectionDurationInSecs * 1000);
-
-    return () => {
-      clearTimeout(timeoutOne);
-      clearTimeout(timeoutTwo);
-    };
-  }, [animateExit, onExitFinish]);
-
-  useEffect(() => {
-    setTimeout(() => {
+    ar.addEvent(200, () => {
       controls.start({
         opacity: 1,
       });
-    }, 200);
-  }, [controls]);
+    });
 
-  useEffect(() => {
-    if (shouldExit) {
-      animateExit();
-    }
-  }, [animateExit, shouldExit]);
+    ar.addEvent((sectionDurationInSecs - 1) * 1000, () => {
+      controls.start({
+        opacity: 0,
+        transition: {
+          duration: 1,
+        },
+      });
+    });
+
+    ar.addEvent(sectionDurationInSecs * 1000, onExitFinish);
+
+    ar.start();
+
+    return () => {
+      ar.reset();
+      ar.isActive = false;
+    };
+  }, [ar, controls, onExitFinish]);
 
   return (
     <Box
       height="100%"
       width="100%"
       style={{
-        display: 'flex',
-        flexDirection: 'column',
-        padding: '5vh 4vh',
         borderRadius: 16,
         position: 'relative',
         overflow: 'hidden',
       }}
       shadow="dark-lg"
-      bgColor="blue.50"
     >
-      <TimerBar durationInSecs={sectionDurationInSecs} isBlue />
+      <TimerBar durationInSecs={sectionDurationInSecs} isBlue tick={tick} />
       <motion.div
-        initial={{
-          opacity: 0,
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{
+          delay: 1.5,
         }}
-        animate={controls}
-        style={{ lineHeight: 1.2 }}
       >
-        <Text fontSize="2xl" fontWeight="bold">
-          Funniest Message
-        </Text>
-        <Text fontSize="md">in SF North Park Boys</Text>
+        <ShareIndicator
+          contentRef={ref}
+          onPause={() => {
+            ar.pause();
+          }}
+          onStart={() => {
+            ar.start();
+          }}
+        />
       </motion.div>
-      <motion.div style={{ marginTop: '15vh' }}>
-        <span style={{ fontWeight: 600 }}>8{` `}</span> Laugh Reactions
-      </motion.div>
-      <motion.div
+      <Box
         style={{
-          backgroundColor: defaultTheme.colors.blue['500'],
-          width: '100%',
-          padding: '2vh',
-          color: 'white',
-          borderRadius: 16,
-          marginTop: 16,
-          fontWeight: 400,
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '5vh 4vh',
         }}
+        bgColor="blue.50"
+        ref={ref}
+        height="100%"
+        width="100%"
       >
-        One day we will understand what it means to be a true investor
-      </motion.div>
-      <motion.div style={{ alignSelf: 'flex-end', marginTop: '2vh' }}>
-        From <span style={{ fontWeight: 600 }}>Jackie Chen</span>
-      </motion.div>
+        <Watermark />
+        <motion.div
+          initial={{
+            opacity: 0,
+          }}
+          animate={controls}
+          style={{ lineHeight: 1.2, marginTop: '9vh' }}
+        >
+          <Text fontSize="2xl" fontWeight="bold">
+            Funniest Message
+          </Text>
+          <Text fontSize="md">in SF North Park Boys</Text>
+        </motion.div>
+        <motion.div
+          style={{ marginTop: '7vh' }}
+          initial={{
+            opacity: 0,
+          }}
+          animate={controls}
+        >
+          <span style={{ fontWeight: 600 }}>8{` `}</span> Laugh Reactions
+        </motion.div>
+        <motion.div
+          style={{
+            backgroundColor: defaultTheme.colors.blue['500'],
+            width: '100%',
+            padding: '2vh',
+            color: 'white',
+            borderRadius: 16,
+            marginTop: '2vh',
+            fontWeight: 400,
+          }}
+          initial={{
+            opacity: 0,
+          }}
+          animate={controls}
+        >
+          One day we will understand what it means to be a true investor
+        </motion.div>
+        <motion.div
+          style={{ alignSelf: 'flex-end', marginTop: '2vh' }}
+          initial={{
+            opacity: 0,
+          }}
+          animate={controls}
+        >
+          From <span style={{ fontWeight: 600 }}>Jackie Chen</span>
+        </motion.div>
+      </Box>
     </Box>
   );
 }
