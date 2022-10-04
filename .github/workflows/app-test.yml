@@ -31,10 +31,13 @@ jobs:
       - name: yarn install
         run: |
           yarn install --frozen-lockfile --network-timeout 300000
+        env:
+          PALETTE_ASSET_KEY: ${{ secrets.PALETTE_ASSET_KEY }}
 
       - name: Package, Typecheck, and Test
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PALETTE_ASSET_KEY: ${{ secrets.PALETTE_ASSET_KEY }}
         run: |
           yarn package
           yarn tsc

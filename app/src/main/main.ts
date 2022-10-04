@@ -8,6 +8,7 @@
  * When running `npm run build` or `npm run build:main`, this file is compiled to
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
+import { events, init, measure, profiler } from '@palette.dev/electron/main';
 import {
   app,
   BrowserWindow,
@@ -26,6 +27,12 @@ import MenuBuilder from './menu';
 import { initMessageScheduler } from './messageScheduler';
 import { NotificationsManager } from './notifications';
 import { resolveHtmlPath } from './util';
+
+init({
+  key: 'cl8j2xvzc014708mq30m2vaqv',
+  // Collect click, performance events, and profiles
+  plugins: [events(), measure(), profiler()],
+});
 
 const ONE_DAY_IN_MS = 1000 * 60 * 60 * 24;
 

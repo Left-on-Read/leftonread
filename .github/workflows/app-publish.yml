@@ -34,6 +34,8 @@ jobs:
       - name: Install dependencies
         run: |
           yarn install
+        env:
+          PALETTE_ASSET_KEY: ${{ secrets.PALETTE_ASSET_KEY }}
 
       - name: Publish releases
         env:
@@ -44,6 +46,7 @@ jobs:
           CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
           # This is used for uploading release assets to github
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PALETTE_ASSET_KEY: ${{ secrets.PALETTE_ASSET_KEY }}
         run: |
           yarn run postinstall
           yarn run build
