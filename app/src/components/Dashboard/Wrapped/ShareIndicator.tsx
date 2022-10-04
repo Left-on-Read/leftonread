@@ -72,6 +72,7 @@ export function ShareIndicator({
               onPause();
               onOpen();
             }}
+            className="share-content"
           >
             <Box
               style={{
@@ -85,9 +86,9 @@ export function ShareIndicator({
                 marginRight: '1vh',
               }}
             >
-              <Icon as={FiShare} color="purple.500" />
+              <Icon as={FiShare} className="share-icon" />
             </Box>
-            <Text fontSize="xl" color="purple.500">
+            <Text fontSize="xl" className="share-text">
               Share this story
             </Text>
           </Box>

@@ -461,6 +461,31 @@ export function WrappedPage() {
 
   const iconSize = 50;
 
+  useEffect(() => {
+    const handleKeyPress = (event: any) => {
+      switch (event.keyCode) {
+        case 37:
+          if (activeIndex > 0) {
+            setActiveIndex(activeIndex - 1);
+          }
+          break;
+        case 39:
+          if (activeIndex + 1 < components.length) {
+            setActiveIndex(activeIndex + 1);
+          }
+          break;
+        default:
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyPress);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress);
+    };
+    // eslint-disable-next-line
+  }, [activeIndex]);
+
   return (
     <WrappedGradient theme={activeTheme}>
       <Box

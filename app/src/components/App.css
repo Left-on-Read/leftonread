@@ -54,3 +54,11 @@
   --gradient-color-3: #eae2ff;
   --gradient-color-4: #b9beff; */
 }
+
+.share-content {
+  color: var(--chakra-colors-purple-500) !important;
+}
+
+.share-content:hover {
+  color: var(--chakra-colors-purple-200) !important;
+}
