@@ -35,6 +35,7 @@ jobs:
       - name: Package, Typecheck, and Test
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PALETTE_ASSET_KEY: ${{ secrets.PALETTE_ASSET_KEY }}
         run: |
           yarn package
           yarn tsc
