@@ -24,7 +24,8 @@ import {
   FiMessageCircle,
   FiTwitter,
 } from 'react-icons/fi';
-import { openIMessageAndPasteImage } from 'utils/appleScriptCommands';
+
+import { openIMessageAndPasteImage } from '../../../utils/appleScriptCommands';
 
 export function WrappedShareModal({
   isOpen,
