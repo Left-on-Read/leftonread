@@ -2,7 +2,7 @@ import { Box, Divider, Stack, Text } from '@chakra-ui/react';
 import { toPng } from 'html-to-image';
 import { useEffect, useRef, useState } from 'react';
 
-import Logo from '../../../../../assets/icon.svg';
+import Logo from '../../../../../assets/WrappedLogoWithText.svg';
 import { ShareIndicator } from '../ShareIndicator';
 import { Watermark } from '../Watermark';
 
@@ -16,9 +16,9 @@ function OverviewImageComponent({
   const words = ['lol', 'haha', 'what'];
   const emojis = ['😖', '🤐', '🤖'];
 
-  const labelColor = 'black.600';
-  const dataColor = 'purple.700';
-
+  const labelColor = 'rgb(210,176,155)'; // #d2b09b
+  const dataColor = 'rgb(213,242,139)'; // #d5f28b
+  const backgroundColor = '#4C3757';
   return (
     <Box
       style={{
@@ -38,14 +38,13 @@ function OverviewImageComponent({
           overflow: 'hidden',
         }}
         shadow="dark-lg"
-        bgColor="purple.100"
       >
         <Box
           ref={contentRef}
           height="100%"
           width="100%"
           style={{ padding: '5vh', display: 'flex', flexDirection: 'column' }}
-          bgColor="purple.100"
+          bgColor="rgb(76,55,87)"
         >
           <Box
             style={{
@@ -58,9 +57,9 @@ function OverviewImageComponent({
             <img
               src={Logo}
               alt="Left on Read"
-              style={{ height: '15vh', zIndex: 3 }}
+              style={{ height: '10vh', marginBottom: '10vh' }}
             />
-            <Box
+            {/* <Box
               bgColor="purple.50"
               style={{
                 position: 'absolute',
@@ -68,10 +67,11 @@ function OverviewImageComponent({
                 height: '10vh',
                 width: '10vh',
               }}
-            />
+            /> */}
 
             <Stack
               style={{
+                marginTop: '10vh',
                 position: 'absolute',
                 width: '100%',
                 display: 'flex',
@@ -86,7 +86,7 @@ function OverviewImageComponent({
                   marginRight: '4vh',
                   borderRadius: 16,
                 }}
-                bgColor="blue.400"
+                bgColor={dataColor}
                 shadow="lg"
               />
               <Box
@@ -96,7 +96,7 @@ function OverviewImageComponent({
                   marginLeft: '6vh',
                   borderRadius: 16,
                 }}
-                bgColor="red.400"
+                bgColor={dataColor}
                 shadow="lg"
               />
               <Box
@@ -106,20 +106,20 @@ function OverviewImageComponent({
                   marginRight: '0.5vh',
                   borderRadius: 16,
                 }}
-                bgColor="green.400"
+                bgColor={dataColor}
                 shadow="lg"
               />
             </Stack>
           </Box>
           <Box
             style={{
-              marginTop: '5vh',
+              marginTop: '2vh',
               display: 'flex',
               justifyContent: 'space-between',
             }}
           >
             <Box>
-              <Text fontWeight="semibold" fontSize="xl" color={labelColor}>
+              <Text fontWeight="bold" fontSize="xl" color={labelColor}>
                 Sent
               </Text>
               <Text
@@ -133,7 +133,7 @@ function OverviewImageComponent({
               </Text>
             </Box>
             <Box>
-              <Text fontWeight="semibold" fontSize="xl" color={labelColor}>
+              <Text fontWeight="bold" fontSize="xl" color={labelColor}>
                 Received
               </Text>
               <Text
@@ -156,7 +156,7 @@ function OverviewImageComponent({
           >
             <Box>
               <Text
-                fontWeight="semibold"
+                fontWeight="bold"
                 fontSize="xl"
                 style={{ marginBottom: '1vh' }}
                 color={labelColor}
@@ -176,7 +176,7 @@ function OverviewImageComponent({
                   >
                     {index + 1}
                   </Text>
-                  <Text fontWeight="extrabold" color={dataColor}>
+                  <Text fontSize="xl" fontWeight="extrabold" color={dataColor}>
                     {word}
                   </Text>
                 </Box>
@@ -184,7 +184,7 @@ function OverviewImageComponent({
             </Box>
             <Box>
               <Text
-                fontWeight="semibold"
+                fontWeight="bold"
                 fontSize="xl"
                 style={{ marginBottom: '1vh' }}
                 color={labelColor}
@@ -198,13 +198,13 @@ function OverviewImageComponent({
                 >
                   <Text
                     style={{ width: '2.5vh' }}
-                    fontWeight="semibold"
+                    fontWeight="bold"
                     fontSize="lg"
                     color={labelColor}
                   >
                     {index + 1}
                   </Text>
-                  <Text fontWeight="extrabold" color={dataColor}>
+                  <Text fontSize="2xl" fontWeight="extrabold" color={dataColor}>
                     {word}
                   </Text>
                 </Box>
@@ -216,17 +216,35 @@ function OverviewImageComponent({
               marginTop: '4vh',
             }}
           >
-            <Text
-              fontWeight="semibold"
-              fontSize="xl"
-              style={{ marginBottom: '1vh' }}
-              color={labelColor}
-            >
+            <Text fontWeight="bold" fontSize="xl" color={labelColor}>
               Top Friend
             </Text>
             <Text fontWeight="extrabold" color={dataColor} fontSize="xl">
               Sally Xu
             </Text>
+          </Box>
+          <Box
+            style={{
+              marginTop: '-6vh',
+            }}
+          >
+            <div className="mine messages">
+              <div className="message last">
+                <Text fontWeight="bold" color={backgroundColor}>
+                  How?
+                </Text>
+              </div>
+            </div>
+            <div className="yours messages">
+              <div className="message last">
+                <Text fontWeight="bold" color={backgroundColor}>
+                  {`leftonread.me/wrapped`.toLocaleUpperCase()}
+                </Text>
+              </div>
+            </div>
+            {/* <Text fontWeight="bold" color={dataColor} fontSize="sm">
+              {`leftonread.me/wrapped`.toLocaleUpperCase()}
+            </Text> */}
           </Box>
         </Box>
       </Box>
@@ -237,14 +255,6 @@ function OverviewImageComponent({
 export function Overview() {
   const ref = useRef<HTMLDivElement>(null);
   const [imgSrc, setImgSrc] = useState<string>('');
-
-  const sentCount = 38826;
-  const receivedCount = 84723;
-  const words = ['lol', 'haha', 'what'];
-  const emojis = ['😖', '🤐', '🤖'];
-
-  const labelColor = 'black.600';
-  const dataColor = 'purple.700';
 
   const currentRef = ref.current;
 
