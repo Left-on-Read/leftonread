@@ -154,7 +154,7 @@ export function LeftOnReadStats({
             You left others on read
           </Text>
           <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-            <Text fontSize="6xl" fontWeight="black" color="orange.500">
+            <Text fontSize="6xl" fontWeight="black" color="green.500">
               859
             </Text>
             <Text style={{ paddingBottom: 20, marginLeft: 8 }}>times</Text>
