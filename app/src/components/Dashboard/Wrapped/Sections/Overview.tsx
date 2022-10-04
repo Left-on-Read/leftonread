@@ -265,7 +265,12 @@ export function Overview() {
       shadow="dark-lg"
       bgColor="green.50"
     >
-      <ShareIndicator contentRef={ref} onPause={() => {}} onStart={() => {}} />
+      <ShareIndicator
+        contentRef={ref}
+        onPause={() => {}}
+        onStart={() => {}}
+        loggingContext="Overview"
+      />
       <OverviewImageComponent contentRef={ref} />
       <Box
         style={{ display: 'flex', justifyContent: 'center', margin: '24px 0' }}

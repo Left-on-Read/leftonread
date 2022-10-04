@@ -103,6 +103,7 @@ export function TotalCount({
         onStart={() => {
           ar.start();
         }}
+        loggingContext="TotalCount"
       />
       <Box
         ref={ref}

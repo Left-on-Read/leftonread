@@ -91,6 +91,7 @@ export function TopFriend({
           onStart={() => {
             ar.start();
           }}
+          loggingContext="TopFriend"
         />
       </motion.div>
       <TimerBar durationInSecs={sectionDurationInSecs} tick={tick} />

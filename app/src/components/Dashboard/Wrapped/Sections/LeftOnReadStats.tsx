@@ -109,6 +109,7 @@ export function LeftOnReadStats({
           onStart={() => {
             ar.start();
           }}
+          loggingContext="LeftOnReadStats"
         />
       </motion.div>
       <Box

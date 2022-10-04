@@ -76,6 +76,7 @@ export function BusiestDay({
         onStart={() => {
           ar.start();
         }}
+        loggingContext="BusiestDay"
       />
       <Box
         height="100%"

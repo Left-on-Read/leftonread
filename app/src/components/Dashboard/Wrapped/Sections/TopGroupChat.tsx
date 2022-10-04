@@ -94,6 +94,7 @@ export function TopGroupChat({
           onStart={() => {
             ar.start();
           }}
+          loggingContext="TopGroupChat"
         />
       </motion.div>
       <Box

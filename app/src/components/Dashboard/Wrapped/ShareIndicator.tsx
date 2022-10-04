@@ -7,6 +7,7 @@ import {
 } from '@chakra-ui/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FiShare } from 'react-icons/fi';
+import { logEvent } from 'utils/analytics';
 
 import { WrappedShareModal } from './WrappedShareModal';
 
@@ -14,10 +15,12 @@ export function ShareIndicator({
   contentRef,
   onPause,
   onStart,
+  loggingContext,
 }: {
   contentRef: React.MutableRefObject<HTMLDivElement | null>;
   onPause: () => void;
   onStart: () => void;
+  loggingContext?: string;
 }) {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
@@ -60,6 +63,12 @@ export function ShareIndicator({
               cursor: 'pointer',
             }}
             onClick={() => {
+              logEvent({
+                eventName: 'SHARE_THIS_STORY',
+                properties: {
+                  context: loggingContext ?? '',
+                },
+              });
               onPause();
               onOpen();
             }}
