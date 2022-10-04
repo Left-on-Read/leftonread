@@ -14,6 +14,7 @@ import { FiClipboard, FiGift, FiInbox } from 'react-icons/fi';
 
 import LogoWithText from '../../../assets/LogoWithText.svg';
 import { APP_VERSION } from '../../constants/versions';
+import { logEvent } from '../../utils/analytics';
 import { useGoldContext } from '../Premium/GoldContext';
 import { PremiumModal } from '../Premium/PremiumModal';
 import { EmailModal } from '../Support/EmailModal';
@@ -46,6 +47,12 @@ function SidebarMainLink({
       as="button"
       className={`sidebar-link ${isActive ? 'sidebar-link-active' : ''}`}
       onClick={() => {
+        logEvent({
+          eventName: 'CLICKED_SIDE_NAV',
+          properties: {
+            tab: text,
+          },
+        });
         onSelect();
       }}
     >

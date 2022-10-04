@@ -7,8 +7,8 @@ import {
 } from '@chakra-ui/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FiShare } from 'react-icons/fi';
-import { logEvent } from 'utils/analytics';
 
+import { logEvent } from '../../../utils/analytics';
 import { WrappedShareModal } from './WrappedShareModal';
 
 export function ShareIndicator({
