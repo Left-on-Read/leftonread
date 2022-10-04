@@ -6,15 +6,22 @@ import Logo from '../../../../../assets/WrappedLogoWithText.svg';
 import { ShareIndicator } from '../ShareIndicator';
 import { Watermark } from '../Watermark';
 
+export type WrappedOverviewData = {
+  sentCount: number;
+  receivedCount: number;
+  words: string[];
+  emojis: string[];
+  topFriend: string;
+};
+
 function OverviewImageComponent({
+  overviewData,
   contentRef,
 }: {
+  overviewData: WrappedOverviewData;
   contentRef: React.MutableRefObject<HTMLDivElement | null>;
 }) {
-  const sentCount = 38826;
-  const receivedCount = 84723;
-  const words = ['lol', 'haha', 'what'];
-  const emojis = ['😖', '🤐', '🤖'];
+  const { sentCount, receivedCount, words, emojis, topFriend } = overviewData;
 
   const labelColor = 'rgb(210,176,155)'; // #d2b09b
   const dataColor = 'rgb(213,242,139)'; // #d5f28b
@@ -220,7 +227,7 @@ function OverviewImageComponent({
               Top Friend
             </Text>
             <Text fontWeight="extrabold" color={dataColor} fontSize="xl">
-              Sally Xu
+              {topFriend}
             </Text>
           </Box>
           <Box
@@ -252,7 +259,11 @@ function OverviewImageComponent({
   );
 }
 
-export function Overview() {
+export function Overview({
+  overviewData,
+}: {
+  overviewData: WrappedOverviewData;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const [imgSrc, setImgSrc] = useState<string>('');
 
@@ -289,7 +300,7 @@ export function Overview() {
         onStart={() => {}}
         loggingContext="Overview"
       />
-      <OverviewImageComponent contentRef={ref} />
+      <OverviewImageComponent overviewData={overviewData} contentRef={ref} />
       <Box
         style={{ display: 'flex', justifyContent: 'center', margin: '24px 0' }}
       >
