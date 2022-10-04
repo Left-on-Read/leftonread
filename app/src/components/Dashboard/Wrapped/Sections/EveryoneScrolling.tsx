@@ -1,6 +1,7 @@
 import { Box, Text, theme as defaultTheme } from '@chakra-ui/react';
 import { motion, useAnimationControls } from 'framer-motion';
 import { useCallback, useEffect } from 'react';
+import { TypeAnimation } from 'react-type-animation';
 
 const sectionDurationInSecs = 6;
 
@@ -101,9 +102,32 @@ export function EveryoneScrolling({
             {' '}
             While everyone else was scrolling TikTok, you were busy{' '}
           </Text>
-          <Text fontSize="3.5vw" color="black" fontWeight={600}>
+          {/* <Text fontSize="3.5vw" color="black" fontWeight={600}>
             texting.
-          </Text>
+          </Text> */}
+
+          <TypeAnimation
+            sequence={[
+              't',
+              1000,
+              'te',
+              500,
+              'tex',
+              500,
+              'text',
+              250,
+              'texti',
+              500,
+              'textin',
+              200,
+              'texting',
+              500,
+              'texting.',
+            ]}
+            wrapper="div"
+            cursor
+            style={{ fontSize: '3.5vw', color: 'black', fontWeight: '600' }}
+          />
         </Box>
       </motion.div>
     </Box>
