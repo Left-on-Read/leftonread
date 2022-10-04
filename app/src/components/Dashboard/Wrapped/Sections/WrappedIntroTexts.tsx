@@ -97,7 +97,7 @@ export function WrappedIntroTexts({
         transition={{ duration: 1 }}
         style={{ alignSelf: 'flex-end', width: '90%' }}
       >
-        <img src={ChatBubble1} alt="Left on Read" />
+        <img src={ChatBubble1} alt="Left on Read" style={{ width: '100%' }} />
       </motion.div>
       <motion.div
         initial={{
@@ -107,7 +107,7 @@ export function WrappedIntroTexts({
         transition={{ duration: 1, delay: 2 }}
         style={{ marginTop: '6vh', width: '90%' }}
       >
-        <img src={ChatBubble2} alt="Left on Read" />
+        <img src={ChatBubble2} alt="Left on Read" style={{ width: '100%' }} />
       </motion.div>
     </Box>
   );
