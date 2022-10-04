@@ -52,6 +52,12 @@ import {
   IWordOrEmojiFilters,
   queryEmojiOrWordCounts,
 } from '../analysis/queries/WordOrEmojiQuery';
+import { queryFunniestMessage } from '../analysis/queries/WrappedQueries/FunniestMessageQuery';
+import { queryMostPopularDay } from '../analysis/queries/WrappedQueries/MostPopularDayQuery';
+import {
+  queryTopFriendCountAndWordSimple,
+  queryTopFriendsSimple,
+} from '../analysis/queries/WrappedQueries/TopFriendsSimpleQuery';
 import { API_BASE_URL } from '../constants/api';
 import { NotificationSettings } from '../constants/types';
 import { APP_VERSION } from '../constants/versions';
@@ -91,6 +97,14 @@ export function attachIpcListeners() {
   });
 
   ipcMain.handle(
+    'query-top-friend-count-and-word-simple',
+    async (event, filters: SharedQueryFilters) => {
+      const db = getDb();
+      return queryTopFriendCountAndWordSimple(db, filters);
+    }
+  );
+
+  ipcMain.handle(
     'query-top-friends',
     async (event, filters: SharedQueryFilters) => {
       const db = getDb();
@@ -113,6 +127,11 @@ export function attachIpcListeners() {
       return queryEmojiOrWordCounts(db, filters);
     }
   );
+
+  ipcMain.handle('query-funniest-message-group-chat', async (event) => {
+    const db = getDb();
+    return queryFunniestMessage(db);
+  });
 
   ipcMain.handle('query-get-contact-options', async () => {
     const db = getDb();
@@ -291,15 +310,31 @@ export function attachIpcListeners() {
     return checkRequiresRefresh();
   });
 
+  ipcMain.handle(
+    'query-most-popular-day',
+    async (event, filters: SharedQueryFilters) => {
+      const db = getDb();
+      return queryMostPopularDay(db, filters);
+    }
+  );
+
+  ipcMain.handle(
+    'query-top-friends-simple',
+    async (event, filters: SharedQueryFilters) => {
+      const db = getDb();
+      return queryTopFriendsSimple(db, filters);
+    }
+  );
+
   ipcMain.handle('set-last-updated-version', async (event, version: string) => {
     setLastUpdatedVersion(version);
   });
 
   ipcMain.handle(
     'query-group-chat-by-friends',
-    async (event, filters: SharedGroupChatTabQueryFilters) => {
+    async (event, filters: SharedGroupChatTabQueryFilters, limit?: number) => {
       const db = getDb();
-      return queryGroupChatByFriends(db, filters);
+      return queryGroupChatByFriends(db, filters, limit);
     }
   );
 

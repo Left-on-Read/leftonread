@@ -81,7 +81,6 @@ export async function queryGetInboxChatIds(
     GROUP BY chat_id)
     SELECT * FROM TB ${dateClause}
   `;
-  log.info(q);
   const data = await allP(db, q);
 
   if (data && Array.isArray(data) && data.length > 0) {

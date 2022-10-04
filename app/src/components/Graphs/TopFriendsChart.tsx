@@ -244,11 +244,6 @@ function TopFriendsBody({
         onClose={() => setIsShareOpen(false)}
         graphRefToShare={graphRefToShare}
         title="Top Messaged Friends"
-        contacts={
-          filters.contact?.length === 1
-            ? filters.contact?.map((c) => c.value)
-            : undefined
-        }
       >
         {body}
       </ShareModal>

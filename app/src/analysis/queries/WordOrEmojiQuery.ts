@@ -67,7 +67,7 @@ function isEmojiFilter(filters: IWordOrEmojiFilters): string {
   } (${emojis})`;
 }
 
-function wordFluffFilter(): string {
+export function wordFluffFilter(): string {
   // NOTE: texts are LOWERed at this point
   return `TRIM(${ChatTableColumns.WORD}) NOT IN (${stopWords})
     AND TRIM(${ChatTableColumns.WORD}) NOT IN (${reactions})

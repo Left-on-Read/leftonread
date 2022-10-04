@@ -50,10 +50,10 @@ function App({ Component, pageProps }: AppProps) {
       <Head>
         <title>Left on Read</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta property="og:title" content="Left on Read: Message Analyzer" />
+        <meta property="og:title" content="Left on Read: iMessage Analyzer" />
         <meta
           property="og:description"
-          content="Learn about your friends and texting habits with Left on Read"
+          content="Spotify Wrapped for your text messages"
         />
         <meta property="og:url" content="https://leftonread.me" />
         <meta
