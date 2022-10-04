@@ -255,6 +255,18 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
           </TabPanel>
           <TabPanel>
             <Stack direction="column" spacing={40}>
+              <EngagementScoreChart
+                title={titleFormatter({
+                  titleName: 'Engagement Score ™',
+                  filters,
+                })}
+                description={descriptionFormatter({
+                  description: `Measures how "good" of a texter you are`,
+                  filters,
+                })}
+                icon={FiRadio}
+                filters={filters}
+              />
               <TotalSentimentChart
                 title={titleFormatter({
                   titleName: 'Percent Positivity Overview',
@@ -286,18 +298,6 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
                   filters,
                 })}
                 icon={FiArrowUpCircle}
-                filters={filters}
-              />
-              <EngagementScoreChart
-                title={titleFormatter({
-                  titleName: 'Engagement Score ™',
-                  filters,
-                })}
-                description={descriptionFormatter({
-                  description: `Measures how "good" of a texter you are`,
-                  filters,
-                })}
-                icon={FiRadio}
                 filters={filters}
               />
             </Stack>

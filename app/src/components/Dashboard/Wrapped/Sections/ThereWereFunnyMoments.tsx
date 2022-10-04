@@ -77,7 +77,7 @@ export function ThereWereFunnyMoments({
         style={{ lineHeight: 1.2, display: 'flex', justifyContent: 'center' }}
       >
         <Text fontSize="3xl" fontWeight="bold" style={{ textAlign: 'center' }}>
-          There were definitely some funny moments in your group chats.
+          There were definitely funny moments in your group chats.
         </Text>
       </motion.div>
     </Box>
