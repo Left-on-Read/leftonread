@@ -1,5 +1,8 @@
 import { Box, IconButton, theme as defaultTheme } from '@chakra-ui/react';
-import { TopFriendsSimpleResult } from 'analysis/queries/WrappedQueries/TopFriendsSimpleQuery';
+import {
+  TopFriendCountAndWordSimpleResult,
+  TopFriendsSimpleResult,
+} from 'analysis/queries/WrappedQueries/TopFriendsSimpleQuery';
 import { ipcRenderer } from 'electron';
 import { motion, useAnimationControls } from 'framer-motion';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -194,6 +197,13 @@ export function WrappedPage() {
     });
 
   const [topFriends, setTopFriends] = useState<TopFriendsSimpleResult>([]);
+  const [topFriendWordAndCount, setTopFriendWordAndCount] =
+    useState<TopFriendCountAndWordSimpleResult>({
+      friend: 'Steve Jobs',
+      sentTotal: 100,
+      receivedTotal: 100,
+      word: 'lol',
+    });
 
   const oneYearAgoDate = new Date(
     new Date().setFullYear(new Date().getFullYear() - 1)
@@ -203,7 +213,7 @@ export function WrappedPage() {
       ? dateRange.earliestDate
       : oneYearAgoDate;
 
-  // TODO(Danilowicz): Run this on page load and hope it's finished by the time wrapped starts
+  // TODO(Danilowicz): set up loading?
   useEffect(() => {
     async function fetchData() {
       const sentVsReceivedDataPromise: Promise<TotalSentVsReceivedResults> =
@@ -215,12 +225,22 @@ export function WrappedPage() {
       const topFriendsSimplePromise: Promise<TopFriendsSimpleResult> =
         ipcRenderer.invoke('query-top-friends-simple', { startDate });
 
-      const [sentVsReceivedResult, mostPopularDayResult, topFriendsResult] =
-        await Promise.all([
-          sentVsReceivedDataPromise,
-          mostPopularDayPromise,
-          topFriendsSimplePromise,
-        ]);
+      const topFriendWordAndCountPromise: Promise<TopFriendCountAndWordSimpleResult> =
+        ipcRenderer.invoke('query-top-friend-count-and-word-simple', {
+          startDate,
+        });
+
+      const [
+        sentVsReceivedResult,
+        mostPopularDayResult,
+        topFriendsResult,
+        topFriendWordAndCountResult,
+      ] = await Promise.all([
+        sentVsReceivedDataPromise,
+        mostPopularDayPromise,
+        topFriendsSimplePromise,
+        topFriendWordAndCountPromise,
+      ]);
 
       setMostPopularDayData(mostPopularDayResult);
       setTopFriends(topFriendsResult);
@@ -232,6 +252,7 @@ export function WrappedPage() {
           sentVsReceivedResult.filter((obj) => obj.is_from_me === 1)[0]
             ?.total ?? 0,
       });
+      setTopFriendWordAndCount(topFriendWordAndCountResult);
     }
     fetchData();
     // eslint-disable-next-line
@@ -306,6 +327,7 @@ export function WrappedPage() {
         setActiveIndex(activeIndex + 1);
         setTriggerExit(false);
       }}
+      topFriendWordAndCount={topFriendWordAndCount}
     />,
     <OtherFriendsToo
       shouldExit={triggerExit}

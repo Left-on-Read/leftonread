@@ -3,6 +3,7 @@ import { motion, useAnimationControls } from 'framer-motion';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Confetti from 'react-confetti';
 
+import { TopFriendCountAndWordSimpleResult } from '../../../../analysis/queries/WrappedQueries/TopFriendsSimpleQuery';
 import { AnimationRunner } from '../AnimationRunner';
 import { ShareIndicator } from '../ShareIndicator';
 import { TimerBar } from '../TimerBar';
@@ -13,9 +14,11 @@ const sectionDurationInSecs = 12;
 export function TopFriend({
   shouldExit,
   onExitFinish,
+  topFriendWordAndCount,
 }: {
   shouldExit: boolean;
   onExitFinish: () => void;
+  topFriendWordAndCount: TopFriendCountAndWordSimpleResult;
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -29,9 +32,7 @@ export function TopFriend({
 
   const controls = useAnimationControls();
 
-  const sentMessages = 3847;
-  const receivedMessages = 2384;
-  const topWord = 'Idiot';
+  const { friend, sentTotal, receivedTotal, word } = topFriendWordAndCount;
 
   useEffect(() => {
     ar.addEvent(200, () => {
@@ -178,7 +179,7 @@ export function TopFriend({
               style={{ textAlign: 'center', marginTop: '1vh' }}
               color="purple.500"
             >
-              Alexander Danilowicz
+              {friend}
             </Text>
           </motion.div>
         </motion.div>
@@ -200,7 +201,7 @@ export function TopFriend({
               <span style={{ fontWeight: 600, marginRight: '1vh' }}>
                 Total Messages:
               </span>{' '}
-              {(sentMessages + receivedMessages).toLocaleString()}
+              {(sentTotal + receivedTotal).toLocaleString()}
             </Text>
           </motion.div>
           <motion.div
@@ -216,7 +217,7 @@ export function TopFriend({
           >
             <Text fontSize="lg">
               <span style={{ fontWeight: 600, marginRight: '1vh' }}>Sent:</span>{' '}
-              {sentMessages.toLocaleString()}
+              {sentTotal.toLocaleString()}
             </Text>
           </motion.div>
           <motion.div
@@ -234,7 +235,7 @@ export function TopFriend({
               <span style={{ fontWeight: 600, marginRight: '1vh' }}>
                 Received:
               </span>{' '}
-              {receivedMessages.toLocaleString()}
+              {receivedTotal.toLocaleString()}
             </Text>
           </motion.div>
           <motion.div
@@ -252,7 +253,7 @@ export function TopFriend({
               <span style={{ fontWeight: 600, marginRight: '1vh' }}>
                 Top Word:
               </span>{' '}
-              {topWord}
+              {word}
             </Text>
           </motion.div>
         </motion.div>

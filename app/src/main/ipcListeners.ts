@@ -53,7 +53,10 @@ import {
   queryEmojiOrWordCounts,
 } from '../analysis/queries/WordOrEmojiQuery';
 import { queryMostPopularDay } from '../analysis/queries/WrappedQueries/MostPopularDayQuery';
-import { queryTopFriendsSimple } from '../analysis/queries/WrappedQueries/TopFriendsSimpleQuery';
+import {
+  queryTopFriendCountAndWordSimple,
+  queryTopFriendsSimple,
+} from '../analysis/queries/WrappedQueries/TopFriendsSimpleQuery';
 import { API_BASE_URL } from '../constants/api';
 import { NotificationSettings } from '../constants/types';
 import { APP_VERSION } from '../constants/versions';
@@ -91,6 +94,14 @@ export function attachIpcListeners() {
   ipcMain.handle('store-set-show-share-tooltip', async (event, val) => {
     setShowShareTooltip(val);
   });
+
+  ipcMain.handle(
+    'query-top-friend-count-and-word-simple',
+    async (event, filters: SharedQueryFilters) => {
+      const db = getDb();
+      return queryTopFriendCountAndWordSimple(db, filters);
+    }
+  );
 
   ipcMain.handle(
     'query-top-friends',
