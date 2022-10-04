@@ -294,8 +294,8 @@ export function Overview() {
         style={{ display: 'flex', justifyContent: 'center', margin: '24px 0' }}
       >
         <Text
-          fontWeight="bold"
-          fontSize="2.5vw"
+          fontWeight="extrabold"
+          fontSize="3xl"
           bgGradient="linear(to-r, green.600, purple.600)"
           bgClip="text"
           mt="2"

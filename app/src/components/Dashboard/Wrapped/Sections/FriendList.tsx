@@ -114,7 +114,7 @@ export function FriendList({
           animate={controls}
           style={{ lineHeight: 1.2, marginTop: '8vh' }}
         >
-          <Text fontSize="2vw" fontWeight="bold" color="black">
+          <Text fontSize="2xl" fontWeight="bold" color="blue.600">
             Your Top Friends
           </Text>
         </motion.div>
@@ -129,7 +129,12 @@ export function FriendList({
                   delay: 0.2 + 0.1 * index,
                 }}
               >
-                <Text fontSize="2vw" fontWeight="bold" style={{ width: '9vh' }}>
+                <Text
+                  fontSize="4xl"
+                  fontWeight="bold"
+                  style={{ width: '9vh' }}
+                  color="blue.600"
+                >
                   #{index + 1}
                 </Text>
               </motion.div>
@@ -142,7 +147,7 @@ export function FriendList({
                   delay: 0.8 + 0.2 * index,
                 }}
               >
-                <Text fontSize="2vw" fontWeight="semibold">
+                <Text fontSize="2xl" fontWeight="semibold">
                   {friend}
                 </Text>
               </motion.div>

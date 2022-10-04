@@ -100,7 +100,7 @@ export function DayInParticular({
         }}
       >
         <Text
-          fontSize="3.5vw"
+          fontSize="3xl"
           fontWeight="bold"
           style={{
             textAlign: 'center',

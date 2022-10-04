@@ -1,7 +1,7 @@
 import { Box, IconButton, theme as defaultTheme } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
-import { motion, useAnimationControls } from 'framer-motion';
-import React, { useEffect, useMemo, useState } from 'react';
+import log from 'electron-log';
+import React, { useEffect, useState } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
 import { EngagementResult } from '../../../analysis/queries/EngagementQueries';
@@ -15,7 +15,7 @@ import {
   TopFriendsSimpleResult,
 } from '../../../analysis/queries/WrappedQueries/TopFriendsSimpleQuery';
 import { GroupChatFilters } from '../../../constants/filters';
-import { Gradient } from '../../Gradient';
+import { logEvent } from '../../../utils/analytics';
 import { useGlobalContext } from '../GlobalContext';
 import { BusiestDay } from './Sections/BusiestDay';
 import { DayInParticular } from './Sections/DayInParticular';
@@ -33,161 +33,22 @@ import { ThereWereFunnyMoments } from './Sections/ThereWereFunnyMoments';
 import { TopFriend } from './Sections/TopFriend';
 import { TopGroupChat } from './Sections/TopGroupChat';
 import { TotalCount } from './Sections/TotalCount';
+import { WrappedError } from './Sections/WrappedError';
 import { WrappedIntro } from './Sections/WrappedIntro';
 import { WrappedIntroTexts } from './Sections/WrappedIntroTexts';
+import { WrappedLoading } from './Sections/WrappedLoading';
 import { YouTexting } from './Sections/YouTexting';
+import { WrappedGradient } from './WrappedGradient';
 
 export const DURATION_OF_SLIDE_IN_SECS = 10;
-
-function WrappedGradient({
-  theme,
-  children,
-}: {
-  theme: 'blue' | 'purple' | 'green';
-  children: React.ReactNode;
-}) {
-  const blueControls = useAnimationControls();
-  const purpleControls = useAnimationControls();
-  const greenControls = useAnimationControls();
-
-  useEffect(() => {
-    const gradientPurple = new Gradient();
-    const gradientBlue = new Gradient();
-    const gradientGreen = new Gradient();
-    // @ts-ignore
-    gradientPurple.initGradient('#gradient-canvas-purple');
-
-    // @ts-ignore
-    gradientBlue.initGradient('#gradient-canvas-blue');
-
-    // @ts-ignore
-    gradientGreen.initGradient('#gradient-canvas-green');
-  }, []);
-
-  useEffect(() => {
-    if (theme === 'blue') {
-      blueControls.start({
-        opacity: 1,
-      });
-      purpleControls.start({
-        opacity: 0,
-      });
-      greenControls.start({
-        opacity: 0,
-      });
-    }
-
-    if (theme === 'purple') {
-      blueControls.start({
-        opacity: 0,
-      });
-      greenControls.start({
-        opacity: 0,
-      });
-      purpleControls.start({
-        opacity: 1,
-      });
-    }
-
-    if (theme === 'green') {
-      blueControls.start({
-        opacity: 0,
-      });
-      purpleControls.start({
-        opacity: 0,
-      });
-      greenControls.start({
-        opacity: 1,
-      });
-    }
-  }, [theme, blueControls, purpleControls, greenControls]);
-
-  return (
-    <Box
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-        position: 'relative',
-        overflow: 'hidden',
-      }}
-    >
-      <motion.div
-        style={{ position: 'absolute', top: 0, left: 0, height: '100%' }}
-        initial={{ opacity: 0 }}
-        animate={purpleControls}
-        transition={{
-          duration: 1,
-        }}
-      >
-        <canvas
-          id="gradient-canvas-purple"
-          data-transition-in
-          style={
-            {
-              '--gradient-color-1': defaultTheme.colors.purple['200'],
-              '--gradient-color-2': defaultTheme.colors.purple['300'],
-              '--gradient-color-3': defaultTheme.colors.gray['300'],
-              '--gradient-color-4': defaultTheme.colors.gray['200'],
-              height: '100%',
-            } as any
-          }
-        />
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={blueControls}
-        style={{ position: 'absolute', top: 0, left: 0, height: '100%' }}
-        transition={{
-          duration: 1,
-        }}
-      >
-        <canvas
-          id="gradient-canvas-blue"
-          data-transition-in
-          style={
-            {
-              '--gradient-color-1': defaultTheme.colors.blue['200'],
-              '--gradient-color-2': defaultTheme.colors.blue['300'],
-              '--gradient-color-3': defaultTheme.colors.gray['300'],
-              '--gradient-color-4': defaultTheme.colors.gray['200'],
-              height: '100%',
-            } as any
-          }
-        />
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={greenControls}
-        style={{ position: 'absolute', top: 0, left: 0, height: '100%' }}
-        transition={{
-          duration: 1,
-        }}
-      >
-        <canvas
-          id="gradient-canvas-green"
-          data-transition-in
-          style={
-            {
-              '--gradient-color-1': defaultTheme.colors.green['200'],
-              '--gradient-color-2': defaultTheme.colors.green['300'],
-              '--gradient-color-3': defaultTheme.colors.gray['300'],
-              '--gradient-color-4': defaultTheme.colors.gray['200'],
-              height: '100%',
-            } as any
-          }
-        />
-      </motion.div>
-      {children}
-    </Box>
-  );
-}
 
 export function WrappedPage() {
   const { dateRange } = useGlobalContext();
 
-  const [activeIndex, setActiveIndex] = useState<number>(18);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const [activeIndex, setActiveIndex] = useState<number>(0);
   const [activeTheme, setActiveTheme] = useState<'blue' | 'purple' | 'green'>(
     'purple'
   );
@@ -231,8 +92,12 @@ export function WrappedPage() {
       : oneYearAgoDate;
 
   // TODO(Danilowicz): set up loading?
-  useEffect(() => {
-    async function fetchData() {
+
+  async function fetchData() {
+    setIsLoading(true);
+    setError(null);
+
+    try {
       const sentVsReceivedDataPromise: Promise<TotalSentVsReceivedResults> =
         ipcRenderer.invoke('query-total-sent-vs-received', {
           startDate,
@@ -356,22 +221,22 @@ export function WrappedPage() {
             ?.total ?? 0,
       });
       setTopFriendWordAndCount(topFriendWordAndCountResult);
+    } catch (err: unknown) {
+      log.error(err);
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Internal Error');
+      }
+    } finally {
+      setIsLoading(false);
     }
+  }
+
+  useEffect(() => {
     fetchData();
     // eslint-disable-next-line
   }, []);
-
-  useEffect(() => {
-    if (activeIndex === 7) {
-      setActiveTheme('purple');
-    } else if (activeIndex === 8) {
-      setActiveTheme('blue');
-    } else if (activeIndex === 17) {
-      setActiveTheme('blue');
-    } else if (activeIndex === 18) {
-      setActiveTheme('green');
-    }
-  }, [activeIndex]);
 
   // TODO: Refactor this - this is getting pretty expensive bc of re-renders.
   const components = [
@@ -516,12 +381,12 @@ export function WrappedPage() {
     <Overview />,
   ];
 
-  const selectedComponent = components[activeIndex];
-
-  const iconSize = 50;
-
   useEffect(() => {
     const handleKeyPress = (event: any) => {
+      if (isLoading) {
+        return;
+      }
+
       switch (event.keyCode) {
         case 37:
           if (activeIndex > 0) {
@@ -544,6 +409,53 @@ export function WrappedPage() {
     };
     // eslint-disable-next-line
   }, [activeIndex]);
+
+  useEffect(() => {
+    logEvent({
+      eventName: 'WRAPPED_SECTION',
+      properties: {
+        page: activeIndex,
+      },
+    });
+
+    if (activeIndex === 7) {
+      setActiveTheme('purple');
+    } else if (activeIndex === 8) {
+      setActiveTheme('blue');
+    } else if (activeIndex === 17) {
+      setActiveTheme('blue');
+    } else if (activeIndex === 18) {
+      setActiveTheme('green');
+    }
+  }, [activeIndex]);
+
+  let selectedComponent = components[activeIndex];
+  if (error) {
+    selectedComponent = (
+      <WrappedError
+        error={error}
+        onRetry={() => {
+          fetchData();
+        }}
+      />
+    );
+  } else if (isLoading) {
+    selectedComponent = <WrappedLoading />;
+  }
+
+  const iconSize = 50;
+
+  let showLeftIcon: 'hidden' | undefined =
+    activeIndex === 0 ? 'hidden' : undefined;
+  if (isLoading || error) {
+    showLeftIcon = 'hidden';
+  }
+
+  let showRightIcon: 'hidden' | undefined =
+    activeIndex === components.length - 1 ? 'hidden' : undefined;
+  if (isLoading || error) {
+    showRightIcon = 'hidden';
+  }
 
   return (
     <WrappedGradient theme={activeTheme}>
@@ -568,7 +480,7 @@ export function WrappedPage() {
           aria-label="left"
           icon={<FiChevronLeft />}
           fontSize={iconSize}
-          visibility={activeIndex === 0 ? 'hidden' : undefined}
+          visibility={showLeftIcon}
         />
         <Box>
           <Box
@@ -596,9 +508,7 @@ export function WrappedPage() {
           aria-label="right"
           icon={<FiChevronRight />}
           fontSize={iconSize}
-          visibility={
-            activeIndex === components.length - 1 ? 'hidden' : undefined
-          }
+          visibility={showRightIcon}
         />
       </Box>
     </WrappedGradient>

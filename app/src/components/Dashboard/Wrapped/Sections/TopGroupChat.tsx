@@ -130,7 +130,7 @@ export function TopGroupChat({
           tweenDuration={1000}
           recycle={false}
         />
-        <div style={{ height: '10vh' }} />
+        <div style={{ height: '5vh' }} />
 
         <motion.div
           initial={{
@@ -150,11 +150,11 @@ export function TopGroupChat({
             delay: 3.4,
           }}
         >
-          <Text mb={10} fontSize="5vw">
+          <Text mb={10} fontSize="4xl">
             🙌
           </Text>
           <Text
-            fontSize="2vw"
+            fontSize="2xl"
             fontWeight="medium"
             style={{ textAlign: 'center' }}
           >
@@ -179,7 +179,7 @@ export function TopGroupChat({
             }}
           >
             <Text
-              fontSize="2.5vw"
+              fontSize="3xl"
               fontWeight="bold"
               style={{ textAlign: 'center', marginTop: '1vh' }}
               color="blue.500"
@@ -220,7 +220,7 @@ export function TopGroupChat({
               delay: 2.3,
             }}
           >
-            <Text fontSize="1.8vw">
+            <Text fontSize="2xl">
               <span style={{ fontWeight: 600, marginRight: '1vh' }}>
                 Most Active:
               </span>{' '}
@@ -238,7 +238,7 @@ export function TopGroupChat({
               delay: 1.3,
             }}
           >
-            <Text fontSize="1.8vw">
+            <Text fontSize="2xl">
               <span style={{ fontWeight: 600, marginRight: '1vh' }}>
                 {mostActive.toLowerCase().trim() === 'you' ? 'You' : 'They'}{' '}
                 Sent:

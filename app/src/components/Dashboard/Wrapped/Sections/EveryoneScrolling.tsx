@@ -92,13 +92,14 @@ export function EveryoneScrolling({
         animate={controls}
         style={{ lineHeight: 1.2, display: 'flex', justifyContent: 'center' }}
       >
-        <Box style={{ display: 'flex', flexDirection: 'column' }}>
-          <Text
-            fontSize="3.5vw"
-            fontWeight={600}
-            bgGradient="linear(to-t, purple.800, purple.600, blue.400)"
-            bgClip="text"
-          >
+        <Box
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Text fontSize="3.3vh" fontWeight={600} textAlign="center">
             {' '}
             While everyone else was scrolling TikTok, you were busy{' '}
           </Text>
@@ -126,7 +127,7 @@ export function EveryoneScrolling({
             ]}
             wrapper="div"
             cursor
-            style={{ fontSize: '3.5vw', color: 'black', fontWeight: '600' }}
+            style={{ fontSize: '3.3vh', color: 'black', fontWeight: '600' }}
           />
         </Box>
       </motion.div>

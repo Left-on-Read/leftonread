@@ -112,7 +112,7 @@ export function SentWordList({
           animate={controls}
           style={{ lineHeight: 1.2, marginTop: '8vh' }}
         >
-          <Text fontSize="2xl" fontWeight="bold" color="blue.500">
+          <Text fontSize="2xl" fontWeight="bold" color="blue.600">
             Your Top Sent Words
           </Text>
         </motion.div>
@@ -130,7 +130,12 @@ export function SentWordList({
                   delay: 0.2 + 0.1 * index,
                 }}
               >
-                <Text fontSize="4xl" fontWeight="bold" style={{ width: '9vh' }}>
+                <Text
+                  fontSize="4xl"
+                  fontWeight="bold"
+                  style={{ width: '9vh' }}
+                  color="blue.600"
+                >
                   #{index + 1}
                 </Text>
               </motion.div>
@@ -143,7 +148,7 @@ export function SentWordList({
                   delay: 0.8 + 0.2 * index,
                 }}
               >
-                <Text fontSize="4xl" fontWeight="semibold">
+                <Text fontSize="2xl" fontWeight="semibold">
                   {word.word}
                 </Text>
               </motion.div>
