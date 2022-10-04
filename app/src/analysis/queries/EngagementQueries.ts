@@ -77,7 +77,6 @@ export async function queryLeftOnRead(
         ${EngagementTableColumns.DELAY_IN_SECONDS} > ${THREE_DAYS_IN_SECONDS}
         GROUP BY is_from_me
       `;
-
   const results: EngagementResult[] = await sqlite3Wrapper.allP(db, q);
 
   // Swap 1 and 0 for this metric
