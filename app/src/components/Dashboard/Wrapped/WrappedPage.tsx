@@ -22,6 +22,7 @@ import { FunniestMessage } from './Sections/FunniestMessage';
 import { LeftOnReadStats } from './Sections/LeftOnReadStats';
 import { MostMessages } from './Sections/MostMessages';
 import { OtherFriendsToo } from './Sections/OtherFriendsToo';
+import { Overview } from './Sections/Overview';
 import { SentEmojiList } from './Sections/SentEmojiList';
 import { SentWordList } from './Sections/SentWordList';
 import { Thanks } from './Sections/Thanks';
@@ -183,8 +184,10 @@ function WrappedGradient({
 export function WrappedPage() {
   const { dateRange } = useGlobalContext();
 
-  const [activeIndex, setActiveIndex] = useState<number>(0);
-  const [activeTheme, setActiveTheme] = useState<'blue' | 'purple'>('purple');
+  const [activeIndex, setActiveIndex] = useState<number>(18);
+  const [activeTheme, setActiveTheme] = useState<'blue' | 'purple' | 'green'>(
+    'purple'
+  );
   const [triggerExit, setTriggerExit] = useState<boolean>(false);
   const [sentVsReceivedData, setSentVsReceivedData] = useState<{
     sent: number;
@@ -303,10 +306,14 @@ export function WrappedPage() {
   }, []);
 
   useEffect(() => {
-    if (activeIndex === 8) {
-      setActiveTheme('blue');
-    } else if (activeIndex === 7) {
+    if (activeIndex === 7) {
       setActiveTheme('purple');
+    } else if (activeIndex === 8) {
+      setActiveTheme('blue');
+    } else if (activeIndex === 17) {
+      setActiveTheme('blue');
+    } else if (activeIndex === 18) {
+      setActiveTheme('green');
     }
   }, [activeIndex]);
 
@@ -447,6 +454,7 @@ export function WrappedPage() {
         setTriggerExit(false);
       }}
     />,
+    <Overview />,
   ];
 
   const selectedComponent = components[activeIndex];
