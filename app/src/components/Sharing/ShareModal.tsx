@@ -203,7 +203,7 @@ export function ShareModal({
                 rightIcon={<FiMessageCircle />}
                 isLoading={isIMessageAppLoading}
                 loadingText="Loading..."
-                colorScheme="purple"
+                colorScheme="messenger"
                 onClick={() => {
                   setIsIMessageAppLoading(true);
                   logEvent({

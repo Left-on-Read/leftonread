@@ -48,8 +48,6 @@ export async function queryDoubleTexts(
   db: sqlite3.Database,
   filters: SharedQueryFilters
 ): Promise<EngagementResult[]> {
-  const allFilters = getAllFilters(filters, undefined, 'contact_name');
-
   const TEN_MINUTES_IN_SECONDS = 10 * 60;
 
   const q = `

@@ -13,11 +13,12 @@ import { AnalyticsPage } from './AnalyticsPage';
 import { GlobalContext, TGlobalContext } from './GlobalContext';
 import { MessageInbox } from './MessageInbox';
 import { SIDEBAR_WIDTH, SideNavbar, TPages } from './SideNavbar';
+import { WrappedPage } from './Wrapped/WrappedPage';
 
 const store = new Store();
 
 export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
-  const [activePage, setActivePage] = useState<TPages>('Analytics');
+  const [activePage, setActivePage] = useState<TPages>('Wrapped');
   const [isPremium, setIsPremium] = useState<boolean>(
     store.get('license') !== ''
   );
@@ -100,6 +101,7 @@ export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
               </Box>
             )}
             {activePage === 'Settings' && <SettingsPage />}
+            {activePage === 'Wrapped' && <WrappedPage />}
           </div>
         </div>
       </GoldContext.Provider>

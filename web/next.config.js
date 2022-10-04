@@ -12,6 +12,11 @@ module.exports = {
         destination: '/?ref=download',
         permanent: false,
       },
+      {
+        source: '/wrapped',
+        destination: '/?ref=wrapped',
+        permanent: false,
+      },
     ]
   },
 }
