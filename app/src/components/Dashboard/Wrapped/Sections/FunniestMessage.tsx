@@ -2,20 +2,22 @@ import { Box, Text, theme as defaultTheme } from '@chakra-ui/react';
 import { motion, useAnimationControls } from 'framer-motion';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import { FunniestMessageResult } from '../../../../analysis/queries/WrappedQueries/FunniestMessageQuery';
 import { AnimationRunner } from '../AnimationRunner';
 import { ShareIndicator } from '../ShareIndicator';
 import { TimerBar } from '../TimerBar';
 import { Watermark } from '../Watermark';
 
-// const sectionDurationInSecs = 10;
 const sectionDurationInSecs = 10;
 
 export function FunniestMessage({
   shouldExit,
   onExitFinish,
+  funniestGroupChatMessage,
 }: {
   shouldExit: boolean;
   onExitFinish: () => void;
+  funniestGroupChatMessage: FunniestMessageResult;
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -27,6 +29,9 @@ export function FunniestMessage({
   );
 
   const controls = useAnimationControls();
+
+  const { groupChatName, funniestMessage, numberReactions, contactName } =
+    funniestGroupChatMessage[0];
 
   useEffect(() => {
     ar.addEvent(200, () => {
@@ -106,7 +111,7 @@ export function FunniestMessage({
           <Text fontSize="2xl" fontWeight="bold">
             Funniest Message
           </Text>
-          <Text fontSize="md">in SF North Park Boys</Text>
+          <Text fontSize="md">in {groupChatName.replaceAll(',', ', ')}</Text>
         </motion.div>
         <motion.div
           style={{ marginTop: '7vh' }}
@@ -115,24 +120,29 @@ export function FunniestMessage({
           }}
           animate={controls}
         >
-          <span style={{ fontWeight: 600 }}>8{` `}</span> Laugh Reactions
+          <span style={{ fontWeight: 600 }}>
+            {numberReactions}
+            {` `}
+          </span>{' '}
+          Hahas
         </motion.div>
         <motion.div
           style={{
-            backgroundColor: defaultTheme.colors.blue['500'],
+            backgroundColor: '#0b93f6',
             width: '100%',
             padding: '2vh',
             color: 'white',
             borderRadius: 16,
             marginTop: '2vh',
-            fontWeight: 400,
+            fontFamily:
+              'Helvetica Neue, Helvetica, Arial, GT Walsheim Pro, sans-serif',
           }}
           initial={{
             opacity: 0,
           }}
           animate={controls}
         >
-          One day we will understand what it means to be a true investor
+          {funniestMessage}
         </motion.div>
         <motion.div
           style={{ alignSelf: 'flex-end', marginTop: '2vh' }}
@@ -141,7 +151,7 @@ export function FunniestMessage({
           }}
           animate={controls}
         >
-          From <span style={{ fontWeight: 600 }}>Jackie Chen</span>
+          From <span style={{ fontWeight: 600 }}>{contactName}</span>
         </motion.div>
       </Box>
     </Box>

@@ -52,6 +52,7 @@ import {
   IWordOrEmojiFilters,
   queryEmojiOrWordCounts,
 } from '../analysis/queries/WordOrEmojiQuery';
+import { queryFunniestMessage } from '../analysis/queries/WrappedQueries/FunniestMessageQuery';
 import { queryMostPopularDay } from '../analysis/queries/WrappedQueries/MostPopularDayQuery';
 import {
   queryTopFriendCountAndWordSimple,
@@ -126,6 +127,11 @@ export function attachIpcListeners() {
       return queryEmojiOrWordCounts(db, filters);
     }
   );
+
+  ipcMain.handle('query-funniest-message-group-chat', async (event) => {
+    const db = getDb();
+    return queryFunniestMessage(db);
+  });
 
   ipcMain.handle('query-get-contact-options', async () => {
     const db = getDb();
