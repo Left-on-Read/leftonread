@@ -1,5 +1,4 @@
 import { Box, IconButton, theme as defaultTheme } from '@chakra-ui/react';
-import { GroupChatByFriends } from 'analysis/queries/GroupChats/GroupChatByFriendsQuery';
 import {
   TopFriendCountAndWordSimpleResult,
   TopFriendsSimpleResult,
@@ -9,7 +8,9 @@ import { motion, useAnimationControls } from 'framer-motion';
 import React, { useEffect, useMemo, useState } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
+import { GroupChatByFriends } from '../../../analysis/queries/GroupChats/GroupChatByFriendsQuery';
 import { TotalSentVsReceivedResults } from '../../../analysis/queries/TotalSentVsReceivedQuery';
+import { TWordOrEmojiResults } from '../../../analysis/queries/WordOrEmojiQuery';
 import { MostPopularDayResult } from '../../../analysis/queries/WrappedQueries/MostPopularDayQuery';
 import { Gradient } from '../../Gradient';
 import { useGlobalContext } from '../GlobalContext';
@@ -209,6 +210,9 @@ export function WrappedPage() {
     GroupChatByFriends[]
   >([]);
 
+  const [topSentWords, setTopSentWords] = useState<TWordOrEmojiResults>([]);
+  const [topSentEmojis, setTopSentEmojis] = useState<TWordOrEmojiResults>([]);
+
   const oneYearAgoDate = new Date(
     new Date().setFullYear(new Date().getFullYear() - 1)
   );
@@ -237,18 +241,38 @@ export function WrappedPage() {
       const topGroupChatAndFriendPromise: Promise<GroupChatByFriends[]> =
         ipcRenderer.invoke('query-group-chat-by-friends', { startDate }, 1);
 
+      const topSentWordsPromise: Promise<TWordOrEmojiResults> =
+        ipcRenderer.invoke('query-word-emoji', {
+          startDate,
+          isEmoji: false,
+          isFromMe: true,
+          limit: 5,
+        });
+
+      const topSentEmojisPromise: Promise<TWordOrEmojiResults> =
+        ipcRenderer.invoke('query-word-emoji', {
+          startDate,
+          isEmoji: true,
+          isFromMe: true,
+          limit: 5,
+        });
+
       const [
         sentVsReceivedResult,
         mostPopularDayResult,
         topFriendsResult,
         topFriendWordAndCountResult,
         topGroupChatAndFriendResult,
+        topSentWordsResult,
+        topSentEmojisResult,
       ] = await Promise.all([
         sentVsReceivedDataPromise,
         mostPopularDayPromise,
         topFriendsSimplePromise,
         topFriendWordAndCountPromise,
         topGroupChatAndFriendPromise,
+        topSentWordsPromise,
+        topSentEmojisPromise,
       ]);
 
       if (topGroupChatAndFriendResult.length < 1) {
@@ -260,6 +284,8 @@ export function WrappedPage() {
         setTopGroupChatAndFriend(topGroupChatAndFriendResult);
       }
 
+      setTopSentWords(topSentWordsResult);
+      setTopSentEmojis(topSentEmojisResult);
       setMostPopularDayData(mostPopularDayResult);
       setTopFriends(topFriendsResult);
       setSentVsReceivedData({
@@ -397,6 +423,7 @@ export function WrappedPage() {
         setActiveIndex(activeIndex + 1);
         setTriggerExit(false);
       }}
+      topSentWords={topSentWords}
     />,
     <SentEmojiList
       shouldExit={triggerExit}
@@ -404,6 +431,7 @@ export function WrappedPage() {
         setActiveIndex(activeIndex + 1);
         setTriggerExit(false);
       }}
+      topSentEmojis={topSentEmojis}
     />,
     <LeftOnReadStats
       shouldExit={triggerExit}

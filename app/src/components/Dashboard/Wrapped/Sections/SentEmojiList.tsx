@@ -2,6 +2,7 @@ import { Box, Stack, Text, theme as defaultTheme } from '@chakra-ui/react';
 import { motion, useAnimationControls } from 'framer-motion';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import { TWordOrEmojiResults } from '../../../../analysis/queries/WordOrEmojiQuery';
 import { AnimationRunner } from '../AnimationRunner';
 import { ShareIndicator } from '../ShareIndicator';
 import { TimerBar } from '../TimerBar';
@@ -12,9 +13,11 @@ const sectionDurationInSecs = 10;
 export function SentEmojiList({
   shouldExit,
   onExitFinish,
+  topSentEmojis,
 }: {
   shouldExit: boolean;
   onExitFinish: () => void;
+  topSentEmojis: TWordOrEmojiResults;
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -24,8 +27,6 @@ export function SentEmojiList({
     () => new AnimationRunner(sectionDurationInSecs, setTick),
     []
   );
-
-  const emojis = ['🥶', '😋', '🎃', '😑', '🤓'];
 
   const controls = useAnimationControls();
   const shareControls = useAnimationControls();
@@ -114,8 +115,11 @@ export function SentEmojiList({
           </Text>
         </motion.div>
         <Stack style={{ marginTop: '3vh' }} spacing="4vh">
-          {emojis.map((emoji, index) => (
-            <Box key={emoji} style={{ display: 'flex', alignItems: 'center' }}>
+          {topSentEmojis.map((emoji, index) => (
+            <Box
+              key={emoji.word}
+              style={{ display: 'flex', alignItems: 'center' }}
+            >
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={controls}
@@ -142,7 +146,7 @@ export function SentEmojiList({
                 }}
               >
                 <Text fontSize="3xl" fontWeight="semibold">
-                  {emoji}
+                  {emoji.word}
                 </Text>
               </motion.div>
             </Box>
