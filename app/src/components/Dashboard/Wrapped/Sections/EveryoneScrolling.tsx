@@ -121,7 +121,7 @@ export function EveryoneScrolling({
               'textin',
               200,
               'texting',
-              500,
+              100,
               'texting.',
             ]}
             wrapper="div"
