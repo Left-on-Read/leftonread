@@ -35,10 +35,6 @@ export function WrappedIntro({
       height="100%"
       width="100%"
       style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
         padding: '36px',
         borderRadius: 16,
         position: 'relative',
@@ -46,39 +42,53 @@ export function WrappedIntro({
       shadow="dark-lg"
       bgColor="purple.50"
     >
-      <motion.div animate={controls} transition={{ duration: 1 }}>
-        <div style={{ padding: '36px', marginTop: '-1vh' }}>
-          <img
-            src={LogoWithText}
-            alt="Left on Read"
-            style={{ height: '100%' }}
-          />
-        </div>
-      </motion.div>
-      <motion.div animate={controls} transition={{ duration: 1, delay: 0.2 }}>
-        <Text
-          fontSize="6xl"
-          fontWeight={800}
-          bgGradient="linear(to-r, blue.400, purple.600)"
-          bgClip="text"
-        >
-          Wrapped
-        </Text>
-      </motion.div>
-      <motion.div animate={controls} transition={{ duration: 1, delay: 0.4 }}>
-        <Text color="gray.700" fontSize="xl" style={{ marginTop: '2vh' }}>
-          {startDate.toLocaleDateString()} -{' '}
-          {globalData.dateRange.latestDate.toLocaleDateString()}
-        </Text>
-      </motion.div>
       <motion.div
-        animate={controls}
-        transition={{ duration: 1, delay: 0.4 }}
-        style={{ position: 'absolute', bottom: 10 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100%',
+          width: '100%',
+        }}
       >
-        <Text fontWeight="bold" color="purple.500">
-          #LeftOnReadWrapped
-        </Text>
+        <motion.div animate={controls} transition={{ duration: 1 }}>
+          <div style={{ padding: '36px', marginTop: '-1vh' }}>
+            <img
+              src={LogoWithText}
+              alt="Left on Read"
+              style={{ height: '100%' }}
+            />
+          </div>
+        </motion.div>
+        <motion.div animate={controls} transition={{ duration: 1, delay: 0.2 }}>
+          <Text
+            fontSize="5xl"
+            fontWeight={800}
+            bgGradient="linear(to-r, blue.400, purple.600)"
+            bgClip="text"
+          >
+            Wrapped
+          </Text>
+        </motion.div>
+        <motion.div animate={controls} transition={{ duration: 1, delay: 0.4 }}>
+          <Text color="gray.700" fontSize="xl" style={{ marginTop: '2vh' }}>
+            {startDate.toLocaleDateString()} -{' '}
+            {globalData.dateRange.latestDate.toLocaleDateString()}
+          </Text>
+        </motion.div>
+        <motion.div
+          animate={controls}
+          transition={{ duration: 1, delay: 0.4 }}
+          style={{ position: 'absolute', bottom: 10 }}
+        >
+          <Text fontWeight="bold" color="purple.500">
+            #LeftOnReadWrapped
+          </Text>
+        </motion.div>
       </motion.div>
     </Box>
   );
