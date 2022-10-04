@@ -91,7 +91,11 @@ export function DayInParticular({
         animate={controls}
         style={{ lineHeight: 1.2, display: 'flex', justifyContent: 'center' }}
       >
-        <Text fontSize="3xl" fontWeight="bold" style={{ textAlign: 'center' }}>
+        <Text
+          fontSize="3.5vw"
+          fontWeight="bold"
+          style={{ textAlign: 'center' }}
+        >
           One day in particular was busier than the others.
         </Text>
       </motion.div>

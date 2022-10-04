@@ -56,7 +56,7 @@ export function WrappedIntro({
       </motion.div>
       <motion.div animate={controls} transition={{ duration: 1, delay: 0.2 }}>
         <Text
-          fontSize="5xl"
+          fontSize="3.5vw"
           fontWeight={600}
           bgGradient="linear(to-r, blue.400, purple.600)"
           bgClip="text"

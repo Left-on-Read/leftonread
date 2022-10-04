@@ -84,7 +84,7 @@ export function WrappedShareModal({
                 color: defaultTheme.colors.purple['500'],
               }}
             >
-              #iMessageAnalytics
+              #LeftOnReadWrapped
             </span>
           </Text>
           <div
@@ -116,13 +116,13 @@ export function WrappedShareModal({
                     alt="Content"
                     style={{ height: '100%', borderRadius: 16 }}
                   />
-                  <Text
+                  {/* <Text
                     style={{ margin: '8px 0 16px 0' }}
                     fontSize="sm"
                     fontStyle="italic"
                   >
                     *Low Res Preview
-                  </Text>
+                  </Text> */}
                 </Box>
               )}
             </div>
@@ -130,7 +130,6 @@ export function WrappedShareModal({
               <Stack spacing="32px">
                 <Button
                   leftIcon={<CopyIcon />}
-                  colorScheme="green"
                   onClick={() => {
                     copyToClipboard();
                     setCopied(true);
@@ -198,7 +197,7 @@ export function WrappedShareModal({
                 </Button>
                 <Button
                   leftIcon={<FiDownload />}
-                  colorScheme="gray"
+                  colorScheme="purple"
                   onClick={() => {
                     download(imgSrc, 'leftonread-wrapped.png');
 

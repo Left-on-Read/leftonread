@@ -120,14 +120,30 @@ export function TotalCount({
       >
         <Watermark />
         <motion.div animate={sentControls} initial={{ opacity: 0 }}>
-          <Text fontSize="4xl" fontWeight="bold">
+          <Text
+            fontSize="4xl"
+            fontWeight="bold"
+            // bgGradient="linear(to-t, blue.600, blue.800)"
+            // bgClip="text"
+            color="blue.700"
+          >
             Sent
           </Text>
           <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-            <Text fontSize="6xl" fontWeight="black" color="blue.500">
+            <Text
+              fontSize="6xl"
+              fontWeight="bold"
+              bgGradient="linear(to-t, blue.400, blue.600)"
+              bgClip="text"
+            >
               {data.sent.toLocaleString()}
             </Text>
-            <Text style={{ paddingBottom: 20, marginLeft: 8 }}>texts</Text>
+            <Text
+              fontWeight="bold"
+              style={{ paddingBottom: 20, marginLeft: 8 }}
+            >
+              texts
+            </Text>
           </div>
         </motion.div>
         <motion.div
@@ -135,14 +151,30 @@ export function TotalCount({
           animate={receivedControls}
           initial={{ opacity: 0 }}
         >
-          <Text fontSize="4xl" fontWeight="bold">
+          <Text
+            fontSize="4xl"
+            fontWeight="bold"
+            color="green.700"
+            // bgGradient="linear(to-t, green.600, green.800)"
+            // bgClip="text"
+          >
             Received
           </Text>
           <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-            <Text fontSize="6xl" fontWeight="black" color="green.500">
+            <Text
+              fontSize="6xl"
+              fontWeight="bold"
+              bgGradient="linear(to-t, green.400, green.600)"
+              bgClip="text"
+            >
               {data.received.toLocaleString()}
             </Text>
-            <Text style={{ paddingBottom: 20, marginLeft: 8 }}>texts</Text>
+            <Text
+              fontWeight="bold"
+              style={{ paddingBottom: 20, marginLeft: 8 }}
+            >
+              texts
+            </Text>
           </div>
         </motion.div>
       </Box>

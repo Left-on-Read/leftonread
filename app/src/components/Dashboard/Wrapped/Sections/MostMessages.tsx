@@ -23,11 +23,13 @@ export function MostMessages({
   let thirdFriend = 'Bill Gates';
   let fourthFriend = 'Oprah';
   let fifthFriend = 'Beyonce';
+  let sixthFriend = 'Jeremy Lin';
   if (topFriends.length > 9) {
     secondFriend = topFriends[5].friend;
     thirdFriend = topFriends[6].friend;
     fourthFriend = topFriends[7].friend;
     fifthFriend = topFriends[8].friend;
+    sixthFriend = topFriends[4].friend;
   }
 
   const animateExit = useCallback(() => {
@@ -91,8 +93,8 @@ export function MostMessages({
         animate={controls}
         style={{ lineHeight: 1.2, display: 'flex', justifyContent: 'center' }}
       >
-        <Text fontSize="3xl" fontWeight="bold" style={{ textAlign: 'center' }}>
-          Most of these messages seem to be going to a select few friends
+        <Text fontSize="2vw" fontWeight="bold" style={{ textAlign: 'center' }}>
+          These messages seem to be going to a select few friends...
         </Text>
       </motion.div>
       <motion.div
@@ -112,7 +114,7 @@ export function MostMessages({
         }}
         transition={{
           duration: 2.5,
-          delay: 2,
+          delay: 1,
         }}
       >
         {secondFriend}
@@ -135,7 +137,7 @@ export function MostMessages({
         }}
         transition={{
           duration: 2.5,
-          delay: 3,
+          delay: 2,
         }}
       >
         {thirdFriend}
@@ -181,10 +183,32 @@ export function MostMessages({
         }}
         transition={{
           duration: 2.5,
-          delay: 3.5,
+          delay: 3,
         }}
       >
         {fifthFriend}
+      </motion.div>
+      <motion.div
+        style={{
+          position: 'absolute',
+          bottom: '6vh',
+          left: '1.5vh',
+          fontWeight: 'bold',
+          color: 'gray',
+          fontSize: 36,
+        }}
+        initial={{
+          opacity: 0,
+        }}
+        animate={{
+          opacity: [0, 0.4, 0],
+        }}
+        transition={{
+          duration: 2.5,
+          delay: 4,
+        }}
+      >
+        {sixthFriend}
       </motion.div>
     </Box>
   );

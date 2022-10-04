@@ -93,9 +93,9 @@ export function BusiestDay({
       >
         <Watermark />
         <motion.div
-          initial={{
-            opacity: 0,
-          }}
+          // initial={{
+          //   opacity: 0, // NOTE(Danilowicz): this ruins the share if it's left there
+          // }}
           animate={controls}
           style={{
             lineHeight: 1.2,
@@ -104,7 +104,10 @@ export function BusiestDay({
             marginTop: '6vh',
           }}
         >
-          <Text fontSize="xl" style={{ textAlign: 'center', lineHeight: 1.4 }}>
+          <Text
+            fontSize="2.0vw"
+            style={{ textAlign: 'center', lineHeight: 1.4 }}
+          >
             On{' '}
             <span
               style={{

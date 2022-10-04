@@ -146,3 +146,60 @@
 .share-content:hover {
   color: var(--chakra-colors-purple-200) !important;
 }
+
+
+.falling-text {
+  -webkit-transform-origin: left center;
+  -ms-transform-origin: left center;
+  transform-origin: left center;
+  -webkit-animation: fall 4s infinite;
+  animation: fall 4s infinite;
+}
+
+@-webkit-keyframes fall {
+  from, 15% {
+    -webkit-transform: rotate(0) translateX(0);
+    transform: rotate(0) translateX(0);
+    opacity: 1;
+    -webkit-animation-timing-function: cubic-bezier(.07, 2.02, .67, .57);
+    animation-timing-function: cubic-bezier(.07, 2.02, .67, .57);
+  }
+  50%,
+  60% {
+    -webkit-transform: rotate(90deg) translateX(0);
+    transform: rotate(90deg) translateX(0);
+    opacity: 1;
+    -webkit-animation-timing-function: cubic-bezier(.13, .84, .82, 1);
+    animation-timing-function: cubic-bezier(.13, .84, .82, 1);
+  }
+  85%,
+  to {
+    -webkit-transform: rotate(90deg) translateX(200px);
+    transform: rotate(90deg) translateX(200px);
+    opacity: 0;
+  }
+}
+
+@keyframes fall {
+  from, 15% {
+    -webkit-transform: rotate(0) translateX(0);
+    transform: rotate(0) translateX(0);
+    opacity: 1;
+    -webkit-animation-timing-function: cubic-bezier(.07, 2.02, .67, .57);
+    animation-timing-function: cubic-bezier(.07, 2.02, .67, .57);
+  }
+  50%,
+  60% {
+    -webkit-transform: rotate(90deg) translateX(0);
+    transform: rotate(90deg) translateX(0);
+    opacity: 1;
+    -webkit-animation-timing-function: cubic-bezier(.13, .84, .82, 1);
+    animation-timing-function: cubic-bezier(.13, .84, .82, 1);
+  }
+  85%,
+  to {
+    -webkit-transform: rotate(90deg) translateX(200px);
+    transform: rotate(90deg) translateX(200px);
+    opacity: 0;
+  }
+}
