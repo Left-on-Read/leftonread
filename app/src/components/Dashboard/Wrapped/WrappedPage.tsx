@@ -15,6 +15,7 @@ import {
   TopFriendsSimpleResult,
 } from '../../../analysis/queries/WrappedQueries/TopFriendsSimpleQuery';
 import { GroupChatFilters } from '../../../constants/filters';
+import { logEvent } from '../../../utils/analytics';
 import { Gradient } from '../../Gradient';
 import { useGlobalContext } from '../GlobalContext';
 import { BusiestDay } from './Sections/BusiestDay';
@@ -362,6 +363,13 @@ export function WrappedPage() {
   }, []);
 
   useEffect(() => {
+    logEvent({
+      eventName: 'WRAPPED_SECTION',
+      properties: {
+        page: activeIndex,
+      },
+    });
+
     if (activeIndex === 7) {
       setActiveTheme('purple');
     } else if (activeIndex === 8) {

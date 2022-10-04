@@ -41,6 +41,7 @@ export function WrappedIntro({
         alignItems: 'center',
         padding: '36px',
         borderRadius: 16,
+        position: 'relative',
       }}
       shadow="dark-lg"
       bgColor="purple.50"
@@ -56,7 +57,7 @@ export function WrappedIntro({
       </motion.div>
       <motion.div animate={controls} transition={{ duration: 1, delay: 0.2 }}>
         <Text
-          fontSize="5xl"
+          fontSize="6xl"
           fontWeight={800}
           bgGradient="linear(to-r, blue.400, purple.600)"
           bgClip="text"
@@ -68,6 +69,15 @@ export function WrappedIntro({
         <Text color="gray.700" fontSize="xl" style={{ marginTop: '2vh' }}>
           {startDate.toLocaleDateString()} -{' '}
           {globalData.dateRange.latestDate.toLocaleDateString()}
+        </Text>
+      </motion.div>
+      <motion.div
+        animate={controls}
+        transition={{ duration: 1, delay: 0.4 }}
+        style={{ position: 'absolute', bottom: 10 }}
+      >
+        <Text fontWeight="bold" color="purple.500">
+          #LeftOnReadWrapped
         </Text>
       </motion.div>
     </Box>
