@@ -71,7 +71,7 @@ export function createColorByContact(contactNames: string[]) {
     const index = (i + 1) % POSSIBLE_COLORS.length;
     const proposedColor = POSSIBLE_COLORS[index];
     // eslint-disable-next-line prefer-destructuring
-    contactByColor[n] = theme.colors[proposedColor][600];
+    contactByColor[n] = theme.colors[proposedColor][300];
   });
 
   return contactByColor;
