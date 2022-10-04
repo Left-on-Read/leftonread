@@ -92,6 +92,7 @@ export function FriendList({
           onStart={() => {
             ar.start();
           }}
+          loggingContext="FriendList"
         />
       </motion.div>
       <Box

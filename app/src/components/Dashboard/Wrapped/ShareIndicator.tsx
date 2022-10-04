@@ -8,16 +8,19 @@ import {
 import { AnimatePresence, motion } from 'framer-motion';
 import { FiShare } from 'react-icons/fi';
 
+import { logEvent } from '../../../utils/analytics';
 import { WrappedShareModal } from './WrappedShareModal';
 
 export function ShareIndicator({
   contentRef,
   onPause,
   onStart,
+  loggingContext,
 }: {
   contentRef: React.MutableRefObject<HTMLDivElement | null>;
   onPause: () => void;
   onStart: () => void;
+  loggingContext?: string;
 }) {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
@@ -60,9 +63,16 @@ export function ShareIndicator({
               cursor: 'pointer',
             }}
             onClick={() => {
+              logEvent({
+                eventName: 'SHARE_THIS_STORY',
+                properties: {
+                  context: loggingContext ?? '',
+                },
+              });
               onPause();
               onOpen();
             }}
+            className="share-content"
           >
             <Box
               style={{
@@ -76,9 +86,9 @@ export function ShareIndicator({
                 marginRight: '1vh',
               }}
             >
-              <Icon as={FiShare} color="purple.500" />
+              <Icon as={FiShare} className="share-icon" />
             </Box>
-            <Text fontSize="xl" color="purple.500">
+            <Text fontSize="xl" className="share-text">
               Share this story
             </Text>
           </Box>

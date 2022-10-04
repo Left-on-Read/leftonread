@@ -81,6 +81,7 @@ export function FunniestMessage({
           onStart={() => {
             ar.start();
           }}
+          loggingContext="FunniestMessage"
         />
       </motion.div>
       <Box

@@ -89,6 +89,7 @@ export function SentWordList({
           onStart={() => {
             ar.start();
           }}
+          loggingContext="SentWordList"
         />
       </motion.div>
 

@@ -9,6 +9,8 @@ export class AnimationRunner {
 
   tickListener?: (arg0: number) => void = () => {};
 
+  existingTimeout?: NodeJS.Timeout;
+
   constructor(durationInSecs: number, tickListener?: (arg0: number) => void) {
     this.tickListener = tickListener;
     this.counter = 0;
@@ -17,8 +19,8 @@ export class AnimationRunner {
   }
 
   start() {
-    if (this.isActive) {
-      return;
+    if (this.existingTimeout) {
+      clearTimeout(this.existingTimeout);
     }
     this.isActive = true;
     this.tick();
@@ -37,7 +39,7 @@ export class AnimationRunner {
   }
 
   tick() {
-    setTimeout(() => {
+    this.existingTimeout = setTimeout(() => {
       if (this.counter >= this.durationInSecs * 1000) {
         this.isActive = false;
       }

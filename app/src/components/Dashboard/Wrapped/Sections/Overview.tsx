@@ -1,4 +1,4 @@
-import { Box, Divider, Stack, Text } from '@chakra-ui/react';
+import { Box, Divider, Skeleton, Stack, Text } from '@chakra-ui/react';
 import { toPng } from 'html-to-image';
 import { useEffect, useRef, useState } from 'react';
 
@@ -283,7 +283,12 @@ export function Overview() {
       shadow="dark-lg"
       bgColor="green.50"
     >
-      <ShareIndicator contentRef={ref} onPause={() => {}} onStart={() => {}} />
+      <ShareIndicator
+        contentRef={ref}
+        onPause={() => {}}
+        onStart={() => {}}
+        loggingContext="Overview"
+      />
       <OverviewImageComponent contentRef={ref} />
       <Box
         style={{ display: 'flex', justifyContent: 'center', margin: '24px 0' }}
@@ -293,11 +298,25 @@ export function Overview() {
         </Text>
       </Box>
       <Box style={{ display: 'flex', justifyContent: 'center' }}>
-        <img
-          src={imgSrc}
-          alt="Graphic"
-          style={{ width: '70%', borderRadius: 16 }}
-        />
+        <Box
+          shadow="dark-lg"
+          style={{
+            borderRadius: 16,
+            display: 'flex',
+            width: '70%',
+            overflow: 'hidden',
+          }}
+        >
+          {imgSrc ? (
+            <img
+              src={imgSrc}
+              alt="Graphic"
+              style={{ width: '100%', borderRadius: 16 }}
+            />
+          ) : (
+            <Skeleton width="100%" height="60vh" />
+          )}
+        </Box>
       </Box>
     </Box>
   );

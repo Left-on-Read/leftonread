@@ -89,6 +89,7 @@ export function SentEmojiList({
           onStart={() => {
             ar.start();
           }}
+          loggingContext="SentEmojiList"
         />
       </motion.div>
       <Box

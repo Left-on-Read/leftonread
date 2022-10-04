@@ -55,9 +55,6 @@
   --gradient-color-4: #b9beff; */
 }
 
-
-
-
 .messages {
   margin-top: 10px;
   display: flex;
@@ -140,4 +137,12 @@
   height: 20px;
   background: #4C3757;
   border-bottom-left-radius: 10px;
+}
+
+.share-content {
+  color: var(--chakra-colors-purple-500) !important;
+}
+
+.share-content:hover {
+  color: var(--chakra-colors-purple-200) !important;
 }
