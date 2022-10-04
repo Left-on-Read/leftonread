@@ -13,6 +13,7 @@ import {
   TopFriendCountAndWordSimpleResult,
   TopFriendsSimpleResult,
 } from '../../../analysis/queries/WrappedQueries/TopFriendsSimpleQuery';
+import { GroupChatFilters } from '../../../constants/filters';
 import { Gradient } from '../../Gradient';
 import { useGlobalContext } from '../GlobalContext';
 import { BusiestDay } from './Sections/BusiestDay';
@@ -231,17 +232,24 @@ export function WrappedPage() {
   useEffect(() => {
     async function fetchData() {
       const sentVsReceivedDataPromise: Promise<TotalSentVsReceivedResults> =
-        ipcRenderer.invoke('query-total-sent-vs-received', { startDate });
+        ipcRenderer.invoke('query-total-sent-vs-received', {
+          startDate,
+          groupChat: GroupChatFilters.ONLY_INDIVIDUAL,
+        });
 
       const mostPopularDayPromise: Promise<MostPopularDayResult> =
         ipcRenderer.invoke('query-most-popular-day', { startDate });
 
       const topFriendsSimplePromise: Promise<TopFriendsSimpleResult> =
-        ipcRenderer.invoke('query-top-friends-simple', { startDate });
+        ipcRenderer.invoke('query-top-friends-simple', {
+          startDate,
+          groupChat: GroupChatFilters.ONLY_INDIVIDUAL,
+        });
 
       const topFriendWordAndCountPromise: Promise<TopFriendCountAndWordSimpleResult> =
         ipcRenderer.invoke('query-top-friend-count-and-word-simple', {
           startDate,
+          groupChat: GroupChatFilters.ONLY_INDIVIDUAL,
         });
 
       const topGroupChatAndFriendPromise: Promise<GroupChatByFriends[]> =
@@ -401,6 +409,7 @@ export function WrappedPage() {
       topFriendWordAndCount={topFriendWordAndCount}
     />,
     <OtherFriendsToo
+      topFriend={topFriendWordAndCount.friend}
       shouldExit={triggerExit}
       onExitFinish={() => {
         setActiveIndex(activeIndex + 1);

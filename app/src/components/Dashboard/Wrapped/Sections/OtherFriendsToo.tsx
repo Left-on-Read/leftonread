@@ -7,9 +7,11 @@ import { TimerBar } from '../TimerBar';
 const sectionDurationInSecs = 6;
 
 export function OtherFriendsToo({
+  topFriend,
   shouldExit,
   onExitFinish,
 }: {
+  topFriend: string;
   shouldExit: boolean;
   onExitFinish: () => void;
 }) {
@@ -77,7 +79,7 @@ export function OtherFriendsToo({
         style={{ lineHeight: 1.2, display: 'flex', justifyContent: 'center' }}
       >
         <Text fontSize="3xl" fontWeight="bold" style={{ textAlign: 'center' }}>
-          {`They weren't your only friend though.`}
+          {`${topFriend} is not your only friend though.`}
         </Text>
       </motion.div>
     </Box>
