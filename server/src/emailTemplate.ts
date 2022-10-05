@@ -226,9 +226,8 @@ export const getEmailTemplate = (licenseKey: string) => {
           <div style="line-height: 140%; text-align: left; word-wrap: break-word;">
             <p style="font-size: 14px; line-height: 140%;">To activate your license key,</p>
         <p style="font-size: 14px; line-height: 140%;"> </p>
-        <p style="font-size: 14px; line-height: 140%;">1. Click the "Settings" icon in the top-right corner of the Left on Read app</p>
-        <p style="font-size: 14px; line-height: 140%;">2. Select the "Unlock Gold" option</p>
-        <p style="font-size: 14px; line-height: 140%;">3. Enter in the license key above to activate</p>
+        <p style="font-size: 14px; line-height: 140%;">1. Click the "Unlock Gold" link in the bottom left-hand corner of the app</p>
+        <p style="font-size: 14px; line-height: 140%;">2. Enter in the license key above to activate</p>
         <p style="font-size: 14px; line-height: 140%;"> </p>
         <p style="font-size: 14px; line-height: 140%;">If you run into any issues or have any questions, please respond directly to this email. Happy analyzing!</p>
           </div>
