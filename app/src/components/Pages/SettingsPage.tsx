@@ -140,12 +140,14 @@ function ManageSubscription() {
           variant="link"
           onClick={() => {
             logEvent({
-              eventName: 'BUY_US_COFFEE',
+              eventName: 'Edit Subscription',
             });
-            window.open('https://www.buymeacoffee.com/leftonread');
+            window.open(
+              'https://billing.stripe.com/p/login/eVabK06mUcNG2oE6oo'
+            );
           }}
         >
-          Buy us a coffee
+          Edit Subscription
         </Button>
       )}
       {!isPremium && (
@@ -161,6 +163,17 @@ function ManageSubscription() {
           Unlock Gold
         </Button>
       )}
+      <Button
+        variant="link"
+        onClick={() => {
+          logEvent({
+            eventName: 'BUY_US_COFFEE',
+          });
+          window.open('https://www.buymeacoffee.com/leftonread');
+        }}
+      >
+        Buy us a coffee
+      </Button>
     </Box>
   );
 }
@@ -257,7 +270,7 @@ export function SettingsPage() {
           <ContactUs />
         </SettingsCard>
         <SettingsCard
-          title={isPremium ? 'Gold is unlocked 🎉' : 'Get Left on Read Gold'}
+          title={isPremium ? 'Manage Subscription' : 'Get Left on Read Gold'}
           icon={FiAward}
           description={
             isPremium
