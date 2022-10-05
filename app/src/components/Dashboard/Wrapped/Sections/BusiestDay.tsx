@@ -104,10 +104,7 @@ export function BusiestDay({
             marginTop: '6vh',
           }}
         >
-          <Text
-            fontSize="2.0vw"
-            style={{ textAlign: 'center', lineHeight: 1.4 }}
-          >
+          <Text fontSize="xl" style={{ textAlign: 'center', lineHeight: 1.4 }}>
             On{' '}
             <span
               style={{

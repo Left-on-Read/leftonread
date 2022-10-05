@@ -45,12 +45,20 @@ export async function queryTopFriendCountAndWordSimple(
   );
 
   const q = `SELECT COUNT(*)  as count, coalesced_contact_name as friend, is_from_me, chat_id
-  FROM core_main_table ${allFilters} GROUP BY coalesced_contact_name, is_from_me ORDER BY count  DESC LIMIT 2`;
-  const topFriendResult: {
+  FROM core_main_table ${allFilters} GROUP BY coalesced_contact_name, is_from_me ORDER BY count  DESC`;
+  const rawTopFriendResult: {
     count: number;
     friend: string;
     is_from_me: number;
   }[] = await sqlite3Wrapper.allP(db, q);
+
+  const topFriend = rawTopFriendResult[0].friend;
+
+  const topFriendResult: {
+    count: number;
+    friend: string;
+    is_from_me: number;
+  }[] = rawTopFriendResult.filter((f) => f.friend === topFriend);
 
   if (topFriendResult.length > 1) {
     const wordQ = `SELECT COUNT(*) as count, word FROM count_table WHERE contact = "${
