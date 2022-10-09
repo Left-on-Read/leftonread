@@ -135,45 +135,47 @@ function ManageSubscription() {
   const { isPremium } = useGoldContext();
   return (
     <Box>
-      {isPremium && (
+      <Stack style={{ alignItems: 'flex-start' }}>
+        {isPremium && (
+          <Button
+            variant="link"
+            onClick={() => {
+              logEvent({
+                eventName: 'Edit Subscription',
+              });
+              window.open(
+                'https://billing.stripe.com/p/login/eVabK06mUcNG2oE6oo'
+              );
+            }}
+          >
+            Edit Subscription
+          </Button>
+        )}
+        {!isPremium && (
+          <Button
+            colorScheme="yellow"
+            onClick={() => {
+              logEvent({
+                eventName: 'UNLOCK_GOLD_SETTINGS',
+              });
+              window.open(STRIPE_LINK);
+            }}
+          >
+            Unlock Gold
+          </Button>
+        )}
         <Button
           variant="link"
           onClick={() => {
             logEvent({
-              eventName: 'Edit Subscription',
+              eventName: 'BUY_US_COFFEE',
             });
-            window.open(
-              'https://billing.stripe.com/p/login/eVabK06mUcNG2oE6oo'
-            );
+            window.open('https://www.buymeacoffee.com/leftonread');
           }}
         >
-          Edit Subscription
+          Buy us a coffee
         </Button>
-      )}
-      {!isPremium && (
-        <Button
-          colorScheme="yellow"
-          onClick={() => {
-            logEvent({
-              eventName: 'UNLOCK_GOLD_SETTINGS',
-            });
-            window.open(STRIPE_LINK);
-          }}
-        >
-          Unlock Gold
-        </Button>
-      )}
-      <Button
-        variant="link"
-        onClick={() => {
-          logEvent({
-            eventName: 'BUY_US_COFFEE',
-          });
-          window.open('https://www.buymeacoffee.com/leftonread');
-        }}
-      >
-        Buy us a coffee
-      </Button>
+      </Stack>
     </Box>
   );
 }
