@@ -116,32 +116,32 @@ export function GraphContainer({
             </div>
 
             {!isLocked && setIsShareOpen && (
-              <Tooltip
-                hasArrow
-                label="Share with your friends!"
-                placement="bottom"
-                isOpen={isTooltipOpen}
+              // <Tooltip
+              //   hasArrow
+              //   label="Share with your friends!"
+              //   placement="bottom"
+              //   isOpen={isTooltipOpen}
+              // >
+              <Button
+                style={{
+                  padding: showGroupChatShareButton ? '0px 30px' : undefined,
+                }}
+                onClick={async () => {
+                  setIsTooltipOpen(false);
+                  ipcRenderer.invoke('store-set-show-share-tooltip', false);
+                  setIsShareOpen(true);
+                  logEvent({
+                    eventName: 'SHARE_GRAPH',
+                    properties: {
+                      graph: title[0],
+                    },
+                  });
+                }}
+                leftIcon={<Icon as={FiShare} />}
               >
-                <Button
-                  style={{
-                    padding: showGroupChatShareButton ? '0px 30px' : undefined,
-                  }}
-                  onClick={async () => {
-                    setIsTooltipOpen(false);
-                    ipcRenderer.invoke('store-set-show-share-tooltip', false);
-                    setIsShareOpen(true);
-                    logEvent({
-                      eventName: 'SHARE_GRAPH',
-                      properties: {
-                        graph: title[0],
-                      },
-                    });
-                  }}
-                  leftIcon={<Icon as={FiShare} />}
-                >
-                  {showGroupChatShareButton ? 'Share with group' : 'Share'}
-                </Button>
-              </Tooltip>
+                {showGroupChatShareButton ? 'Share with group' : 'Share'}
+              </Button>
+              // </Tooltip>
             )}
             {onClickMessageScheduler && onClickMessageSchedulerRefresh && (
               <div>
