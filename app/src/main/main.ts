@@ -1,4 +1,4 @@
-/* eslint global-require: off, no-console: off, promise/always-return: off */
+/* eslint global-require: off, no-console: off, promise/always-return: off, import/first: off */
 
 /**
  * This module executes inside of electron's main process. You can start
@@ -8,7 +8,31 @@
  * When running `npm run build` or `npm run build:main`, this file is compiled to
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
-import { events, init, measure, profiler } from '@palette.dev/electron/main';
+import {
+  events,
+  init,
+  measure,
+  network,
+  profiler,
+} from '@palette.dev/electron/main';
+import * as v8ProfilerNext from 'v8-profiler-next';
+
+init({
+  key: 'cl8j2xvzc014708mq30m2vaqv',
+  // Collect click, performance events, and profiles
+  plugins: [
+    events(),
+    measure(),
+    profiler({ driver: v8ProfilerNext }),
+    network(),
+  ],
+});
+
+// Sample the main process
+profiler.start({
+  sampleInterval: 10,
+});
+
 import {
   app,
   BrowserWindow,
@@ -28,15 +52,19 @@ import { initMessageScheduler } from './messageScheduler';
 import { NotificationsManager } from './notifications';
 import { resolveHtmlPath } from './util';
 
-init({
-  key: 'cl8j2xvzc014708mq30m2vaqv',
-  // Collect click, performance events, and profiles
-  plugins: [events(), measure(), profiler()],
-});
-
 const ONE_DAY_IN_MS = 1000 * 60 * 60 * 24;
 
 let mainWindow: BrowserWindow | null = null;
+
+// Profile the main process for 10s after startup
+app
+  .whenReady()
+  .then(() => {
+    setTimeout(() => {
+      profiler.stop();
+    }, 10_000);
+  })
+  .catch(console.error);
 
 class AppUpdater {
   constructor() {
