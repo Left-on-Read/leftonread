@@ -5,7 +5,13 @@ import { logEvent } from '../../utils/analytics';
 import { STRIPE_LINK } from './constants';
 import { PremiumModal } from './PremiumModal';
 
-export function UnlockPremiumButton({ context }: { context: string }) {
+export function UnlockPremiumButton({
+  context,
+  altText,
+}: {
+  context: string;
+  altText?: string;
+}) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -29,6 +35,9 @@ export function UnlockPremiumButton({ context }: { context: string }) {
           size="lg"
           paddingTop={10}
           paddingBottom={10}
+          style={{
+            width: '100%',
+          }}
         >
           <Box>
             <Box
@@ -45,7 +54,7 @@ export function UnlockPremiumButton({ context }: { context: string }) {
               </Text>
             </Box>
             <Text fontSize="14">
-              Support this project to unlock all features!
+              {altText ?? 'Support this project to unlock all features!'}
             </Text>
           </Box>
         </Button>

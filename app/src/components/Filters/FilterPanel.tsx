@@ -55,7 +55,7 @@ export function FilterPanel({
         width: '100%',
       }}
     >
-      {!isPremium && (
+      {/* {!isPremium && (
         <div
           style={{
             position: 'absolute',
@@ -69,8 +69,18 @@ export function FilterPanel({
         >
           <UnlockPremiumButton context="Filter Panel" />
         </div>
+      )} */}
+      {/* <div style={{ ...(!isPremium && { filter: 'blur(2px)', opacity: 0.2 }) }}> */}
+      {!isPremium && (
+        <Box style={{ marginBottom: '36px' }}>
+          <UnlockPremiumButton
+            context="Filter Panel"
+            altText="Support this project to unlock filtering!"
+          />
+        </Box>
       )}
-      <div style={{ ...(!isPremium && { filter: 'blur(2px)', opacity: 0.2 }) }}>
+
+      <div>
         <div>
           <div
             style={{ display: 'flex', alignItems: 'center', marginBottom: 8 }}
@@ -113,6 +123,7 @@ export function FilterPanel({
                 });
               }}
               value={filterDateRange}
+              isDisabled={!isPremium}
             >
               <RangeSliderTrack bg="purple.400" />
               <RangeSliderThumb index={0}>
@@ -175,6 +186,7 @@ export function FilterPanel({
             />
           </div>
         </div>
+
         <div
           style={{ marginTop: 25, display: 'flex', justifyContent: 'flex-end' }}
         >
