@@ -124,7 +124,7 @@
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@fontsource/montserrat": "^4.5.11",
-    "@palette.dev/electron": "^1.12.1",
+    "@palette.dev/electron": "^1.14.2",
     "@palette.dev/webpack-plugin": "^1.2.0",
     "axios": "^0.27.2",
     "chart.js": "^3.8.2",
