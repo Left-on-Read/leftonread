@@ -1720,9 +1720,9 @@
     yargs "^17.5.1"
 
 "@palette.dev/electron@^1.14.2":
-  version "1.14.2"
-  resolved "https://registry.yarnpkg.com/@palette.dev/electron/-/electron-1.14.2.tgz#1fcd6175bb3d5bb93f06c80be3a8f0f7b2ab605a"
-  integrity sha512-Kc8UQkpTpvA4LxKFgRjwrAp3yKeGQrs33y/VjzvL5U4VqO0O2y7CcxCQP2Myg+4b1dThjG/vS8n/96LTHZP9Vw==
+  version "1.14.3"
+  resolved "https://registry.yarnpkg.com/@palette.dev/electron/-/electron-1.14.3.tgz#62a0201a64ab7dc52af6f5c744827aeb1b4c72dc"
+  integrity sha512-MNudyok5h08zu0jWsML6YPociYE4dpPUYuNYG2a+d+C3PmLy4nWIX5CdKCArbFPZdpx1DsZ7hj8wRh5ePeTdZg==
   dependencies:
     "@amilajack/systeminformation" "^5.11.18"
     node-fetch "^2.6.7"
@@ -2160,9 +2160,9 @@
   integrity sha512-3rKg/L5x0rofKuuUt5zlXzOnKyIHXmIu5R8A0TuNDMF2062/AOIDBciFIjToLEJ/9F9DzkHNot+BpNsMI1OLdQ==
 
 "@types/node@^16.11.7":
-  version "16.11.65"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.65.tgz#59500b86af757d6fcabd3dec32fecb6e357d7a45"
-  integrity sha512-Vfz7wGMOr4jbQGiQHVJm8VjeQwM9Ya7mHe9LtQ264/Epf5n1KiZShOFqk++nBzw6a/ubgYdB9Od7P+MH/LjoWw==
+  version "16.11.68"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.68.tgz#30ee923f4d940793e0380f5ce61c0bd4b7196b6c"
+  integrity sha512-JkRpuVz3xCNCWaeQ5EHLR/6woMbHZz/jZ7Kmc63AkU+1HxnoUugzSWMck7dsR4DvNYX8jp9wTi9K7WvnxOIQZQ==
 
 "@types/nodemailer@^6.4.4":
   version "6.4.4"
