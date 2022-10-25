@@ -30,7 +30,7 @@ export async function queryGroupChatByFriends(
     FROM group_chat_core_table
     ${allFilters} 
     GROUP BY contact_name, is_from_me, group_chat_name
-    ORDER BY count DESC
+    ORDER BY human_readable_date DESC
     ${limitClause}
     `;
 

@@ -1,4 +1,4 @@
-import { Spinner, Text } from '@chakra-ui/react';
+import { Spinner } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { IconType } from 'react-icons';
@@ -234,7 +234,7 @@ export function GroupChatByFriendsChart({
   groupChatByFriendsDataList: GroupChatByFriends[];
 }) {
   const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
-
+  groupChatByFriendsDataList.sort((a, b) => b.count - a.count);
   return (
     <>
       {isShareOpen && (
