@@ -5,7 +5,13 @@ import FixingBugs from '../../../assets/illustrations/fixing_bugs.svg';
 import { Float } from '../Float';
 import { EmailModal } from './EmailModal';
 
-export function ErrorPage({ onClearError }: { onClearError: () => void }) {
+export function ErrorPage({
+  onClearError,
+  onRefresh,
+}: {
+  onClearError: () => void;
+  onRefresh: () => void;
+}) {
   const {
     isOpen: isEmailModalOpen,
     onOpen: onEmailModalOpen,
@@ -46,10 +52,18 @@ export function ErrorPage({ onClearError }: { onClearError: () => void }) {
             style={{ marginTop: 16, display: 'flex', flexDirection: 'column' }}
           >
             <Button
+              colorScheme="purple"
               style={{ marginBottom: 12 }}
               onClick={() => onEmailModalOpen()}
             >
               Report Bug
+            </Button>
+            <Button
+              colorScheme="red"
+              style={{ marginBottom: 12 }}
+              onClick={() => onRefresh()}
+            >
+              Reset Left on Read
             </Button>
             <Button
               variant="link"

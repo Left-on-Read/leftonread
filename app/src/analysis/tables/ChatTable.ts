@@ -9,6 +9,7 @@ export enum ChatTableColumns {
   CACHE_ROOMNAMES = 'cache_roomnames',
   IS_FROM_ME = 'is_from_me',
   CONTACT = 'contact',
+  DATE = 'human_readable_date',
 }
 
 // TODO(Danilowicz): I think this should be renamed WordTable
@@ -16,9 +17,10 @@ export class ChatCountTable extends Table {
   async create(): Promise<TableNames> {
     const q = `
       CREATE TABLE ${this.name} AS
-      WITH RECURSIVE SPLIT_TEXT_TABLE (cache_roomnames, id, is_from_me, guid, text, etc) AS
+      WITH RECURSIVE SPLIT_TEXT_TABLE (human_readable_date, cache_roomnames, id, is_from_me, guid, text, etc) AS
       (
         SELECT
+          m.human_readable_date,
           m.cache_roomnames,
           coalesce(m.${ContactNameColumns.CONTACT_NAME}, m.id) as id,
           m.is_from_me,
@@ -28,11 +30,12 @@ export class ChatCountTable extends Table {
         FROM ${CoreTableNames.CORE_MAIN_TABLE} m
         UNION ALL
         SELECT
-          cache_roomnames, id, is_from_me, guid, SUBSTR(etc, 0, INSTR(etc, ' ')), SUBSTR(etc, INSTR(etc, ' ')+1)
+        human_readable_date, cache_roomnames, id, is_from_me, guid, SUBSTR(etc, 0, INSTR(etc, ' ')), SUBSTR(etc, INSTR(etc, ' ')+1)
         FROM SPLIT_TEXT_TABLE
         WHERE etc <> ''
       )
         SELECT
+          human_readable_date as ${ChatTableColumns.DATE},
           id as ${ChatTableColumns.CONTACT},
           LOWER(text) as ${ChatTableColumns.WORD},
           is_from_me as ${ChatTableColumns.IS_FROM_ME},

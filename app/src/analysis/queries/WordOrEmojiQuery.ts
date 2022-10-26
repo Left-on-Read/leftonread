@@ -12,7 +12,7 @@ import * as sqlite3Wrapper from '../../utils/sqliteWrapper';
 import { ChatTableColumns } from '../tables/ChatTable';
 import { ChatTableNames } from '../tables/types';
 import { ContactOptionsQueryResult } from './ContactOptionsQuery';
-import { groupChatFilter } from './filters/sharedQueryFilters';
+import { groupChatFilter, timeRangeFilter } from './filters/sharedQueryFilters';
 
 enum OutputColumns {
   WORD = 'word',
@@ -84,6 +84,7 @@ function getAllWordLevelFilters(filters: IWordOrEmojiFilters): string {
   const word = wordFilter(filters);
   const groupChat = groupChatFilter(filters);
   const fluff = wordFluffFilter();
+  const timeRange = timeRangeFilter(filters);
 
   const filtersArray = [
     isFromMe,
@@ -92,6 +93,7 @@ function getAllWordLevelFilters(filters: IWordOrEmojiFilters): string {
     groupChat,
     fluff,
     contact,
+    timeRange,
   ].filter((filter) => !!filter);
 
   return filtersArray.length > 0 ? `WHERE ${filtersArray.join(' AND ')}` : '';

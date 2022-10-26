@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { NotificationSettings, ScheduledMessage } from '../constants/types';
 
+// requiredUpdateVersion is a version that requires a data refresh
 const migrations = {
   '0.1.1': (store: any) => store.set('requiredUpdateVersion', '0.1.1'),
   '>=0.2.2': (store: any) => store.set('license', ''),
@@ -14,6 +15,7 @@ const migrations = {
     });
   },
   '1.2.3': (store: any) => store.set('requiredUpdateVersion', '1.2.3'),
+  '2.1.2': (store: any) => store.set('requiredUpdateVersion', '2.1.2'),
 };
 
 const schema = {
