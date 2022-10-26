@@ -110,10 +110,15 @@ export function App() {
     });
   }, []);
 
+  function onRefresh() {
+    setIsInitializing(true);
+    setIsRefresh(true);
+  }
+
   return (
     <ChakraProvider theme={theme}>
       <HashRouter>
-        <ErrorBoundary>
+        <ErrorBoundary onRefresh={() => onRefresh()}>
           <Routes>
             <Route path="/" element={<Redirecter />} />
             <Route
@@ -129,14 +134,7 @@ export function App() {
             />
             <Route
               path="/dashboard"
-              element={
-                <Dashboard
-                  onRefresh={() => {
-                    setIsInitializing(true);
-                    setIsRefresh(true);
-                  }}
-                />
-              }
+              element={<Dashboard onRefresh={() => onRefresh()} />}
             />
           </Routes>
           <Initializer

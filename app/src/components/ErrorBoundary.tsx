@@ -5,6 +5,7 @@ import { ErrorPage } from './Support/ErrorPage';
 
 interface Props {
   children?: React.ReactNode;
+  onRefresh: () => void;
 }
 
 interface State {
@@ -29,7 +30,10 @@ export class ErrorBoundary extends Component<Props, State> {
   public render() {
     if (this.state.hasError) {
       return (
-        <ErrorPage onClearError={() => this.setState({ hasError: false })} />
+        <ErrorPage
+          onRefresh={this.props.onRefresh}
+          onClearError={() => this.setState({ hasError: false })}
+        />
       );
     }
 
