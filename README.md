@@ -5,7 +5,16 @@
 
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Wow,%20super%20cool%20open-source%20project%20-%20checkout%20out%20Left%20on%20Read&url=https://leftonread.me&hashtags=texting,analytics,buildinpublic)
 
-iMessages supercharged! We are entirely open-source to show you that your data is secure and never leaves your computer. Left on Read is built with Electron, React, SQLite, Typescript, and ❤️.
+iMessages supercharged! We are entirely open-source to show you that your data is secure and never leaves your computer. Left on Read is built with Electron, React, SQLite, Typescript.
+
+## Features:
+
+- top sent word, emoji, contact
+- your texting activity
+- reactions sent in group chats
+- filter by a word, friend, or time range
+- sentiment analysis
+- "Your Year in Text" experience (similiar to Spotify Wrapped)
 
 ## Download Left on Read for Mac
 
