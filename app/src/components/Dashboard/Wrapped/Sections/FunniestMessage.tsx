@@ -124,7 +124,8 @@ export function FunniestMessage({
             {numberReactions}
             {` `}
           </span>{' '}
-          Hahas
+          Haha
+          {numberReactions > 1 ? 's' : ''}
         </motion.div>
         <motion.div
           style={{

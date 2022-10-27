@@ -128,10 +128,13 @@ export function attachIpcListeners() {
     }
   );
 
-  ipcMain.handle('query-funniest-message-group-chat', async (event) => {
-    const db = getDb();
-    return queryFunniestMessage(db);
-  });
+  ipcMain.handle(
+    'query-funniest-message-group-chat',
+    async (event, filters: SharedGroupChatTabQueryFilters | undefined) => {
+      const db = getDb();
+      return queryFunniestMessage(db, filters);
+    }
+  );
 
   ipcMain.handle('query-get-contact-options', async () => {
     const db = getDb();
@@ -332,9 +335,14 @@ export function attachIpcListeners() {
 
   ipcMain.handle(
     'query-group-chat-by-friends',
-    async (event, filters: SharedGroupChatTabQueryFilters, limit?: number) => {
+    async (
+      event,
+      filters: SharedGroupChatTabQueryFilters,
+      mode: 'COUNT' | 'DATE',
+      limit?: number
+    ) => {
       const db = getDb();
-      return queryGroupChatByFriends(db, filters, limit);
+      return queryGroupChatByFriends(db, filters, mode, limit);
     }
   );
 

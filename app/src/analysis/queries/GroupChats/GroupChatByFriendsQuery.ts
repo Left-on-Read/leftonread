@@ -15,12 +15,18 @@ export type GroupChatByFriends = {
 export async function queryGroupChatByFriends(
   db: sqlite3.Database,
   filters: SharedGroupChatTabQueryFilters,
+  sortMode: 'COUNT' | 'DATE',
   limit?: number
 ): Promise<GroupChatByFriends[]> {
   const allFilters = getAllGroupChatTabFilters(filters);
   let limitClause = '';
   if (typeof limit === 'number') {
     limitClause = `LIMIT ${limit}`;
+  }
+
+  let sortColumn = 'count';
+  if (sortMode === 'DATE') {
+    sortColumn = 'human_readable_date';
   }
 
   // TODO(Danilowicz): we probably want to have a sort by mode
@@ -30,7 +36,7 @@ export async function queryGroupChatByFriends(
     FROM group_chat_core_table
     ${allFilters} 
     GROUP BY contact_name, is_from_me, group_chat_name
-    ORDER BY count DESC
+    ORDER BY ${sortColumn} DESC
     ${limitClause}
     `;
 

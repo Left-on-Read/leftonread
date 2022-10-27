@@ -2,7 +2,13 @@ import { Text } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
-import { FiCompass, FiFeather } from 'react-icons/fi';
+import {
+  FiActivity,
+  FiAward,
+  FiCalendar,
+  FiFeather,
+  FiGift,
+} from 'react-icons/fi';
 import Select from 'react-select';
 
 import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFilters';
@@ -10,6 +16,7 @@ import { GroupChatByFriends } from '../../analysis/queries/GroupChats/GroupChatB
 import { createColorByContact } from '../../main/util';
 import { GroupChatActivityOverTimeChart } from '../Graphs/GroupChats/GroupChatActivityOverTimeChart';
 import { GroupChatByFriendsChart } from '../Graphs/GroupChats/GroupChatByFriendsChart';
+import { GroupChatFunniestMessage } from '../Graphs/GroupChats/GroupChatFunniestMessage';
 import { GroupChatReactionsChart } from '../Graphs/GroupChats/GroupChatReactionsChart';
 
 export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
@@ -55,7 +62,11 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
       setIsLoading(true);
       try {
         const groupChatByFriendsDataList: GroupChatByFriends[] =
-          await ipcRenderer.invoke('query-group-chat-by-friends', filters);
+          await ipcRenderer.invoke(
+            'query-group-chat-by-friends',
+            filters,
+            'DATE'
+          );
         setData(groupChatByFriendsDataList);
 
         const setGct = [
@@ -97,7 +108,7 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
       <GroupChatByFriendsChart
         title={['Who Texts the Most in ', selectedGroupChat.label]}
         colorByContactName={colorByContactName}
-        icon={FiFeather}
+        icon={FiActivity}
         groupChatByFriendsDataList={data.filter(
           (v) => v.group_chat_name === selectedGroupChat.value
         )}
@@ -105,9 +116,13 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
         isError={isError}
       />
 
+      <GroupChatFunniestMessage
+        filters={{ ...filters, groupChatName: selectedGroupChat.value }}
+      />
+
       <GroupChatReactionsChart
         title={['Who Gives the Most Reactions in ', selectedGroupChat.label]}
-        icon={FiCompass}
+        icon={FiGift}
         filters={{ ...filters, groupChatName: selectedGroupChat.value }}
         mode="GIVES"
         colorByContactName={colorByContactName}
@@ -116,7 +131,7 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
 
       <GroupChatReactionsChart
         title={['Who Gets the Most Reactions in ', selectedGroupChat.label]}
-        icon={FiCompass}
+        icon={FiAward}
         filters={{ ...filters, groupChatName: selectedGroupChat.value }}
         mode="GETS"
         colorByContactName={colorByContactName}
@@ -126,7 +141,7 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
       <GroupChatActivityOverTimeChart
         title={['Group Chat Activity in ', selectedGroupChat.label]}
         description=""
-        icon={FiCompass}
+        icon={FiCalendar}
         filters={{ ...filters, groupChatName: selectedGroupChat.value }}
         colorByContactName={colorByContactName}
         isPremiumGraph
