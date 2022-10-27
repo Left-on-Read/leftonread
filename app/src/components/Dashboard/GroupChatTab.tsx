@@ -1,4 +1,5 @@
 import { Text } from '@chakra-ui/react';
+import { GroupChatFunniestMessage } from 'components/Graphs/GroupChats/GroupChatFunniestMessage';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
@@ -104,6 +105,8 @@ export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
         isLoading={isLoading}
         isError={isError}
       />
+
+      <GroupChatFunniestMessage />
 
       <GroupChatReactionsChart
         title={['Who Gives the Most Reactions in ', selectedGroupChat.label]}
