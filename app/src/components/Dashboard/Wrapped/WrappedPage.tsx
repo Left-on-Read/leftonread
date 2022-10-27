@@ -120,7 +120,12 @@ export function WrappedPage() {
         });
 
       const topGroupChatAndFriendPromise: Promise<GroupChatByFriends[]> =
-        ipcRenderer.invoke('query-group-chat-by-friends', { startDate }, 1);
+        ipcRenderer.invoke(
+          'query-group-chat-by-friends',
+          { startDate },
+          'COUNT',
+          1
+        );
 
       const topSentWordsPromise: Promise<TWordOrEmojiResults> =
         ipcRenderer.invoke('query-word-emoji', {

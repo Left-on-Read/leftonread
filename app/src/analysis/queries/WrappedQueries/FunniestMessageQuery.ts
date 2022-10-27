@@ -1,7 +1,7 @@
-import log from 'electron-log';
 import * as sqlite3 from 'sqlite3';
 
 import * as sqlite3Wrapper from '../../../utils/sqliteWrapper';
+import { SharedGroupChatTabQueryFilters } from '../filters/sharedGroupChatTabFilters';
 
 export type FunniestMessageResult = {
   groupChatName: string;
@@ -11,8 +11,14 @@ export type FunniestMessageResult = {
 }[];
 
 export async function queryFunniestMessage(
-  db: sqlite3.Database
+  db: sqlite3.Database,
+  filters: SharedGroupChatTabQueryFilters | undefined
 ): Promise<FunniestMessageResult> {
+  let gcFilter = '';
+  if (filters && filters.groupChatName) {
+    gcFilter = `AND gct.group_chat_name = '${filters.groupChatName}'`;
+  }
+
   const q = `    WITH CORE_REACTION_TB AS (SELECT
     gct.text as reaction_text,
     gct.group_chat_name as group_chat_name ,
@@ -31,7 +37,7 @@ export async function queryFunniestMessage(
     FROM group_chat_core_table  gct
     LEFT JOIN core_main_table cmt
     ON cmt.guid = gct.associated_guid
-    WHERE (gct.associated_message_type BETWEEN 2000 AND 2005) AND cmt.text is not null )
+    WHERE (gct.associated_message_type BETWEEN 2000 AND 2005) AND cmt.text is not null ${gcFilter})
 	
 	SELECT COUNT(*) as numberReactions, 
     associated_text as funniestMessage, 

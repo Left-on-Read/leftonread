@@ -1,14 +1,16 @@
 import {
   Box,
+  Icon,
   Skeleton,
   Stack,
   Text,
   theme as defaultTheme,
+  Tooltip,
 } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
-import { FiVoicemail } from 'react-icons/fi';
+import { FiInfo, FiSmile, FiVoicemail } from 'react-icons/fi';
 
 import { SharedGroupChatTabQueryFilters } from '../../../analysis/queries/filters/sharedGroupChatTabFilters';
 import { FunniestMessageResult } from '../../../analysis/queries/WrappedQueries/FunniestMessageQuery';
@@ -19,8 +21,9 @@ export function GroupChatFunniestMessage({
 }: {
   filters: SharedGroupChatTabQueryFilters;
 }) {
-  const [funniestMessage, setFunniestMessage] =
-    useState<FunniestMessageResult>();
+  const [funniestMessage, setFunniestMessage] = useState<
+    FunniestMessageResult | undefined
+  >();
   const [error, setError] = useState<null | string>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -28,11 +31,10 @@ export function GroupChatFunniestMessage({
     const fetchFunniestMessage = async () => {
       setIsLoading(true);
       try {
-        // todo
         const results: FunniestMessageResult = await ipcRenderer.invoke(
-          'query-funniest-message-group-chat'
+          'query-funniest-message-group-chat',
+          filters
         );
-
         setFunniestMessage(results);
       } catch (err) {
         if (err instanceof Error) {
@@ -45,50 +47,29 @@ export function GroupChatFunniestMessage({
     };
 
     fetchFunniestMessage();
-  }, []);
-
-  const content =
-    isLoading || funniestMessage === undefined ? (
-      <>
-        <Skeleton height={40} />
-      </>
-    ) : (
-      <Box
-        style={{
-          border: `1px solid ${defaultTheme.colors.gray['200']}`,
-          padding: 32,
-          borderRadius: 16,
-        }}
-        shadow="xl"
-      >
-        <Text color="gray.500" fontSize={14}>
-          From{' '}
-          <span
-            style={{
-              fontWeight: 'bold',
-              color: defaultTheme.colors.blue['400'],
-            }}
-          >
-            Jackie Chen
-          </span>
-        </Text>
-
-        <Text style={{ marginTop: 8 }}>
-          {funniestMessage[0].funniestMessage}
-        </Text>
-      </Box>
-    );
+  }, [filters]);
 
   return (
     <GraphContainer
-      title={['Funniest Message']}
-      description="Funniest Message"
-      icon={FiVoicemail}
+      title={[
+        `Funniest Message in ${filters.groupChatName.replaceAll(',', ', ')}`,
+      ]}
+      description="The message with the most Hahas"
+      icon={FiSmile}
+      tooltip={
+        <Tooltip
+          label="Reactions were added in iOS 10 in September 2016. If nothing is showing, your group chat may be too old."
+          fontSize="md"
+        >
+          <span>
+            <Icon as={FiInfo} color="gray.500" />
+          </span>
+        </Tooltip>
+      }
     >
       <Stack spacing={8}>
         {error && <Text color="red.400">Uh oh! Something went wrong... </Text>}
-        {!error && content}
-        {funniestMessage === undefined && !error && !isLoading && (
+        {funniestMessage && funniestMessage.length < 1 && !error && !isLoading && (
           <div
             style={{
               width: '100%',
@@ -106,10 +87,42 @@ export function GroupChatFunniestMessage({
                 alignItems: 'center',
               }}
             >
-              <Text>This chat is not very funny...</Text>
-              <Text>No messages found </Text>
+              <Text style={{ fontSize: '18px', color: 'gray' }}>
+                This chat is not very funny... no messages with laughs found.
+              </Text>
             </div>
           </div>
+        )}
+        {!error && funniestMessage && funniestMessage.length > 0 && (
+          <Box
+            style={{
+              border: `1px solid ${defaultTheme.colors.gray['200']}`,
+              padding: 32,
+              borderRadius: 16,
+            }}
+            shadow="xl"
+          >
+            <Text color="gray.500" fontSize={14}>
+              {funniestMessage[0].numberReactions} Haha
+              {funniestMessage[0].numberReactions > 1 ? 's' : ''}
+            </Text>
+
+            <Text style={{ marginTop: 8 }}>
+              {funniestMessage[0].funniestMessage}
+            </Text>
+
+            <Text color="gray.500" fontSize={14}>
+              From{' '}
+              <span
+                style={{
+                  fontWeight: 'bold',
+                  color: defaultTheme.colors.blue['400'],
+                }}
+              >
+                {funniestMessage[0].contactName}
+              </span>
+            </Text>
+          </Box>
         )}
       </Stack>
     </GraphContainer>
