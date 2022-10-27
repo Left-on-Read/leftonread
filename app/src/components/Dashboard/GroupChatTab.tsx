@@ -1,5 +1,4 @@
 import { Text } from '@chakra-ui/react';
-import { GroupChatFunniestMessage } from 'components/Graphs/GroupChats/GroupChatFunniestMessage';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
@@ -17,6 +16,7 @@ import { GroupChatByFriends } from '../../analysis/queries/GroupChats/GroupChatB
 import { createColorByContact } from '../../main/util';
 import { GroupChatActivityOverTimeChart } from '../Graphs/GroupChats/GroupChatActivityOverTimeChart';
 import { GroupChatByFriendsChart } from '../Graphs/GroupChats/GroupChatByFriendsChart';
+import { GroupChatFunniestMessage } from '../Graphs/GroupChats/GroupChatFunniestMessage';
 import { GroupChatReactionsChart } from '../Graphs/GroupChats/GroupChatReactionsChart';
 
 export function GroupChatTab({ filters }: { filters: SharedQueryFilters }) {
