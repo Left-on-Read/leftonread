@@ -31,7 +31,6 @@ function FriendsOverTimeBody({
   const [error, setError] = useState<null | string>(null);
   const [data, setData] = useState<FriendsOverTimeResult[][]>(emptyRows);
 
-  console.log(data);
   useEffect(() => {
     async function fetchFriendsOverTimeChart() {
       setIsLoading(true);
@@ -235,11 +234,12 @@ export function FriendsOverTimeChart({
   icon: IconType;
   filters: SharedQueryFilters;
 }) {
+  const MAX_DATASETS = 5;
   const { contacts } = useGlobalContext();
   const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
   const contactNamesToCompare =
     contacts && contacts.length > 0
-      ? contacts.slice(0, 5).map((c) => c.value)
+      ? contacts.slice(0, MAX_DATASETS).map((c) => c.value)
       : [''];
   return (
     <>
