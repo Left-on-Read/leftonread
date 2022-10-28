@@ -6,6 +6,7 @@ import {
   TabPanels,
   Tabs,
 } from '@chakra-ui/react';
+import { FriendsOverTimeChart } from 'components/Graphs/FriendsOverTimeChart';
 import {
   FiArrowUpCircle,
   FiAward,
@@ -191,6 +192,15 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
                 })}
                 description={descriptionFormatter({ description: '', filters })}
                 icon={FiCalendar}
+                filters={filters}
+              />
+              <FriendsOverTimeChart
+                title={titleFormatter({
+                  titleName: 'Friends Over Time',
+                  filters,
+                })}
+                description="excludes group chats"
+                icon={FiUsers}
                 filters={filters}
               />
             </Stack>

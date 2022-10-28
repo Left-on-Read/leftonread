@@ -8,7 +8,7 @@ export type TDateRange = {
 
 export type TGlobalContext = {
   isLoading: boolean;
-  contacts: ContactOptionsQueryResult[];
+  contacts?: ContactOptionsQueryResult[];
   dateRange: TDateRange;
 };
 
