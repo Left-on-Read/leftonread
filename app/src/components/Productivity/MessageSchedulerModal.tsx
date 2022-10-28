@@ -59,7 +59,7 @@ export function MessageSchedulerModal({
   const scheduleMessage = async () => {
     // Find matching contact
     const contactName =
-      contacts.find((contact) => contact.phoneNumber === selectedPhoneNumber)
+      contacts?.find((contact) => contact.phoneNumber === selectedPhoneNumber)
         ?.value ?? selectedPhoneNumber;
 
     const newMessage: ScheduledMessage = {
@@ -121,7 +121,7 @@ export function MessageSchedulerModal({
     }
   }, [isOpen]);
 
-  const contactOptions = contacts.map((contact) => ({
+  const contactOptions = contacts?.map((contact) => ({
     value: contact.phoneNumber,
     label: contact.label,
   }));
