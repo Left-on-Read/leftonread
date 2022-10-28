@@ -235,14 +235,12 @@ export function FriendsOverTimeChart({
   icon: IconType;
   filters: SharedQueryFilters;
 }) {
+  const { contacts } = useGlobalContext();
   const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
-  const contactNamesToCompare = [
-    'Teddy Ni',
-    'isabel tubao',
-    'Chan',
-    'George Fang',
-    'mom',
-  ];
+  const contactNamesToCompare =
+    contacts && contacts.length > 0
+      ? contacts.slice(0, 5).map((c) => c.value)
+      : [''];
   return (
     <>
       {isShareOpen && (

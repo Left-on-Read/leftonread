@@ -19,6 +19,7 @@ export async function queryFriendsOverTimeQuery(
         coalesced_contact_name as contact_name
         FROM core_main_table
         WHERE coalesced_contact_name = "${contactName}"
+        AND cache_roomnames IS NULL
         GROUP BY DATE(human_readable_date)
     )
     SELECT  ct.date, COALESCE(pre_count, 0) as count, coalesce("${contactName}", contact_name) as contactName FROM calendar_table ct
