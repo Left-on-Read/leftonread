@@ -1719,10 +1719,10 @@
     node-fetch "^2.6.7"
     yargs "^17.5.1"
 
-"@palette.dev/electron@1.14.4-fix-client-transport.1":
-  version "1.14.4-fix-client-transport.1"
-  resolved "https://registry.yarnpkg.com/@palette.dev/electron/-/electron-1.14.4-fix-client-transport.1.tgz#154f6d5ccb3ca3721c9ebdb586deb4c1fdcd55fc"
-  integrity sha512-eoH5m8A08Bo5ZmwyL8KDLWV9kzkMMXiNZjGk/tWSi5mLYjAhDnO/ABNc/fg0LjIV1ABRBilS4z3f1D4SEfFJ7A==
+"@palette.dev/electron@^1.14.4":
+  version "1.14.4"
+  resolved "https://registry.yarnpkg.com/@palette.dev/electron/-/electron-1.14.4.tgz#f765a8aa642d0ef49870c00f346782e45fe094a3"
+  integrity sha512-X26ltG2zuFUR7l1LtQqaybnzePu0xbx8r9niodqi9UdlMqR9NTQoGs3arwvCsoo89EGYhYjBfnpwFiHjI8usKA==
   dependencies:
     "@amilajack/systeminformation" "^5.11.18"
     node-fetch "^2.6.7"
