@@ -6,7 +6,6 @@ import {
   TabPanels,
   Tabs,
 } from '@chakra-ui/react';
-import { FriendsOverTimeChart } from 'components/Graphs/FriendsOverTimeChart';
 import {
   FiArrowUpCircle,
   FiAward,
@@ -26,6 +25,7 @@ import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFi
 import { GroupChatFilters } from '../../constants/filters';
 import { logEvent } from '../../utils/analytics';
 import { EngagementScoreChart } from '../Graphs/EngagementScore/EngagementScoreChart';
+import { FriendsOverTimeChart } from '../Graphs/FriendsOverTimeChart';
 import { SentimentOverTimeChart } from '../Graphs/SentimentOverTimeChart';
 import { SentVsReceivedChart } from '../Graphs/SentVsReceivedChart';
 import { TextsOverTimeChart } from '../Graphs/TextsOverTimeChart';
