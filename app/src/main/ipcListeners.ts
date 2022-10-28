@@ -23,6 +23,7 @@ import {
 } from '../analysis/queries/EngagementQueries';
 import { SharedGroupChatTabQueryFilters } from '../analysis/queries/filters/sharedGroupChatTabFilters';
 import { SharedQueryFilters } from '../analysis/queries/filters/sharedQueryFilters';
+import { queryFriendsOverTimeQuery } from '../analysis/queries/FriendsOverTimeQuery';
 import { queryGroupChatActivityOverTime } from '../analysis/queries/GroupChats/GroupChatActivityOverTimeQuery';
 import { queryGroupChatByFriends } from '../analysis/queries/GroupChats/GroupChatByFriendsQuery';
 import { queryGroupChatReactionsQuery } from '../analysis/queries/GroupChats/GroupChatReactionsQuery';
@@ -437,4 +438,12 @@ export function attachIpcListeners() {
     const db = getDb();
     await queryInboxWrite(db, chatId);
   });
+
+  ipcMain.handle(
+    'query-friends-over-time',
+    async (event, contactName: string) => {
+      const db = getDb();
+      return queryFriendsOverTimeQuery(db, contactName);
+    }
+  );
 }

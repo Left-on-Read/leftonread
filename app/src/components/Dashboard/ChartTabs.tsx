@@ -25,6 +25,7 @@ import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFi
 import { GroupChatFilters } from '../../constants/filters';
 import { logEvent } from '../../utils/analytics';
 import { EngagementScoreChart } from '../Graphs/EngagementScore/EngagementScoreChart';
+import { FriendsOverTimeChart } from '../Graphs/FriendsOverTimeChart';
 import { SentimentOverTimeChart } from '../Graphs/SentimentOverTimeChart';
 import { SentVsReceivedChart } from '../Graphs/SentVsReceivedChart';
 import { TextsOverTimeChart } from '../Graphs/TextsOverTimeChart';
@@ -191,6 +192,15 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
                 })}
                 description={descriptionFormatter({ description: '', filters })}
                 icon={FiCalendar}
+                filters={filters}
+              />
+              <FriendsOverTimeChart
+                title={titleFormatter({
+                  titleName: 'Friends Over Time',
+                  filters,
+                })}
+                description="excludes group chats"
+                icon={FiUsers}
                 filters={filters}
               />
             </Stack>

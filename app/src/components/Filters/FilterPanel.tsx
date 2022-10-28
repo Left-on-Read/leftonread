@@ -157,7 +157,7 @@ export function FilterPanel({
               }
             }}
             labelledBy="Select"
-            options={contacts}
+            options={contacts ?? []}
             overrideStrings={{
               allItemsAreSelected: 'All contacts selected.',
             }}
