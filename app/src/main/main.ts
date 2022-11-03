@@ -86,7 +86,10 @@ class AppUpdater {
         event.sender.send('update-available');
       });
 
-      // event.sender.send('update-available');
+      // When the window is closed (ie. destroyed), don't send any events
+      if (!event.sender.isDestroyed()) {
+        event.sender.send('update-available');
+      }
     });
   }
 }
