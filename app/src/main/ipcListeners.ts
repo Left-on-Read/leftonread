@@ -86,6 +86,7 @@ function getDb() {
 export function attachIpcListeners() {
   ipcMain.handle('initialize-tables', async (event, isRefresh) => {
     await initializeCoreDb({ isRefresh });
+
     return true;
   });
 
