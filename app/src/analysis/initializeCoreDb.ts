@@ -164,12 +164,18 @@ export async function initializeCoreDb({
     .create()
     .catch((e) => log.error(e));
 
-  await Promise.all([
+  const results = await Promise.allSettled([
     chatCountTable,
     sentimentTable,
     engagementTable,
     groupChatCoreTable,
   ]);
+
+  results.forEach((result) => {
+    if (result.status === 'rejected') {
+      log.error(result.reason);
+    }
+  });
 
   // NOTE(Danilowicz): im not entirely sure we want to clear here
   // } catch (e) {
