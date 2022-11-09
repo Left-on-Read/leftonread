@@ -7,7 +7,7 @@ export enum GroupChatFilters {
 
 export type TimeRangeFilters = {
   startDate: Date;
-  endDate: Date;
+  endDate?: Date; // uses tomorrow by default
 };
 
 // TODO(Danilowicz) this should leverage constants/reactions

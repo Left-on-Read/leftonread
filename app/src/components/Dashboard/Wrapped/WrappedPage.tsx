@@ -5,9 +5,13 @@ import React, { useEffect, useState } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
 import { EngagementResult } from '../../../analysis/queries/EngagementQueries';
+import { SharedQueryFilters } from '../../../analysis/queries/filters/sharedQueryFilters';
 import { GroupChatByFriends } from '../../../analysis/queries/GroupChats/GroupChatByFriendsQuery';
 import { TotalSentVsReceivedResults } from '../../../analysis/queries/TotalSentVsReceivedQuery';
-import { TWordOrEmojiResults } from '../../../analysis/queries/WordOrEmojiQuery';
+import {
+  IWordOrEmojiFilters,
+  TWordOrEmojiResults,
+} from '../../../analysis/queries/WordOrEmojiQuery';
 import { FunniestMessageResult } from '../../../analysis/queries/WrappedQueries/FunniestMessageQuery';
 import { MostPopularDayResult } from '../../../analysis/queries/WrappedQueries/MostPopularDayQuery';
 import {
@@ -98,60 +102,61 @@ export function WrappedPage() {
     setError(null);
 
     try {
+      const dateFilter: SharedQueryFilters = {
+        timeRange: { startDate },
+      };
+      const dateAndGroupChatFilter: SharedQueryFilters = {
+        ...dateFilter,
+        groupChat: GroupChatFilters.ONLY_INDIVIDUAL,
+      };
       const sentVsReceivedDataPromise: Promise<TotalSentVsReceivedResults> =
-        ipcRenderer.invoke('query-total-sent-vs-received', {
-          startDate,
-          groupChat: GroupChatFilters.ONLY_INDIVIDUAL,
-        });
+        ipcRenderer.invoke(
+          'query-total-sent-vs-received',
+          dateAndGroupChatFilter
+        );
 
       const mostPopularDayPromise: Promise<MostPopularDayResult> =
-        ipcRenderer.invoke('query-most-popular-day', { startDate });
+        ipcRenderer.invoke('query-most-popular-day', dateFilter);
 
       const topFriendsSimplePromise: Promise<TopFriendsSimpleResult> =
-        ipcRenderer.invoke('query-top-friends-simple', {
-          startDate,
-          groupChat: GroupChatFilters.ONLY_INDIVIDUAL,
-        });
+        ipcRenderer.invoke('query-top-friends-simple', dateAndGroupChatFilter);
 
       const topFriendWordAndCountPromise: Promise<TopFriendCountAndWordSimpleResult> =
-        ipcRenderer.invoke('query-top-friend-count-and-word-simple', {
-          startDate,
-          groupChat: GroupChatFilters.ONLY_INDIVIDUAL,
-        });
+        ipcRenderer.invoke(
+          'query-top-friend-count-and-word-simple',
+          dateFilter
+        );
 
       const topGroupChatAndFriendPromise: Promise<GroupChatByFriends[]> =
         ipcRenderer.invoke(
           'query-group-chat-by-friends',
-          { startDate },
+          dateFilter,
           'COUNT',
           1
         );
 
+      // TODO(Danilowicz): word/emoji doesn't filter by year. Add a timeRange filter
+      const wordFilter: IWordOrEmojiFilters = {
+        isEmoji: false,
+        isFromMe: true,
+        limit: 5,
+      };
       const topSentWordsPromise: Promise<TWordOrEmojiResults> =
-        ipcRenderer.invoke('query-word-emoji', {
-          startDate,
-          isEmoji: false,
-          isFromMe: true,
-          limit: 5,
-        });
-
+        ipcRenderer.invoke('query-word-emoji', wordFilter);
+      const emojiFilter: IWordOrEmojiFilters = { ...wordFilter, isEmoji: true };
       const topSentEmojisPromise: Promise<TWordOrEmojiResults> =
-        ipcRenderer.invoke('query-word-emoji', {
-          startDate,
-          isEmoji: true,
-          isFromMe: true,
-          limit: 5,
-        });
+        ipcRenderer.invoke('query-word-emoji', emojiFilter);
 
+      // TODO(Danilowicz): add time range here
       const funniestGroupChatPromise: Promise<FunniestMessageResult> =
-        ipcRenderer.invoke('query-funniest-message-group-chat');
+        ipcRenderer.invoke(
+          'query-funniest-message-group-chat',
+          dateAndGroupChatFilter
+        );
 
       const leftOnReadPromise: Promise<EngagementResult[]> = ipcRenderer.invoke(
         'query-left-on-read',
-        {
-          startDate,
-          groupChat: GroupChatFilters.ONLY_INDIVIDUAL,
-        }
+        dateAndGroupChatFilter
       );
 
       const [

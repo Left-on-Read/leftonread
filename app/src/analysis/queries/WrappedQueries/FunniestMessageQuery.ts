@@ -2,6 +2,7 @@ import * as sqlite3 from 'sqlite3';
 
 import * as sqlite3Wrapper from '../../../utils/sqliteWrapper';
 import { SharedGroupChatTabQueryFilters } from '../filters/sharedGroupChatTabFilters';
+import { timeRangeFilter } from '../filters/sharedQueryFilters';
 
 export type FunniestMessageResult = {
   groupChatName: string;
@@ -15,8 +16,14 @@ export async function queryFunniestMessage(
   filters: SharedGroupChatTabQueryFilters | undefined
 ): Promise<FunniestMessageResult> {
   let gcFilter = '';
+  // TODO(Danilowicz): should just call getAllGroupChatTabFilters() here.
+  // The todo is add group_chat_name as a possible filter.
+  // The current bug is time range filter wont work on Analytics Tab for this query
   if (filters && filters.groupChatName) {
     gcFilter = `AND gct.group_chat_name = '${filters.groupChatName}'`;
+  } else if (filters && filters.timeRange) {
+    const timeRange = timeRangeFilter(filters, 'gct.human_readable_date');
+    gcFilter = `AND ${timeRange}`;
   }
 
   const q = `    WITH CORE_REACTION_TB AS (SELECT

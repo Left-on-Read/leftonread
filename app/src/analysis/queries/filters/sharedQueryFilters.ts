@@ -39,7 +39,8 @@ export function groupChatFilter(
 }
 
 export function timeRangeFilter(
-  filters: SharedQueryFilters
+  filters: SharedQueryFilters,
+  columnName = CoreMainTableColumns.DATE
 ): string | undefined {
   if (!filters.timeRange) {
     return undefined;
@@ -48,9 +49,19 @@ export function timeRangeFilter(
   const { startDate, endDate } = filters.timeRange;
 
   const parsedStartDate = `"${startDate.toISOString().split('T')[0]} 00:00:00"`;
-  const parsedEndDate = `"${endDate.toISOString().split('T')[0]} 23:59:59"`;
 
-  return `${CoreMainTableColumns.DATE} BETWEEN ${parsedStartDate} AND ${parsedEndDate}`;
+  let endDateToUse = endDate;
+  if (!endDateToUse) {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    endDateToUse = tomorrow;
+  }
+  const parsedEndDate = `"${
+    endDateToUse.toISOString().split('T')[0]
+  } 23:59:59"`;
+
+  return `${columnName} BETWEEN ${parsedStartDate} AND ${parsedEndDate}`;
 }
 
 export function getAllFilters(
