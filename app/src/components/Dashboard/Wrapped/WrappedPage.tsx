@@ -3,6 +3,7 @@ import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import React, { useEffect, useState } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { start } from 'repl';
 
 import { EngagementResult } from '../../../analysis/queries/EngagementQueries';
 import { SharedQueryFilters } from '../../../analysis/queries/filters/sharedQueryFilters';
@@ -95,8 +96,6 @@ export function WrappedPage() {
       ? dateRange.earliestDate
       : oneYearAgoDate;
 
-  // TODO(Danilowicz): set up loading?
-
   async function fetchData() {
     setIsLoading(true);
     setError(null);
@@ -147,16 +146,16 @@ export function WrappedPage() {
       const topSentEmojisPromise: Promise<TWordOrEmojiResults> =
         ipcRenderer.invoke('query-word-emoji', emojiFilter);
 
-      // TODO(Danilowicz): add time range here
       const funniestGroupChatPromise: Promise<FunniestMessageResult> =
         ipcRenderer.invoke(
           'query-funniest-message-group-chat',
           dateAndGroupChatFilter
         );
 
+      // Purposely not filtering by a date here because otherwise the number is low
       const leftOnReadPromise: Promise<EngagementResult[]> = ipcRenderer.invoke(
         'query-left-on-read',
-        dateAndGroupChatFilter
+        { groupChat: GroupChatFilters.ONLY_INDIVIDUAL }
       );
 
       const [

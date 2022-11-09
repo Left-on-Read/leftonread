@@ -122,6 +122,7 @@ export async function queryEmojiOrWordCounts(
         (REPLACE
         (REPLACE
         (REPLACE
+        (REPLACE
         (REPLACE (
           replace(
             replace(
@@ -145,7 +146,8 @@ export async function queryEmojiOrWordCounts(
         '8', ''),
         '9', ''),
         '?', ''),
-        ':', '')
+        ':', ''),
+        '$', '')
          as ${ChatTableColumns.WORD},
         ${ChatTableColumns.CONTACT},
         ${ChatTableColumns.IS_FROM_ME}
