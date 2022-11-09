@@ -1,7 +1,7 @@
 import * as sqlite3 from 'sqlite3';
 
 import { getEmojiData } from '../../constants/emojis';
-import { GroupChatFilters } from '../../constants/filters';
+import { GroupChatFilters, TimeRangeFilters } from '../../constants/filters';
 import { DEFAULT_FILTER_LIMIT } from '../../constants/index';
 import { objReplacementUnicode } from '../../constants/objReplacementUnicode';
 import { punctuation } from '../../constants/punctuation';
@@ -26,6 +26,7 @@ export interface IWordOrEmojiFilters {
   limit?: number;
   isEmoji: boolean;
   groupChat?: GroupChatFilters;
+  timeRange?: TimeRangeFilters;
 }
 
 export interface IWordOrEmojiChartData {

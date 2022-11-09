@@ -134,8 +134,8 @@ export function WrappedPage() {
           1
         );
 
-      // TODO(Danilowicz): word/emoji doesn't filter by year. Add a timeRange filter
       const wordFilter: IWordOrEmojiFilters = {
+        timeRange: { startDate },
         isEmoji: false,
         isFromMe: true,
         limit: 5,
