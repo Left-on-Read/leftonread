@@ -1,12 +1,12 @@
 import { Box, IconButton, theme as defaultTheme } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
 import { motion, useAnimationControls } from 'framer-motion';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { memo, useEffect, useMemo, useState } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
 import { Gradient } from '../../Gradient';
 
-export function WrappedGradient({
+function InternalWrappedGradient({
   theme,
   children,
 }: {
@@ -150,3 +150,5 @@ export function WrappedGradient({
     </Box>
   );
 }
+
+export const WrappedGradient = memo(InternalWrappedGradient);
