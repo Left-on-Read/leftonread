@@ -5,6 +5,7 @@ import { Download } from '../components/sections/Download'
 import { GetStarted } from '../components/sections/GetStarted'
 import { Infographic } from '../components/sections/Infographic'
 import { Security } from '../components/sections/Security'
+import { Wrapped } from '../components/sections/Wrapped'
 
 // TODO(teddy): Add a minheight
 export default function Landing() {
@@ -14,6 +15,7 @@ export default function Landing() {
   return (
     <>
       <GetStarted ctaRef={ctaRef} />
+      <Wrapped />
       <Infographic />
       <Security />
       <Download ctaRef={ctaRef} />
