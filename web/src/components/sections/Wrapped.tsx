@@ -43,7 +43,7 @@ export function Wrapped() {
         base: 'auto',
       }}
       style={{
-        padding: '50px',
+        padding: '5%',
         display: 'flex',
         flexDirection: 'column',
         // backgroundColor: Theme.palette.frogGreen.faded,
