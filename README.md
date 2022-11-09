@@ -5,7 +5,7 @@
 
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Wow,%20super%20cool%20open-source%20project%20-%20check%20out%20Left%20on%20Read&url=https://leftonread.me&hashtags=texting,analytics,buildinpublic)
 
-Your Years in Text! Left on Read is built with Electron, React, SQLite, Typescript. We are entirely open-source to show you your data is secure and never leaves your computer. 
+Left on Read is built with Electron, React, SQLite, Typescript. We are open-source for privacy. Your texting data never leaves your computer. 
 
 ## Features:
 
