@@ -15,8 +15,8 @@ export default function Landing() {
   return (
     <>
       <GetStarted ctaRef={ctaRef} />
-      <Infographic />
       <Wrapped />
+      <Infographic />
       <Security />
       <Download ctaRef={ctaRef} />
       <Footer />

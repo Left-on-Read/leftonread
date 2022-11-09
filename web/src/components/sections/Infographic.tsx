@@ -65,9 +65,9 @@ export function Infographic() {
                   bgGradient="linear(to-r, blue.400, purple.400)"
                   bgClip="text"
                 >
-                  Learn about your habits
+                  Rediscover relationships
                 </Text>
-                <div style={{ marginLeft: 16 }}>📈</div>
+                <div>&nbsp;📈</div>
               </Box>
               <Text
                 fontSize={{
@@ -76,7 +76,7 @@ export function Infographic() {
                 }}
                 style={{ marginTop: 32 }}
               >
-                {`Left on Read provides powerful analytics and productivity tools to help you manage your conversations. We promise
+                {`Left on Read provides powerful analytics and productivity tools to help you manage your conversations. Schedule messages, receive response reminders, and manage your inbox. We promise
                 you've never seen your texts like this before.`}
               </Text>
             </div>

@@ -1,15 +1,15 @@
 import { DownloadIcon } from '@chakra-ui/icons'
-import { Box, Button, FormControl, Icon, Input, Text } from '@chakra-ui/react'
-import { useState } from 'react'
-import { FaFacebookMessenger } from 'react-icons/fa'
-import { FiCheckCircle } from 'react-icons/fi'
+import { Box, Button, Text } from '@chakra-ui/react'
 
+// import { useState } from 'react'
+// import { FaFacebookMessenger } from 'react-icons/fa'
+// import { FiCheckCircle } from 'react-icons/fi'
 import { LATEST_APP_VERSION_FOR_MARKETING_SITE } from '../../constants/APP_VERSION'
-import { addContact } from '../../utils/addContact'
+// import { addContact } from '../../utils/addContact'
 import { logEvent } from '../../utils/gtag'
-import { isValidEmail } from '../../utils/validation'
+// import { isValidEmail } from '../../utils/validation'
 import { DefaultContentContainer } from '../DefaultContentContainer'
-import { StatusLoaderState } from '../StatusLoader'
+// import { StatusLoaderState } from '../StatusLoader'
 
 export const handleDownload = () => {
   logEvent({
@@ -24,37 +24,37 @@ export function Download({
 }: {
   ctaRef: React.RefObject<HTMLDivElement>
 }) {
-  const [email, setEmail] = useState<string>('')
-  const [state, setState] = useState<StatusLoaderState | null>(null)
+  // const [email, setEmail] = useState<string>('')
+  // const [state, setState] = useState<StatusLoaderState | null>(null)
 
-  const signUpEmail = async (submittedEmail: string) => {
-    if (!isValidEmail(submittedEmail)) {
-      setState('error')
-      // setMessage('Please enter a valid email.')
-      return
-    }
+  // const signUpEmail = async (submittedEmail: string) => {
+  //   if (!isValidEmail(submittedEmail)) {
+  //     setState('error')
+  //     // setMessage('Please enter a valid email.')
+  //     return
+  //   }
 
-    setState('loading')
-    // setMessage(undefined)
+  //   setState('loading')
+  //   // setMessage(undefined)
 
-    try {
-      await addContact({
-        email: submittedEmail,
-        type: 'FB_MESSENGER_WAITLIST',
-      })
-      setState('success')
-      // setMessage('Successfully signed up!')
-    } catch (e) {
-      console.error(e)
-      setState('error')
-      // setMessage('Uh oh, something went wrong.')
-    }
-  }
+  //   try {
+  //     await addContact({
+  //       email: submittedEmail,
+  //       type: 'FB_MESSENGER_WAITLIST',
+  //     })
+  //     setState('success')
+  //     // setMessage('Successfully signed up!')
+  //   } catch (e) {
+  //     console.error(e)
+  //     setState('error')
+  //     // setMessage('Uh oh, something went wrong.')
+  //   }
+  // }
 
-  const handleSubmitNotify = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    signUpEmail(email)
-  }
+  // const handleSubmitNotify = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault()
+  //   signUpEmail(email)
+  // }
 
   return (
     <Box
@@ -111,22 +111,32 @@ export function Download({
                 lg: 'start',
               }}
             >
-              Secure, open-source, and free to try. Download on Mac OS today.
+              Relive your best texts of 2022. Free to try and built for you.
             </Text>
-            <Box shadow="xl">
-              <Button
-                colorScheme="purple"
-                rightIcon={<DownloadIcon />}
-                size="lg"
-                style={{ marginTop: 40 }}
-                // ref={ctaRef}
-                onClick={handleDownload}
-              >
-                Download for Mac
-              </Button>
-            </Box>
+            <Button
+              colorScheme="purple"
+              rightIcon={<DownloadIcon />}
+              size={{
+                base: 'lg',
+              }}
+              fontSize={{
+                base: 'lg',
+                md: 'xl',
+                lg: '2xl',
+              }}
+              style={{ marginTop: 40 }}
+              shadow="xl"
+              padding={{
+                sm: 3,
+                lg: 7,
+              }}
+              // ref={ctaRef}
+              onClick={handleDownload}
+            >
+              Download for Mac
+            </Button>
           </Box>
-          <Box
+          {/* <Box
             style={{
               backgroundColor: 'white',
               borderRadius: 32,
@@ -283,7 +293,7 @@ export function Download({
                 </Box>
               </Box>
             </Box>
-          </Box>
+          </Box> */}
           {/* <Box
             style={{
               backgroundColor: 'white',

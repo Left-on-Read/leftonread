@@ -41,9 +41,9 @@ export function Wrapped() {
     <Box
       height={{
         base: 'auto',
-        lg: '20vh',
       }}
       style={{
+        padding: '50px',
         display: 'flex',
         flexDirection: 'column',
         // backgroundColor: Theme.palette.frogGreen.faded,
@@ -71,7 +71,7 @@ export function Wrapped() {
               }}
               fontWeight="bold"
             >
-              Relive 2022 Through Your Texts
+              {`Your iMessage Wrapped`}
             </Text>
             <Text
               fontSize={{
@@ -80,8 +80,8 @@ export function Wrapped() {
               }}
               style={{ margin: '12px 0' }}
             >
-              Just like Spotify Wrapped, we created an experience for you to see
-              your year in review.
+              Download today to revisit your funniest messages, group chats, and
+              words of 2022.
             </Text>
           </div>
           <Marquee
@@ -98,7 +98,7 @@ export function Wrapped() {
                 }}
                 fontWeight="medium"
               >
-                Your Top Group Chat
+                Top Group Chat
               </Text>
               <Text
                 fontSize={{
@@ -108,7 +108,7 @@ export function Wrapped() {
                 color="blue.500"
                 fontWeight="bold"
               >
-                sf friends
+                data dawgs
               </Text>
             </MarqueeItem>
 
@@ -120,7 +120,7 @@ export function Wrapped() {
                 }}
                 fontWeight="medium"
               >
-                Your Top Friend
+                Top Friend
               </Text>
               <Text
                 fontSize={{
@@ -130,7 +130,7 @@ export function Wrapped() {
                 color="green.500"
                 fontWeight="bold"
               >
-                Alexander
+                George
               </Text>
             </MarqueeItem>
             <MarqueeItem>
@@ -144,7 +144,7 @@ export function Wrapped() {
                 Funniest Message
               </Text>
               <Text fontSize="md" color="teal.500" fontWeight="bold">
-                Holy, I think I lost my air pods
+                Holy, I lost my air pods
               </Text>
             </MarqueeItem>
 
@@ -156,7 +156,7 @@ export function Wrapped() {
                 }}
                 fontWeight="medium"
               >
-                You Sent
+                Sent
               </Text>
               <Text
                 fontSize={{
@@ -177,7 +177,7 @@ export function Wrapped() {
                 }}
                 fontWeight="medium"
               >
-                You Received
+                Received
               </Text>
               <Text
                 fontSize={{
@@ -198,7 +198,7 @@ export function Wrapped() {
                 }}
                 fontWeight="medium"
               >
-                Your Top Word
+                Top Word
               </Text>
               <Text
                 fontSize={{
@@ -208,7 +208,7 @@ export function Wrapped() {
                 color="orange.500"
                 fontWeight="bold"
               >
-                huh
+                stonks
               </Text>
             </MarqueeItem>
             <MarqueeItem>
@@ -219,7 +219,7 @@ export function Wrapped() {
                 }}
                 fontWeight="medium"
               >
-                Your Top Emoji
+                Top Emoji
               </Text>
               <Text
                 fontSize={{

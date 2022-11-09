@@ -29,7 +29,7 @@ export function Security() {
             base: '0',
             lg: '3%',
           }}
-          bgGradient="linear(to-br, purple.700, purple.400)"
+          bgGradient="linear(to-tr, #0695FF, #A334FA, #FF6968)"
           flexDirection={{
             base: 'column',
             lg: 'row',
@@ -62,10 +62,10 @@ export function Security() {
               }}
               color="white"
             >
-              Just like your private photos and important documents, your text
-              messages are only accessible to you and never seen by us. Privacy
-              and security comes first, so {`we're`} open-source. Nothing leaves
-              your computer.
+              Privacy and security come first. We analyze your texts locally on
+              your Mac and only you have access to them. Your texting data is
+              NEVER sent off your computer. To prove this to you, our software
+              is entirely open-source and available on GitHub.
             </Text>
           </Box>
           <Box
@@ -87,25 +87,22 @@ export function Security() {
             }}
           >
             <Text
-              bgGradient="linear(to-br, orange.100, pink.200)"
-              bgClip="text"
+              // bgGradient="linear(to-br, white.300, black.200)"
+              // bgClip="text"
+              color="white"
               style={{ marginBottom: 16 }}
             >
               Open-Source
             </Text>
             <Text
               style={{ marginBottom: 16 }}
-              bgGradient="linear(to-br, orange.100, pink.200)"
-              bgClip="text"
+              // bgGradient="linear(to-br, orange.300, pink.200)"
+              // bgClip="text"
+              color="white"
             >
               Runs Offline
             </Text>
-            <Text
-              bgGradient="linear(to-br, orange.100, pink.200)"
-              bgClip="text"
-            >
-              Free to Try
-            </Text>
+            <Text color="white">Free to Try</Text>
           </Box>
         </Box>
       </DefaultContentContainer>
