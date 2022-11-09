@@ -40,7 +40,7 @@ export function groupChatFilter(
 
 export function timeRangeFilter(
   filters: SharedQueryFilters,
-  columnName = CoreMainTableColumns.DATE
+  columnName: string = CoreMainTableColumns.DATE
 ): string | undefined {
   if (!filters.timeRange) {
     return undefined;
