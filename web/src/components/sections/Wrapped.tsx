@@ -70,14 +70,16 @@ export function Wrapped() {
                 lg: '5xl',
               }}
               fontWeight="bold"
+              textAlign={'center'}
             >
-              {`Your iMessage Wrapped`}
+              {`iMessage Wrapped`}
             </Text>
             <Text
               fontSize={{
                 base: 'md',
                 md: 'lg',
               }}
+              textAlign={'center'}
               style={{ margin: '12px 0' }}
             >
               Download today to revisit your funniest messages, group chats, and
