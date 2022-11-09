@@ -85,6 +85,7 @@ function getDb() {
 
 export function attachIpcListeners() {
   ipcMain.handle('initialize-tables', async (event, isRefresh) => {
+    setLastUpdatedVersion(APP_VERSION);
     await initializeCoreDb({ isRefresh });
 
     return true;
@@ -330,10 +331,6 @@ export function attachIpcListeners() {
       return queryTopFriendsSimple(db, filters);
     }
   );
-
-  ipcMain.handle('set-last-updated-version', async (event, version: string) => {
-    setLastUpdatedVersion(version);
-  });
 
   ipcMain.handle(
     'query-group-chat-by-friends',

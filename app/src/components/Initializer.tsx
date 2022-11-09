@@ -11,7 +11,6 @@ import { useCallback, useEffect, useState } from 'react';
 import { FiLifeBuoy, FiRepeat, FiSkipBack } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 
-import { APP_VERSION } from '../constants/versions';
 import { BarChartLoading } from './Loaders/BarChartLoading';
 import { InitializingTextSlider } from './Loaders/InitializingTextSlider';
 import { EmailModal } from './Support/EmailModal';
@@ -62,7 +61,6 @@ export function Initializer({
     try {
       navigate('/start');
       await ipcRenderer.invoke('initialize-tables', isRefresh);
-      await ipcRenderer.invoke('set-last-updated-version', APP_VERSION);
       setProgressNumber(99);
       navigate('/dashboard');
     } catch (e: unknown) {
