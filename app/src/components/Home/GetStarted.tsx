@@ -70,14 +70,14 @@ export function GetStarted({ onNext }: { onNext: (arg0: boolean) => void }) {
     >
       <BulletPoint
         icon={FiShield}
-        title="We never read your data"
-        description="Your text messages will never leave your computer and are never read by us."
+        title="Your privacy comes first"
+        description="For your privacy, we analyze your texts locally on your Mac. Only you have access to them. Texting data is never sent off your Mac."
         color="blue.400"
       />
       <BulletPoint
         icon={FiLock}
-        title="Secure"
-        description="Security and privacy is our #1 priority. This is why our software is open-source. You can take a look at the code yourself."
+        title="Open-source and secure"
+        description="Left on Read is open-source. You can take a look at the code yourself."
         color="blue.400"
       />
       <BulletPoint

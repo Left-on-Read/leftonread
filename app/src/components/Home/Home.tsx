@@ -62,7 +62,7 @@ export function Home({ onInitialize }: { onInitialize: () => void }) {
           </div>
           <div style={{ marginTop: 12 }}>
             <Text color="gray" fontSize="18px">
-              Spotify Wrapped for your text messages.
+              What will your learn from your texts?
             </Text>
           </div>
         </div>

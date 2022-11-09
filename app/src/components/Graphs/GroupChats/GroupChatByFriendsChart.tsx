@@ -98,8 +98,8 @@ function GroupChatByFriendsBody({
     'lor-chartjs-logo-watermark-plugin': isSharingVersion
       ? {
           // This algorithm sucks and needs to be reworked
-          yPaddingText: 80 + longContactName.length * 2,
-          yPaddingLogo: 65 + longContactName.length * 2,
+          yPaddingText: 80 + longContactName.length,
+          yPaddingLogo: 65 + longContactName.length,
         }
       : false,
   };
