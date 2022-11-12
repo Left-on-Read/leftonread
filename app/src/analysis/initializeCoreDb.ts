@@ -2,6 +2,7 @@ import log from 'electron-log';
 import * as fs from 'fs';
 import recursiveCopy from 'recursive-copy';
 import * as sqlite3 from 'sqlite3';
+import { logEvent } from 'utils/analytics';
 
 import { closeDB, initializeDB } from '../utils/db';
 import * as sqlite3Wrapper from '../utils/sqliteWrapper';
@@ -78,6 +79,9 @@ export async function initializeCoreDb({
 }: {
   isRefresh: boolean;
 }): Promise<sqlite3.Database> {
+  logEvent({
+    eventName: 'START_INITIALIZE',
+  });
   log.info(
     `INFO: Copying a chat.db and address book files from the user's library into a .leftonread folder`
   );
@@ -125,6 +129,9 @@ export async function initializeCoreDb({
     }
   }
 
+  logEvent({
+    eventName: 'START_CREATE_CORE_TABLES',
+  });
   // try {
   const calTable = new CalendarTable(
     lorDB,
@@ -189,6 +196,8 @@ export async function initializeCoreDb({
   }
 
   log.info('INFO: Created LOR DB');
-
+  logEvent({
+    eventName: 'END_INITIALIZE',
+  });
   return lorDB;
 }
