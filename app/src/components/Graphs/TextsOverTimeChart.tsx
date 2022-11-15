@@ -280,7 +280,7 @@ export function TextsOverTimeChart({
         setIsShareOpen={setIsShareOpen}
         tooltip={
           <Tooltip
-            label="To filter for a specific time period, use the Adjust Filters button at the top."
+            label="To filter for a specific time period, use the Adjust Filters button at the top. If you see a large gap in data, this might be because your iMessage app has iCloud syncing turned on."
             fontSize="md"
           >
             <span>

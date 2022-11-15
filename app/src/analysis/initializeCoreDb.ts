@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import recursiveCopy from 'recursive-copy';
 import * as sqlite3 from 'sqlite3';
 
+import { logEventMain } from '../utils/amplitudeClient';
 import { closeDB, initializeDB } from '../utils/db';
 import * as sqlite3Wrapper from '../utils/sqliteWrapper';
 import { setLastRefreshTimestamp } from '../utils/store';
@@ -78,6 +79,7 @@ export async function initializeCoreDb({
 }: {
   isRefresh: boolean;
 }): Promise<sqlite3.Database> {
+  logEventMain({ eventName: 'START_INITIALIZE' });
   log.info(
     `INFO: Copying a chat.db and address book files from the user's library into a .leftonread folder`
   );
@@ -98,13 +100,19 @@ export async function initializeCoreDb({
   const possibleAddressBookDB = await findPossibleAddressBookDB();
   const lorDB = initializeDB(chatPaths.app);
 
+  logEventMain({ eventName: 'START_DROP_TABLES' });
+
   // Drop everything LOR specific if it exists
   await dropAllTables(lorDB);
+
+  logEventMain({ eventName: 'START_ADD_CONTACT_NAME_COLUMN' });
 
   // Add the contact name column regardless
   // It will just be empty if we don't find an address book db table
   // As a result, we can use COALESCE(contact_name, id)
   await addContactNameColumn(lorDB);
+
+  logEventMain({ eventName: 'START_ATTACH_ADDRESS_BOOK_DB' });
 
   // If we found an address book table, let's create a contact_table and attach it to the main lorDB.
   if (possibleAddressBookDB) {
@@ -125,6 +133,8 @@ export async function initializeCoreDb({
     }
   }
 
+  logEventMain({ eventName: 'START_CREATE_CORE_AND_CAL_TABLE' });
+
   // try {
   const calTable = new CalendarTable(
     lorDB,
@@ -137,6 +147,8 @@ export async function initializeCoreDb({
 
   // Initial core tables that are required
   await Promise.all([calTable, coreMainTable]);
+
+  logEventMain({ eventName: 'START_CREATE_ANALYSIS_TABLES' });
 
   // Some analysis tables
   const chatCountTable = new ChatCountTable(lorDB, ChatTableNames.COUNT_TABLE)
@@ -170,6 +182,8 @@ export async function initializeCoreDb({
     engagementTable,
     groupChatCoreTable,
   ]);
+
+  logEventMain({ eventName: 'CREATED_LOR_DB' });
 
   results.forEach((result) => {
     if (result.status === 'rejected') {

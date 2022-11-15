@@ -195,10 +195,7 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
                 filters={filters}
               />
               <FriendsOverTimeChart
-                title={titleFormatter({
-                  titleName: 'Friends Over Time',
-                  filters,
-                })}
+                title={['Friends Over Time']}
                 description="excludes group chats"
                 icon={FiUsers}
                 filters={filters}
