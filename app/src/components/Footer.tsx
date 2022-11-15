@@ -57,7 +57,7 @@ export function Footer() {
           }}
           variant="link"
         >
-          Contact Us
+          Contact Support
         </Button>
       </div>
       <EmailModal isOpen={isEmailModalOpen} onClose={onEmailModalClose} />
