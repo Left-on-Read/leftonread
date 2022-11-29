@@ -258,24 +258,6 @@ export function attachIpcListeners() {
     return queryRespondReminders(db);
   });
 
-  ipcMain.handle('check-permissions', async () => {
-    return new Promise<boolean>((resolve) => {
-      setTimeout(() => {
-        try {
-          fs.accessSync(chatPaths.original, fs.constants.R_OK);
-          fs.accessSync(`${process.env.HOME}`, fs.constants.W_OK);
-          log.info('Passed permissions check');
-          resolve(true);
-        } catch (e: unknown) {
-          log.info(`Failed permissions check: ${e}`);
-          resolve(false);
-        }
-
-        // NOTE(teddy): Artificially take 1s to give impression of loading
-      }, 1000);
-    });
-  });
-
   ipcMain.handle(
     'get-logs',
     async (event, email: string, reason: string, content: string) => {

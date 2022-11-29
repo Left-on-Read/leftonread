@@ -1,10 +1,12 @@
 import { ArrowForwardIcon, Icon } from '@chakra-ui/icons';
 import { Button, Text } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
+import * as fs from 'fs';
 import { useState } from 'react';
 import { IconType } from 'react-icons';
 import { FiBarChart2, FiGlobe, FiLock, FiShield } from 'react-icons/fi';
 
+import { chatPaths } from '../../analysis/directories';
 import { logEvent } from '../../utils/analytics';
 
 function BulletPoint({
@@ -49,12 +51,22 @@ export function GetStarted({ onNext }: { onNext: (arg0: boolean) => void }) {
 
   const onStart = async () => {
     setIsLoading(true);
-    const hasAccess = await ipcRenderer.invoke('check-permissions');
+    console.log('about to check access');
+    let hasAccess = false;
+    try {
+      console.log('inside try');
+      fs.accessSync(chatPaths.original, fs.constants.R_OK);
+      console.log('checking 2nd access sync');
+      fs.accessSync(`${process.env.HOME}`, fs.constants.W_OK);
+      console.log('passed permissions check');
+      hasAccess = true;
+    } catch (e: unknown) {
+      console.log(`Failed permissions check: ${e}`);
+      hasAccess = false;
+    }
+
     logEvent({
       eventName: 'GET_STARTED',
-      properties: {
-        hasAccess,
-      },
     });
     onNext(hasAccess);
     setIsLoading(false);
