@@ -1708,9 +1708,9 @@
     rimraf "^3.0.2"
 
 "@palette.dev/cli@^1.x.x":
-  version "1.6.1"
-  resolved "https://registry.yarnpkg.com/@palette.dev/cli/-/cli-1.6.1.tgz#8dde7c94fb19d24897a03fc2ef97695d17e746a8"
-  integrity sha512-tNxQqUHnu0qDV34sNxxD118g3alokMz1srFMV1wyhhMWXl7bCfUUL6hsM7PaxInX5pcV4XZuoLFVrzU/hDg4Fg==
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@palette.dev/cli/-/cli-1.5.0.tgz#16a6c60153363d24989afdffac02bc5e5ee1f318"
+  integrity sha512-zphr30qm7a2RIWfTxMaulBFzfqmBJuESqw2MF1wCkBYboDyg+CPkdNkQnO8b5EUnI2q1YVlclxdfbkNR13Kd8A==
   dependencies:
     crosspath "^1.0.0"
     form-data "^4.0.0"
@@ -1719,18 +1719,18 @@
     node-fetch "^2.6.7"
     yargs "^17.5.1"
 
-"@palette.dev/electron@^1.16.0":
-  version "1.16.0"
-  resolved "https://registry.yarnpkg.com/@palette.dev/electron/-/electron-1.16.0.tgz#169f68123d787444aa907744887f68027bd5899a"
-  integrity sha512-MCXIbXP37mQQoabF+C7LrxTu7MP2CscjapiGI6hG+L1FoLTDLPlEaY8ZIVHw23fv5YIyXGD5KgA5wbDPQ3DpBQ==
+"@palette.dev/electron@^1.14.4":
+  version "1.14.4"
+  resolved "https://registry.yarnpkg.com/@palette.dev/electron/-/electron-1.14.4.tgz#f765a8aa642d0ef49870c00f346782e45fe094a3"
+  integrity sha512-X26ltG2zuFUR7l1LtQqaybnzePu0xbx8r9niodqi9UdlMqR9NTQoGs3arwvCsoo89EGYhYjBfnpwFiHjI8usKA==
   dependencies:
     "@amilajack/systeminformation" "^5.11.18"
     node-fetch "^2.6.7"
 
-"@palette.dev/webpack-plugin@^1.2.2":
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/@palette.dev/webpack-plugin/-/webpack-plugin-1.2.2.tgz#2f7c6904462631d97fbfee8e671f78dddc4b02de"
-  integrity sha512-KQHiG07ok1nmpVGh5FwCpH/ARJdtqBw5F40SFAJAlaqVdFQnkfGtnSWO33b31ftziGNutAfYtzR+Vads3kID1g==
+"@palette.dev/webpack-plugin@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@palette.dev/webpack-plugin/-/webpack-plugin-1.2.0.tgz#16cf0d96fe81dbf95708cdb9a4c7063cad0555d7"
+  integrity sha512-Fu1E2cYpRxsGBlVuDyJ9LG3gNq/85ZpAvHHVUSjiJDTByS0jDyqOBO7qBejrQjSack1lAPxQL+z5FOmHUhFkSQ==
   dependencies:
     "@palette.dev/cli" "^1.x.x"
 
@@ -2160,9 +2160,9 @@
   integrity sha512-3rKg/L5x0rofKuuUt5zlXzOnKyIHXmIu5R8A0TuNDMF2062/AOIDBciFIjToLEJ/9F9DzkHNot+BpNsMI1OLdQ==
 
 "@types/node@^16.11.7":
-  version "16.18.3"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.18.3.tgz#d7f7ba828ad9e540270f01ce00d391c54e6e0abc"
-  integrity sha512-jh6m0QUhIRcZpNv7Z/rpN+ZWXOicUUQbSoWks7Htkbb9IjFQj4kzcX/xFCkjstCj5flMsN8FiSvt+q+Tcs4Llg==
+  version "16.11.68"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.68.tgz#30ee923f4d940793e0380f5ce61c0bd4b7196b6c"
+  integrity sha512-JkRpuVz3xCNCWaeQ5EHLR/6woMbHZz/jZ7Kmc63AkU+1HxnoUugzSWMck7dsR4DvNYX8jp9wTi9K7WvnxOIQZQ==
 
 "@types/nodemailer@^6.4.4":
   version "6.4.4"
@@ -11167,7 +11167,7 @@ yaml@^1.10.0, yaml@^1.10.2, yaml@^1.7.2:
   version "1.10.2"
   resolved "https://registry.npmjs.org/yaml/-/yaml-1.10.2.tgz"
 
-yargs-parser@^21.0.0, yargs-parser@^21.1.1:
+yargs-parser@^21.0.0:
   version "21.1.1"
   resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-21.1.1.tgz#9096bceebf990d21bb31fa9516e0ede294a77d35"
   integrity sha512-tVpsJW7DdjecAiFpbIB1e3qxIQsE6NoPc5/eTdrbbIC4h0LVsWhnoa3g+m2HclBIujHzsxZ4VJVA+GUuc2/LBw==
@@ -11177,7 +11177,7 @@ yargs-parser@^21.0.1:
   resolved "https://registry.npmjs.org/yargs-parser/-/yargs-parser-21.0.1.tgz"
   integrity sha512-9BK1jFpLzJROCI5TzwZL/TU4gqjK5xiHV/RfWLOahrjAko/e4DJkRDZQXfvqAsiZzzYhgAzbgz6lg48jcm4GLg==
 
-yargs@^17.0.1:
+yargs@^17.0.1, yargs@^17.5.1:
   version "17.6.0"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-17.6.0.tgz#e134900fc1f218bc230192bdec06a0a5f973e46c"
   integrity sha512-8H/wTDqlSwoSnScvV2N/JHfLWOKuh5MVla9hqLjK3nsfyy6Y4kDSYSvkU5YCUEPOSnRXfIyx3Sq+B/IWudTo4g==
@@ -11202,19 +11202,6 @@ yargs@^17.3.1:
     string-width "^4.2.3"
     y18n "^5.0.5"
     yargs-parser "^21.0.0"
-
-yargs@^17.5.1:
-  version "17.6.2"
-  resolved "https://registry.yarnpkg.com/yargs/-/yargs-17.6.2.tgz#2e23f2944e976339a1ee00f18c77fedee8332541"
-  integrity sha512-1/9UrdHjDZc0eOU0HxOHoS78C69UD3JRMvzlJ7S79S2nTaWRA/whGCTV8o9e/N/1Va9YIV7Q4sOxD8VV4pCWOw==
-  dependencies:
-    cliui "^8.0.1"
-    escalade "^3.1.1"
-    get-caller-file "^2.0.5"
-    require-directory "^2.1.1"
-    string-width "^4.2.3"
-    y18n "^5.0.5"
-    yargs-parser "^21.1.1"
 
 yauzl@^2.10.0:
   version "2.10.0"
