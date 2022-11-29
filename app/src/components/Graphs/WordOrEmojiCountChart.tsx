@@ -292,7 +292,7 @@ export function WordOrEmojiCountChart({
       >
         <Input
           isDisabled={!isPremium}
-          width="50%"
+          width="70%"
           placeholder={placeholder}
           mb={3}
           value={value}

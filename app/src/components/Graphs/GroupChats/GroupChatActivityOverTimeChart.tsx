@@ -1,4 +1,4 @@
-import { Spinner, Text, theme } from '@chakra-ui/react';
+import { Spinner, theme } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useRef, useState } from 'react';
@@ -225,7 +225,6 @@ function GroupChatActivityOverTimeBody({
         isOpen={isSharingVersion}
         onClose={() => setIsShareOpen(false)}
         graphRefToShare={graphRefToShare}
-        contacts={Object.keys(colorByContactName)}
       >
         {body}
       </ShareModal>

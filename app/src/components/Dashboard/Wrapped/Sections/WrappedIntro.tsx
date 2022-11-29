@@ -80,15 +80,6 @@ export function WrappedIntro({
             {globalData.dateRange.latestDate.toLocaleDateString()}
           </Text>
         </motion.div>
-        <motion.div
-          animate={controls}
-          transition={{ duration: 1, delay: 0.4 }}
-          style={{ position: 'absolute', bottom: 10 }}
-        >
-          <Text fontWeight="bold" color="purple.500">
-            #LeftOnReadWrapped
-          </Text>
-        </motion.div>
       </motion.div>
     </Box>
   );

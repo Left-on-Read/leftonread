@@ -75,7 +75,7 @@ export function FilterPanel({
         <Box style={{ marginBottom: '36px' }}>
           <UnlockPremiumButton
             context="Filter Panel"
-            altText="Support this project to unlock filtering!"
+            altText="Unlock filtering and all graphs."
           />
         </Box>
       )}

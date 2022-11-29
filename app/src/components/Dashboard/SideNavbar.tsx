@@ -19,13 +19,7 @@ import { useGoldContext } from '../Premium/GoldContext';
 import { PremiumModal } from '../Premium/PremiumModal';
 import { EmailModal } from '../Support/EmailModal';
 
-const Pages = [
-  'Analytics',
-  'Wrapped',
-  'Inbox',
-  'Productivity',
-  'Settings',
-] as const;
+const Pages = ['Wrapped', 'Analytics', 'Productivity', 'Settings'] as const;
 
 export const SIDEBAR_WIDTH = 200;
 
@@ -113,8 +107,6 @@ export function SideNavbar({
               let icon = BsLightningCharge;
               if (page === 'Productivity') {
                 icon = FiClipboard;
-              } else if (page === 'Inbox') {
-                icon = FiInbox;
               }
               if (page === 'Wrapped') {
                 icon = FiGift;

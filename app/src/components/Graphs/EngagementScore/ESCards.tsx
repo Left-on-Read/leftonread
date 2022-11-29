@@ -215,7 +215,6 @@ export function ESCards({
         aria-label="Left"
         onClick={() => moveToFront(cards.length - 1)}
         tabIndex={-1}
-        disabled={isPremium}
       />
       <div
         style={{
@@ -285,7 +284,6 @@ export function ESCards({
         aria-label="Right"
         onClick={() => moveToEnd(0)}
         tabIndex={-1}
-        disabled={!isPremium}
       />
     </div>
   );

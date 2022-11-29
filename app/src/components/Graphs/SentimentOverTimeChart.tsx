@@ -1,10 +1,11 @@
-import { Spinner, Text, theme } from '@chakra-ui/react';
+import { Icon, Spinner, theme, Tooltip } from '@chakra-ui/react';
 import { SentimentOverTimeResult } from 'analysis/queries/SentimentOverTimeQuery';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useRef, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { IconType } from 'react-icons';
+import { FiInfo } from 'react-icons/fi';
 
 import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFilters';
 import { generateSampledPoints } from '../../utils/overTimeHelpers';
@@ -287,6 +288,16 @@ export function SentimentOverTimeChart({
         icon={icon}
         setIsShareOpen={setIsShareOpen}
         isPremiumGraph
+        tooltip={
+          <Tooltip
+            label="To filter for a specific time period, use the Adjust Filters button at the top. If you see a large gap in data, this might be because your iMessage app has iCloud syncing turned on."
+            fontSize="md"
+          >
+            <span>
+              <Icon as={FiInfo} color="gray.500" />
+            </span>
+          </Tooltip>
+        }
       >
         <SentimentOverTimeBody
           title={title}

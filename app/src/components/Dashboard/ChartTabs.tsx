@@ -195,7 +195,7 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
                 filters={filters}
               />
               <FriendsOverTimeChart
-                title={['Friends Over Time']}
+                title={['Top 5 Friends Over Time']}
                 description="excludes group chats"
                 icon={FiUsers}
                 filters={filters}
@@ -204,6 +204,18 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
           </TabPanel>
           <TabPanel>
             <Stack direction="column" spacing={40}>
+              <WordOrEmojiCountChart
+                title={titleFormatter({
+                  titleName: 'Top Sent Words',
+                  filters,
+                })}
+                description={descriptionFormatter({ description: '', filters })}
+                icon={FiEdit3}
+                labelText="Count of Sent Words"
+                filters={filters}
+                isEmoji={false}
+                isFromMe
+              />
               <WordOrEmojiCountChart
                 title={titleFormatter({
                   titleName: 'Top Received Emojis',
@@ -215,6 +227,7 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
                 filters={filters}
                 isEmoji
                 isFromMe={false}
+                isPremiumGraph
               />
               <WordOrEmojiCountChart
                 title={titleFormatter({
@@ -227,18 +240,6 @@ export function ChartTabs({ filters }: { filters: SharedQueryFilters }) {
                 filters={filters}
                 isEmoji={false}
                 isFromMe={false}
-              />
-              <WordOrEmojiCountChart
-                title={titleFormatter({
-                  titleName: 'Top Sent Words',
-                  filters,
-                })}
-                description={descriptionFormatter({ description: '', filters })}
-                icon={FiEdit3}
-                labelText="Count of Sent Words"
-                filters={filters}
-                isEmoji={false}
-                isFromMe
                 isPremiumGraph
               />
               <WordOrEmojiCountChart
