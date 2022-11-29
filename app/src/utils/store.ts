@@ -16,7 +16,7 @@ const migrations = {
   },
   '1.2.3': (store: any) => store.set('requiredUpdateVersion', '1.2.3'),
   '2.1.2': (store: any) => store.set('requiredUpdateVersion', '2.1.2'),
-  '3.0.1': (store: any) => store.set('requiredUpdateVersion', '3.0.1'),
+  '4.0.0': (store: any) => store.set('requiredUpdateVersion', '4.0.0'),
 };
 
 const schema = {

@@ -4,6 +4,7 @@ import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 import FormData from 'form-data';
 import * as fs from 'fs';
+import { access } from 'fs/promises';
 import { machineId } from 'node-machine-id';
 import * as sqlite3 from 'sqlite3';
 
@@ -259,21 +260,19 @@ export function attachIpcListeners() {
   });
 
   ipcMain.handle('check-permissions', async () => {
-    return new Promise<boolean>((resolve) => {
-      setTimeout(() => {
-        try {
-          fs.accessSync(chatPaths.original, fs.constants.R_OK);
-          fs.accessSync(`${process.env.HOME}`, fs.constants.W_OK);
-          log.info('Passed permissions check');
-          resolve(true);
-        } catch (e: unknown) {
-          log.info(`Failed permissions check: ${e}`);
-          resolve(false);
-        }
+    log.info('Inside check persmissions, about to run promise');
 
-        // NOTE(teddy): Artificially take 1s to give impression of loading
-      }, 1000);
-    });
+    try {
+      await Promise.all([
+        access(chatPaths.original, fs.constants.R_OK),
+        access(`${process.env.HOME}`, fs.constants.W_OK),
+      ]);
+      log.info('Passed permissions check');
+      return true;
+    } catch (e: unknown) {
+      log.info(`Failed permissions check: ${e}`);
+      return false;
+    }
   });
 
   ipcMain.handle(

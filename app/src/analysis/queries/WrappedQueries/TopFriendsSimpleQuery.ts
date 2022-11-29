@@ -52,34 +52,45 @@ export async function queryTopFriendCountAndWordSimple(
     is_from_me: number;
   }[] = await sqlite3Wrapper.allP(db, q);
 
-  const topFriend = rawTopFriendResult[0].friend;
+  if (rawTopFriendResult[0]) {
+    const topFriend = rawTopFriendResult[0].friend;
 
-  const topFriendResult: {
-    count: number;
-    friend: string;
-    is_from_me: number;
-  }[] = rawTopFriendResult.filter((f) => f.friend === topFriend);
+    const topFriendResult: {
+      count: number;
+      friend: string;
+      is_from_me: number;
+    }[] = rawTopFriendResult.filter((f) => f.friend === topFriend);
 
-  if (topFriendResult.length > 1) {
-    const wordQ = `SELECT COUNT(*) as count, word FROM count_table WHERE contact = "${
-      topFriendResult[0].friend
-    }" AND ${wordFluffFilter()} GROUP BY word ORDER BY count DESC LIMIT 1`;
-    const topWord: { word: string }[] = await sqlite3Wrapper.allP(db, wordQ);
+    if (topFriendResult.length > 1) {
+      const wordQ = `SELECT COUNT(*) as count, word FROM count_table WHERE contact = "${
+        topFriendResult[0].friend
+      }" AND ${wordFluffFilter()} GROUP BY word ORDER BY count DESC LIMIT 1`;
+      const topWord: { word: string }[] = await sqlite3Wrapper.allP(db, wordQ);
 
-    const result = {
-      friend: topFriendResult[0].friend,
-      sentTotal: topFriendResult.find((f) => f.is_from_me === 1)?.count ?? 0,
-      receivedTotal:
-        topFriendResult.find((f) => f.is_from_me === 0)?.count ?? 0,
-    };
+      const result = {
+        friend: topFriendResult[0].friend,
+        sentTotal: topFriendResult.find((f) => f.is_from_me === 1)?.count ?? 0,
+        receivedTotal:
+          topFriendResult.find((f) => f.is_from_me === 0)?.count ?? 0,
+      };
 
-    if (topWord.length > 0) {
-      return { ...result, word: topWord[0].word };
+      if (topWord.length > 0) {
+        return { ...result, word: topWord[0].word };
+      }
+      log.error('No word result found queryTopFriendCountSimple');
+
+      return { ...result, word: 'lol' };
+    } else {
+      log.error('No results found queryTopFriendCountSimple');
+      return {
+        friend: 'Steve Jobs',
+        sentTotal: 0,
+        receivedTotal: 0,
+        word: 'lol',
+      };
     }
-    log.error('No word result found queryTopFriendCountSimple');
-
-    return { ...result, word: 'lol' };
   }
+
   log.error('No results found queryTopFriendCountSimple');
   return {
     friend: 'Steve Jobs',

@@ -49,7 +49,9 @@ export function GetStarted({ onNext }: { onNext: (arg0: boolean) => void }) {
 
   const onStart = async () => {
     setIsLoading(true);
+    console.log('about to run check permissions...');
     const hasAccess = await ipcRenderer.invoke('check-permissions');
+    console.log('check permissions finished...');
     logEvent({
       eventName: 'GET_STARTED',
       properties: {
