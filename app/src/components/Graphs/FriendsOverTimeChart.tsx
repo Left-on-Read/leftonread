@@ -1,4 +1,4 @@
-import { Icon, Spinner, Text, theme, Tooltip } from '@chakra-ui/react';
+import { Icon, Spinner, theme, Tooltip } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useRef, useState } from 'react';
@@ -8,7 +8,6 @@ import { FiInfo } from 'react-icons/fi';
 
 import { SharedQueryFilters } from '../../analysis/queries/filters/sharedQueryFilters';
 import { FriendsOverTimeResult } from '../../analysis/queries/FriendsOverTimeQuery';
-import { generateSampledPoints } from '../../utils/overTimeHelpers';
 import { useGlobalContext } from '../Dashboard/GlobalContext';
 import { ShareModal } from '../Sharing/ShareModal';
 import { GraphContainer } from './GraphContainer';
@@ -257,6 +256,17 @@ export function FriendsOverTimeChart({
         description={description}
         icon={icon}
         setIsShareOpen={setIsShareOpen}
+        tooltip={
+          <Tooltip
+            label="Filtering for this chart is coming soon! If you see a large gap in data, this might be because your iMessage app has iCloud syncing turned on."
+            fontSize="md"
+          >
+            <span>
+              <Icon as={FiInfo} color="gray.500" />
+            </span>
+          </Tooltip>
+        }
+        isPremiumGraph
       >
         <FriendsOverTimeBody
           title={title}

@@ -308,7 +308,6 @@ function GroupChatReactionsBody({
         isOpen={isSharingVersion}
         onClose={() => setIsShareOpen(false)}
         graphRefToShare={graphRefToShare}
-        contacts={Object.keys(colorByContactName)}
       >
         {body}
       </ShareModal>

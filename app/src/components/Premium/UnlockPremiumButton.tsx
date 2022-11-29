@@ -54,7 +54,8 @@ export function UnlockPremiumButton({
               </Text>
             </Box>
             <Text fontSize="14">
-              {altText ?? 'Support this project to unlock all features!'}
+              {altText ??
+                'Get access to everything by supporting this project.'}
             </Text>
           </Box>
         </Button>

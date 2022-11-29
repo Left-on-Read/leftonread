@@ -181,12 +181,7 @@ export function EngagementScoreChart({
   } = calculateEngagement();
 
   return (
-    <GraphContainer
-      title={title}
-      description={description}
-      icon={icon}
-      isPremiumGraph
-    >
+    <GraphContainer title={title} description={description} icon={icon}>
       <div style={{ display: 'flex', marginTop: 25 }}>
         <Stat>
           <div

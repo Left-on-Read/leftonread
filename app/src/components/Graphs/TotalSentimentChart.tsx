@@ -166,12 +166,13 @@ export function TotalSentimentChart({
 
   return (
     <GraphContainer
+      isPremiumGraph
       title={title}
       description={description}
       icon={icon}
       tooltip={
         <Tooltip
-          label="Positivity is calculated by comparing words and emojis against the AFINN Sentiment Lexicon"
+          label="Positivity is calculated by comparing words and emojis against a list of words that have been rated for positivity and negativity"
           fontSize="md"
         >
           <span>

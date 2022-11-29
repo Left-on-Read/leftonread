@@ -98,8 +98,8 @@ function GroupChatByFriendsBody({
     'lor-chartjs-logo-watermark-plugin': isSharingVersion
       ? {
           // This algorithm sucks and needs to be reworked
-          yPaddingText: 80 + longContactName.length,
-          yPaddingLogo: 65 + longContactName.length,
+          yPaddingText: 120 + longContactName.length,
+          yPaddingLogo: 100 + longContactName.length,
         }
       : false,
   };
@@ -209,7 +209,6 @@ function GroupChatByFriendsBody({
         isOpen={isSharingVersion}
         onClose={() => setIsShareOpen(false)}
         graphRefToShare={graphRefToShare}
-        contacts={contactNames}
       >
         {body}
       </ShareModal>

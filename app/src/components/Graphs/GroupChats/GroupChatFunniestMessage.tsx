@@ -1,7 +1,6 @@
 import {
   Box,
   Icon,
-  Skeleton,
   Stack,
   Text,
   theme as defaultTheme,
@@ -10,7 +9,7 @@ import {
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useState } from 'react';
-import { FiInfo, FiSmile, FiVoicemail } from 'react-icons/fi';
+import { FiInfo, FiSmile } from 'react-icons/fi';
 
 import { SharedGroupChatTabQueryFilters } from '../../../analysis/queries/filters/sharedGroupChatTabFilters';
 import { FunniestMessageResult } from '../../../analysis/queries/WrappedQueries/FunniestMessageQuery';
@@ -88,7 +87,7 @@ export function GroupChatFunniestMessage({
               }}
             >
               <Text style={{ fontSize: '18px', color: 'gray' }}>
-                This chat is not very funny... no messages with laughs found.
+                No messages with laughs found 😭
               </Text>
             </div>
           </div>
