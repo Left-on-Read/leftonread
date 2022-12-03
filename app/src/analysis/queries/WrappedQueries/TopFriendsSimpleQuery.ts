@@ -80,15 +80,14 @@ export async function queryTopFriendCountAndWordSimple(
       log.error('No word result found queryTopFriendCountSimple');
 
       return { ...result, word: 'lol' };
-    } else {
-      log.error('No results found queryTopFriendCountSimple');
-      return {
-        friend: 'Steve Jobs',
-        sentTotal: 0,
-        receivedTotal: 0,
-        word: 'lol',
-      };
     }
+    log.error('No results found queryTopFriendCountSimple');
+    return {
+      friend: 'Steve Jobs',
+      sentTotal: 0,
+      receivedTotal: 0,
+      word: 'lol',
+    };
   }
 
   log.error('No results found queryTopFriendCountSimple');
