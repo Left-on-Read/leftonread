@@ -64,7 +64,7 @@ export function GetStarted({
               base: 1.2,
             }}
           >
-            What will you learn from your texts?
+            Spotify wrapped for iMessage.
           </Text>
           <Text
             fontSize={{ base: 'md', md: 'lg', lg: 'xl' }}
