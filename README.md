@@ -5,7 +5,9 @@
 
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Wow,%20super%20cool%20open-source%20project%20-%20check%20out%20Left%20on%20Read&url=https://leftonread.me&hashtags=texting,analytics,buildinpublic)
 
-Left on Read is built with Electron, React, SQLite, Typescript. We are open-source for privacy. Your texting data never leaves your computer. 
+Your texting data never leaves your computer. We are open-source for this reason. Privacy comes first.
+
+Left on Read is built with Electron, React, SQLite, Typescript. 
 
 ## Features:
 
@@ -30,10 +32,6 @@ Left on Read is built with Electron, React, SQLite, Typescript. We are open-sour
 
 **Fun**: The first iteration was a [web application](https://www.reddit.com/r/dataisbeautiful/comments/biou3e/4_years_of_texts_between_me_and_my_long_distance/), but now we have rebuilt Left on Read as a Desktop app.
 
-## Contributing
-
-We are so appreciative of contributors and the Left on Read community. Please read our existing issues and [CODE OF CONDUCT](./CODE_OF_CONDUCT.md).
-
 ## License
 
 Left on Read is licensed under an Elastic License 2.0 (ELv2).
@@ -47,9 +45,3 @@ _Support this project by becoming a sponsor. Your logo will show up here with a 
 Thank you to Vercel for sponsoring this project!
 
 [![Vercel](./assets/documentation/powered-by-vercel.svg)](https://vercel.com/?utm_source=leftonread&utm_campaign=oss)
-
-## Support
-
-<a href="https://www.buymeacoffee.com/leftonread" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
-
-<a href="https://www.producthunt.com/posts/left-on-read?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-left&#0045;on&#0045;read" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=358899&theme=light" alt="Left&#0032;on&#0032;Read - iMessages&#0032;supercharged | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
