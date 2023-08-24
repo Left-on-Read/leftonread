@@ -26,12 +26,16 @@ export function GraphContainer({
   onClickMessageSchedulerRefresh,
   setIsShareOpen,
   showGroupChatShareButton,
+  nextButton,
+  backButton,
 }: {
   title: string[];
   description?: string;
   icon: IconType;
   children: React.ReactNode;
   tooltip?: React.ReactNode;
+  nextButton?: React.ReactNode;
+  backButton?: React.ReactNode;
   isPremiumGraph?: boolean;
   onClickMessageScheduler?: () => void;
   onClickMessageSchedulerRefresh?: () => void;
@@ -162,6 +166,13 @@ export function GraphContainer({
                 >
                   <Icon as={FiRefreshCw} />
                 </Button>
+              </div>
+            )}
+
+            {nextButton && backButton && (
+              <div style={{ display: 'flex' }}>
+                <div style={{ marginRight: '20px' }}>{backButton}</div>
+                {nextButton}
               </div>
             )}
           </div>

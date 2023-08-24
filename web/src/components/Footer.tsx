@@ -1,8 +1,7 @@
-import { Box, Icon, Stack, Text } from '@chakra-ui/react'
+import { Box, Stack, Text } from '@chakra-ui/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import { FiLayers, FiMap, FiUser } from 'react-icons/fi'
 
 import { DefaultContentContainer } from './DefaultContentContainer'
 
@@ -38,10 +37,10 @@ export function Footer() {
                 <Image src={'/LogoWithText.svg'} layout="fill" />
               </Box>
               <Box style={{ display: 'flex', alignItems: 'center' }}>
-                <Icon as={FiMap} style={{ marginRight: 8 }} />
+                {/* <Icon as={FiMap} style={{ marginRight: 8 }} /> */}
                 San Francisco, US
               </Box>
-              <Box>© Left on Read 2022</Box>
+              <Box>© Left on Read 2023</Box>
             </Stack>
             <Stack style={{ display: 'flex', justifyContent: 'space-between' }}>
               <Stack fontSize="md">
@@ -54,7 +53,7 @@ export function Footer() {
                     md: '32px',
                   }}
                 >
-                  <Icon as={FiLayers} style={{ marginRight: 8 }} />
+                  {/* <Icon as={FiLayers} style={{ marginRight: 8 }} /> */}
                   Product
                 </Text>
                 <Link href="/">Download</Link>
@@ -82,13 +81,16 @@ export function Footer() {
                     md: '32px',
                   }}
                 >
-                  <Icon as={FiUser} style={{ marginRight: 8 }} />
-                  Contact
+                  {/* <Icon as={FiUser} style={{ marginRight: 8 }} /> */}
+                  Contact & Support
                 </Text>
-                <Link href="mailto:help.leftonread@gmail.com">Support</Link>
+                <Link href="mailto:help.leftonread@gmail.com">Email Us</Link>
                 <Link href="https://github.com/Left-on-Read/leftonread">
-                  Github
+                  Open-source on Github
                 </Link>
+                <Link href="https://billing.stripe.com/p/login/eVabK06mUcNG2oE6oo">
+                  Manage Subscription
+                </Link>{' '}
               </Stack>
               <Box>
                 <a

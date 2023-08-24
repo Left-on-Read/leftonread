@@ -1,3 +1,4 @@
+import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import {
   Box,
   Button,
@@ -17,6 +18,7 @@ import { typeMessageToPhoneNumber } from '../../utils/appleScriptCommands';
 import { GraphContainer } from './GraphContainer';
 
 export function RespondReminders() {
+  const [currentPage, setCurrentPage] = useState(0);
   const NUMBER_OF_REMINDERS = 3;
   const [isLoadingReminderArray, setIsLoadingReminderArray] = useState<
     boolean[]
@@ -54,66 +56,71 @@ export function RespondReminders() {
       ))}
     </>
   ) : (
-    reminders.slice(0, NUMBER_OF_REMINDERS).map((reminder, i) => {
-      return (
-        <Box
-          key={reminder.friend}
-          style={{
-            border: `1px solid ${defaultTheme.colors.gray['200']}`,
-            padding: 32,
-            borderRadius: 16,
-          }}
-          shadow="xl"
-        >
-          <Text color="gray.500" fontSize={14}>
-            From{' '}
-            <span
-              style={{
-                fontWeight: 'bold',
-                color: defaultTheme.colors.blue['400'],
-              }}
-            >
-              {reminder.friend}
-            </span>
-            <span style={{ margin: '0 6px' }}>on</span>
-            <span style={{ fontWeight: 'bold' }}>
-              {new Date(reminder.date).toLocaleString()}
-            </span>
-          </Text>
+    reminders
+      .slice(
+        currentPage * NUMBER_OF_REMINDERS,
+        (currentPage + 1) * NUMBER_OF_REMINDERS
+      )
+      .map((reminder, i) => {
+        return (
+          <Box
+            key={reminder.friend}
+            style={{
+              border: `1px solid ${defaultTheme.colors.gray['200']}`,
+              padding: 32,
+              borderRadius: 16,
+            }}
+            shadow="xl"
+          >
+            <Text color="gray.500" fontSize={14}>
+              From{' '}
+              <span
+                style={{
+                  fontWeight: 'bold',
+                  color: defaultTheme.colors.blue['400'],
+                }}
+              >
+                {reminder.friend}
+              </span>
+              <span style={{ margin: '0 6px' }}>on</span>
+              <span style={{ fontWeight: 'bold' }}>
+                {new Date(reminder.date).toLocaleString()}
+              </span>
+            </Text>
 
-          <Text style={{ marginTop: 8 }}>{reminder.message}</Text>
-          <Box style={{ marginTop: 24 }}>
-            <Button
-              isLoading={isLoadingReminderArray[i]}
-              loadingText="Opening iMessage..."
-              tabIndex={-1}
-              colorScheme="blue"
-              size="sm"
-              onClick={async () => {
-                const temp = [...isLoadingReminderArray];
-                temp[i] = true;
-                setIsLoadingReminderArray(temp);
-                await typeMessageToPhoneNumber({
-                  message: 'Hey, meant to follow up on this earlier!',
-                  // NOTE(Danilowicz): if we get reports of this not working,
-                  // we should use the phone number here, which might have a
-                  // a higher success rate
-                  phoneNumber: reminder.friend,
-                });
-                const temp2 = [...isLoadingReminderArray];
-                temp2[i] = false;
-                setIsLoadingReminderArray(temp2);
-                logEvent({
-                  eventName: 'RESPOND_TO_REMINDER',
-                });
-              }}
-            >
-              Respond
-            </Button>
+            <Text style={{ marginTop: 8 }}>{reminder.message}</Text>
+            <Box style={{ marginTop: 24 }}>
+              <Button
+                isLoading={isLoadingReminderArray[i]}
+                loadingText="Opening iMessage..."
+                tabIndex={-1}
+                colorScheme="blue"
+                size="sm"
+                onClick={async () => {
+                  const temp = [...isLoadingReminderArray];
+                  temp[i] = true;
+                  setIsLoadingReminderArray(temp);
+                  await typeMessageToPhoneNumber({
+                    message: 'Hey, meant to follow up on this earlier!',
+                    // NOTE(Danilowicz): if we get reports of this not working,
+                    // we should use the phone number here, which might have a
+                    // a higher success rate
+                    phoneNumber: reminder.friend,
+                  });
+                  const temp2 = [...isLoadingReminderArray];
+                  temp2[i] = false;
+                  setIsLoadingReminderArray(temp2);
+                  logEvent({
+                    eventName: 'RESPOND_TO_REMINDER',
+                  });
+                }}
+              >
+                Respond
+              </Button>
+            </Box>
           </Box>
-        </Box>
-      );
-    })
+        );
+      })
   );
 
   return (
@@ -121,6 +128,24 @@ export function RespondReminders() {
       title={['Reminders']}
       description="Did you forget to respond to these messages?"
       icon={FiVoicemail}
+      backButton={
+        <Button
+          leftIcon={<ChevronLeftIcon />}
+          disabled={currentPage === 0}
+          onClick={() => setCurrentPage(currentPage - 1)}
+        >
+          Previous
+        </Button>
+      }
+      nextButton={
+        <Button
+          rightIcon={<ChevronRightIcon />}
+          disabled={reminders.length <= (currentPage + 1) * NUMBER_OF_REMINDERS}
+          onClick={() => setCurrentPage(currentPage + 1)}
+        >
+          Next
+        </Button>
+      }
     >
       <Stack spacing={8}>
         {error && <Text color="red.400">Uh oh! Something went wrong... </Text>}

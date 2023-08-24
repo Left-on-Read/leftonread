@@ -76,7 +76,7 @@ export function WrappedShareModal({
         <ModalCloseButton />
         <ModalBody style={{ width: '60vw' }}>
           <Text>
-            Share to Instagram, TikTok, and Twitter with{` `}
+            Share to your socials{` `}
             <span
               style={{
                 fontWeight: 600,

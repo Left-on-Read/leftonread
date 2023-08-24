@@ -83,7 +83,7 @@ export function Wrapped() {
               style={{ margin: '12px 0' }}
             >
               Download today to revisit your funniest messages, group chats, and
-              words of 2022.
+              words of the year.
             </Text>
           </div>
           <Marquee
@@ -110,7 +110,7 @@ export function Wrapped() {
                 color="blue.500"
                 fontWeight="bold"
               >
-                data dawgs
+                the chatgpt fam
               </Text>
             </MarqueeItem>
 
@@ -210,7 +210,7 @@ export function Wrapped() {
                 color="orange.500"
                 fontWeight="bold"
               >
-                stonks
+                AI
               </Text>
             </MarqueeItem>
             <MarqueeItem>
@@ -231,7 +231,7 @@ export function Wrapped() {
                 color="orange.500"
                 fontWeight="bold"
               >
-                🤡
+                🍆
               </Text>
             </MarqueeItem>
           </Marquee>
