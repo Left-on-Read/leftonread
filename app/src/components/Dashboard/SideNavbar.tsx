@@ -9,8 +9,8 @@ import {
 } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
 import { IconType } from 'react-icons';
-import { BsLightningCharge } from 'react-icons/bs';
-import { FiClipboard, FiGift, FiInbox } from 'react-icons/fi';
+import { BsLightningCharge, BsMagicWand } from 'react-icons/bs';
+import { FiClipboard, FiGift } from 'react-icons/fi';
 
 import LogoWithText from '../../../assets/LogoWithText.svg';
 import { APP_VERSION } from '../../constants/versions';
@@ -19,7 +19,13 @@ import { useGoldContext } from '../Premium/GoldContext';
 import { PremiumModal } from '../Premium/PremiumModal';
 import { EmailModal } from '../Support/EmailModal';
 
-const Pages = ['Wrapped', 'Analytics', 'Productivity', 'Settings'] as const;
+const Pages = [
+  'Wrapped',
+  'Analytics',
+  'Productivity',
+  'AI',
+  'Settings',
+] as const;
 
 export const SIDEBAR_WIDTH = 200;
 
@@ -110,6 +116,10 @@ export function SideNavbar({
               }
               if (page === 'Wrapped') {
                 icon = FiGift;
+              }
+
+              if (page === 'AI') {
+                icon = BsMagicWand;
               }
 
               return (

@@ -1,3 +1,7 @@
+import {
+  fineTuneContact,
+  prepareFineTuneContact,
+} from 'analysis/queries/openAI/fineTuneContact';
 import axios from 'axios';
 import { ipcMain } from 'electron';
 import log from 'electron-log';
@@ -246,6 +250,11 @@ export function attachIpcListeners() {
     }
   );
 
+  ipcMain.handle('fine-tune-contact', async () => {
+    const db = getDb();
+    return prepareFineTuneContact(db);
+  });
+
   ipcMain.handle(
     'query-time-of-day-received',
     async (event, filters: SharedQueryFilters) => {
@@ -260,7 +269,7 @@ export function attachIpcListeners() {
   });
 
   ipcMain.handle('check-permissions', async () => {
-    log.info('Inside check persmissions, about to run promise');
+    log.info('Inside check permissions, about to run promise');
 
     try {
       await Promise.all([
