@@ -14,7 +14,7 @@ Left on Read is built with Electron, React, SQLite, Typescript.
 - 😂 reactions sent in group chats
 - 🔍 filter by a word, friend, or time range
 - 💯 sentiment analysis
-- 🎁 "Your Year in Text" experience (similiar to Spotify Wrapped)
+- 🎁 "Your Year in Text" experience a.k.a iMessage Wrapped
 
 ## Download Left on Read for Mac
 
@@ -24,7 +24,7 @@ Left on Read is built with Electron, React, SQLite, Typescript.
 
 ## Mission and Values
 
-**Open-Source Transparency**: We open-sourced the entire application to keep users' security and privacy first.
+**Open-Source**: We open-sourced the entire application to keep users' security and privacy first.
 
 **Secure**: Just like your private photos and important documents, your text messages are only accessible to you and never seen by us.
 

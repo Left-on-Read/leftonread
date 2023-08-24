@@ -254,7 +254,7 @@ export function attachIpcListeners() {
     }
   );
 
-  ipcMain.handle('query-respond-reminders', async (event) => {
+  ipcMain.handle('query-respond-reminders', async () => {
     const db = getDb();
     return queryRespondReminders(db);
   });
