@@ -44,6 +44,10 @@ export const MIN_HEIGHT = '720px'
 
 // SEE THEME COLOURS HERE: https://chakra-ui.com/docs/styled-system/theme
 export const chakraTheme = extendTheme({
+  config: {
+    initialColorMode: 'light',
+    useSystemColorMode: false,
+  },
   colors: {
     primary: baseTheme.colors.purple,
   },

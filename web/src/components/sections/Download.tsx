@@ -111,7 +111,7 @@ export function Download({
                 lg: 'start',
               }}
             >
-              Relive your best texts of 2022. Free to try and built for you.
+              Relive your best texts of the year. Free to try and built for you.
             </Text>
             <Button
               colorScheme="purple"
