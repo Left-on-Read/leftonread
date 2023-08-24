@@ -1,6 +1,6 @@
 {
     "name": "left-on-read",
-    "version": "4.0.0",
+    "version": "4.0.1",
     "author": "Left on Read",
     "description": "A message analyzing platform",
     "main": "./dist/main/main.js",
