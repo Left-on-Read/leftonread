@@ -14,8 +14,9 @@ export type FineTuneResult = {
 export async function queryIndividualContactDataForFineTuning(
   db: sqlite3.Database
 ): Promise<FineTuneResult> {
+  const contactName = ''; // TODO
   const q = `
-  SELECT text, is_from_me, human_readable_date  FROM core_main_table WHERE coalesced_contact_name = "Jackie Chen" AND 
+  SELECT text, is_from_me, human_readable_date  FROM core_main_table WHERE coalesced_contact_name = "${contactName}" AND 
     LOWER(text) NOT LIKE "emphasized%"
     AND LOWER(text) NOT LIKE "emphasised%"
     AND LOWER(text) NOT LIKE "loved%"
