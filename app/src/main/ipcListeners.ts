@@ -1,7 +1,3 @@
-import {
-  fineTuneContact,
-  prepareFineTuneContact,
-} from 'analysis/queries/openAI/fineTuneContact';
 import axios from 'axios';
 import { ipcMain } from 'electron';
 import log from 'electron-log';
@@ -37,6 +33,7 @@ import {
   queryInboxRead,
 } from '../analysis/queries/InboxReadQuery';
 import { queryInboxWrite } from '../analysis/queries/InboxWriteQuery';
+import { prepareFineTuneContact } from '../analysis/queries/openAI/fineTuneContact';
 import { queryRespondReminders } from '../analysis/queries/RespondReminders';
 import {
   querySentimentOverTimeReceived,
@@ -252,7 +249,8 @@ export function attachIpcListeners() {
 
   ipcMain.handle('fine-tune-contact', async () => {
     const db = getDb();
-    return prepareFineTuneContact(db);
+    const results = prepareFineTuneContact(db);
+    return results;
   });
 
   ipcMain.handle(

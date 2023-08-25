@@ -9,6 +9,7 @@ import { RespondReminders } from '../Graphs/RespondReminders';
 import { SettingsPage } from '../Pages/SettingsPage';
 import { GoldContext } from '../Premium/GoldContext';
 import { MessageScheduler } from '../Productivity/MessageScheduler';
+import { AIPage } from './AIPage';
 import { AnalyticsPage } from './AnalyticsPage';
 import { GlobalContext, TGlobalContext } from './GlobalContext';
 import { SIDEBAR_WIDTH, SideNavbar, TPages } from './SideNavbar';
@@ -17,7 +18,7 @@ import { WrappedPage } from './Wrapped/WrappedPage';
 const store = new Store();
 
 export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
-  const [activePage, setActivePage] = useState<TPages>('Wrapped');
+  const [activePage, setActivePage] = useState<TPages>('AI');
   const [isPremium, setIsPremium] = useState<boolean>(
     store.get('license') !== ''
   );
@@ -81,6 +82,7 @@ export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
           </div>
           <div style={{ width: `${SIDEBAR_WIDTH}px`, flexShrink: 0 }} />
           <div style={{ flex: '1 1 0', minWidth: 0 }}>
+            {activePage === 'AI' && <AIPage />}
             {activePage === 'Analytics' && (
               <AnalyticsPage onRefresh={onRefresh} />
             )}

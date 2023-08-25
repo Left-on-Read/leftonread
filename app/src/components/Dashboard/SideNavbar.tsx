@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
 import { IconType } from 'react-icons';
-import { BsLightningCharge, BsMagicWand } from 'react-icons/bs';
+import { BsLightningCharge, BsStars } from 'react-icons/bs';
 import { FiClipboard, FiGift } from 'react-icons/fi';
 
 import LogoWithText from '../../../assets/LogoWithText.svg';
@@ -119,7 +119,7 @@ export function SideNavbar({
               }
 
               if (page === 'AI') {
-                icon = BsMagicWand;
+                icon = BsStars;
               }
 
               return (
