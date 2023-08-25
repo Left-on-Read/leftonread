@@ -1,0 +1,4 @@
+# don't push jupyter notebooks
+*.ipynb
+
+env/**
