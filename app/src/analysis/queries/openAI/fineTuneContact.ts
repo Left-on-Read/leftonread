@@ -39,7 +39,7 @@ export async function prepareFineTuneContact(db: sqlite3.Database) {
   let currentDate: number | null = null;
   const firstMessage = {
     role: 'system',
-    content: '',
+    content: '', // TODO
   };
 
   let messages: { role: string; content: string }[] = [firstMessage];
