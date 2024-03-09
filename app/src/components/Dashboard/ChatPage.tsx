@@ -5,16 +5,21 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogOverlay,
+  Box,
   Button,
   Icon,
+  Text,
+  theme as defaultTheme,
 } from '@chakra-ui/react';
 import { ipcRenderer } from 'electron';
 import log from 'electron-log';
 import { useEffect, useRef, useState } from 'react';
 import { FiAlertCircle } from 'react-icons/fi';
+import { IoChatbubblesOutline } from 'react-icons/io5';
 
 import { logEvent } from '../../utils/analytics';
 import { Footer } from '../Footer';
+import { ChatInterface } from './ChatInterface';
 
 export function ChatPage({ onRefresh }: { onRefresh: () => void }) {
   const [doesRequireRefresh, setDoesRequireRefresh] = useState<boolean>(false);
@@ -55,11 +60,85 @@ export function ChatPage({ onRefresh }: { onRefresh: () => void }) {
   }, []);
 
   return (
-    <div style={{ position: 'relative', width: '100%' }}>
-      <div style={{ width: 'inherit' }}>
-        <div>LLM</div>
+    <div
+      style={{
+        position: 'relative',
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+      }}
+    >
+      <div style={{ margin: '0' }}>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            padding: '24px 24px 0px 24px',
+          }}
+        >
+          <Box
+            style={{
+              marginRight: 12,
+              border: `1px ${defaultTheme.colors.gray['500']} solid`,
+              borderRadius: '50%',
+              padding: 8,
+              width: 40,
+              height: 40,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            boxShadow="lg"
+          >
+            <Icon
+              as={IoChatbubblesOutline}
+              color="gray.500"
+              style={{ width: '80%', height: '80%' }}
+            />
+          </Box>
+          <div>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}
+            >
+              <Text fontSize="lg" fontWeight={600}>
+                LLM Chat
+              </Text>
+            </div>
+
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                marginRight: false ? '25px' : undefined,
+              }}
+            >
+              <Text fontSize="sm" color="gray">
+                Ask a chatbot questions about your iMessages
+              </Text>
+            </div>
+          </div>
+        </div>
       </div>
-      <Footer />
+
+      <div
+        style={{
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-end',
+          height: 'inherit',
+        }}
+      >
+        <ChatInterface />
+
+        <Footer />
+      </div>
       <AlertDialog
         isOpen={doesRequireRefresh && !showUpdateAvailable}
         onClose={() => {}}
