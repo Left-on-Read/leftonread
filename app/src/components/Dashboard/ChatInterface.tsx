@@ -1,5 +1,6 @@
 import { Box, Button, Flex, Input, Text } from '@chakra-ui/react';
 import { waitFor } from '@testing-library/react';
+import { TRAGEngineResults } from 'analysis/queries/RagEngine';
 import { ipcRenderer } from 'electron';
 import React, { useEffect, useRef, useState } from 'react';
 
@@ -8,15 +9,18 @@ interface Message {
   sender: 'user' | 'bot';
 }
 
-const testMessage: Message = {
-  text: 'Hi there :) You can ask me questions here about your iMessages! For example, try "What should I get mom for her birthday?"',
-  sender: 'bot',
-};
+const initialBotMessage =
+  'Hi there :) For now you can type in a contact name to see how many messages have been sent between you!';
+// 'Hi there :) You can ask me questions here about your iMessages!'; // For example, try "What should I get mom for her birthday?"';
 
 export function ChatInterface() {
-  const [messages, setMessages] = useState<Message[]>([testMessage]);
-  const [awaitingResponse, setAwaitingResponse] = useState(false);
-  const [newMessage, setNewMessage] = useState('');
+  const [messages, setMessages] = useState<Message[]>([]);
+
+  const [newMessage, setNewMessage] = useState<string>('');
+  const [response, setResponse] = useState<string>(initialBotMessage);
+
+  const [awaitingResponse, setAwaitingResponse] = useState<boolean>(false);
+
   const messagesContainerRef = useRef<HTMLDivElement>(null);
 
   const handleMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,11 +33,16 @@ export function ChatInterface() {
       setNewMessage('');
       // Add logic to handle sending the message to the recipient
       setAwaitingResponse(true);
-    }
 
-    // To replace with a query to the DB
-    const toLog = await ipcRenderer.invoke('print-tables');
-    console.log(toLog);
+      // To replace with a query to the DB
+      const llmResponse: TRAGEngineResults = await ipcRenderer.invoke(
+        'rag-engine',
+        newMessage
+      );
+      // setResponse(llmResponse);
+      console.log(llmResponse[0].message_count);
+      setResponse(llmResponse[0].message_count);
+    }
   };
 
   useEffect(() => {
@@ -41,15 +50,16 @@ export function ChatInterface() {
       messagesContainerRef.current.scrollTop =
         messagesContainerRef.current.scrollHeight;
     }
-    if (messages[messages.length - 1].sender === 'user') {
-      // call llamaindex, receive response
-      const handleResponseMessage = (response: string) => {
-        setMessages([...messages, { text: response, sender: 'bot' }]);
-        setAwaitingResponse(false);
-      };
-      handleResponseMessage('Sample Response');
-    }
   }, [messages]);
+
+  useEffect(() => {
+    // call llamaindex, receive response
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { text: response, sender: 'bot' },
+    ]);
+    setAwaitingResponse(false);
+  }, [response]);
 
   return (
     <Box width="90%" mx="auto" mt={8}>
