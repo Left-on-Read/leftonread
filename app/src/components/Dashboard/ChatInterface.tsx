@@ -1,6 +1,4 @@
 import { Box, Button, Flex, Input, Text } from '@chakra-ui/react';
-import { waitFor } from '@testing-library/react';
-import { TRAGEngineResults } from 'analysis/queries/RagEngine';
 import { ipcRenderer } from 'electron';
 import React, { useEffect, useRef, useState } from 'react';
 
@@ -9,15 +7,20 @@ interface Message {
   sender: 'user' | 'bot';
 }
 
-const initialBotMessage =
-  'Hi there :) For now you can type in a contact name to see how many messages have been sent between you!';
-// 'Hi there :) You can ask me questions here about your iMessages!'; // For example, try "What should I get mom for her birthday?"';
+const initialBotMessage: Message = {
+  text: 'Hi there :) You can ask me questions here about your iMessages! For example, try "Who is my best friend?"',
+  sender: 'bot',
+};
 
-export function ChatInterface() {
-  const [messages, setMessages] = useState<Message[]>([]);
+interface ChatInterfaceProps {
+  openAIKey: string;
+}
 
+export function ChatInterface(props: ChatInterfaceProps) {
+  const { openAIKey } = props;
+
+  const [messages, setMessages] = useState<Message[]>([initialBotMessage]);
   const [newMessage, setNewMessage] = useState<string>('');
-  const [response, setResponse] = useState<string>(initialBotMessage);
 
   const [awaitingResponse, setAwaitingResponse] = useState<boolean>(false);
 
@@ -31,17 +34,19 @@ export function ChatInterface() {
     if (newMessage.trim()) {
       setMessages([...messages, { text: newMessage, sender: 'user' }]);
       setNewMessage('');
-      // Add logic to handle sending the message to the recipient
       setAwaitingResponse(true);
 
-      // To replace with a query to the DB
-      const llmResponse: TRAGEngineResults = await ipcRenderer.invoke(
+      const llmResponse: string = await ipcRenderer.invoke(
         'rag-engine',
-        newMessage
+        newMessage,
+        openAIKey
       );
-      // setResponse(llmResponse);
-      console.log(llmResponse[0].message_count);
-      setResponse(llmResponse[0].message_count);
+
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { text: llmResponse, sender: 'bot' },
+      ]);
+      setAwaitingResponse(false);
     }
   };
 
@@ -51,15 +56,6 @@ export function ChatInterface() {
         messagesContainerRef.current.scrollHeight;
     }
   }, [messages]);
-
-  useEffect(() => {
-    // call llamaindex, receive response
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      { text: response, sender: 'bot' },
-    ]);
-    setAwaitingResponse(false);
-  }, [response]);
 
   return (
     <Box width="90%" mx="auto" mt={8}>

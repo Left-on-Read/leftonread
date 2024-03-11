@@ -102,9 +102,9 @@ export function attachIpcListeners() {
     return printDBTableNames(db);
   });
 
-  ipcMain.handle('rag-engine', async (event, message: string) => {
+  ipcMain.handle('rag-engine', async (event, message: string, key: string) => {
     const db = getDb();
-    return queryRAGEngine(db, message);
+    return queryRAGEngine(db, message, key);
   });
 
   ipcMain.handle('store-get-show-share-tooltip', async () => {

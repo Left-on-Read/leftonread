@@ -8,6 +8,7 @@ import {
   Box,
   Button,
   Icon,
+  Input,
   Text,
   theme as defaultTheme,
 } from '@chakra-ui/react';
@@ -25,6 +26,12 @@ export function ChatPage({ onRefresh }: { onRefresh: () => void }) {
   const [doesRequireRefresh, setDoesRequireRefresh] = useState<boolean>(false);
   const [showUpdateAvailable, setShowUpdateAvailable] =
     useState<boolean>(false);
+
+  const [openAIKey, setOpenAIKey] = useState<string>('');
+
+  const handleKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setOpenAIKey(e.target.value);
+  };
 
   const cancelRef = useRef<any>();
 
@@ -70,12 +77,19 @@ export function ChatPage({ onRefresh }: { onRefresh: () => void }) {
         justifyContent: 'space-between',
       }}
     >
-      <div style={{ margin: '0' }}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+
+          padding: '24px 24px 0px 24px',
+        }}
+      >
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
-            padding: '24px 24px 0px 24px',
           }}
         >
           <Box
@@ -124,6 +138,13 @@ export function ChatPage({ onRefresh }: { onRefresh: () => void }) {
             </div>
           </div>
         </div>
+        <Input
+          value={openAIKey}
+          onChange={handleKeyChange}
+          placeholder="Add OpenAI API key..."
+          mr={2}
+          width="fit"
+        />
       </div>
 
       <div
@@ -135,7 +156,7 @@ export function ChatPage({ onRefresh }: { onRefresh: () => void }) {
           height: 'inherit',
         }}
       >
-        <ChatInterface />
+        <ChatInterface openAIKey={openAIKey} />
 
         <Footer />
       </div>
