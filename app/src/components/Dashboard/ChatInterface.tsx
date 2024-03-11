@@ -1,5 +1,6 @@
 import { Box, Button, Flex, Input, Text } from '@chakra-ui/react';
 import { waitFor } from '@testing-library/react';
+import { ipcRenderer } from 'electron';
 import React, { useEffect, useRef, useState } from 'react';
 
 interface Message {
@@ -22,13 +23,17 @@ export function ChatInterface() {
     setNewMessage(e.target.value);
   };
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (newMessage.trim()) {
       setMessages([...messages, { text: newMessage, sender: 'user' }]);
       setNewMessage('');
       // Add logic to handle sending the message to the recipient
       setAwaitingResponse(true);
     }
+
+    // To replace with a query to the DB
+    const toLog = await ipcRenderer.invoke('print-tables');
+    console.log(toLog);
   };
 
   useEffect(() => {
