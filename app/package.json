@@ -142,6 +142,7 @@
     "node-machine-id": "^1.1.12",
     "node-schedule": "^2.1.0",
     "nodemailer": "^6.7.7",
+    "openai": "^4.28.4",
     "path-browserify": "^1.0.1",
     "react": "^18.1.0",
     "react-chartjs-2": "^4.3.1",
