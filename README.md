@@ -2,9 +2,9 @@
 	<img src="https://raw.githubusercontent.com/Left-on-Read/leftonread/main/app/assets/LogoWithText.svg" />
 </h2>
 
-Your texting data never leaves your computer. We are open-source for this reason. Privacy comes first.
+iMessage Wrapped! Left on Read is built with Electron, React, SQLite, Typescript.
 
-Left on Read is built with Electron, React, SQLite, Typescript.
+Your texting data never leaves your computer. We are proudly open-source for this reason and the app works without an Internet connection.
 
 ## Features:
 
