@@ -4,7 +4,7 @@
 
 iMessage Wrapped! Left on Read is built with Electron, React, SQLite, Typescript.
 
-Your texting data never leaves your computer. We are proudly open-source for this reason and the app works without an Internet connection.
+Your texting data never leaves your computer. We are proudly open-source for this reason. The app works without an Internet connection.
 
 ## Features:
 
