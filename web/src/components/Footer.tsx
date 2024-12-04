@@ -38,7 +38,7 @@ export function Footer() {
               </Box>
               <Box style={{ display: 'flex', alignItems: 'center' }}>
                 {/* <Icon as={FiMap} style={{ marginRight: 8 }} /> */}
-                San Francisco, US
+                San Francisco, USA
               </Box>
               <Box>© Left on Read 2024</Box>
             </Stack>
