@@ -38,9 +38,9 @@ export function Footer() {
               </Box>
               <Box style={{ display: 'flex', alignItems: 'center' }}>
                 {/* <Icon as={FiMap} style={{ marginRight: 8 }} /> */}
-                San Francisco, US
+                San Francisco, USA
               </Box>
-              <Box>© Left on Read 2023</Box>
+              <Box>© Left on Read 2024</Box>
             </Stack>
             <Stack style={{ display: 'flex', justifyContent: 'space-between' }}>
               <Stack fontSize="md">
@@ -92,25 +92,6 @@ export function Footer() {
                   Manage Subscription
                 </Link>{' '}
               </Stack>
-              <Box>
-                <a
-                  data-testid="footer-anchor-vercel"
-                  href="https://vercel.com/?utm_source=leftonread&utm_campaign=oss"
-                >
-                  <img
-                    data-testid="footer-img-vercel"
-                    src={
-                      'https://raw.githubusercontent.com/Left-on-Read/leftonread/main/assets/documentation/powered-by-vercel.svg'
-                    }
-                    style={{
-                      minHeight: '34px',
-                      minWidth: '194px',
-                      maxHeight: '42px',
-                      maxWidth: '200px',
-                    }}
-                  />
-                </a>
-              </Box>
             </Stack>
           </Stack>
         </Box>
