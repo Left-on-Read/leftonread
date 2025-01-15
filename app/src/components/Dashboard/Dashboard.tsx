@@ -10,6 +10,7 @@ import { SettingsPage } from '../Pages/SettingsPage';
 import { GoldContext } from '../Premium/GoldContext';
 import { MessageScheduler } from '../Productivity/MessageScheduler';
 import { AnalyticsPage } from './AnalyticsPage';
+import { ChatPage } from './ChatPage';
 import { GlobalContext, TGlobalContext } from './GlobalContext';
 import { SIDEBAR_WIDTH, SideNavbar, TPages } from './SideNavbar';
 import { WrappedPage } from './Wrapped/WrappedPage';
@@ -93,6 +94,8 @@ export function Dashboard({ onRefresh }: { onRefresh: () => void }) {
                 </Stack>
               </Box>
             )}
+            {activePage === 'Chat' && <ChatPage onRefresh={onRefresh} />}
+
             {activePage === 'Settings' && <SettingsPage />}
             {activePage === 'Wrapped' && <WrappedPage />}
           </div>
