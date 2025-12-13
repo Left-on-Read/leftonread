@@ -40,7 +40,7 @@ export function Footer() {
                 {/* <Icon as={FiMap} style={{ marginRight: 8 }} /> */}
                 San Francisco, USA
               </Box>
-              <Box>© Left on Read 2025</Box>
+              <Box>© Left on Read 2026</Box>
             </Stack>
             <Stack style={{ display: 'flex', justifyContent: 'space-between' }}>
               <Stack fontSize="md">
