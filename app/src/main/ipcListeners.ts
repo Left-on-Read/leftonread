@@ -33,6 +33,10 @@ import {
   queryInboxRead,
 } from '../analysis/queries/InboxReadQuery';
 import { queryInboxWrite } from '../analysis/queries/InboxWriteQuery';
+import {
+  printDBTableNames,
+  queryRAGEngine,
+} from '../analysis/queries/RagEngine';
 import { queryRespondReminders } from '../analysis/queries/RespondReminders';
 import {
   querySentimentOverTimeReceived,
@@ -90,6 +94,17 @@ export function attachIpcListeners() {
     await initializeCoreDb({ isRefresh });
 
     return true;
+  });
+
+  // TESTING
+  ipcMain.handle('print-tables', async () => {
+    const db = getDb();
+    return printDBTableNames(db);
+  });
+
+  ipcMain.handle('rag-engine', async (event, message: string, key: string) => {
+    const db = getDb();
+    return queryRAGEngine(db, message, key);
   });
 
   ipcMain.handle('store-get-show-share-tooltip', async () => {

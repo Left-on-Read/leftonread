@@ -15,6 +15,7 @@ Your texting data never leaves your computer. We are proudly open-source for thi
 - 🔍 filter by a word, friend, or time range
 - 💯 sentiment analysis
 - 🎁 "Your Year in Text" experience a.k.a iMessage Wrapped
+- 💬 Chat with an LLM to query your data
 
 ## Download Left on Read for Mac
 

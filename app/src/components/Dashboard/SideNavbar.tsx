@@ -11,6 +11,7 @@ import { ipcRenderer } from 'electron';
 import { IconType } from 'react-icons';
 import { BsLightningCharge } from 'react-icons/bs';
 import { FiClipboard, FiGift, FiInbox } from 'react-icons/fi';
+import { IoChatbubblesOutline } from 'react-icons/io5';
 
 import LogoWithText from '../../../assets/LogoWithText.svg';
 import { APP_VERSION } from '../../constants/versions';
@@ -19,7 +20,13 @@ import { useGoldContext } from '../Premium/GoldContext';
 import { PremiumModal } from '../Premium/PremiumModal';
 import { EmailModal } from '../Support/EmailModal';
 
-const Pages = ['Wrapped', 'Analytics', 'Productivity', 'Settings'] as const;
+const Pages = [
+  'Wrapped',
+  'Analytics',
+  'Productivity',
+  'Chat',
+  'Settings',
+] as const;
 
 export const SIDEBAR_WIDTH = 200;
 
@@ -110,6 +117,9 @@ export function SideNavbar({
               }
               if (page === 'Wrapped') {
                 icon = FiGift;
+              }
+              if (page === 'Chat') {
+                icon = IoChatbubblesOutline;
               }
 
               return (
